@@ -24,9 +24,10 @@ flux check --pre
 
 ```sh
 flux bootstrap github \
+  --token-auth \
   --owner=$GITHUB_USER \
   --repository=home-kubernetes \
   --branch=main \
-  --path=./clusters/production \
+  --path=./clusters/homelab \
   --personal
 ```
