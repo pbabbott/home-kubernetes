@@ -33,7 +33,26 @@ flux bootstrap github \
   --personal
 ```
 
-
+# Debugging Commands
 kubectl get kustomization -n flux-system flux-system -o yaml
 kubectl get gitrepository -n flux-system flux-system -o yaml
 kubectl logs -n flux-system deploy/kustomize-controller -f
+
+# Deploy Pod Info
+flux create source git podinfo \
+  --url=https://github.com/stefanprodan/podinfo \
+  --branch=master \
+  --interval=1m \
+  --export > ./clusters/homelab/podinfo-source.yaml
+
+
+  flux create kustomization podinfo \
+  --target-namespace=default \
+  --source=podinfo \
+  --path="./kustomize" \
+  --prune=true \
+  --wait=true \
+  --interval=30m \
+  --retry-interval=2m \
+  --health-check-timeout=3m \
+  --export > ./clusters/homelab/podinfo-kustomization.yaml
