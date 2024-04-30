@@ -32,3 +32,8 @@ flux bootstrap github \
   --network-policy=false \
   --personal
 ```
+
+
+kubectl get kustomization -n flux-system flux-system -o yaml
+kubectl get gitrepository -n flux-system flux-system -o yaml
+kubectl logs -n flux-system deploy/kustomize-controller -f
