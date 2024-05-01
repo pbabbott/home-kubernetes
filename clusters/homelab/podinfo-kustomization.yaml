@@ -15,3 +15,21 @@ spec:
   targetNamespace: default
   timeout: 3m0s
   wait: true
+  patches:
+    - patch: |-
+        apiVersion: v1
+        kind: Service
+        spec:
+          type: NodePort
+          ports:
+            - name: http
+              port: 9898
+              nodePort: 30124
+              protocol: TCP
+              targetPort: http
+            - port: 9999
+              targetPort: grpc
+              protocol: TCP
+              name: grpc
+      target: podinfo
+      kind: Service
