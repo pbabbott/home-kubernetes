@@ -19,6 +19,8 @@ spec:
     - patch: |-
         apiVersion: v1
         kind: Service
+        metadata:
+          name: podinfo
         spec:
           type: NodePort
           ports:
