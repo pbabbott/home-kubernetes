@@ -22,7 +22,7 @@ spec:
         metadata:
           name: podinfo
         spec:
-          minReplicas: 3             
+          minReplicas: 3
       target:
         name: podinfo
         kind: HorizontalPodAutoscaler
@@ -36,7 +36,7 @@ spec:
           ports:
             - name: http
               port: 9898
-              nodePort: 30124
+              nodePort: 30100
               protocol: TCP
               targetPort: http
             - port: 9999
