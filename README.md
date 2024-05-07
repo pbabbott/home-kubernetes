@@ -29,7 +29,6 @@ flux bootstrap github \
   --repository=home-kubernetes \
   --branch=main \
   --path=./clusters/homelab \
-  --network-policy=false \
   --personal
 ```
 
