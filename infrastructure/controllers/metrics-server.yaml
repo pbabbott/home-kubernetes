@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: metrics-server
-      version: '0.7.x'
+      version: '0.7.1'
       sourceRef:
         kind: HelmRepository
         name: metrics-server
