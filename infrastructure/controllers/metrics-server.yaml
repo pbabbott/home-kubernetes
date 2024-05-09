@@ -21,6 +21,7 @@ metadata:
 spec:
   dependsOn:
     - name: kubelet-csr-approver
+      namespace: kube-system
   interval: 30m
   chart:
     spec:

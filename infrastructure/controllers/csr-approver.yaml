@@ -24,7 +24,7 @@ spec:
         namespace: kube-system
       interval: 12h
   values:
-    providerRegex: '^k8s-*$'
+    providerRegex: '^k8s-.*$'
     providerIpPrefixes: '192.168.4.0/22'
     maxExpirationSeconds: '86400'
     bypassDnsResolution: 'false'
