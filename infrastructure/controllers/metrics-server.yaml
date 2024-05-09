@@ -19,6 +19,8 @@ metadata:
   name: metrics-server
   namespace: metrics-server
 spec:
+  dependsOn:
+    - name: kubelet-csr-approver
   interval: 30m
   chart:
     spec:
