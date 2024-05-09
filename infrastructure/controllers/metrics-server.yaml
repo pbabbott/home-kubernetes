@@ -19,9 +19,6 @@ metadata:
   name: metrics-server
   namespace: metrics-server
 spec:
-  dependsOn:
-    - name: kubelet-csr-approver
-      namespace: kube-system
   interval: 30m
   chart:
     spec:
@@ -33,4 +30,6 @@ spec:
         namespace: metrics-server
       interval: 12h
   values:
-    replicaCount: 2
+    replicaCount: 1
+    args: 
+      - --kubelet-insecure-tls
