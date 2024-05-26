@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: external-dns
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: pihole-admin-password # change secret name
+  namespace: external-dns # change namespace name
+  annotations:
+    sealedsecrets.bitnami.com/namespace-wide: "true"
+spec:
+  encryptedData:
+    EXTERNAL_DNS_PIHOLE_PASSWORD: AgCtDEr9Fy5p+oKroqmaEu/+xEyXKOb+k5S13SeYtoikVoeXONDgWZWe3mdmRzBEQpBFPoMIYzeXrogAM8oVb2iDxSslatpwzjoF7HRQcN0bI5yg8hUi0vm7Fx0eTcZTbsOPoJsF3wZkqSBjDyqJb07hv4T8zoj58+OXQnLww5DAzbCQqXCpnW+Lejev7ICL46UHs3CXUpRfEztjD/Q9lBSoPACjbc6dktzEBj7BCl/SMZK53ewcKtw8Z9dMyB2qPY5EPzL7wh3/zhkmtPofTmsQpXrVOHRpr6haEya0C1JmkOOU3yPHLVibwqKmsQZ3EK3qOw5uSkwPUwJOs9ODZl9K5Ra2BuSkDWp4bbtgbIgr2AVWYAJZUznT8PiYKxE4ct9T1/YgF3abyiPaFQOZ7FfR9tGfolhr9fYTIMrIpdj28iE6WmVHWGXw+AQIhiYd2KjQAWGHN0UuQIukNZFUd5TjoxbkgHeNTXEGCo9dejC86oAK2OoQezm6EWlq4ZB3kEhx3Np0SkO12Nbn6t+yiBu/6xpOiOfn+YjSGCmNj/TtTM2ApI2VTe5/SiRL26pBxFzRY+l/A8Uifg8TwQyQsgjHQ7i/TUaQeMBmnsAfZtdzyry1Npy410y3dSxY0BqKhGylo6fIZU2P/+wEH7Jl1AbewCHp/q47bZTghWytXTJJGAT6rD1HWy0a+KC+ul2nWkwZ24f5RORwS6vQ97nPYYRKynSas7IQ9mDV48D5mw==

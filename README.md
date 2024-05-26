@@ -33,9 +33,12 @@ flux bootstrap github \
 ```
 
 # Debugging Commands
+
+```sh
 kubectl get kustomization -n flux-system flux-system -o yaml
 kubectl get gitrepository -n flux-system flux-system -o yaml
 kubectl logs -n flux-system deploy/kustomize-controller -f
+```
 
 # Deploy Pod Info
 
@@ -58,4 +61,17 @@ flux create source git podinfo \
   --retry-interval=2m \
   --health-check-timeout=3m \
   --export > ./clusters/homelab/podinfo-kustomization.yaml
+```
+
+# helpful sync commands
+
+```sh
+k get gitrepository -A
+flux -n flux-system reconcile source git flux-system
+
+flux -n flux-system reconcile kustomization flux-system
+
+k get kustomization -A
+flux -n flux-system reconcile kustomization infra-controllers
+
 ```
