@@ -39,3 +39,13 @@ metadata:
 spec:
   addresses:
     - 192.168.4.185-192.168.4.188
+
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: example
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - lb-pool
