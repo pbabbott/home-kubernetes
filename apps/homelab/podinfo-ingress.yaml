@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: podinfo
   namespace: default
+  labels:
+    dns: internal
 spec:
   ingressClassName: nginx
   rules:

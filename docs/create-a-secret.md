@@ -21,8 +21,6 @@ Note: scope here is `namespace-wide`
 # Change secret value
 # Change namespace name
 echo -n superdupersecret | kubeseal --raw --namespace default --scope namespace-wide
-
-
 ```
 
 Copy the output.
