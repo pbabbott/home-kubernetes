@@ -87,6 +87,6 @@ spec:
         - --pihole-server=http://192.168.4.144:8081
 
         # Pihole will only be used for internal DNS entries
-        - --label-filter=internal
+        - --annotation-filter=abbottland.io/dns.class=internal
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes token files
