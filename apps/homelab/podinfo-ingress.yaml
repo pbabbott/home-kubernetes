@@ -5,6 +5,8 @@ metadata:
   namespace: default
 spec:
   ingressClassName: nginx
+  externalIPs:
+    - 198.51.100.32
   rules:
   - host: podinfo.local.abbottland.io
     http:
