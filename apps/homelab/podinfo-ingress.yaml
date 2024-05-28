@@ -4,7 +4,7 @@ metadata:
   name: podinfo
   namespace: default
   labels:
-    dns: internal
+    external-dns: internal
 spec:
   ingressClassName: nginx
   rules:
