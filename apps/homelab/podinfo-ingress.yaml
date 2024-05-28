@@ -3,10 +3,8 @@ kind: Ingress
 metadata:
   name: podinfo
   namespace: default
-  annotations:
-    abbottland.io/dns.class: internal
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-internal
   rules:
   - host: podinfo.local.abbottland.io
     http:
