@@ -46,6 +46,10 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+      - homeassistant.abbottland.io
+      secretName: podinfo-tls
   rules:
   - host: homeassistant.abbottland.io
     http:
