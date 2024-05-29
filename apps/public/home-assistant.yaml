@@ -49,7 +49,7 @@ spec:
   tls:
     - hosts:
       - homeassistant.abbottland.io
-      secretName: podinfo-tls
+      secretName: homeassistant-tls
   rules:
   - host: homeassistant.abbottland.io
     http:
