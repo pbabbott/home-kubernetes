@@ -43,7 +43,7 @@ metadata:
   name: home-assistant
   namespace: home-assistant
   annotations:
-    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   rules:
