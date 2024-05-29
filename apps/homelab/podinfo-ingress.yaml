@@ -8,7 +8,32 @@ metadata:
     nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
     abbottland.io/dns.class: internal
 spec:
-  ingressClassName: nginx-internal
+  ingressClassName: nginx
+  rules:
+  - host: podinfo.local.abbottland.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: podinfo
+            port:
+              number: 9898
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: podinfo-public
+  namespace: default
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-staging"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - podinfo.abbottland.io
+      secretName: podinfo-tls
   rules:
   - host: podinfo.local.abbottland.io
     http:
