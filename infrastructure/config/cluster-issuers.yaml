@@ -28,10 +28,10 @@ spec:
     # Enable the HTTP-01 challenge provider
     solvers:
       - dns01:
-        cloudflare:
-          apiTokenSecretRef:
-            name: cloudflare-api-key-secret
-            key: api-token
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-key-secret
+              key: api-token
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
