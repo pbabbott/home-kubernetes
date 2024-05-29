@@ -31,8 +31,6 @@ spec:
       interval: 12h
   values:
     controller:
-      # config:
-      #   use-proxy-protocol: "true"
       service:
         externalTrafficPolicy: "Local"
         externalIPs:

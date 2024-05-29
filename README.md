@@ -75,3 +75,8 @@ k get kustomization -A
 flux -n flux-system reconcile kustomization infra-controllers
 
 ```
+# Helpful ingress command
+
+```sh
+helm show values ingress-nginx --repo https://kubernetes.github.io/ingress-nginx > temp.yaml
+```
