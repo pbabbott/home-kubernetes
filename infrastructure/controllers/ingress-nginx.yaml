@@ -31,6 +31,8 @@ spec:
       interval: 12h
   values:
     controller:
+      config:
+        use-proxy-protocol: "true"
       service:
         externalIPs:
           - 192.168.4.144
