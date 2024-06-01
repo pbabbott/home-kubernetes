@@ -10,6 +10,10 @@ metadata:
     abbottland.io/dns.class: internal
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+      - podinfo.local.abbottland.io
+      secretName: podinfo-local-tls
   rules:
   - host: podinfo.local.abbottland.io
     http:
