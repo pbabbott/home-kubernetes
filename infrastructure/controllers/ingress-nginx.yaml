@@ -34,6 +34,8 @@ spec:
       config:
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
+      extraArgs:
+        enable-proxy-protocol: ""
       service:
         externalTrafficPolicy: "Local"
         externalIPs:
