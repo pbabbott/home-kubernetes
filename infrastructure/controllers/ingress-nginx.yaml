@@ -31,8 +31,9 @@ spec:
       interval: 12h
   values:
     controller:
-      # config:
-      #   use-proxy-protocol: "true"
+      config:
+        use-proxy-protocol: "true"
+        proxy-real-ip-cidr: "192.168.4.144"
       service:
         externalTrafficPolicy: "Local"
         externalIPs:
