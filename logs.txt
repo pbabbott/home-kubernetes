@@ -1,0 +1,124 @@
+unknown flag: --enable-proxy-protocol
+Usage of :
+-------------------------------------------------------------------------------
+NGINX Ingress controller
+  Release:       v1.10.1
+  Build:         4fb5aac1dd3669daa3a14d9de3e3cdb371b4c518
+  Repository:    https://github.com/kubernetes/ingress-nginx
+  nginx version: nginx/1.25.3
+
+-------------------------------------------------------------------------------
+
+unknown flag: --enable-proxy-protocol
+      --add_dir_header                          If true, adds the file directory to the header of the log messages
+      --alsologtostderr                         log to standard error as well as files (no effect when -logtostderr=true)
+      --annotations-prefix string               Prefix of the Ingress annotations specific to the NGINX controller. (default "nginx.ingress.kubernetes.io")
+      --apiserver-host string                   Address of the Kubernetes API server.
+                                                Takes the form "protocol://address:port". If not specified, it is assumed the
+                                                program runs inside a Kubernetes cluster and local discovery is attempted.
+      --certificate-authority string            Path to a cert file for the certificate authority. This certificate is used
+                                                only when the flag --apiserver-host is specified.
+      --configmap string                        Name of the ConfigMap containing custom global configurations for the controller.
+      --controller-class string                 Ingress Class Controller value this Ingress satisfies.
+                                                The class of an Ingress object is set using the field IngressClassName in Kubernetes clusters version v1.19.0 or higher. The .spec.controller value of the IngressClass
+                                                referenced in an Ingress Object should be the same value specified here to make this object be watched. (default "k8s.io/ingress-nginx")
+      --deep-inspect                            Enables ingress object security deep inspector (default true)
+      --default-backend-service string          Service used to serve HTTP requests not matching any known server name (catch-all).
+                                                Takes the form "namespace/name". The controller configures NGINX to forward
+                                                requests to the first port of this Service.
+      --default-server-port int                 Port to use for exposing the default server (catch-all). (default 8181)
+      --default-ssl-certificate string          Secret containing a SSL certificate to be used by the default HTTPS server (catch-all).
+                                                Takes the form "namespace/name".
+      --disable-catch-all                       Disable support for catch-all Ingresses.
+      --disable-full-test                       Disable full test of all merged ingresses at the admission stage and tests the template of the ingress being created or updated  (full test of all ingresses is enabled by default).
+      --disable-svc-external-name               Disable support for Services of type ExternalName.
+      --disable-sync-events                     Disables the creation of 'Sync' event resources
+      --dynamic-configuration-retries int       Number of times to retry failed dynamic configuration before failing to sync an ingress. (default 15)
+      --election-id string                      Election id to use for Ingress status updates. (default "ingress-controller-leader")
+      --enable-annotation-validation            If true, will enable the annotation validation feature. This value will be defaulted to true on a future release
+      --enable-metrics                          Enables the collection of NGINX metrics. (default true)
+      --enable-ssl-chain-completion             Autocomplete SSL certificate chains with missing intermediate CA certificates.
+                                                Certificates uploaded to Kubernetes must have the "Authority Information Access" X.509 v3
+                                                extension for this to succeed.
+      --enable-ssl-passthrough                  Enable SSL Passthrough.
+      --enable-topology-aware-routing           Enable topology aware routing feature, needs service object annotation service.kubernetes.io/topology-mode sets to auto.
+      --exclude-socket-metrics strings          et of socket request metrics to exclude which won't be exported nor being calculated. E.g. 'nginx_ingress_controller_success,nginx_ingress_controller_header_duration_seconds'.
+      --health-check-path string                URL path of the health check endpoint.
+                                                Configured inside the NGINX status server. All requests received on the port
+                                                defined by the healthz-port parameter are forwarded internally to this path. (default "/healthz")
+      --health-check-timeout int                Time limit, in seconds, for a probe to health-check-path to succeed. (default 10)
+      --healthz-host string                     Address to bind the healthz endpoint.
+      --healthz-port int                        Port to use for the healthz endpoint. (default 10254)
+      --http-port int                           Port to use for servicing HTTP traffic. (default 80)
+      --https-port int                          Port to use for servicing HTTPS traffic. (default 443)
+      --ingress-class string                    [IN DEPRECATION] Name of the ingress class this controller satisfies.
+                                                The class of an Ingress object is set using the annotation "kubernetes.io/ingress.class" (deprecated).
+                                                The parameter --controller-class has precedence over this. (default "nginx")
+      --ingress-class-by-name                   Define if Ingress Controller should watch for Ingress Class by Name together with Controller Class.
+      --internal-logger-address string          Address to be used when binding internal syslogger. (default "127.0.0.1:11514")
+      --kubeconfig string                       Path to a kubeconfig file containing authorization and API server information.
+      --length-buckets float64Slice             Set of buckets which will be used for prometheus histogram metrics such as RequestLength, ResponseLength. (default [10.000000,20.000000,30.000000,40.000000,50.000000,60.000000,70.000000,80.000000,90.000000,100.000000])
+      --log_backtrace_at traceLocation          when logging hits line file:N, emit a stack trace (default :0)
+      --log_dir string                          If non-empty, write log files in this directory (no effect when -logtostderr=true)
+      --log_file string                         If non-empty, use this log file (no effect when -logtostderr=true)
+      --log_file_max_size uint                  Defines the maximum size a log file can grow to (no effect when -logtostderr=true). Unit is megabytes. If the value is 0, the maximum file size is unlimited. (default 1800)
+      --logtostderr                             log to standard error instead of files (default true)
+      --maxmind-edition-ids string              Maxmind edition ids to download GeoLite2 Databases. (default "GeoLite2-City,GeoLite2-ASN")
+      --maxmind-license-key string              Maxmind license key to download GeoLite2 Databases.
+                                                https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases .
+      --maxmind-mirror string                   Maxmind mirror url (example: http://geoip.local/databases.
+      --maxmind-retries-count int               Number of attempts to download the GeoIP DB. (default 1)
+      --maxmind-retries-timeout duration        Maxmind downloading delay between 1st and 2nd attempt, 0s - do not retry to download if something went wrong.
+      --metrics-per-host                        Export metrics per-host. (default true)
+      --monitor-max-batch-size int              Max batch size of NGINX metrics. (default 10000)
+      --one_output                              If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
+      --post-shutdown-grace-period int          Seconds to wait after the nginx process has stopped before controller exits. (default 10)
+      --profiler-address ip                     IP address used by the ingress controller to expose the Go Profiler when it is enabled. (default 127.0.0.1)
+      --profiler-port int                       Port to use for expose the ingress controller Go profiler when it is enabled. (default 10245)
+      --profiling                               Enable profiling via web interface host:port/debug/pprof/ . (default true)
+      --publish-service string                  Service fronting the Ingress controller.
+                                                Takes the form "namespace/name". When used together with update-status, the
+                                                controller mirrors the address of this service's endpoints to the load-balancer
+                                                status of all Ingress objects it satisfies.
+      --publish-status-address string           Customized address (or addresses, separated by comma) to set as the load-balancer status of Ingress objects this controller satisfies.
+                                                Requires the update-status parameter.
+      --report-node-internal-ip-address         Set the load-balancer status of Ingress objects to internal Node addresses instead of external.
+                                                Requires the update-status parameter.
+      --report-status-classes                   Use status classes (2xx, 3xx, 4xx and 5xx) instead of status codes in metrics.
+      --shutdown-grace-period int               Seconds to wait after receiving the shutdown signal, before stopping the nginx process.
+      --size-buckets float64Slice               Set of buckets which will be used for prometheus histogram metrics such as BytesSent. (default [10.000000,100.000000,1000.000000,10000.000000,100000.000000,1000000.000000,10000000.000000])
+      --skip_headers                            If true, avoid header prefixes in the log messages
+      --skip_log_headers                        If true, avoid headers when opening log files (no effect when -logtostderr=true)
+      --ssl-passthrough-proxy-port int          Port to use internally for SSL Passthrough. (default 442)
+      --status-port int                         Port to use for the lua HTTP endpoint configuration. (default 10246)
+      --status-update-interval int              Time interval in seconds in which the status should check if an update is required. Default is 60 seconds (default 60)
+      --stderrthreshold severity                logs at or above this threshold go to stderr when writing to files and stderr (no effect when -logtostderr=true or -alsologtostderr=true) (default 2)
+      --stream-port int                         Port to use for the lua TCP/UDP endpoint configuration. (default 10247)
+      --sync-period duration                    Period at which the controller forces the repopulation of its local object stores. Disabled by default.
+      --sync-rate-limit float32                 Define the sync frequency upper limit (default 0.3)
+      --tcp-services-configmap string           Name of the ConfigMap containing the definition of the TCP services to expose.
+                                                The key in the map indicates the external port to be used. The value is a
+                                                reference to a Service in the form "namespace/name:port", where "port" can
+                                                either be a port number or name. TCP ports 80 and 443 are reserved by the
+                                                controller for servicing HTTP traffic.
+      --time-buckets float64Slice               Set of buckets which will be used for prometheus histogram metrics such as RequestTime, ResponseTime. (default [0.005000,0.010000,0.025000,0.050000,0.100000,0.250000,0.500000,1.000000,2.500000,5.000000,10.000000])
+      --udp-services-configmap string           Name of the ConfigMap containing the definition of the UDP services to expose.
+                                                The key in the map indicates the external port to be used. The value is a
+                                                reference to a Service in the form "namespace/name:port", where "port" can
+                                                either be a port name or number.
+      --update-status                           Update the load-balancer status of Ingress objects this controller satisfies.
+                                                Requires setting the publish-service parameter to a valid Service reference. (default true)
+      --update-status-on-shutdown               Update the load-balancer status of Ingress objects when the controller shuts down.
+                                                Requires the update-status parameter. (default true)
+  -v, --v Level                                 number for the log level verbosity
+      --validating-webhook string               The address to start an admission controller on to validate incoming ingresses.
+                                                Takes the form "<host>:port". If not provided, no admission controller is started.
+      --validating-webhook-certificate string   The path of the validating webhook certificate PEM.
+      --validating-webhook-key string           The path of the validating webhook key PEM.
+      --version                                 Show release information about the NGINX Ingress controller and exit.
+      --vmodule moduleSpec                      comma-separated list of pattern=N settings for file-filtered logging
+      --watch-ingress-without-class             Define if Ingress Controller should also watch for Ingresses without an IngressClass or the annotation specified.
+      --watch-namespace string                  Namespace the controller watches for updates to Kubernetes objects.
+                                                This includes Ingresses, Services and all configuration resources. All
+                                                namespaces are watched if this parameter is left empty.
+      --watch-namespace-selector string         Selector selects namespaces the controller watches for updates to Kubernetes objects.
