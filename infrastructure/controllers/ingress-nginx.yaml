@@ -31,6 +31,7 @@ spec:
       interval: 12h
   values:
     controller:
+      kind: DaemonSet
       config:
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
