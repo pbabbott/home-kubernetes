@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
       - ${ingress_host}
-      secretName: podinfo-tls
+      secretName: ${ingress_name}-tls
   rules:
   - host: ${ingress_host}
     http:

@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: drone
+---
+
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: drone-ingress
+  namespace: drone
+spec:
+  interval: 10m0s
+  dependsOn:
+    - name: infra-config
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./templates/
+  prune: true
+  wait: true
+  timeout: 5m0s
+  postBuild:
+    substitute:
+      ingress_name: drone
+      ingress_host: drone.abbottland.io
+      ingress_service_name: drone
+      ingress_service_port: 3000
