@@ -23,6 +23,7 @@ spec:
   prune: true
   wait: true
   timeout: 5m0s
+  targetNamespace: drone
   postBuild:
     substitute:
       ingress_name: drone
