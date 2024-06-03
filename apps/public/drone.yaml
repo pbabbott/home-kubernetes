@@ -19,7 +19,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  path: ./templates/public-ingress.yaml
+  path: ./templates/public-ingress/
   prune: true
   wait: true
   timeout: 5m0s
