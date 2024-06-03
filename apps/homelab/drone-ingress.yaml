@@ -26,4 +26,4 @@ spec:
       ingress_name: drone
       ingress_host: drone.abbottland.io
       ingress_service_name: drone
-      ingress_service_port: 3000
+      ingress_service_port: "3000"
