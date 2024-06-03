@@ -14,9 +14,11 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: infra-config
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
+    namespace: flux-system
   path: ./templates/
   prune: true
   wait: true
