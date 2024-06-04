@@ -8,7 +8,7 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: home-assistant
+  name: homeassistant
   namespace: home-assistant
 spec:
   ports:
@@ -21,10 +21,10 @@ spec:
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
+  namespace: home-assistant 
   # by convention, use the name of the Service
   # as a prefix for the name of the EndpointSlice
-  name: home-assistant-1
-  namespace: home-assistant 
+  name: homeassistant-1
   labels:
     kubernetes.io/service-name: homeassistant
 addressType: IPv4
