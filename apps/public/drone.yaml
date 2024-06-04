@@ -4,7 +4,6 @@ kind: Namespace
 metadata:
   name: drone
 ---
-
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -19,7 +18,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  path: ./templates/public-ingress/
+  path: ./templates/ingress/base/
   prune: true
   wait: true
   timeout: 5m0s
