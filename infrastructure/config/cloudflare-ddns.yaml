@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: cert-manager
+  labels:
+    app: cloudflare-ddns
+  name: cloudflare-ddns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-ddns
+  template:
+    metadata:
+      labels:
+        app: cloudflare-ddns
+    spec:
+      containers:
+      - image: oznu/cloudflare-ddns
+        name: cloudflare-ddns
+        env:
+          - name: API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: 'cloudflare-api-key-secret'
+                key: 'api-token'
+          - name: ZONE
+            value: abbottland.io
+          
