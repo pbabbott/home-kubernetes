@@ -4,6 +4,64 @@ kind: Namespace
 metadata:
   name: uptime-kuma
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: uptime-kuma-app-data
+  namespace: uptime-kuma
+spec:
+  storageClassName: nfs-client
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: uptime-kuma
+  labels:
+    app: uptime-kuma
+  name: uptime-kuma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uptime-kuma
+  template:
+    metadata:
+      labels:
+        app: uptime-kuma
+    spec:
+      containers:
+        - image: louislam/uptime-kuma:1
+          name: uptime-kuma
+          ports:
+            - containerPort: 3001
+              name: http
+          volumeMounts:
+            - mountPath: "/app/data"
+              name: uptime-kuma-app-data
+      volumes:
+        - name: uptime-kuma-app-data
+          persistentVolumeClaim:
+            claimName: uptime-kuma-app-data
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uptime-kuma
+  labels:
+    app: uptime-kuma
+spec:
+  ports:
+    - port: 3001
+      protocol: TCP
+  selector:
+    app: uptime-kuma
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -28,7 +86,4 @@ spec:
       ingress_name: uptime-kuma
       ingress_host: kuma.local.abbottland.io
       ingress_service_name: uptime-kuma
-      ingress_service_port: "3000"
-
-# docker run -d --restart=always -p 3001:3001 -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1
-# docker run -d --restart=always -p 127.0.0.1:3001:3001 -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1
+      ingress_service_port: "3001"
