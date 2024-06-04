@@ -26,7 +26,7 @@ metadata:
   name: home-assistant-1
   namespace: home-assistant 
   labels:
-    kubernetes.io/service-name: home-assistant
+    kubernetes.io/service-name: homeassistant
 addressType: IPv4
 ports:
   - name: http 
@@ -37,27 +37,28 @@ endpoints:
   - addresses:
       - "192.168.4.24"
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
 metadata:
   name: home-assistant
   namespace: home-assistant
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-      - homeassistant.abbottland.io
-      secretName: homeassistant-tls
-  rules:
-  - host: homeassistant.abbottland.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: home-assistant
-            port:
-              number: 8123
+  interval: 10m0s
+  dependsOn:
+    - name: infra-config
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  path: ./templates/ingress/base/
+  prune: true
+  wait: true
+  timeout: 5m0s
+  targetNamespace: home-assistant
+  postBuild:
+    substitute:
+      ingress_name: home-assistant
+      ingress_host: homeassistant.abbottland.io
+      ingress_service_name: homeassistant
+      ingress_service_port: "8123"
