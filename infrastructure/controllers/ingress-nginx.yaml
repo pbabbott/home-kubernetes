@@ -32,7 +32,7 @@ spec:
   values:
     controller:
       kind: DaemonSet
-      enableSnippets: true
+      allowSnippetAnnotations: true
       config:
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
