@@ -91,3 +91,9 @@ spec:
   commonMetadata:
     annotations:
       nginx.org/websocket-services: "websockettest-cluster-ip-service"
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-XSS-Protection "1; mode=block";
+        add_header X-Content-Type-Options "nosniff";
+        add_header Strict-Transport-Security "max-age=15552000; includeSubDomains; preload";
+    nginx.ingress.kubernetes.io/x-forwarded-proto: "https"
