@@ -32,12 +32,12 @@ spec:
   values:
     controller:
       kind: DaemonSet
+      enableSnippets: true
       config:
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
         enable-real-ip: "true"
         use-forwarded-headers: "true"
-        allow-snippet-annotations: "true"
       service:
         externalTrafficPolicy: "Local"
         externalIPs:
