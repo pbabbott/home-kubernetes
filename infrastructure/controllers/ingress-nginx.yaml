@@ -35,7 +35,6 @@ spec:
       config:
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
-        allow-snippet-annotations: "true"
       service:
         externalTrafficPolicy: "Local"
         externalIPs:
