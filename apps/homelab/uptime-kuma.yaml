@@ -88,3 +88,6 @@ spec:
       ingress_host: kuma.local.abbottland.io
       ingress_service_name: uptime-kuma
       ingress_service_port: "3001"
+  commonMetadata:
+    annotations:
+      nginx.org/websocket-services: "websockettest-cluster-ip-service"
