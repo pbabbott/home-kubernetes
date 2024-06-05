@@ -33,6 +33,7 @@ spec:
     controller:
       kind: DaemonSet
       config:
+        allow-snippet-annotations: "true"
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
         enable-real-ip: "true"
