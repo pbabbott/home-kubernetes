@@ -41,8 +41,8 @@ spec:
         use-forwarded-headers: "true"
       service:
         externalTrafficPolicy: "Local"
-        externalIPs:
-          - 192.168.4.144
+        # externalIPs:
+        #   - 192.168.4.144
         loadBalancerIP: 192.168.1.144
         type: NodePort
         nodePorts:
