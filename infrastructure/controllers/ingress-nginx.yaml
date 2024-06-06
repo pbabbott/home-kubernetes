@@ -34,7 +34,7 @@ spec:
       kind: DaemonSet
       allowSnippetAnnotations: true
       config:
-        use-http2: "false"
+        # use-http2: "false"
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
         enable-real-ip: "true"
