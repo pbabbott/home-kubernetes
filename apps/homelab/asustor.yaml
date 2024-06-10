@@ -58,6 +58,6 @@ spec:
   postBuild:
     substitute:
       ingress_name: asustor
-      ingress_host: asustor.abbottland.io
+      ingress_host: asustor.local.abbottland.io
       ingress_service_name: asustor
       ingress_service_port: "9000"
