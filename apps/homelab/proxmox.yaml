@@ -1,46 +1,47 @@
+# https://192.168.4.170:8006/
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: pihole
+  name: proxmox
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: pihole
-  namespace: pihole
+  name: proxmox
+  namespace: proxmox
 spec:
   ports:
-    - name: http
+    - name: https
       protocol: TCP
-      port: 8081
-      targetPort: 8081
+      port: 443
+      targetPort: 8006
 ---
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  namespace: pihole
+  namespace: proxmox
   # by convention, use the name of the Service
   # as a prefix for the name of the EndpointSlice
-  name: pihole-1
+  name: proxmox-1
   labels:
-    kubernetes.io/service-name: pihole
+    kubernetes.io/service-name: proxmox
 addressType: IPv4
 ports:
-  - name: http 
-    appProtocol: http
+  - name: https 
+    appProtocol: https
     protocol: TCP
-    port: 8081
+    port: 8006
 endpoints:
   - addresses:
-      - "192.168.4.144"
+      - "192.168.4.170"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: pihole
-  namespace: pihole
+  name: proxmox
+  namespace: proxmox
 spec:
   interval: 10m0s
   dependsOn:
@@ -54,10 +55,10 @@ spec:
   prune: true
   wait: true
   timeout: 5m0s
-  targetNamespace: pihole
+  targetNamespace: proxmox
   postBuild:
     substitute:
-      ingress_name: pihole
-      ingress_host: pihole.local.abbottland.io
-      ingress_service_name: pihole
-      ingress_service_port: "8081"
+      ingress_name: proxmox
+      ingress_host: proxmox.local.abbottland.io
+      ingress_service_name: proxmox
+      ingress_service_port: "8006"
