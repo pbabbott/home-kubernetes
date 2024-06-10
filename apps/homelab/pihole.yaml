@@ -1,0 +1,63 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pihole
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pihole
+  namespace: pihole
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8081
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  namespace: pihole
+  # by convention, use the name of the Service
+  # as a prefix for the name of the EndpointSlice
+  name: pihole-1
+  labels:
+    kubernetes.io/service-name: pihole
+addressType: IPv4
+ports:
+  - name: http 
+    appProtocol: http
+    protocol: TCP
+    port: 8081
+endpoints:
+  - addresses:
+      - "192.168.4.144"
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: pihole
+  namespace: pihole
+spec:
+  interval: 10m0s
+  dependsOn:
+    - name: infra-config
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  path: ./templates/ingress/overlays/internal-ingress
+  prune: true
+  wait: true
+  timeout: 5m0s
+  targetNamespace: pihole
+  postBuild:
+    substitute:
+      ingress_name: pihole
+      ingress_host: pihole.local.abbottland.io
+      ingress_service_name: pihole
+      ingress_service_port: "8081"
