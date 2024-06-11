@@ -15,6 +15,6 @@ fi
 source .env
 
 # Update cloudflare secret
-export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --namespace cert-manager --scope cluster-wide)
+export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope cluster-wide)
 yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/config/cloudflare-secret.yaml
 
