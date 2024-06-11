@@ -1,2 +1,3 @@
 temp.yaml
-temp2.yaml
+temp*.yaml
+.env
