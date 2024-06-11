@@ -38,8 +38,8 @@ spec:
         - image: lissy93/dashy:latest
           name: dashy
           ports:
-            - containerPort: 80
-              hostPort: 4000
+            - containerPort: 8080
+              hostPort: 8080
               name: http
           volumeMounts:
             - mountPath: "/app/public/item-icons"
@@ -59,7 +59,7 @@ metadata:
     app: dashy
 spec:
   ports:
-    - port: 4000
+    - port: 8080
       protocol: TCP
   selector:
     app: dashy
@@ -88,4 +88,4 @@ spec:
       ingress_name: dashy
       ingress_host: dashboard.local.abbottland.io
       ingress_service_name: dashy
-      ingress_service_port: "4000"
+      ingress_service_port: "8080"
