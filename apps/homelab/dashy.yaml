@@ -42,12 +42,17 @@ spec:
               hostPort: 8080
               name: http
           volumeMounts:
-            - mountPath: "/app/public/item-icons"
-              name: dashy-item-icons
+            - name: dashy-item-icons
+              mountPath: "/app/public/item-icons"
+            - name: config-volume
+              mountPath: /app/user-data/
       volumes:
         - name: dashy-item-icons
           persistentVolumeClaim:
             claimName: dashy-item-icons
+        - name: config-volume
+          configMap:
+            name: dashboard-config
           
 ---
 apiVersion: v1

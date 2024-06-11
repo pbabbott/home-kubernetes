@@ -1,0 +1,335 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dashy
+  name: dashboard-config
+data:
+  conf.yml: |
+    appConfig:
+      language: en
+      layout: auto
+      iconSize: large
+      theme: nord-frost
+    pageInfo:
+      title: Home Lab
+      description: ''
+      navLinks: []
+      footerText: ''
+    sections:
+      - name: Room of Requirement
+        icon: fas fa-server
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Asustor
+            description: Server Management Portal
+            icon: fa fa-server
+            url: https://portal.nas.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 0_1859_asustor
+          - title: Grafana
+            description: Dashboards
+            icon: hl-grafana
+            url: https://grafana.nas.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 1_1859_grafana
+          - title: Loki
+            description: Log Aggregator
+            icon: hl-loki
+            url: https://loki.nas.local.abbottland.io/ready
+            target: newtab
+            statusCheck: true
+            id: 2_1859_loki
+          - title: Prometheus
+            description: Metrics Aggregator
+            icon: hl-prometheus
+            url: https://prometheus.nas.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 1_1171_prometheus
+          - title: Docker Registry
+            description: Container Registry
+            icon: hl-docker
+            url: https://registry.nas.local.abbottland.io/ui/
+            target: newtab
+            statusCheck: true
+            id: 3_1859_dockerregistry
+          - title: Docker Registry Mirror
+            description: Pull-through cache for docker hub
+            icon: hl-docker
+            url: https://registry-mirror.nas.local.abbottland.io/ui/
+            target: newtab
+            statusCheck: true
+            id: 4_1859_dockerregistrymirror
+          - title: Plex
+            description: Plex Media Server
+            icon: hl-plex
+            url: https://plex.abbottland.io/identity
+            target: newtab
+            statusCheck: true
+            id: 5_1859_plex
+          - title: Verdaccio
+            description: NPM Registry & Proxy
+            icon: verdaccio.svg
+            url: https://verdaccio.nas.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 6_1859_verdaccio
+          - title: Portainer
+            description: Container Management
+            icon: hl-portainer
+            url: https://portainer.nas.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 7_1859_portainer
+          - title: HandBrake
+            description: Video converter service
+            icon: hl-handbrake
+            url: https://handbrake.nas.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 8_1859_handbrake
+
+      - name: Dumbledore
+        icon: hl-raspberrypi
+        displayData:
+          sortBy: alphabetical
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Semaphore
+            description: Ansible Playbooks
+            icon: hl-semaphore
+            url: https://semaphore.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            statusCheckAllowInsecure: true
+          - title: Uptime Kuma
+            description: Uptime Dashboard
+            icon: hl-uptime-kuma
+            url: https://kuma.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            statusCheckAllowInsecure: true
+          - title: Mealie
+            description: Recipe database
+            icon: hl-mealie
+            url: https://mealie.abbottland.io
+            target: newtab
+            statusCheck: true
+            statusCheckAllowInsecure: true
+            id: 0_1171_mealie
+          - title: Drone
+            description: CI/CD Server
+            icon: hl-drone
+            url: https://drone.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 2_1171_drone
+          - title: Portainer
+            description: Container Management
+            icon: hl-portainer
+            url: https://portainer.dumbledore.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 1_1027_portainer
+          - title: VS Code Server
+            description: VS Code Workspaces
+            icon: hl-code
+            url: https://code.local.abbottland.io/
+            target: newtab
+            statusCheck: true
+            id: 2_1027_vscodeserver
+      - name: Banana Pi
+        icon: banana-svgrepo-com.svg
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Pi Hole
+            description: Network Ad-blocking & DNS
+            icon: hl-pihole
+            url: https://pihole.local.abbottland.io/
+            target: newtab
+            statusCheck: true
+            id: 0_794_pihole
+          - title: Traefik
+            description: Reverse proxy / Gateway
+            icon: hl-traefik
+            url: https://traefik.local.abbottland.io/
+            target: newtab
+            statusCheck: true
+            id: 1_794_traefik
+          - title: Portainer
+            description: Container Management
+            icon: hl-portainer
+            url: https://portainer.bananapi.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 2_794_portainer
+      - name: Elder Wand
+        icon: corsair-svgrepo-com.svg
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Home File Service
+            description: Helps move content onto my NAS
+            icon: hl-node.js
+            url: http://192.168.4.90:4000
+            target: newtab
+            statusCheck: true
+            id: 0_918_homefileservice
+      - name: Raspberry Pi
+        icon: hl-raspberrypi
+        displayData:
+          sortBy: alphabetical
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Home Assistant
+            description: Home Automations
+            icon: hl-home-assistant
+            url: https://homeassistant.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 0_1027_homeassistant
+      - name: Icons
+        icon: fa fa-icons
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Font Awesome
+            description: Font Awesome Icon Search
+            icon: fa fa-font-awesome
+            url: https://fontawesome.com/
+            target: newtab
+            id: 0_508_fontawesome
+          - title: Dashy Icon Docs
+            icon: hl-dashy
+            url: https://dashy.to/docs/icons
+            id: 1_508_dashyicondocs
+          - title: Homelab Icons
+            description: List of supported homelab icons
+            icon: fa fa-icons
+            url: https://github.com/WalkxCode/dashboard-icons/tree/main/png
+            target: newtab
+            id: 2_508_homelabicons
+          - title: SVG Repo
+            icon: fa fa-icons
+            url: https://www.svgrepo.com/
+            target: newtab
+            id: 3_508_svgrepo
+      - name: Project Links
+        icon: fa fa-link
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Miro
+            description: 'Whiteboard designs '
+            icon: fa fa-link
+            url: https://miro.com/app/board/uXjVPzv9we8=/
+            target: newtab
+            id: 0_1272_miro
+          - title: Confluence
+            description: Information site on project exodus
+            icon: fa fa-link
+            url: >-
+              https://pbabbott.atlassian.net/wiki/spaces/PP/pages/163855/Project+Exodus
+            target: newtab
+            id: 1_1272_confluence
+          - title: Figma
+            description: Hi fidelity designs
+            icon: fa fa-link
+            url: https://www.figma.com/files/project/77710353/Project-Exodus
+            target: newtab
+            id: 2_1272_figma
+      - name: Code
+        icon: hl-github
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: home-file-service
+            description: Automatically move files from PC onto NAS
+            icon: hl-github
+            url: https://github.com/pbabbott/home-file-service
+            target: newtab
+            id: 0_379_homefileservice
+          - title: home-playbooks
+            description: Ansible playbooks to manage all home infra
+            icon: hl-github
+            url: https://github.com/pbabbott/home-playbooks
+            target: newtab
+            id: 1_379_homeplaybooks
+          - title: home-web-apps
+            description: Web application code for home projects
+            icon: hl-github
+            url: https://github.com/pbabbott/home-web-apps
+            target: newtab
+            id: 2_379_homewebapps
+          - title: home-playbooks
+            description: vs code workspace
+            icon: hl-code
+            url: >-
+              https://code.local.abbottland.io/@pbabbott/home-playbooks-dev.main/apps/code-server/?folder=/home/coder/home-playbooks
+            target: newtab
+            statusCheck: true
+            id: 3_379_homeplaybooks
+      - name: Azure
+        icon: hl-azure
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: home-prod-001
+            description: Azure Subscription
+            icon: fa fa-key
+            url: >-
+              https://portal.azure.com/#@pbabbottgmail.onmicrosoft.com/resource/subscriptions/07619e8e-01a2-4b48-9d9c-281f290d3a37/overview
+            target: newtab
+            id: 0_519_homeprod
+          - title: sthomebackup001
+            description: Azure Storage
+            icon: fa fa-folder
+            url: >-
+              https://portal.azure.com/#@pbabbottgmail.onmicrosoft.com/resource/subscriptions/07619e8e-01a2-4b48-9d9c-281f290d3a37/resourceGroups/rg-home-prod-001/providers/Microsoft.Storage/storageAccounts/sthomebackup001/overview
+            target: newtab
+            id: 1_519_sthomebackup
+          - title: rpi001
+            description: Storage Container
+            icon: fa fa-folder
+            url: >-
+              https://portal.azure.com/#view/Microsoft_Azure_Storage/ContainerMenuBlade/~/overview/storageAccountId/%2Fsubscriptions%2F07619e8e-01a2-4b48-9d9c-281f290d3a37%2FresourceGroups%2Frg-home-prod-001%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2Fsthomebackup001/path/rpi001/etag/%220x8DA8A006D8883B1%22/defaultEncryptionScope/%24account-encryption-key/denyEncryptionScopeOverride~/false/defaultId//publicAccessVal/None
+            target: newtab
+            id: 2_519_rpi
