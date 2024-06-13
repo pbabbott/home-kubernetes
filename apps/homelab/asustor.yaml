@@ -4,7 +4,6 @@ kind: Namespace
 metadata:
   name: asustor
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -61,3 +60,4 @@ spec:
       ingress_host: asustor.local.abbottland.io
       ingress_service_name: asustor
       ingress_service_port: "9000"
+      ingress_configuration_snippet: ''

@@ -61,3 +61,4 @@ spec:
       ingress_host: pihole.local.abbottland.io
       ingress_service_name: pihole
       ingress_service_port: "8081"
+      ingress_configuration_snippet: ''

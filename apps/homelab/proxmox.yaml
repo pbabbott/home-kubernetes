@@ -62,6 +62,7 @@ spec:
       ingress_host: proxmox.local.abbottland.io
       ingress_service_name: proxmox
       ingress_service_port: "8006"
+      ingress_configuration_snippet: ''
   commonMetadata:
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"

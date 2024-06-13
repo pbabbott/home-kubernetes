@@ -61,3 +61,4 @@ spec:
       ingress_host: haproxy.local.abbottland.io
       ingress_service_name: haproxy
       ingress_service_port: "8404"
+      ingress_configuration_snippet: ''

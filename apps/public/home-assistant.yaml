@@ -62,3 +62,4 @@ spec:
       ingress_host: homeassistant.abbottland.io
       ingress_service_name: homeassistant
       ingress_service_port: "8123"
+      ingress_configuration_snippet: ''

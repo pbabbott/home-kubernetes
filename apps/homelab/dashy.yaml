@@ -94,3 +94,4 @@ spec:
       ingress_host: dashboard.local.abbottland.io
       ingress_service_name: dashy
       ingress_service_port: "8080"
+      ingress_configuration_snippet: ''
