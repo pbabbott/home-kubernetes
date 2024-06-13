@@ -41,3 +41,10 @@ spec:
       target: 
         name: nfs-client-provisioner
         kind: Deployment
+    - patch: |-
+        - op: add
+          path: /parameters/pathPattern
+          value: ${.PVC.namespace}-${.PVC.name}
+      target: 
+        name: nfs-client
+        kind: StorageClass
