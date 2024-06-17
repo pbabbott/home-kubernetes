@@ -16,6 +16,45 @@ data:
       navLinks: []
       footerText: ''
     sections:
+      - name: Administration
+        icon: fas fa-server
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Pi Hole
+            description: Network Ad-blocking & DNS
+            icon: hl-pihole
+            url: https://pihole.local.abbottland.io/
+            target: newtab
+            statusCheck: true
+            id: 0_794_pihole
+          - title: HA Proxy
+            description: Load Balancer
+            icon: hl-haproxy
+            url: https://haproxy.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 2_794_haproxy
+          - title: Proxmox
+            description: Virtualization
+            icon: hl-proxmox
+            url: https://proxmox.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 2_794_proxmox
+          - title: Asustor
+            description: Server Management Portal
+            icon: fa fa-server
+            url: https://asustor.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 0_1859_asustor
+        
+
       - name: Room of Requirement
         icon: fas fa-server
         displayData:
@@ -25,13 +64,8 @@ data:
           collapsed: false
           hideForGuests: false
         items:
-          - title: Asustor
-            description: Server Management Portal
-            icon: fa fa-server
-            url: https://portal.nas.local.abbottland.io
-            target: newtab
-            statusCheck: true
-            id: 0_1859_asustor
+          
+
           - title: Grafana
             description: Dashboards
             icon: hl-grafana
@@ -81,13 +115,6 @@ data:
             target: newtab
             statusCheck: true
             id: 6_1859_verdaccio
-          - title: Portainer
-            description: Container Management
-            icon: hl-portainer
-            url: https://portainer.nas.local.abbottland.io
-            target: newtab
-            statusCheck: true
-            id: 7_1859_portainer
           - title: HandBrake
             description: Video converter service
             icon: hl-handbrake
@@ -134,13 +161,6 @@ data:
             target: newtab
             statusCheck: true
             id: 2_1171_drone
-          - title: Portainer
-            description: Container Management
-            icon: hl-portainer
-            url: https://portainer.dumbledore.local.abbottland.io
-            target: newtab
-            statusCheck: true
-            id: 1_1027_portainer
           - title: VS Code Server
             description: VS Code Workspaces
             icon: hl-code
@@ -148,36 +168,7 @@ data:
             target: newtab
             statusCheck: true
             id: 2_1027_vscodeserver
-      - name: Banana Pi
-        icon: banana-svgrepo-com.svg
-        displayData:
-          sortBy: default
-          rows: 1
-          cols: 1
-          collapsed: false
-          hideForGuests: false
-        items:
-          - title: Pi Hole
-            description: Network Ad-blocking & DNS
-            icon: hl-pihole
-            url: https://pihole.local.abbottland.io/
-            target: newtab
-            statusCheck: true
-            id: 0_794_pihole
-          - title: Traefik
-            description: Reverse proxy / Gateway
-            icon: hl-traefik
-            url: https://traefik.local.abbottland.io/
-            target: newtab
-            statusCheck: true
-            id: 1_794_traefik
-          - title: Portainer
-            description: Container Management
-            icon: hl-portainer
-            url: https://portainer.bananapi.local.abbottland.io
-            target: newtab
-            statusCheck: true
-            id: 2_794_portainer
+      
       - name: Elder Wand
         icon: corsair-svgrepo-com.svg
         displayData:
