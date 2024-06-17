@@ -53,10 +53,9 @@ data:
             target: newtab
             statusCheck: true
             id: 0_1859_asustor
-        
 
-      - name: Room of Requirement
-        icon: fas fa-server
+      - name: Observability
+        icon: fas fa-eye
         displayData:
           sortBy: default
           rows: 1
@@ -64,8 +63,13 @@ data:
           collapsed: false
           hideForGuests: false
         items:
-          
-
+          - title: Uptime Kuma
+            description: Uptime Dashboard
+            icon: hl-uptime-kuma
+            url: https://kuma.local.abbottland.io
+            target: newtab
+            statusCheck: true
+            statusCheckAllowInsecure: true
           - title: Grafana
             description: Dashboards
             icon: hl-grafana
@@ -87,6 +91,23 @@ data:
             target: newtab
             statusCheck: true
             id: 1_1171_prometheus
+
+      - name: Build Tools
+        icon: fas fa-building
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Drone
+            description: CI/CD Server
+            icon: hl-drone
+            url: https://drone.abbottland.io
+            target: newtab
+            statusCheck: true
+            id: 2_1171_drone
           - title: Docker Registry
             description: Container Registry
             icon: hl-docker
@@ -94,20 +115,13 @@ data:
             target: newtab
             statusCheck: true
             id: 3_1859_dockerregistry
-          - title: Docker Registry Mirror
+          - title: Docker Cache
             description: Pull-through cache for docker hub
             icon: hl-docker
             url: https://registry-mirror.nas.local.abbottland.io/ui/
             target: newtab
             statusCheck: true
             id: 4_1859_dockerregistrymirror
-          - title: Plex
-            description: Plex Media Server
-            icon: hl-plex
-            url: https://plex.abbottland.io/identity
-            target: newtab
-            statusCheck: true
-            id: 5_1859_plex
           - title: Verdaccio
             description: NPM Registry & Proxy
             icon: verdaccio.svg
@@ -115,16 +129,41 @@ data:
             target: newtab
             statusCheck: true
             id: 6_1859_verdaccio
-          - title: HandBrake
-            description: Video converter service
-            icon: hl-handbrake
-            url: https://handbrake.nas.local.abbottland.io
+
+      - name: Public Apps
+        icon: fas fa-server
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Home Assistant
+            description: Home Automations
+            icon: hl-home-assistant
+            url: https://homeassistant.abbottland.io
             target: newtab
             statusCheck: true
-            id: 8_1859_handbrake
+            id: 0_1027_homeassistant
+          - title: Plex
+            description: Plex Media Server
+            icon: hl-plex
+            url: https://plex.abbottland.io/identity
+            target: newtab
+            statusCheck: true
+            id: 5_1859_plex
+          - title: Mealie
+            description: Recipe database
+            icon: hl-mealie
+            url: https://mealie.abbottland.io
+            target: newtab
+            statusCheck: true
+            statusCheckAllowInsecure: true
+            id: 0_1171_mealie
 
-      - name: Dumbledore
-        icon: hl-raspberrypi
+      - name: Internal Apps
+        icon: fas fa-server
         displayData:
           sortBy: alphabetical
           rows: 1
@@ -139,36 +178,14 @@ data:
             target: newtab
             statusCheck: true
             statusCheckAllowInsecure: true
-          - title: Uptime Kuma
-            description: Uptime Dashboard
-            icon: hl-uptime-kuma
-            url: https://kuma.local.abbottland.io
+          - title: HandBrake
+            description: Video converter service
+            icon: hl-handbrake
+            url: https://handbrake.nas.local.abbottland.io
             target: newtab
             statusCheck: true
-            statusCheckAllowInsecure: true
-          - title: Mealie
-            description: Recipe database
-            icon: hl-mealie
-            url: https://mealie.abbottland.io
-            target: newtab
-            statusCheck: true
-            statusCheckAllowInsecure: true
-            id: 0_1171_mealie
-          - title: Drone
-            description: CI/CD Server
-            icon: hl-drone
-            url: https://drone.abbottland.io
-            target: newtab
-            statusCheck: true
-            id: 2_1171_drone
-          - title: VS Code Server
-            description: VS Code Workspaces
-            icon: hl-code
-            url: https://code.local.abbottland.io/
-            target: newtab
-            statusCheck: true
-            id: 2_1027_vscodeserver
-      
+            id: 8_1859_handbrake
+       
       - name: Elder Wand
         icon: corsair-svgrepo-com.svg
         displayData:
@@ -185,22 +202,7 @@ data:
             target: newtab
             statusCheck: true
             id: 0_918_homefileservice
-      - name: Raspberry Pi
-        icon: hl-raspberrypi
-        displayData:
-          sortBy: alphabetical
-          rows: 1
-          cols: 1
-          collapsed: false
-          hideForGuests: false
-        items:
-          - title: Home Assistant
-            description: Home Automations
-            icon: hl-home-assistant
-            url: https://homeassistant.abbottland.io
-            target: newtab
-            statusCheck: true
-            id: 0_1027_homeassistant
+
       - name: Icons
         icon: fa fa-icons
         displayData:
