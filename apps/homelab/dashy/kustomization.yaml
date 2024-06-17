@@ -1,0 +1,8 @@
+resources:
+  - ./dashy.yaml
+
+configMapGenerator:
+- name: dashboard-config
+  namespace: dashy
+  files:
+    - conf.yml
