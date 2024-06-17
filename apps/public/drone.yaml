@@ -20,6 +20,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  namespace: drone
   name: drone-config
 data:
   DRONE_SERVER_HOST: drone.abbottland.io
