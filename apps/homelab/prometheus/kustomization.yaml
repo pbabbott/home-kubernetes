@@ -5,4 +5,4 @@ configMapGenerator:
 - name: prometheus-config
   namespace: prometheus
   files:
-    - prometheus.yaml
+    - prometheus.yml
