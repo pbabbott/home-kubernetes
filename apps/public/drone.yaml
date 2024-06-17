@@ -4,19 +4,6 @@ kind: Namespace
 metadata:
   name: drone
 ---
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: drone-data
-  namespace: drone
-spec:
-  storageClassName: nfs-client
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Mi
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -53,18 +40,11 @@ spec:
             - containerPort: 80
               hostPort: 80
               name: http
-          volumeMounts:
-            - name: drone-data
-              mountPath: "/data"
           envFrom:
             - configMapRef: 
                 name: drone-config
             - secretRef:
                 name: drone-secrets
-      volumes:
-        - name: drone-data
-          persistentVolumeClaim:
-            claimName: drone-data
           
 ---
 apiVersion: v1
