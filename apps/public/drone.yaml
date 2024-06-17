@@ -94,7 +94,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  path: ./templates/ingress/overlays/ingress
+  path: ./templates/ingress/base/
   prune: true
   wait: true
   timeout: 5m0s
