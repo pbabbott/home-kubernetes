@@ -47,7 +47,7 @@ spec:
           value: ${.PVC.namespace}-${.PVC.name}
         - op: add
           path: /parameters/archiveOnDelete
-          value: true
+          value: "true"
       target: 
         name: nfs-client
         kind: StorageClass
