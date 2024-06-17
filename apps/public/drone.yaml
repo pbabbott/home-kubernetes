@@ -27,6 +27,7 @@ data:
   DRONE_SERVER_PROTO: https
   DRONE_USER_FILTER: "pbabbott"
   DRONE_USER_CREATE: "username:pbabbott,admin:true"
+  DRONE_DATABASE_DRIVER: postgres
 ---
 apiVersion: apps/v1
 kind: Deployment
