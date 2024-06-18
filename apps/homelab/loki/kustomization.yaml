@@ -1,0 +1,8 @@
+resources:
+  - ./resources.yaml
+
+configMapGenerator:
+- name: loki-config
+  namespace: loki
+  files:
+    - loki-config.yml
