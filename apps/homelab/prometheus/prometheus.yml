@@ -3,12 +3,15 @@ global:
 scrape_configs:
   - job_name: 'node_exporter'
     static_configs:
+    - targets: ['192.168.4.124:9100']
+      labels:
+        instance: room_of_requirement
     - targets: ['192.168.4.144:9100']
       labels:
         instance: bananapi
     - targets: ['192.168.4.188:9100']
       labels:
-        instance: k8s-controller-1
+        instance: k8s-controller-1aa
         role: controller-node
         service: kubernetes
     - targets: ['192.168.4.189:9100']
