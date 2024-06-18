@@ -11,7 +11,7 @@ scrape_configs:
         instance: bananapi
     - targets: ['192.168.4.188:9100']
       labels:
-        instance: k8s-controller-1aa
+        instance: k8s-controller-1
         role: controller-node
         service: kubernetes
     - targets: ['192.168.4.189:9100']
