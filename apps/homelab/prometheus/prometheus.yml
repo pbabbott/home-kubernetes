@@ -6,3 +6,23 @@ scrape_configs:
     - targets: ['192.168.4.144:9100']
       labels:
         instance: bananapi
+    - targets: ['192.168.4.188:9100']
+      labels:
+        instance: k8s-controller-1
+        role: controller-node
+        service: kubernetes
+    - targets: ['192.168.4.189:9100']
+      labels:
+        instance: k8s-worker-1
+        role: worker-node
+        service: kubernetes
+    - targets: ['192.168.4.190:9100']
+      labels:
+        instance: k8s-worker-2
+        role: worker-node
+        service: kubernetes
+    - targets: ['192.168.4.170:9100']
+      labels:
+        instance: phoenix
+        role: proxmox-host
+          
