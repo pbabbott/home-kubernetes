@@ -5,4 +5,4 @@ configMapGenerator:
 - name: loki-config
   namespace: loki
   files:
-    - loki-config.yml
+    - local-config.yaml
