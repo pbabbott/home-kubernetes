@@ -12,6 +12,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: podinfo
+    namespace: flux-system
   targetNamespace: default
   timeout: 3m0s
   wait: true

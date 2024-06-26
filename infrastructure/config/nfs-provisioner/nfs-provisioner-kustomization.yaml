@@ -12,6 +12,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: nfs-provisioner
+    namespace: flux-system
   targetNamespace: nfs-provisioner
   timeout: 3m0s
   wait: true
