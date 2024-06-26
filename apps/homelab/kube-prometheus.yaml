@@ -9,6 +9,8 @@ spec:
   dependsOn:
     - name: infra-config
       namespace: flux-system
+    - name: kube-prometheus
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
