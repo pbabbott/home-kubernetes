@@ -12,7 +12,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: kube-prometheus
-  targetNamespace: default
   timeout: 3m0s
   wait: true
 ---
@@ -33,6 +32,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: kube-prometheus
-  targetNamespace: default
   timeout: 3m0s
   wait: true
