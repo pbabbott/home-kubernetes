@@ -39,7 +39,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: asustor
-  namespace: asustor
+  namespace: flux-system
 spec:
   interval: 10m0s
   dependsOn:

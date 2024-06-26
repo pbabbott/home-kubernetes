@@ -41,7 +41,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: podinfo
-  namespace: default
+  namespace: flux-system
 spec:
   interval: 10m0s
   dependsOn:
@@ -68,7 +68,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: podinfo-public
-  namespace: default
+  namespace: flux-system
 spec:
   interval: 10m0s
   dependsOn:
