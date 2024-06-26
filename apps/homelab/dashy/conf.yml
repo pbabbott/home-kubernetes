@@ -71,13 +71,13 @@ sections:
         target: newtab
         statusCheck: true
         id: 1_1859_grafana
-      - title: Loki
-        description: Log Aggregator
-        icon: hl-loki
-        url: https://loki.local.abbottland.io/ready
+      - title: Alert Manager
+        description: Send prometheus data-driven alerts
+        icon: hl-alertmanager
+        url: https://alertmanager.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 2_1859_loki
+        id: 2_1859_alertmanager
       - title: Prometheus
         description: Metrics Aggregator
         icon: hl-prometheus
