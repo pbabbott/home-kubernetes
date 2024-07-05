@@ -17,6 +17,8 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
+    existingSecretAdminPassword: harbor-secrets
+    existingSecretAdminPasswordKey: adminPassword
     persistence:
       enabled: true
       resourcePolicy: keep
