@@ -20,16 +20,16 @@ spec:
     persistence:
       persistentVolumeClaim:
         registry: 
-          existingClaim: registry-storage
+          storageClass: nfs-client
         jobservice:
           jobLog:
-            existingClaim: job-log-storage
+            storageClass: nfs-client
         database:
-          existingClaim: database-storage
+          storageClass: nfs-client
         redis:
-          existingClaim: redis-storage
+          storageClass: nfs-client
         trivy:
-          existingClaim: trivy-storage
+          storageClass: nfs-client
     externalUrl: harbor.local.abbottland.io
     expose:
       type: ingress
