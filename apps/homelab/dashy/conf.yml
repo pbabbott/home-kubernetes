@@ -105,7 +105,7 @@ sections:
       - title: Harbor
         description: Container Registry
         icon: hl-harbor
-        url: https://harbor.nas.local.abbottland.io/ui/
+        url: https://harbor.local.abbottland.io
         target: newtab
         statusCheck: true
         id: 1_1057_harbor

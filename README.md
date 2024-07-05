@@ -85,3 +85,9 @@ helm show values ingress-nginx --repo https://kubernetes.github.io/ingress-nginx
 
 kustomization docs
 https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/
+
+# Chart documentation
+
+## Verdaccio
+https://verdaccio.org/docs/kubernetes/#install
+https://github.com/verdaccio/charts
