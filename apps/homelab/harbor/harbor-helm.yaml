@@ -1,4 +1,9 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: harbor
+---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
@@ -7,3 +12,59 @@ metadata:
 spec:
   interval: 24h
   url: https://helm.goharbor.io
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: harbor
+  chart:
+    spec:
+      chart: harbor
+      version: '1.15.0'
+      sourceRef:
+        kind: HelmRepository
+        name: harbor
+        namespace: flux-system
+      interval: 12h
+  values:
+    externalUrl: harbor.local.abbottland.io
+    expose:
+      type: clusterIP
+      clusterIP:
+        name: harbor
+        ports:
+          httpPort: 80
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: harbor-ingress
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  dependsOn:
+    - name: infra-config
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  path: ./templates/ingress/overlays/internal-ingress
+  prune: true
+  wait: true
+  timeout: 5m0s
+  targetNamespace: harbor
+  postBuild:
+    substitute:
+      ingress_name: harbor
+      ingress_host: harbor.local.abbottland.io
+      ingress_service_name: harbor
+      ingress_service_port: "80"
+      ingress_configuration_snippet: ''
+  commonMetadata:
+    annotations:
+      nginx.ingress.kubernetes.io/x-forwarded-proto: "https"
