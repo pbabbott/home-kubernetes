@@ -33,38 +33,49 @@ spec:
   values:
     externalUrl: harbor.local.abbottland.io
     expose:
-      type: clusterIP
-      clusterIP:
-        name: harbor
-        ports:
-          httpPort: 80
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: harbor-ingress
-  namespace: flux-system
-spec:
-  interval: 10m0s
-  dependsOn:
-    - name: infra-config
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  path: ./templates/ingress/overlays/internal-ingress
-  prune: true
-  wait: true
-  timeout: 5m0s
-  targetNamespace: harbor
-  postBuild:
-    substitute:
-      ingress_name: harbor
-      ingress_host: harbor.local.abbottland.io
-      ingress_service_name: harbor
-      ingress_service_port: "80"
-      ingress_configuration_snippet: ''
-  commonMetadata:
-    annotations:
-      nginx.ingress.kubernetes.io/x-forwarded-proto: "https"
+      type: ingress
+      tls:
+        enabled: true
+        certSource: secret
+        secret:
+          secretName: harbor-tls
+        hosts:
+          core: harbor.local.abbottland.io
+      ingress:
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          nginx.ingress.kubernetes.io/use-proxy-protocol: "true"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: harbor-ingress
+#   namespace: flux-system
+# spec:
+#   interval: 10m0s
+#   dependsOn:
+#     - name: infra-config
+#       namespace: flux-system
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#     namespace: flux-system
+#   path: ./templates/ingress/overlays/internal-ingress
+#   prune: true
+#   wait: true
+#   timeout: 5m0s
+#   targetNamespace: harbor
+#   postBuild:
+#     substitute:
+#       ingress_name: harbor
+#       ingress_host: harbor.local.abbottland.io
+#       ingress_service_name: harbor
+#       ingress_service_port: "80"
+#       ingress_configuration_snippet: ''
+#   commonMetadata:
+#     annotations:
+#       nginx.ingress.kubernetes.io/x-forwarded-proto: "https"
