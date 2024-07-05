@@ -102,20 +102,13 @@ sections:
         target: newtab
         statusCheck: true
         id: 2_1171_drone
-      - title: Docker Registry
+      - title: Harbor
         description: Container Registry
-        icon: hl-docker
-        url: https://registry.nas.local.abbottland.io/ui/
+        icon: hl-harbor
+        url: https://harbor.nas.local.abbottland.io/ui/
         target: newtab
         statusCheck: true
-        id: 3_1859_dockerregistry
-      - title: Docker Cache
-        description: Pull-through cache for docker hub
-        icon: hl-docker
-        url: https://registry-mirror.nas.local.abbottland.io/ui/
-        target: newtab
-        statusCheck: true
-        id: 4_1859_dockerregistrymirror
+        id: 1_1057_harbor
       - title: Verdaccio
         description: NPM Registry & Proxy
         icon: verdaccio.svg
