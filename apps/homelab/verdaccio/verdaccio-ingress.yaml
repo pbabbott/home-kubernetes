@@ -1,0 +1,30 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: verdaccio-ingress
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  dependsOn:
+    - name: infra-config
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  path: ./templates/ingress/overlays/internal-ingress
+  prune: true
+  wait: true
+  timeout: 5m0s
+  targetNamespace: verdaccio
+  postBuild:
+    substitute:
+      ingress_name: verdaccio
+      ingress_host: verdaccio.local.abbottland.io
+      ingress_service_name: verdaccio-verdaccio
+      ingress_service_port: "4873"
+      ingress_configuration_snippet: ''
+  commonMetadata:
+    annotations:
+      nginx.ingress.kubernetes.io/x-forwarded-proto: "https"
+      kubernetes.io/proxy-body-size: 20m
