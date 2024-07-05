@@ -112,7 +112,7 @@ sections:
       - title: Verdaccio
         description: NPM Registry & Proxy
         icon: verdaccio.svg
-        url: https://verdaccio.nas.local.abbottland.io
+        url: https://verdaccio.local.abbottland.io
         target: newtab
         statusCheck: true
         id: 6_1859_verdaccio
