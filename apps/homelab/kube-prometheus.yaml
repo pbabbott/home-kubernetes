@@ -12,7 +12,7 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: ingress-nginx # this might be auto applied by k8s?
+              kubernetes.io/metadata.name: ingress-nginx # this annotation might be auto applied by k8s?
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

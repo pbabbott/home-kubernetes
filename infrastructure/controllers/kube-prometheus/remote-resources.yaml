@@ -16,7 +16,19 @@ spec:
   timeout: 3m0s
   wait: true
 ---
-
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: grafana-data
+  namespace: monitoring
+spec:
+  storageClassName: nfs-client
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -36,3 +48,24 @@ spec:
     namespace: flux-system
   timeout: 3m0s
   wait: true
+  patches:
+    - patch: |-
+        - op: replace
+          path: /spec/template/spec/volumes/0
+          value:
+            name: grafana-storage
+            persistentVolumeClaim:
+              claimName: grafana-data
+      target:
+        name: grafana
+        kind: Deployment
+# Actual
+# volumes:
+#   - emptyDir: {}
+#     name: grafana-storage
+
+# Desired
+# volumes:
+#   - name: grafana-data
+#     persistentVolumeClaim:
+#       claimName: grafana-data
