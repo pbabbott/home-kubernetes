@@ -9,7 +9,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: nfs-subdir-external-provisioner
-  namespace: nfs-subdir-external-provisioner
+  namespace: flux-system
 spec:
   interval: 24h
   url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
@@ -18,9 +18,10 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: nfs-subdir-external-provisioner
-  namespace: nfs-subdir-external-provisioner
+  namespace: flux-system
 spec:
   interval: 30m
+  targetNamespace: nfs-subdir-external-provisioner
   chart:
     spec:
       chart: nfs-subdir-external-provisioner
@@ -28,7 +29,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: nfs-subdir-external-provisioner
-        namespace: nfs-subdir-external-provisioner
+        namespace: flux-system
       interval: 12h
   values:
     nfs:
