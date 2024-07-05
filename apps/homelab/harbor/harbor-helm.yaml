@@ -39,9 +39,10 @@ spec:
         certSource: secret
         secret:
           secretName: harbor-tls
+        
+      ingress:
         hosts:
           core: harbor.local.abbottland.io
-      ingress:
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
