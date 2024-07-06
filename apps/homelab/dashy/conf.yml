@@ -136,7 +136,7 @@ sections:
       - title: Plex
         description: Plex Media Server
         icon: hl-plex
-        url: https://plex.abbottland.io/identity
+        url: https://plex.abbottland.io/web/index.html
         target: newtab
         statusCheck: true
         id: 5_1859_plex
