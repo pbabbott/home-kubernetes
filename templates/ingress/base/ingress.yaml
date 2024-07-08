@@ -6,8 +6,6 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  externalIPs:
-    - 192.168.4.144
   ingressClassName: nginx
   tls:
     - hosts:
