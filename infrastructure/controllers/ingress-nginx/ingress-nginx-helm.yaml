@@ -31,17 +31,6 @@ spec:
         use-forwarded-headers: "true"
         ssl-redirect: "true"
         force-ssl-redirect: "true"
-      ingressClassResource:
-        - name: nginx
-          controllerValue: k8s.io/ingress-nginx
-          default: true
-          enabled: true
-        - name: nginx-internal
-          controllerValue: k8s.io/ingress-nginx-internal
-          default: false
-          enabled: true
-          paramters:
-            whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
       extraArgs:
         default-ssl-certificate: "ingress-nginx/default-certificate"
       proxySetHeaders:
