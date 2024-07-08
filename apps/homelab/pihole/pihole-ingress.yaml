@@ -1,10 +1,9 @@
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ${ingress_name}
-  namespace: default
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/configuration-snippet: |
       add_header X-Frame-Options "SAMEORIGIN";
       add_header X-XSS-Protection "1; mode=block";
@@ -12,23 +11,24 @@ metadata:
       add_header Strict-Transport-Security "max-age=15552000; includeSubDomains; preload";
       add_header Upgrade $http_upgrade;
       add_header Connection "upgrade";
-      ${ingress_configuration_snippet}
+    nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+    nginx.ingress.kubernetes.io/rewrite-target: /admin/$1
+  name: pihole
+  namespace: pihole
 spec:
-  externalIPs:
-    - 192.168.4.144
   ingressClassName: nginx
-  tls:
-    - hosts:
-      - ${ingress_host}
-      secretName: ${ingress_name}-tls
   rules:
-  - host: ${ingress_host}
+  - host: pihole.local.abbottland.io
     http:
       paths:
-      - path: /
-        pathType: Prefix
+      - path: /(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
-            name: ${ingress_service_name}
+            name: pihole
             port:
-              number: ${ingress_service_port}
+              number: 8081
+  tls:
+  - hosts:
+    - pihole.local.abbottland.io
+    secretName: pihole-tls

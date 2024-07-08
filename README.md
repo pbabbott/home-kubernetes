@@ -91,3 +91,7 @@ https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/
 ## Verdaccio
 https://verdaccio.org/docs/kubernetes/#install
 https://github.com/verdaccio/charts
+
+## ingress-nginx
+
+`config:` documentation https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
