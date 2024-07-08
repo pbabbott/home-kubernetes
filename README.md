@@ -95,3 +95,8 @@ https://github.com/verdaccio/charts
 ## ingress-nginx
 
 `config:` documentation https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
+
+`helm chart docs:` https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+
+`custom headers:`
+https://kubernetes.github.io/ingress-nginx/examples/customization/custom-headers/
