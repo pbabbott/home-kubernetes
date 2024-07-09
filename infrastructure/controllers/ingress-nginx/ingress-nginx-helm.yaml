@@ -32,6 +32,7 @@ spec:
         use-forwarded-headers: "true"
         ssl-redirect: "true"
         force-ssl-redirect: "true"
+        x-forwarded-proto: "https"
       proxySetHeaders:
         X-Frame-Options: "SAMEORIGIN"
         X-XSS-Protection: "1; mode=block"
@@ -48,5 +49,4 @@ spec:
           https: 30443
 
 # TODO:
-# nginx.ingress.kubernetes.io/x-forwarded-proto: "https"
 # nginx.org/websocket-services: "websockettest-cluster-ip-service"
