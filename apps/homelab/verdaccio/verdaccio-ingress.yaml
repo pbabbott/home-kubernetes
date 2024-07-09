@@ -16,7 +16,7 @@ spec:
       paths:
       - backend:
           service:
-            name: verdaccio
+            name: verdaccio-verdaccio
             port:
               number: 4873
         path: /
