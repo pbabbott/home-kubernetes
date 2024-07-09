@@ -4,15 +4,6 @@ kind: Namespace
 metadata:
   name: ingress-nginx
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ingress-whitelist
-  namespace: ingress-nginx
-data:
-  whitelist-source-range: |
-    10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16 
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -35,35 +26,26 @@ spec:
       kind: DaemonSet
       allowSnippetAnnotations: true
       config:
-        # Original config
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
         enable-real-ip: "true"
         use-forwarded-headers: "true"
-
-        # New
         ssl-redirect: "true"
         force-ssl-redirect: "true"
-      # New 
       proxySetHeaders:
         X-Frame-Options: "SAMEORIGIN"
         X-XSS-Protection: "1; mode=block"
         X-Content-Type-Options: "nosniff"
         Strict-Transport-Security: "max-age=15552000; includeSubDomains; preload"
-        
-      # New
       addHeaders:
         Upgrade: "$http_upgrade"
         Connection: upgrade
-
       service:
-        # New
-        # externalIPs:
-        #   - 192.168.4.144
-
-        # Original config
         externalTrafficPolicy: "Local"
         type: NodePort
         nodePorts:
           http: 30080
           https: 30443
+
+# TODO:
+# nginx.ingress.kubernetes.io/x-forwarded-proto: "https"

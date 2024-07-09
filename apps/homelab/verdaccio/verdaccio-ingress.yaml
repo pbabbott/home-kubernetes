@@ -1,30 +1,27 @@
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: verdaccio-ingress
-  namespace: flux-system
+  name: verdaccio
+  namespace: verdaccio
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+    kubernetes.io/proxy-body-size: 20m
 spec:
-  interval: 10m0s
-  dependsOn:
-    - name: infra-config
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  path: ./templates/ingress/overlays/internal-ingress
-  prune: true
-  wait: true
-  timeout: 5m0s
-  targetNamespace: verdaccio
-  postBuild:
-    substitute:
-      ingress_name: verdaccio
-      ingress_host: verdaccio.local.abbottland.io
-      ingress_service_name: verdaccio-verdaccio
-      ingress_service_port: "4873"
-      ingress_configuration_snippet: ''
-  commonMetadata:
-    annotations:
-      nginx.ingress.kubernetes.io/x-forwarded-proto: "https"
-      kubernetes.io/proxy-body-size: 20m
+  ingressClassName: nginx
+  rules:
+  - host: verdaccio.local.abbottland.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: verdaccio
+            port:
+              number: 4873
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - verdaccio.local.abbottland.io
+    secretName: verdaccio-tls
