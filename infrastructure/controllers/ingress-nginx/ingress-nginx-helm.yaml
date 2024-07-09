@@ -26,12 +26,13 @@ spec:
       kind: DaemonSet
       allowSnippetAnnotations: true
       config:
-        use-proxy-protocol: "true"
-        proxy-real-ip-cidr: "192.168.4.144"
+        allow-snippet-annotations: "true"
         enable-real-ip: "true"
-        use-forwarded-headers: "true"
-        ssl-redirect: "true"
         force-ssl-redirect: "true"
+        proxy-real-ip-cidr: "192.168.4.144"
+        ssl-redirect: "true"
+        use-forwarded-headers: "true"
+        use-proxy-protocol: "true"
         x-forwarded-proto: "https"
       proxySetHeaders:
         X-Frame-Options: "SAMEORIGIN"
