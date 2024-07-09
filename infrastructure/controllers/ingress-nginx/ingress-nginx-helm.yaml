@@ -26,7 +26,6 @@ spec:
       kind: DaemonSet
       allowSnippetAnnotations: true
       config:
-        allow-snippet-annotations: "true"
         enable-real-ip: "true"
         force-ssl-redirect: "true"
         proxy-real-ip-cidr: "192.168.4.144"
