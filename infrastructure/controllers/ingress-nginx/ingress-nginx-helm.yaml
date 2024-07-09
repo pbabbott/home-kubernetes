@@ -31,13 +31,6 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
-    defaultBackend:
-      extraEnvs:
-        - name: WHITELIST_SOURCE_RANGE
-          valueFrom:
-            configMapKeyRef:
-              name: ingress-whitelist
-              key: whitelist-source-range
     controller:
       kind: DaemonSet
       allowSnippetAnnotations: true
@@ -50,6 +43,12 @@ spec:
         force-ssl-redirect: "true"
       extraArgs:
         default-ssl-certificate: "ingress-nginx/default-certificate"
+      extraEnvs:
+        - name: WHITELIST_SOURCE_RANGE
+          valueFrom:
+            configMapKeyRef:
+              name: ingress-whitelist
+              key: whitelist-source-range
       proxySetHeaders:
         X-Frame-Options: "SAMEORIGIN"
         X-XSS-Protection: "1; mode=block"
