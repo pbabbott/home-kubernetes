@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus
+  namespace: monitoring
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: prometheus.local.abbottland.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: prometheus-k8s
+            port:
+              number: 9090
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - prometheus.local.abbottland.io
+    secretName: prometheus-tls
+

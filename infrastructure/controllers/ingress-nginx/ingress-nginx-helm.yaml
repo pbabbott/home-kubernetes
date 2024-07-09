@@ -49,3 +49,4 @@ spec:
 
 # TODO:
 # nginx.ingress.kubernetes.io/x-forwarded-proto: "https"
+# nginx.org/websocket-services: "websockettest-cluster-ip-service"

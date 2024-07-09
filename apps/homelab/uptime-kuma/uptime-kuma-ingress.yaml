@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: uptime-kuma
+  namespace: uptime-kuma
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+    nginx.org/websocket-services: "websockettest-cluster-ip-service"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: kuma.local.abbottland.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: uptime-kuma
+            port:
+              number: 3001
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - kuma.local.abbottland.io
+    secretName: uptime-kuma-tls
