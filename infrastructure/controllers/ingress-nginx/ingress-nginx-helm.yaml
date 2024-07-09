@@ -35,32 +35,34 @@ spec:
       kind: DaemonSet
       allowSnippetAnnotations: true
       config:
+        # Original config
         use-proxy-protocol: "true"
         proxy-real-ip-cidr: "192.168.4.144"
         enable-real-ip: "true"
         use-forwarded-headers: "true"
+
+        # New
         ssl-redirect: "true"
         force-ssl-redirect: "true"
-      extraArgs:
-        default-ssl-certificate: "ingress-nginx/default-certificate"
-      extraEnvs:
-        - name: WHITELIST_SOURCE_RANGE
-          valueFrom:
-            configMapKeyRef:
-              name: ingress-whitelist
-              key: whitelist-source-range
+      # New 
       proxySetHeaders:
         X-Frame-Options: "SAMEORIGIN"
         X-XSS-Protection: "1; mode=block"
         X-Content-Type-Options: "nosniff"
         Strict-Transport-Security: "max-age=15552000; includeSubDomains; preload"
+        
+      # New
       addHeaders:
-        Upgrade: $http_upgrade
+        Upgrade: "$http_upgrade"
         Connection: upgrade
+
       service:
+        # New
+        # externalIPs:
+        #   - 192.168.4.144
+
+        # Original config
         externalTrafficPolicy: "Local"
-        externalIPs:
-          - 192.168.4.144
         type: NodePort
         nodePorts:
           http: 30080

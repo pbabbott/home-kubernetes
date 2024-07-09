@@ -68,30 +68,3 @@ spec:
       protocol: TCP
   selector:
     app: dashy
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: dashy
-  namespace: flux-system
-spec:
-  interval: 10m0s
-  dependsOn:
-    - name: infra-config
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  path: ./templates/ingress/overlays/internal-ingress
-  prune: true
-  wait: true
-  timeout: 5m0s
-  targetNamespace: dashy
-  postBuild:
-    substitute:
-      ingress_name: dashy
-      ingress_host: dashboard.local.abbottland.io
-      ingress_service_name: dashy
-      ingress_service_port: "8080"
-      ingress_configuration_snippet: ''
