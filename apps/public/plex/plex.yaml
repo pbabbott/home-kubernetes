@@ -4,7 +4,6 @@ kind: Namespace
 metadata:
   name: plex
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -17,7 +16,6 @@ spec:
       port: 80
       targetPort: 32400
 ---
-
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
@@ -36,30 +34,3 @@ ports:
 endpoints:
   - addresses:
       - "192.168.4.124"
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: plex
-  namespace: flux-system
-spec:
-  interval: 10m0s
-  dependsOn:
-    - name: infra-config
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  path: ./templates/ingress/base/
-  prune: true
-  wait: true
-  timeout: 5m0s
-  targetNamespace: plex
-  postBuild:
-    substitute:
-      ingress_name: plex
-      ingress_host: plex.abbottland.io
-      ingress_service_name: plex
-      ingress_service_port: "32400"
-      ingress_configuration_snippet: ''
