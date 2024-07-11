@@ -54,23 +54,28 @@ spec:
   timeout: 3m0s
   wait: true
   patches:
-    - patch: |-
+    - target:
+        name: grafana
+        kind: Deployment
+      patch: |-
         - op: replace
           path: /spec/template/spec/volumes/0
           value:
             name: grafana-storage
             persistentVolumeClaim:
               claimName: grafana-data
-      target:
-        name: grafana
-        kind: Deployment
-# Actual
-# volumes:
-#   - emptyDir: {}
-#     name: grafana-storage
-
-# Desired
-# volumes:
-#   - name: grafana-data
-#     persistentVolumeClaim:
-#       claimName: grafana-data
+    - target:
+        name: prometheus-k8s
+        kind: StatefulSet
+      patch: |-
+        - op: add
+          path: /spec/template/spec/affinity
+          value:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                        - dumbledore
