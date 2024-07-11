@@ -23,11 +23,7 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
-    existingSecretAdminPassword: harbor-secrets
-    existingSecretAdminPasswordKey: adminPassword
-    trivy:
-      enabled: false
-    registry:
+    core:
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -44,18 +40,24 @@ spec:
         post: 5432
         username: postgres
         existingSecret: harbor-secrets
-    redis:
-      internal:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: NotIn
-                    values:
-                      - dumbledore
-    core:
+    existingSecretAdminPassword: harbor-secrets
+    existingSecretAdminPasswordKey: adminPassword
+    externalUrl: harbor.local.abbottland.io
+    expose:
+      type: ingress
+      tls:
+        enabled: true
+        certSource: secret
+        secret:
+          secretName: harbor-tls
+      ingress:
+        hosts:
+          core: harbor.local.abbottland.io
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    jobservice:
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -80,18 +82,36 @@ spec:
           storageClass: nfs-client
         trivy:
           storageClass: nfs-client
-    externalUrl: harbor.local.abbottland.io
-    expose:
-      type: ingress
-      tls:
-        enabled: true
-        certSource: secret
-        secret:
-          secretName: harbor-tls
-      ingress:
-        hosts:
-          core: harbor.local.abbottland.io
-        className: nginx
-        annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
-          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    portal:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: NotIn
+                  values:
+                    - dumbledore
+    registry:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: NotIn
+                  values:
+                    - dumbledore
+    redis:
+      internal:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - dumbledore
+    trivy:
+      enabled: false
