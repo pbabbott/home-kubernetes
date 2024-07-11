@@ -25,6 +25,27 @@ spec:
   values:
     existingSecretAdminPassword: harbor-secrets
     existingSecretAdminPasswordKey: adminPassword
+    registry:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: NotIn
+                  values:
+                    - dumbledore
+    database:
+      internal:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - dumbledore
     redis:
       internal:
         affinity:
