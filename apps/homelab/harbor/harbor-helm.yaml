@@ -38,16 +38,12 @@ spec:
                   values:
                     - dumbledore
     database:
-      internal:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: NotIn
-                    values:
-                      - dumbledore
+      type: external
+      external:
+        host: nas.local.abbottland.io
+        post: 5432
+        username: postgres
+        existingSecret: harbor-secrets
     redis:
       internal:
         affinity:
