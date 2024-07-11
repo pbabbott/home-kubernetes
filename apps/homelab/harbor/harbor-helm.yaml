@@ -12,6 +12,7 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: harbor
+  releaseName: harbor
   chart:
     spec:
       chart: harbor
@@ -24,6 +25,27 @@ spec:
   values:
     existingSecretAdminPassword: harbor-secrets
     existingSecretAdminPasswordKey: adminPassword
+    redis:
+      internal:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - dumbledore
+    core:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: NotIn
+                  values:
+                    - dumbledore
     persistence:
       enabled: true
       resourcePolicy: keep
