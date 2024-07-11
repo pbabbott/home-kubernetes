@@ -34,6 +34,15 @@ spec:
       labels:
         app: dashy
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                  - dumbledore
       containers:
         - image: lissy93/dashy:latest
           name: dashy

@@ -235,13 +235,6 @@ sections:
         url: https://miro.com/app/board/uXjVPzv9we8=/
         target: newtab
         id: 0_1272_miro
-      - title: Confluence
-        description: Information site on project exodus
-        icon: fa fa-link
-        url: >-
-          https://pbabbott.atlassian.net/wiki/spaces/PP/pages/163855/Project+Exodus
-        target: newtab
-        id: 1_1272_confluence
       - title: Figma
         description: Hi fidelity designs
         icon: fa fa-link
