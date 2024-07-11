@@ -25,6 +25,8 @@ spec:
   values:
     existingSecretAdminPassword: harbor-secrets
     existingSecretAdminPasswordKey: adminPassword
+    trivy:
+      enabled: false
     registry:
       affinity:
         nodeAffinity:
