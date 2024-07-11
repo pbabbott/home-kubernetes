@@ -25,6 +25,7 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: verdaccio
+  releaseName: verdaccio
   chart:
     spec:
       chart: verdaccio

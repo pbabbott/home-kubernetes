@@ -12,6 +12,7 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: ingress-nginx
+  releaseName: ingress-nginx
   chart:
     spec:
       chart: ingress-nginx

@@ -22,6 +22,7 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: nfs-subdir-external-provisioner
+  releaseName: nfs-subdir-external-provisioner
   chart:
     spec:
       chart: nfs-subdir-external-provisioner
