@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: media
+  labels:
+    app: gluetun
+  name: gluetun
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gluetun
+  template:
+    metadata:
+      labels:
+        app: gluetun
+    spec:
+      containers:
+        - image: qmcgaw/gluetun
+          name: gluetun
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+          ports:
+            - containerPort: 8888
+              name: http-proxy
+            - containerPort: 8388
+              name: shadowsocks
+              protocol: tcp
+            - containerPort: 8388
+              name: shadowsocks
+              protocol: udp
+          env:
+            - name: TZ
+              value: "America/Chicago"
+            - name: VPN_SERVICE_PROVIDER
+              value: "private internet access"
+            - name: SERVER_REGIONS
+              value: "US Indiana"
+          envFrom:
+            - secretRef:
+                name: gluetun-secrets
+          volumeMounts:
+            - name: dev-net-tun
+              mountPath: "/dev/net/tun"
+            - name: gluetun-config
+              mountPath: /gluetun
+      volumes:
+        - name: dev-net-tun
+          hostPath:
+            path: /dev/net/tun
+        - name: gluetun-config
+          persistentVolumeClaim:
+            claimName: gluetun-config
+
+

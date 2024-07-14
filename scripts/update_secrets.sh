@@ -35,5 +35,12 @@ source .env
 # export SECRET_VALUE=$(echo -n $HARBOR_ADMIN_PASSWORD | kubeseal --raw --scope namespace-wide --namespace harbor)
 # yq -i '.spec.encryptedData.adminPassword = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
 
-export SECRET_VALUE=$(echo -n $HARBOR_POSTGRES_PASSWORD | kubeseal --raw --scope namespace-wide --namespace harbor)
-yq -i '.spec.encryptedData.password = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
+# export SECRET_VALUE=$(echo -n $HARBOR_POSTGRES_PASSWORD | kubeseal --raw --scope namespace-wide --namespace harbor)
+# yq -i '.spec.encryptedData.password = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
+
+# # Update gluetun secrets
+export SECRET_VALUE=$(echo -n $OPENVPN_USER | kubeseal --raw --scope namespace-wide --namespace media)
+yq -i '.spec.encryptedData.OPENVPN_USER = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
+
+export SECRET_VALUE=$(echo -n $OPENVPN_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
+yq -i '.spec.encryptedData.OPENVPN_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml

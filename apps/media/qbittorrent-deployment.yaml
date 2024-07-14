@@ -1,31 +1,5 @@
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: media-downloads
-  namespace: media
-spec:
-  storageClassName: nfs-client
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Mi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: qbit-config
-  namespace: media
-spec:
-  storageClassName: nfs-client
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Mi
----
 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -75,31 +49,4 @@ spec:
           persistentVolumeClaim:
             claimName: qbit-config
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: qbittorrent-ui
-  namespace: media
-  labels:
-    app: qbittorrent
-spec:
-  ports:
-    - port: 8080
-      protocol: TCP
-  selector:
-    app: qbittorrent
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: qbittorrent-torrents
-  namespace: media
-  labels:
-    app: qbittorrent
-spec:
-  ports:
-    - port: 6881
-      protocol: TCP
-  selector:
-    app: qbittorrent
+
