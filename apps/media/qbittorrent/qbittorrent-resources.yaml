@@ -53,20 +53,20 @@ spec:
           name: qbittorrent
           ports:
             - containerPort: 8080
-              name: WEBUI_PORT
+              name: web
             - containerPort: 6881
-              name: TORRENTING_PORT
-          environment:
+              name: torrents
+          env:
             - name: PUID
-              value: 1000
+              value: "1000"
             - name: PGID
-              value: 1000
+              value: "1000"
             - name: TZ
               value: "America/Chicago"
             - name: WEBUI_PORT
-              value: 8080
+              value: "8080"
             - name: TORRENTING_PORT
-              value: 6881
+              value: "6881"
           volumeMounts:
             - name: media-downloads
               mountPath: "/downloads"
