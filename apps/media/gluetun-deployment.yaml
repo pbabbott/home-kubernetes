@@ -26,10 +26,10 @@ spec:
             - containerPort: 8888
               name: http-proxy
             - containerPort: 8388
-              name: shadowsocks
+              name: shadowsocks-tcp
               protocol: TCP
             - containerPort: 8388
-              name: shadowsocks
+              name: shadowsocks-udp
               protocol: UDP
           env:
             - name: TZ
