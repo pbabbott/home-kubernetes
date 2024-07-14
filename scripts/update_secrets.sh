@@ -39,8 +39,8 @@ source .env
 # yq -i '.spec.encryptedData.password = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
 
 # # Update gluetun secrets
-export SECRET_VALUE=$(echo -n $OPENVPN_USER | kubeseal --raw --scope namespace-wide --namespace media)
-yq -i '.spec.encryptedData.OPENVPN_USER = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
+export SECRET_VALUE=$(echo -n $VPN_PORT_FORWARDING_USERNAME | kubeseal --raw --scope namespace-wide --namespace media)
+yq -i '.spec.encryptedData.VPN_PORT_FORWARDING_USERNAME = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
 
-export SECRET_VALUE=$(echo -n $OPENVPN_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
-yq -i '.spec.encryptedData.OPENVPN_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
+export SECRET_VALUE=$(echo -n $VPN_PORT_FORWARDING_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
+yq -i '.spec.encryptedData.VPN_PORT_FORWARDING_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
