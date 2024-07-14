@@ -27,10 +27,10 @@ spec:
               name: http-proxy
             - containerPort: 8388
               name: shadowsocks
-              protocol: tcp
+              protocol: TCP
             - containerPort: 8388
               name: shadowsocks
-              protocol: udp
+              protocol: UDP
           env:
             - name: TZ
               value: "America/Chicago"
