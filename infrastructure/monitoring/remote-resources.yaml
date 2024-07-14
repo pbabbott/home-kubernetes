@@ -65,11 +65,11 @@ spec:
             persistentVolumeClaim:
               claimName: grafana-data
     - target:
-        name: prometheus-k8s
-        kind: StatefulSet
+        name: k8s
+        kind: Prometheus
       patch: |-
         - op: add
-          path: /spec/template/spec/affinity
+          path: /spec/affinity
           value:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:

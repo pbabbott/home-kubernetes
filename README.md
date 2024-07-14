@@ -100,3 +100,7 @@ https://github.com/verdaccio/charts
 
 `custom headers:`
 https://kubernetes.github.io/ingress-nginx/examples/customization/custom-headers/
+
+## Prometheus
+
+prometheus operator (custom CRDs spec): https://prometheus-operator.dev/docs/api-reference/api/
