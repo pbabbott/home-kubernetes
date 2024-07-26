@@ -29,10 +29,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: kubernetes.io/arch
                   operator: NotIn
                   values:
-                    - dumbledore
+                    - arm64
     database:
       type: external
       external:
@@ -63,10 +63,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: kubernetes.io/arch
                   operator: NotIn
                   values:
-                    - dumbledore
+                    - arm64
     persistence:
       enabled: true
       resourcePolicy: keep
@@ -88,20 +88,20 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: kubernetes.io/arch
                   operator: NotIn
                   values:
-                    - dumbledore
+                    - arm64
     registry:
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: kubernetes.io/arch
                   operator: NotIn
                   values:
-                    - dumbledore
+                    - arm64
     redis:
       internal:
         affinity:
@@ -109,9 +109,9 @@ spec:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
                 - matchExpressions:
-                  - key: kubernetes.io/hostname
+                  - key: kubernetes.io/arch
                     operator: NotIn
                     values:
-                      - dumbledore
+                      - arm64
     trivy:
       enabled: false

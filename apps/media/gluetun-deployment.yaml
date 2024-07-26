@@ -16,6 +16,15 @@ spec:
       labels:
         app: gluetun
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: NotIn
+                  values:
+                  - arm64
       containers:
         - image: qmcgaw/gluetun
           name: gluetun
@@ -36,8 +45,10 @@ spec:
               value: "America/Chicago"
             - name: VPN_SERVICE_PROVIDER
               value: "private internet access"
-            - name: SERVER_REGIONS
-              value: "US Indiana"
+            # - name: SERVER_REGIONS
+            #   value: "US Indiana"
+            - name: PORT_FORWARD_ONLY
+              value: "true"
           envFrom:
             - secretRef:
                 name: gluetun-secrets
