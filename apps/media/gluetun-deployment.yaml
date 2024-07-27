@@ -26,22 +26,30 @@ spec:
                   values:
                   - arm64
       containers:
+        - name: curl-container
+          image: quay.io/curl/curl:latest
+          command: ["sleep", "infinity"]
+
         - image: qmcgaw/gluetun
           name: gluetun
           securityContext:
             capabilities:
               add: ["NET_ADMIN"]
           ports:
+            - containerPort: 8000
+              hostPort: 8000
+              name: api
+              protocol: TCP
             - containerPort: 8888
+              hostPort: 8888
               name: http-proxy
+              protocol: TCP
             - containerPort: 8388
               name: shadowsocks-tcp
               protocol: TCP
             - containerPort: 8388
               name: shadowsocks-udp
               protocol: UDP
-            - containerPort: 8000
-              name: api
           env:
             - name: TZ
               value: "America/Chicago"
