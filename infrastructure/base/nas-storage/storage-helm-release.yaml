@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: nas-storage
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: nas-storage
+  releaseName: nas-storage
+  chart:
+    spec:
+      chart: nfs-subdir-external-provisioner
+      version: '4.0.18'
+      sourceRef:
+        kind: HelmRepository
+        name: nfs-subdir-external-provisioner
+        namespace: flux-system
+      interval: 12h
+  values:
+    nfs:
+      server: 192.168.4.124
+      path: /volume1/ClusterStorage
+    storageClass:
+      pathPattern: ${.PVC.namespace}-${.PVC.name}
+      archiveOnDelete: 'true'
+      provisionerName: nas-storage
+      defaultClass: true
