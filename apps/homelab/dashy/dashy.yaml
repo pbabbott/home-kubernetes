@@ -10,7 +10,7 @@ metadata:
   name: dashy-item-icons
   namespace: dashy
 spec:
-  storageClassName: nfs-client
+  storageClassName: nas-storage
   accessModes:
     - ReadWriteMany
   resources:
