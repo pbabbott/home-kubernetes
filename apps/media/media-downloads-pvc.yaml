@@ -5,7 +5,7 @@ metadata:
   name: media-downloads
   namespace: media
 spec:
-  storageClassName: nfs-client
+  storageClassName: nas-storage
   accessModes:
     - ReadWriteMany
   resources:

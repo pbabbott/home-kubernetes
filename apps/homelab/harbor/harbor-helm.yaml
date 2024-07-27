@@ -72,16 +72,16 @@ spec:
       resourcePolicy: keep
       persistentVolumeClaim:
         registry: 
-          storageClass: nfs-client
+          storageClass: nas-storage
         jobservice:
           jobLog:
-            storageClass: nfs-client
+            storageClass: nas-storage
         database:
-          storageClass: nfs-client
+          storageClass: nas-storage
         redis:
-          storageClass: nfs-client
+          storageClass: nas-storage
         trivy:
-          storageClass: nfs-client
+          storageClass: nas-storage
     portal:
       affinity:
         nodeAffinity:

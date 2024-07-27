@@ -27,7 +27,7 @@ metadata:
   name: grafana-data
   namespace: monitoring
 spec:
-  storageClassName: nfs-client
+  storageClassName: nas-storage
   accessModes:
     - ReadWriteMany
   resources:

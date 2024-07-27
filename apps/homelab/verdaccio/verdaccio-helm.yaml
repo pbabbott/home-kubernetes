@@ -10,7 +10,7 @@ metadata:
   name: verdaccio-data
   namespace: verdaccio
 spec:
-  storageClassName: nfs-client
+  storageClassName: nas-storage
   accessModes:
     - ReadWriteMany
   resources:
