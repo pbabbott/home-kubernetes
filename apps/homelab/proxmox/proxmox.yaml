@@ -35,4 +35,4 @@ ports:
     port: 8006
 endpoints:
   - addresses:
-      - "192.168.4.170"
+      - "192.168.4.192"
