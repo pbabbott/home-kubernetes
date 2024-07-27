@@ -40,15 +40,19 @@ spec:
             - containerPort: 8388
               name: shadowsocks-udp
               protocol: UDP
+            - containerPort: 8000
+              name: api
           env:
             - name: TZ
               value: "America/Chicago"
             - name: VPN_SERVICE_PROVIDER
               value: "private internet access"
-            # - name: SERVER_REGIONS
-            #   value: "US Indiana"
+            - name: SERVER_REGIONS
+              value: "CA Toronto"
             - name: PORT_FORWARD_ONLY
               value: "true"
+            - name: VPN_PORT_FORWARDING
+              value: "on"
           envFrom:
             - secretRef:
                 name: gluetun-secrets
