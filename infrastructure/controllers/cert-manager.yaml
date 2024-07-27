@@ -25,11 +25,14 @@ spec:
   chart:
     spec:
       chart: cert-manager
-      version: '1.14.5'
+      version: '1.15.1'
       sourceRef:
         kind: HelmRepository
         name: jetstack
         namespace: flux-system
       interval: 12h
   values:
-    installCRDs: true
+    crds:
+      enabled: true
+    prometheus:
+      enabled: true
