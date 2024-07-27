@@ -10,7 +10,7 @@ metadata:
   name: uptime-kuma-app-data
   namespace: uptime-kuma
 spec:
-  storageClassName: nfs-client
+  storageClassName: nas-storage
   accessModes:
     - ReadWriteMany
   resources:
