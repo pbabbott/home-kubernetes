@@ -42,7 +42,7 @@ spec:
         existingSecret: harbor-secrets
     existingSecretAdminPassword: harbor-secrets
     existingSecretAdminPasswordKey: adminPassword
-    externalUrl: harbor.local.abbottland.io
+    externalUrl: https://harbor.local.abbottland.io
     expose:
       type: ingress
       tls:
