@@ -102,6 +102,7 @@ spec:
                   operator: NotIn
                   values:
                     - arm64
+      relativeurls: true
     redis:
       internal:
         affinity:
