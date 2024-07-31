@@ -55,3 +55,15 @@ kubectl create secret docker-registry regcred \
   | kubeseal \
     --scope namespace-wide \
     --namespace media > ./apps/media/harbor-regcred.json
+
+# Brandon DEV
+kubectl create secret docker-registry regcred \
+  --namespace=brandon-dev \
+  --docker-server=harbor.local.example.com \
+  --docker-username=$HARBOR_REG_USERNAME \
+  --docker-password=$HARBOR_REG_PASSWORD \
+  --docker-email=$HARBOR_REG_EMAIL \
+  --output json --dry-run=client \
+  | kubeseal \
+    --scope namespace-wide \
+    --namespace brandon-dev > ./apps/homelab/brandon-dev/harbor-regcred.json

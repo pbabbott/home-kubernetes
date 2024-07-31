@@ -30,6 +30,8 @@ spec:
       labels:
         app: gluetun
     spec:
+      imagePullSecrets:
+        - name: regcred
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -40,9 +42,14 @@ spec:
                   values:
                   - arm64
       containers:
+        - name: gluetun-sync
+          image: harbor.local.abbottland.io/library/gluetun-sync:latest
+          resources: {}
+
         - name: curl-container
           image: quay.io/curl/curl:latest
           command: ["sleep", "infinity"]
+          resources: {}
 
         - image: qmcgaw/gluetun
           name: gluetun
@@ -74,6 +81,7 @@ spec:
               mountPath: "/dev/net/tun"
             - name: gluetun-config
               mountPath: /gluetun
+          resources: {}
       volumes:
         - name: dev-net-tun
           hostPath:

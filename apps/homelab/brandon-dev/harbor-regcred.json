@@ -1,0 +1,28 @@
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "regcred",
+    "namespace": "brandon-dev",
+    "creationTimestamp": null,
+    "annotations": {
+      "sealedsecrets.bitnami.com/namespace-wide": "true"
+    }
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "regcred",
+        "namespace": "brandon-dev",
+        "creationTimestamp": null,
+        "annotations": {
+          "sealedsecrets.bitnami.com/namespace-wide": "true"
+        }
+      },
+      "type": "kubernetes.io/dockerconfigjson"
+    },
+    "encryptedData": {
+      ".dockerconfigjson": "AgASVYv98EeI8823E8A4xB0nfpqYeiANLOVXfr0uFyIiZIClgcZpZR6lUs2KMHY4JDpXR7v+P7SmvhELvtiDwfmnKWWC0dd1uqJuBnAMqz4P80nmubzZUHiNjKHdxgTdo0ZpGeYAE4pqZlzdY5nb6hQ0c+T4a4cGYZJi4DT0VsJos853gHKMYVaIxB6rr8s16Vve3LSZA9jNcHl0jezitycDYB0DUa2JBFgLOMRURP6Tz9co+OpHdzHt+o+434Iyo7LyGFgyftDBSWYyS5e3sXDzfTAvCyqkuOYLTZAuNfl3kxA1922IJ/lPD9hdN+RzA0DvuP5Tju2zN0qdnb6Jy7cP9QJAvW6SAiAqQRMlB5UEuzTg3yJ2QxhmSeHMikfSL3TTFWE9RaN08uaeum8/kEHUQOJKeinm5WCCn5igbyPG5caS7gaJsDBPi0SsaTic9KtY4tL2z3UgEAxyec95MO0iXvhXJqVt56uqIcSL/W9N/blc/aUko5joak6yl8bsFFZND69xDWeKz5B74t+OHPIAa1gDypexb4mBdiMPKx43ohaQ/qtvwvIZ1B1/YNk5xxGPCrCI9OS8VA7WLraHlaE6z5j+9BIJ+wptMj83X6SgyXwMwsIEVmQQwh2seNf47UD2LpMaWxlwUxHwdBznuEHE5/zLsgYXTwyJ6ZiNIx4MsqleFP5f44BK1DnU7+oMZJ+pswz2I1QiHZ3Ni1cyTWWezGQBpWDmYuhXjC4MqhUwwcGujB3oraApiRC9qzu9OdPFDuP8JtDIoBIPmnjldy0X40kND5qQvu8NXo6zlTHuCIOEKHRu5DwlYOq71nnLK2GKiaNv4uHRq+L7nweAbRFsEpvuSP7F9ewapbd6eWSt4bQ4C0tHJEQXnkCYV/++0Nkx1zjDbX6TAC2zzNBVK7KPw/eIXG9Nt40COq8YfbU="
+    }
+  }
+}
