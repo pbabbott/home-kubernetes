@@ -46,9 +46,12 @@ export SECRET_VALUE=$(echo -n $HARBOR_POSTGRES_PASSWORD | kubeseal --raw --scope
 yq -i '.spec.encryptedData.password = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
 
 kubectl create secret docker-registry regcred \
-  --namespace=harbor \
+  --namespace=media \
   --docker-server=harbor.local.example.com \
   --docker-username=$HARBOR_REG_USERNAME \
   --docker-password=$HARBOR_REG_PASSWORD \
   --docker-email=$HARBOR_REG_EMAIL \
-  --output json --dry-run=client | kubeseal --scope cluster-wide > ./apps/homelab/harbor/harbor-regcred.json
+  --output json --dry-run=client \
+  | kubeseal \
+    --scope namespace-wide \
+    --namespace media > ./apps/media/harbor-regcred.json
