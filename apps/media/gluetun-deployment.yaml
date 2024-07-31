@@ -13,6 +13,19 @@ data:
   FIREWALL_INPUT_PORTS: "8000"
 
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: media
+  name: qbit-env
+data:
+  PUID: "1000"
+  PGID: "1000"
+  TZ: America/Chicago
+  WEBUI_PORT: "8080"
+  TORRENTING_PORT: "6881"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,6 +58,11 @@ spec:
         - name: gluetun-sync
           image: harbor.local.abbottland.io/library/gluetun-sync:latest
           resources: {}
+          ports:
+            - containerPort: 3001
+              hostPort: 3001
+              name: sync-api
+              protocol: TCP
 
         - name: curl-container
           image: quay.io/curl/curl:latest
@@ -53,6 +71,7 @@ spec:
 
         - image: qmcgaw/gluetun
           name: gluetun
+          resources: {}
           securityContext:
             capabilities:
               add: ["NET_ADMIN"]
@@ -81,7 +100,23 @@ spec:
               mountPath: "/dev/net/tun"
             - name: gluetun-config
               mountPath: /gluetun
+
+        - image: lscr.io/linuxserver/qbittorrent:latest
+          name: qbittorrent
           resources: {}
+          ports:
+            - containerPort: 8080
+              name: web
+            - containerPort: 6881
+              name: torrents
+          envFrom:
+            - configMapRef:
+                name: qbit-env
+          volumeMounts:
+            - name: media-downloads
+              mountPath: "/downloads"
+            - name: qbit-config
+              mountPath: /config
       volumes:
         - name: dev-net-tun
           hostPath:
@@ -89,5 +124,10 @@ spec:
         - name: gluetun-config
           persistentVolumeClaim:
             claimName: gluetun-config
-
+        - name: media-downloads
+          persistentVolumeClaim:
+            claimName: media-downloads
+        - name: qbit-config
+          persistentVolumeClaim:
+            claimName: qbit-config
 
