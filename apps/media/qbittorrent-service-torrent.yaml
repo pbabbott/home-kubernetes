@@ -5,10 +5,10 @@ metadata:
   name: qbittorrent-torrents
   namespace: media
   labels:
-    app: qbittorrent
+    app: qbittorrent-vpn
 spec:
   ports:
     - port: 6881
       protocol: TCP
   selector:
-    app: qbittorrent
+    app: qbittorrent-vpn

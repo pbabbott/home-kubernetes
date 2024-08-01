@@ -6,10 +6,10 @@ metadata:
   name: gluetun-http
   namespace: media
   labels:
-    app: gluetun
+    api: gluetun
 spec:
   ports:
     - port: 8000
       protocol: TCP
   selector:
-    app: gluetun
+    api: gluetun

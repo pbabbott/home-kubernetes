@@ -5,10 +5,10 @@ metadata:
   name: qbittorrent-ui
   namespace: media
   labels:
-    app: qbittorrent
+    app: qbittorrent-vpn
 spec:
   ports:
     - port: 8080
       protocol: TCP
   selector:
-    app: qbittorrent
+    app: qbittorrent-vpn
