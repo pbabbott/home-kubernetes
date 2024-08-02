@@ -9,3 +9,4 @@ data:
   GLUETUN_API_HOST: http://localhost:8000
   QBITTORRENT_API_HOST: http://localhost:8080
   QBITTORRENT_USERNAME: admin
+  CRON_EXPRESSION: "*/20 * * * *"
