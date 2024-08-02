@@ -38,18 +38,6 @@ yq -i '.spec.encryptedData.adminPassword = strenv(SECRET_VALUE)' ./apps/homelab/
 export SECRET_VALUE=$(echo -n $HARBOR_POSTGRES_PASSWORD | kubeseal --raw --scope namespace-wide --namespace harbor)
 yq -i '.spec.encryptedData.password = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
 
-# Brandon DEV
-kubectl create secret docker-registry regcred \
-  --namespace=brandon-dev \
-  --docker-server=harbor.local.example.com \
-  --docker-username=$HARBOR_REG_USERNAME \
-  --docker-password=$HARBOR_REG_PASSWORD \
-  --docker-email=$HARBOR_REG_EMAIL \
-  --output json --dry-run=client \
-  | kubeseal \
-    --scope namespace-wide \
-    --namespace brandon-dev > ./apps/homelab/brandon-dev/harbor-regcred.yaml
-
 # Update media secrets
 export SECRET_VALUE=$(echo -n $OPENVPN_USER | kubeseal --raw --scope namespace-wide --namespace media)
 yq -i '.spec.encryptedData.OPENVPN_USER = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
@@ -66,7 +54,8 @@ kubectl create secret docker-registry regcred \
   --output json --dry-run=client \
   | kubeseal \
     --scope namespace-wide \
-    --namespace media > ./apps/media/harbor-regcred.yaml
+    --namespace media \
+    | yq --prettyPrint > ./apps/media/harbor-regcred.yaml
 
 export SECRET_VALUE=$(echo -n $QBITTORRENT_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
 yq -i '.spec.encryptedData.QBITTORRENT_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/qbittorrent-secrets.yaml
