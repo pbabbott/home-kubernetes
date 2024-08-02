@@ -1,4 +1,3 @@
-
 appConfig:
   language: en
   layout: auto
@@ -19,35 +18,43 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: Pi Hole
+      - &ref_0
+        title: Pi Hole
         description: Network Ad-blocking & DNS
         icon: hl-pihole
         url: https://pihole.local.abbottland.io/
         target: newtab
         statusCheck: true
-        id: 0_794_pihole
-      - title: HA Proxy
+        id: 0_1478_pihole
+      - &ref_1
+        title: HA Proxy
         description: Load Balancer
         icon: hl-haproxy
         url: https://haproxy.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 2_794_haproxy
-      - title: Proxmox
+        id: 1_1478_haproxy
+      - &ref_2
+        title: Proxmox
         description: Virtualization
         icon: hl-proxmox
         url: https://proxmox.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 2_794_proxmox
-      - title: Asustor
+        id: 2_1478_proxmox
+      - &ref_3
+        title: Asustor
         description: Server Management Portal
         icon: fa fa-server
         url: https://asustor.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 0_1859_asustor
-
+        id: 3_1478_asustor
+    filteredItems:
+      - *ref_0
+      - *ref_1
+      - *ref_2
+      - *ref_3
   - name: Observability
     icon: fas fa-eye
     displayData:
@@ -57,35 +64,44 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: Uptime Kuma
+      - &ref_4
+        title: Uptime Kuma
         description: Uptime Dashboard
         icon: hl-uptime-kuma
         url: https://kuma.local.abbottland.io
         target: newtab
         statusCheck: true
         statusCheckAllowInsecure: true
-      - title: Grafana
+        id: 0_1375_uptimekuma
+      - &ref_5
+        title: Grafana
         description: Dashboards
         icon: hl-grafana
         url: https://grafana.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 1_1859_grafana
-      - title: Alert Manager
+        id: 1_1375_grafana
+      - &ref_6
+        title: Alert Manager
         description: Send prometheus data-driven alerts
         icon: hl-alertmanager
         url: https://alertmanager.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 2_1859_alertmanager
-      - title: Prometheus
+        id: 2_1375_alertmanager
+      - &ref_7
+        title: Prometheus
         description: Metrics Aggregator
         icon: hl-prometheus
         url: https://prometheus.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 1_1171_prometheus
-
+        id: 3_1375_prometheus
+    filteredItems:
+      - *ref_4
+      - *ref_5
+      - *ref_6
+      - *ref_7
   - name: Build Tools
     icon: fas fa-building
     displayData:
@@ -95,28 +111,34 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: Drone
+      - &ref_8
+        title: Drone
         description: CI/CD Server
         icon: hl-drone
         url: https://drone.abbottland.io
         target: newtab
         statusCheck: true
-        id: 2_1171_drone
-      - title: Harbor
+        id: 0_1057_drone
+      - &ref_9
+        title: Harbor
         description: Container Registry
         icon: hl-harbor
         url: https://harbor.local.abbottland.io
         target: newtab
         statusCheck: true
         id: 1_1057_harbor
-      - title: Verdaccio
+      - &ref_10
+        title: Verdaccio
         description: NPM Registry & Proxy
         icon: verdaccio.svg
         url: https://verdaccio.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 6_1859_verdaccio
-
+        id: 2_1057_verdaccio
+    filteredItems:
+      - *ref_8
+      - *ref_9
+      - *ref_10
   - name: Public Apps
     icon: fas fa-server
     displayData:
@@ -126,30 +148,36 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: Home Assistant
+      - &ref_11
+        title: Home Assistant
         description: Home Automations
         icon: hl-home-assistant
         url: https://homeassistant.abbottland.io
         target: newtab
         statusCheck: true
-        id: 0_1027_homeassistant
-      - title: Plex
+        id: 0_1043_homeassistant
+      - &ref_12
+        title: Plex
         description: Plex Media Server
         icon: hl-plex
         url: https://plex.abbottland.io/web/index.html
         target: newtab
         statusCheck: true
-        id: 5_1859_plex
-      - title: Mealie
+        id: 1_1043_plex
+      - &ref_13
+        title: Mealie
         description: Recipe database
         icon: hl-mealie
         url: https://mealie.abbottland.io
         target: newtab
         statusCheck: true
         statusCheckAllowInsecure: true
-        id: 0_1171_mealie
-
-  - name: Internal Apps
+        id: 2_1043_mealie
+    filteredItems:
+      - *ref_11
+      - *ref_12
+      - *ref_13
+  - name: media
     icon: fas fa-server
     displayData:
       sortBy: alphabetical
@@ -158,21 +186,25 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: Semaphore
-        description: Ansible Playbooks
-        icon: hl-semaphore
-        url: https://semaphore.local.abbottland.io
+      - &ref_14
+        title: qBittorrent
+        description: Torrents for Media
+        icon: hl-qbittorrent
+        url: https://qbittorrent.local.abbottland.io
         target: newtab
         statusCheck: true
-        statusCheckAllowInsecure: true
-      - title: HandBrake
+        id: 1_512_qbittorrent
+      - &ref_15
+        title: HandBrake
         description: Video converter service
         icon: hl-handbrake
         url: https://handbrake.nas.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 8_1859_handbrake
-    
+        id: 0_512_handbrake
+    filteredItems:
+      - *ref_14
+      - *ref_15
   - name: Elder Wand
     icon: corsair-svgrepo-com.svg
     displayData:
@@ -182,14 +214,16 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: Home File Service
+      - &ref_16
+        title: Home File Service
         description: Helps move content onto my NAS
         icon: hl-node.js
         url: http://192.168.4.90:4000
         target: newtab
         statusCheck: true
         id: 0_918_homefileservice
-
+    filteredItems:
+      - *ref_16
   - name: Icons
     icon: fa fa-icons
     displayData:
@@ -199,27 +233,36 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: Font Awesome
+      - &ref_17
+        title: Font Awesome
         description: Font Awesome Icon Search
         icon: fa fa-font-awesome
         url: https://fontawesome.com/
         target: newtab
         id: 0_508_fontawesome
-      - title: Dashy Icon Docs
+      - &ref_18
+        title: Dashy Icon Docs
         icon: hl-dashy
         url: https://dashy.to/docs/icons
         id: 1_508_dashyicondocs
-      - title: Homelab Icons
+      - &ref_19
+        title: Homelab Icons
         description: List of supported homelab icons
         icon: fa fa-icons
         url: https://github.com/WalkxCode/dashboard-icons/tree/main/png
         target: newtab
         id: 2_508_homelabicons
-      - title: SVG Repo
+      - &ref_20
+        title: SVG Repo
         icon: fa fa-icons
         url: https://www.svgrepo.com/
         target: newtab
         id: 3_508_svgrepo
+    filteredItems:
+      - *ref_17
+      - *ref_18
+      - *ref_19
+      - *ref_20
   - name: Project Links
     icon: fa fa-link
     displayData:
@@ -229,18 +272,23 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: Miro
+      - &ref_21
+        title: Miro
         description: 'Whiteboard designs '
         icon: fa fa-link
         url: https://miro.com/app/board/uXjVPzv9we8=/
         target: newtab
         id: 0_1272_miro
-      - title: Figma
+      - &ref_22
+        title: Figma
         description: Hi fidelity designs
         icon: fa fa-link
         url: https://www.figma.com/files/project/77710353/Project-Exodus
         target: newtab
-        id: 2_1272_figma
+        id: 1_1272_figma
+    filteredItems:
+      - *ref_21
+      - *ref_22
   - name: Code
     icon: hl-github
     displayData:
@@ -250,25 +298,29 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: home-file-service
+      - &ref_23
+        title: home-file-service
         description: Automatically move files from PC onto NAS
         icon: hl-github
         url: https://github.com/pbabbott/home-file-service
         target: newtab
         id: 0_379_homefileservice
-      - title: home-playbooks
+      - &ref_24
+        title: home-playbooks
         description: Ansible playbooks to manage all home infra
         icon: hl-github
         url: https://github.com/pbabbott/home-playbooks
         target: newtab
         id: 1_379_homeplaybooks
-      - title: home-web-apps
+      - &ref_25
+        title: home-web-apps
         description: Web application code for home projects
         icon: hl-github
         url: https://github.com/pbabbott/home-web-apps
         target: newtab
         id: 2_379_homewebapps
-      - title: home-playbooks
+      - &ref_26
+        title: home-playbooks
         description: vs code workspace
         icon: hl-code
         url: >-
@@ -276,6 +328,11 @@ sections:
         target: newtab
         statusCheck: true
         id: 3_379_homeplaybooks
+    filteredItems:
+      - *ref_23
+      - *ref_24
+      - *ref_25
+      - *ref_26
   - name: Azure
     icon: hl-azure
     displayData:
@@ -285,24 +342,31 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - title: home-prod-001
+      - &ref_27
+        title: home-prod-001
         description: Azure Subscription
         icon: fa fa-key
         url: >-
           https://portal.azure.com/#@pbabbottgmail.onmicrosoft.com/resource/subscriptions/07619e8e-01a2-4b48-9d9c-281f290d3a37/overview
         target: newtab
         id: 0_519_homeprod
-      - title: sthomebackup001
+      - &ref_28
+        title: sthomebackup001
         description: Azure Storage
         icon: fa fa-folder
         url: >-
           https://portal.azure.com/#@pbabbottgmail.onmicrosoft.com/resource/subscriptions/07619e8e-01a2-4b48-9d9c-281f290d3a37/resourceGroups/rg-home-prod-001/providers/Microsoft.Storage/storageAccounts/sthomebackup001/overview
         target: newtab
         id: 1_519_sthomebackup
-      - title: rpi001
+      - &ref_29
+        title: rpi001
         description: Storage Container
         icon: fa fa-folder
         url: >-
           https://portal.azure.com/#view/Microsoft_Azure_Storage/ContainerMenuBlade/~/overview/storageAccountId/%2Fsubscriptions%2F07619e8e-01a2-4b48-9d9c-281f290d3a37%2FresourceGroups%2Frg-home-prod-001%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2Fsthomebackup001/path/rpi001/etag/%220x8DA8A006D8883B1%22/defaultEncryptionScope/%24account-encryption-key/denyEncryptionScopeOverride~/false/defaultId//publicAccessVal/None
         target: newtab
         id: 2_519_rpi
+    filteredItems:
+      - *ref_27
+      - *ref_28
+      - *ref_29
