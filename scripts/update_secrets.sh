@@ -31,30 +31,12 @@ yq -i '.spec.encryptedData.DRONE_GITHUB_CLIENT_SECRET = strenv(SECRET_VALUE)' ./
 export SECRET_VALUE=$(echo -n $DRONE_DATABASE_DATASOURCE | kubeseal --raw --scope namespace-wide --namespace drone)
 yq -i '.spec.encryptedData.DRONE_DATABASE_DATASOURCE = strenv(SECRET_VALUE)' ./apps/public/drone/drone-secrets.yaml
 
-# Update gluetun secrets
-export SECRET_VALUE=$(echo -n $OPENVPN_USER | kubeseal --raw --scope namespace-wide --namespace media)
-yq -i '.spec.encryptedData.OPENVPN_USER = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
-
-export SECRET_VALUE=$(echo -n $OPENVPN_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
-yq -i '.spec.encryptedData.OPENVPN_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
-
 # Update harbor secrets
 export SECRET_VALUE=$(echo -n $HARBOR_ADMIN_PASSWORD | kubeseal --raw --scope namespace-wide --namespace harbor)
 yq -i '.spec.encryptedData.adminPassword = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
 
 export SECRET_VALUE=$(echo -n $HARBOR_POSTGRES_PASSWORD | kubeseal --raw --scope namespace-wide --namespace harbor)
 yq -i '.spec.encryptedData.password = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
-
-kubectl create secret docker-registry regcred \
-  --namespace=media \
-  --docker-server=harbor.local.example.com \
-  --docker-username=$HARBOR_REG_USERNAME \
-  --docker-password=$HARBOR_REG_PASSWORD \
-  --docker-email=$HARBOR_REG_EMAIL \
-  --output json --dry-run=client \
-  | kubeseal \
-    --scope namespace-wide \
-    --namespace media > ./apps/media/harbor-regcred.json
 
 # Brandon DEV
 kubectl create secret docker-registry regcred \
@@ -66,4 +48,25 @@ kubectl create secret docker-registry regcred \
   --output json --dry-run=client \
   | kubeseal \
     --scope namespace-wide \
-    --namespace brandon-dev > ./apps/homelab/brandon-dev/harbor-regcred.json
+    --namespace brandon-dev > ./apps/homelab/brandon-dev/harbor-regcred.yaml
+
+# Update media secrets
+export SECRET_VALUE=$(echo -n $OPENVPN_USER | kubeseal --raw --scope namespace-wide --namespace media)
+yq -i '.spec.encryptedData.OPENVPN_USER = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
+
+export SECRET_VALUE=$(echo -n $OPENVPN_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
+yq -i '.spec.encryptedData.OPENVPN_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
+
+kubectl create secret docker-registry regcred \
+  --namespace=media \
+  --docker-server=harbor.local.example.com \
+  --docker-username=$HARBOR_REG_USERNAME \
+  --docker-password=$HARBOR_REG_PASSWORD \
+  --docker-email=$HARBOR_REG_EMAIL \
+  --output json --dry-run=client \
+  | kubeseal \
+    --scope namespace-wide \
+    --namespace media > ./apps/media/harbor-regcred.yaml
+
+export SECRET_VALUE=$(echo -n $QBITTORRENT_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
+yq -i '.spec.encryptedData.QBITTORRENT_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/qbittorrent-secrets.yaml
