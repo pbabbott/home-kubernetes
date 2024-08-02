@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: media
+  name: gluetun-config
+data:
+  TZ: America/Chicago
+  VPN_SERVICE_PROVIDER: "private internet access"
+  SERVER_REGIONS: "CA Toronto"
+  PORT_FORWARD_ONLY: "true"
+  VPN_PORT_FORWARDING: "on"
+  # 8888 - gluetun http proxy (included by default)
+  # 8388 - gluetun shadowsocks-tcp (included by default)
+  # 8000 - gluetun api
+  # 8080 - qbittorrent ui
+  # 6881 - ~~qbittorrent torrents~~ (DONT WANT)
+  # 4000 - gluetun-sync status check
+  FIREWALL_INPUT_PORTS: "8000,8080,4000"

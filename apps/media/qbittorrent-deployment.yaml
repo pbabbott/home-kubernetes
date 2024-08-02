@@ -1,50 +1,3 @@
-
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: media
-  name: gluetun-sync-config
-data:
-  PORT: "4000"
-  GLUETUN_API_HOST: http://localhost:8000
-  QBITTORRENT_API_HOST: http://localhost:8080
-  QBITTORRENT_USERNAME: admin
-  QBITTORRENT_PASSWORD: password123
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: media
-  name: gluetun-config
-data:
-  TZ: America/Chicago
-  VPN_SERVICE_PROVIDER: "private internet access"
-  SERVER_REGIONS: "CA Toronto"
-  PORT_FORWARD_ONLY: "true"
-  VPN_PORT_FORWARDING: "on"
-  # 8888 - gluetun http proxy (included by default)
-  # 8388 - gluetun shadowsocks-tcp (included by default)
-  # 8000 - gluetun api
-  # 8080 - qbittorrent ui
-  # 6881 - ~~qbittorrent torrents~~ (DONT WANT)
-  # 4000 - gluetun-sync status check
-  FIREWALL_INPUT_PORTS: "8000,8080,4000"
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: media
-  name: qbit-env
-data:
-  PUID: "1000"
-  PGID: "1000"
-  TZ: America/Chicago
-  WEBUI_PORT: "8080"
-  TORRENTING_PORT: "6881"
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -71,10 +24,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                - key: kubernetes.io/arch
-                  operator: NotIn
-                  values:
-                  - arm64
+                  - key: kubernetes.io/arch
+                    operator: NotIn
+                    values:
+                      - arm64
       containers:
         - name: gluetun-sync
           image: harbor.local.abbottland.io/library/gluetun-sync:latest
@@ -88,6 +41,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: gluetun-sync-config
+            - secretRef:
+                name: qbittorrent-secrets
 
         - name: curl-container
           image: quay.io/curl/curl:latest
@@ -134,7 +89,7 @@ spec:
               name: web
           envFrom:
             - configMapRef:
-                name: qbit-env
+                name: qbittorent-env
           volumeMounts:
             - name: media-downloads
               mountPath: "/downloads"
@@ -153,4 +108,3 @@ spec:
         - name: qbit-config
           persistentVolumeClaim:
             claimName: qbit-config
-
