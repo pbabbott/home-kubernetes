@@ -1,21 +1,4 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: dashy
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: dashy-item-icons
-  namespace: dashy
-spec:
-  storageClassName: nas-storage
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Mi
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -34,15 +17,6 @@ spec:
       labels:
         app: dashy
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                  - dumbledore
       containers:
         - image: lissy93/dashy:latest
           name: dashy
@@ -55,6 +29,7 @@ spec:
               mountPath: "/app/public/item-icons"
             - name: config-volume
               mountPath: /app/user-data/
+          resources: {}
       volumes:
         - name: dashy-item-icons
           persistentVolumeClaim:
@@ -63,17 +38,3 @@ spec:
           configMap:
             name: dashboard-config
           
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dashy
-  namespace: dashy
-  labels:
-    app: dashy
-spec:
-  ports:
-    - port: 8080
-      protocol: TCP
-  selector:
-    app: dashy

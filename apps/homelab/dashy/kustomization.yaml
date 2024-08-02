@@ -1,6 +1,9 @@
 resources:
-  - ./dashy.yaml
+  - ./dashy-deployment.yaml
+  - ./dashy-icons-pvc.yaml
   - ./dashy-ingress.yaml
+  - ./dashy-namespace.yaml
+  - ./dashy-service.yaml
 
 configMapGenerator:
 - name: dashboard-config
