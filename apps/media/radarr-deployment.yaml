@@ -2,36 +2,42 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: prowlarr
-  name: prowlarr
+    app: radarr
+  name: radarr
   namespace: media
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: prowlarr
+      app: radarr
   strategy: {}
   template:
     metadata:
       labels:
-        app: prowlarr
+        app: radarr
     spec:
       containers:
-      - image: lscr.io/linuxserver/prowlarr:latest
-        name: prowlarr
+      - image: lscr.io/linuxserver/radarr:latest
+        name: radarr
         envFrom:
           - configMapRef:
               name: servarr-env
         volumeMounts:
-          - name: prowlarr-config
+          - name: radarr-config
             mountPath: /config
+          - name: media-pvc
+            mountPath: "/data"
         resources: {}
         ports:
-          - containerPort: 9696
-            hostPort: 9696
+          - containerPort: 7878
+            hostPort: 7878
             name: httpa
             protocol: TCP
+          
       volumes:
         - name: prowlarr-config
           persistentVolumeClaim:
             claimName: prowlarr-config
+        - name: media-pvc
+          persistentVolumeClaim:
+            claimName: media-pvc

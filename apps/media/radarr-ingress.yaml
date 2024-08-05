@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: radarr
+  namespace: media
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: radarr.local.abbottland.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: radarr
+            port:
+              number: 7878
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - radarr.local.abbottland.io
+    secretName: radarr-tls

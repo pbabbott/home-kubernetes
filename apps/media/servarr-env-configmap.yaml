@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: prowlarr-env
+  name: servarr-env
   namespace: media
 data:
   TZ: America/Chicago
