@@ -1,0 +1,15 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prowlarr
+  namespace: media
+  labels:
+    app: prowlarr
+spec:
+  ports:
+    - port: 9696
+      protocol: TCP
+  selector:
+    app: prowlarr

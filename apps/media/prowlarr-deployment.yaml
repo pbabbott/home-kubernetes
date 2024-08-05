@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: prowlarr
+  name: prowlarr
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prowlarr
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: prowlarr
+    spec:
+      containers:
+      - image: lscr.io/linuxserver/prowlarr:latest
+        name: prowlarr
+        envFrom:
+          - configMapRef:
+              name: prowlarr-env
+        volumeMounts:
+          - name: prowlarr-config
+            mountPath: /config
+        resources: {}
+        ports:
+          - containerPort: 9696
+            hostPort: 9696
+            name: httpa
+            protocol: TCP
+      volumes:
+        - name: prowlarr-config
+          persistentVolumeClaim:
+            claimName: prowlarr-config
