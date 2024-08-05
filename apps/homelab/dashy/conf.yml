@@ -166,14 +166,6 @@ sections:
         statusCheck: true
         id: 0_1043_homeassistant
       - &ref_13
-        title: Plex
-        description: Plex Media Server
-        icon: hl-plex
-        url: https://plex.abbottland.io/web/index.html
-        target: newtab
-        statusCheck: true
-        id: 1_1043_plex
-      - &ref_14
         title: Mealie
         description: Recipe database
         icon: hl-mealie
@@ -181,11 +173,10 @@ sections:
         target: newtab
         statusCheck: true
         statusCheckAllowInsecure: true
-        id: 2_1043_mealie
+        id: 1_1043_mealie
     filteredItems:
       - *ref_12
       - *ref_13
-      - *ref_14
   - name: Media
     icon: fas fa-server
     displayData:
@@ -195,6 +186,14 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
+      - &ref_14
+        title: Plex
+        description: Plex Media Server
+        icon: hl-plex
+        url: https://plex.abbottland.io/web/index.html
+        target: newtab
+        statusCheck: true
+        id: 0_480_plex
       - &ref_15
         title: qBittorrent
         description: Torrents for Media
@@ -202,9 +201,19 @@ sections:
         url: https://qbittorrent.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 0_480_qbittorrent
+        id: 1_480_qbittorrent
+      - &ref_16
+        title: Prowlarr
+        description: Indexer manager
+        icon: hl-prowlarr
+        url: https://prowlarr.local.abbottland.io
+        target: newtab
+        statusCheck: true
+        id: 2_480_prowlarr
     filteredItems:
+      - *ref_14
       - *ref_15
+      - *ref_16
   - name: Gaming
     icon: hl-steam
     displayData:
@@ -214,7 +223,7 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_16
+      - &ref_17
         title: Home File Service
         description: Helps move content onto my NAS
         icon: corsair-svgrepo-com.svg
@@ -222,7 +231,7 @@ sections:
         target: newtab
         statusCheck: true
         id: 0_595_homefileservice
-      - &ref_17
+      - &ref_18
         title: HandBrake
         description: Video converter service
         icon: hl-handbrake
@@ -231,8 +240,8 @@ sections:
         statusCheck: true
         id: 1_595_handbrake
     filteredItems:
-      - *ref_16
       - *ref_17
+      - *ref_18
   - name: Icons
     icon: fa fa-icons
     displayData:
@@ -242,36 +251,36 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_18
+      - &ref_19
         title: Font Awesome
         description: Font Awesome Icon Search
         icon: fa fa-font-awesome
         url: https://fontawesome.com/
         target: newtab
         id: 0_508_fontawesome
-      - &ref_19
+      - &ref_20
         title: Dashy Icon Docs
         icon: hl-dashy
         url: https://dashy.to/docs/icons
         id: 1_508_dashyicondocs
-      - &ref_20
+      - &ref_21
         title: Homelab Icons
         description: List of supported homelab icons
         icon: fa fa-icons
         url: https://github.com/WalkxCode/dashboard-icons/tree/main/png
         target: newtab
         id: 2_508_homelabicons
-      - &ref_21
+      - &ref_22
         title: SVG Repo
         icon: fa fa-icons
         url: https://www.svgrepo.com/
         target: newtab
         id: 3_508_svgrepo
     filteredItems:
-      - *ref_18
       - *ref_19
       - *ref_20
       - *ref_21
+      - *ref_22
   - name: Project Links
     icon: fa fa-link
     displayData:
@@ -281,14 +290,14 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_22
+      - &ref_23
         title: Miro
         description: 'Whiteboard designs '
         icon: fa fa-link
         url: https://miro.com/app/board/uXjVPzv9we8=/
         target: newtab
         id: 0_1272_miro
-      - &ref_23
+      - &ref_24
         title: Figma
         description: Hi fidelity designs
         icon: fa fa-link
@@ -296,8 +305,8 @@ sections:
         target: newtab
         id: 1_1272_figma
     filteredItems:
-      - *ref_22
       - *ref_23
+      - *ref_24
   - name: Code
     icon: hl-github
     displayData:
@@ -307,28 +316,28 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_24
+      - &ref_25
         title: home-file-service
         description: Automatically move files from PC onto NAS
         icon: hl-github
         url: https://github.com/pbabbott/home-file-service
         target: newtab
         id: 0_379_homefileservice
-      - &ref_25
+      - &ref_26
         title: home-playbooks
         description: Ansible playbooks to manage all home infra
         icon: hl-github
         url: https://github.com/pbabbott/home-playbooks
         target: newtab
         id: 1_379_homeplaybooks
-      - &ref_26
+      - &ref_27
         title: home-web-apps
         description: Web application code for home projects
         icon: hl-github
         url: https://github.com/pbabbott/home-web-apps
         target: newtab
         id: 2_379_homewebapps
-      - &ref_27
+      - &ref_28
         title: home-playbooks
         description: vs code workspace
         icon: hl-code
@@ -338,10 +347,10 @@ sections:
         statusCheck: true
         id: 3_379_homeplaybooks
     filteredItems:
-      - *ref_24
       - *ref_25
       - *ref_26
       - *ref_27
+      - *ref_28
   - name: Azure
     icon: hl-azure
     displayData:
@@ -351,7 +360,7 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_28
+      - &ref_29
         title: home-prod-001
         description: Azure Subscription
         icon: fa fa-key
@@ -359,7 +368,7 @@ sections:
           https://portal.azure.com/#@pbabbottgmail.onmicrosoft.com/resource/subscriptions/07619e8e-01a2-4b48-9d9c-281f290d3a37/overview
         target: newtab
         id: 0_519_homeprod
-      - &ref_29
+      - &ref_30
         title: sthomebackup001
         description: Azure Storage
         icon: fa fa-folder
@@ -367,7 +376,7 @@ sections:
           https://portal.azure.com/#@pbabbottgmail.onmicrosoft.com/resource/subscriptions/07619e8e-01a2-4b48-9d9c-281f290d3a37/resourceGroups/rg-home-prod-001/providers/Microsoft.Storage/storageAccounts/sthomebackup001/overview
         target: newtab
         id: 1_519_sthomebackup
-      - &ref_30
+      - &ref_31
         title: rpi001
         description: Storage Container
         icon: fa fa-folder
@@ -376,6 +385,6 @@ sections:
         target: newtab
         id: 2_519_rpi
     filteredItems:
-      - *ref_28
       - *ref_29
       - *ref_30
+      - *ref_31
