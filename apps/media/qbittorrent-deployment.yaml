@@ -91,8 +91,8 @@ spec:
             - configMapRef:
                 name: qbittorent-env
           volumeMounts:
-            - name: media-downloads
-              mountPath: "/downloads"
+            - name: media-pvc
+              mountPath: "/data"
             - name: qbit-config
               mountPath: /config
       volumes:
@@ -102,9 +102,9 @@ spec:
         - name: gluetun-config
           persistentVolumeClaim:
             claimName: gluetun-config
-        - name: media-downloads
+        - name: media-pvc
           persistentVolumeClaim:
-            claimName: media-downloads
+            claimName: media-pvc
         - name: qbit-config
           persistentVolumeClaim:
             claimName: qbit-config

@@ -2,12 +2,12 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: media-downloads
+  name: media-pvc
   namespace: media
 spec:
-  storageClassName: nas-storage
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Mi
+      storage: 10Ti
