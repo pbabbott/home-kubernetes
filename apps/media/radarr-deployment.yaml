@@ -35,9 +35,9 @@ spec:
             protocol: TCP
           
       volumes:
-        - name: prowlarr-config
+        - name: radarr-config
           persistentVolumeClaim:
-            claimName: prowlarr-config
+            claimName: radarr-config
         - name: media-pvc
           persistentVolumeClaim:
             claimName: media-pvc
