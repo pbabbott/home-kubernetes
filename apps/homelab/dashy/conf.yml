@@ -178,9 +178,9 @@ sections:
         title: Jellyfin
         description: Media Streaming Solution
         icon: hl-jellyfin
-        url: https://jellyfin.local.abbottland.io
+        url: https://jellyfin.abbottland.io
         target: newtab
-        statusCheck: true
+        statusCheck: false
         id: 2_1043_jellyfin
       - &ref_15
         title: Plex
