@@ -1,0 +1,14 @@
+{
+    "build": { "dockerfile": "./Dockerfile" },
+
+    "customizations": {
+      "vscode": {
+        "extensions": [
+            "streetsidesoftware.code-spell-checker",
+            "oderwat.indent-rainbow",
+            "Gruntfuggly.todo-tree",
+            "yzhang.markdown-all-in-one"
+        ]
+      }
+    }
+}
