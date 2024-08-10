@@ -104,3 +104,9 @@ https://kubernetes.github.io/ingress-nginx/examples/customization/custom-headers
 ## Prometheus
 
 prometheus operator (custom CRDs spec): https://prometheus-operator.dev/docs/api-reference/api/
+
+## Harbor
+
+```sh
+helm show values harbor/harbor > harbor.yaml
+```
