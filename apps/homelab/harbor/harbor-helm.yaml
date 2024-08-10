@@ -106,7 +106,7 @@ spec:
     redis:
       type: external
       external:
-        addr: nas.local.abbottland.io:6392
+        addr: nas.local.abbottland.io:6379
     trivy:
       enabled: true
       affinity:
