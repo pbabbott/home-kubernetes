@@ -1,14 +1,25 @@
 {
-    "build": { "dockerfile": "./Dockerfile" },
-
-    "customizations": {
-      "vscode": {
-        "extensions": [
-            "streetsidesoftware.code-spell-checker",
-            "oderwat.indent-rainbow",
-            "Gruntfuggly.todo-tree",
-            "yzhang.markdown-all-in-one"
-        ]
-      }
+  "build": { "dockerfile": "./Dockerfile" },
+  "features": {
+      "ghcr.io/devcontainers/features/common-utils:2": {
+          "installZsh": true,
+          "configureZshAsDefaultShell": true,
+          "installOhMyZsh": true,
+          "upgradePackages": true
+      },
+      "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
+      "ghcr.io/goldsam/dev-container-features/flux2:1": {},
+      "ghcr.io/devcontainers-contrib/features/starship:1": {},
+      "ghcr.io/gickis/devcontainer-features/kubeseal:1":{}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+          "streetsidesoftware.code-spell-checker",
+          "oderwat.indent-rainbow",
+          "Gruntfuggly.todo-tree",
+          "yzhang.markdown-all-in-one"
+      ]
     }
+  }
 }
