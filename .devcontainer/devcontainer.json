@@ -1,5 +1,5 @@
 {
-  "build": { "dockerfile": "./Dockerfile" },
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
       "ghcr.io/devcontainers/features/common-utils:2": {
           "installZsh": true,
@@ -9,9 +9,10 @@
       },
       "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
       "ghcr.io/goldsam/dev-container-features/flux2:1": {},
-      "ghcr.io/devcontainers-contrib/features/starship:1": {},
-      "ghcr.io/gickis/devcontainer-features/kubeseal:1":{}
+      "ghcr.io/gickis/devcontainer-features/kubeseal:1":{},
+      "ghcr.io/devcontainers-contrib/features/starship:1": {}
   },
+  "postStartCommand": "bash ./scripts/dev-env-setup.sh",
   "customizations": {
     "vscode": {
       "extensions": [
