@@ -12,7 +12,7 @@
       "ghcr.io/gickis/devcontainer-features/kubeseal:1":{},
       "ghcr.io/devcontainers-contrib/features/starship:1": {}
   },
-  "postStartCommand": "bash ./scripts/dev-env-setup.sh",
+  "postStartCommand": ["bash ./scripts/dev-env-setup.sh"],
   "customizations": {
     "vscode": {
       "extensions": [
