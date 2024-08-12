@@ -1,3 +1,3 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
 # (preference is linux line endings)
-* text eol=crlf
+* text eol=lf
