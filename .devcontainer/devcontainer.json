@@ -11,7 +11,8 @@
       "ghcr.io/goldsam/dev-container-features/flux2:1": {},
       "ghcr.io/gickis/devcontainer-features/kubeseal:1":{},
       "ghcr.io/devcontainers-contrib/features/starship:1": {},
-      "ghcr.io/flexwie/devcontainer-features/op:1": {}
+      "ghcr.io/flexwie/devcontainer-features/op:1": {},
+      "ghcr.io/dhoeric/features/k9s:1": {}
   },
   "postStartCommand": ["zsh ./scripts/dev-env-setup.sh"],
   "customizations": {
