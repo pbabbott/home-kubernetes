@@ -10,9 +10,10 @@
       "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
       "ghcr.io/goldsam/dev-container-features/flux2:1": {},
       "ghcr.io/gickis/devcontainer-features/kubeseal:1":{},
-      "ghcr.io/devcontainers-contrib/features/starship:1": {}
+      "ghcr.io/devcontainers-contrib/features/starship:1": {},
+      "ghcr.io/flexwie/devcontainer-features/op:1": {}
   },
-  "postStartCommand": ["bash ./scripts/dev-env-setup.sh"],
+  "postStartCommand": ["zsh ./scripts/dev-env-setup.sh"],
   "customizations": {
     "vscode": {
       "extensions": [
