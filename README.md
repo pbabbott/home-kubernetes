@@ -49,14 +49,13 @@ This command will automatically build an .env file, pulling data from 1Password.
 
 Login to the controller once manually to trust fingerprint
 ```sh
-$ controller # Here in the devcontainer
-$ logout # In the controller
+$ controller # SSH to k8s controller from the devcontainer
+$ logout # In the controller vm, logout.
 ```
 
-Get the kubeconfig file
+Back here in the devcontainer, Get the kubeconfig file
 ```sh
-mkdir -p ~/.kube/
-scp firebolt@192.168.4.193:~/.kube/config ~/.kube/config
+./scripts/get-kube-config-file.sh
 ```
 
 # Resources
