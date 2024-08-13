@@ -1,98 +1,62 @@
 # home-kubernetes
 A gitops-based approach for all my kubernetes charts, manifests, and helm deployments. Flux for cluster-level, ArgoCD for applications
 
+- [home-kubernetes](#home-kubernetes)
+- [Get Started with this Project](#get-started-with-this-project)
+  - [Getting Started Procedure](#getting-started-procedure)
+    - [1. Login to 1password](#1-login-to-1password)
+    - [2. Get SSH Key](#2-get-ssh-key)
+    - [3. Build .env file](#3-build-env-file)
+- [Resources](#resources)
+  - [Chart documentation](#chart-documentation)
+    - [Verdaccio](#verdaccio)
+    - [ingress-nginx](#ingress-nginx)
+    - [Prometheus](#prometheus)
+    - [Harbor](#harbor)
+  - [Helpful ingress command](#helpful-ingress-command)
 
-# Getting Started with Flux
 
-## Install Flux
+# Get Started with this Project
 
-[Flux Documenation: Installation instructions](https://fluxcd.io/flux/installation/#install-the-flux-cli)
+This project is meant to run in a devcontainer.  There are a few commands set up to build your environment rapidly.
 
-## Ensure local env is good
+## Getting Started Procedure
 
-https://fluxcd.io/flux/get-started/
-
+### 1. Login to 1password
 ```sh
-kubectl version
-which flux
-echo $GITHUB_TOKEN
-echo $GITHUB_USER
-flux check --pre
+eval $(op signin)    
 ```
 
-## Install flux onto cluster
+### 2. Get SSH Key
+
+This command helps get the SSH id_rsa key to quickly connect to remote hosts.
 
 ```sh
-flux bootstrap github \
-  --token-auth \
-  --owner=$GITHUB_USER \
-  --repository=home-kubernetes \
-  --branch=main \
-  --path=./clusters/homelab \
-  --personal
+./scripts/get-ssh-key.sh
 ```
 
-# Debugging Commands
+### 3. Build .env file
+
+This command will automatically build an .env file, pulling data from 1Password.
 
 ```sh
-kubectl get kustomization -n flux-system flux-system -o yaml
-kubectl get gitrepository -n flux-system flux-system -o yaml
-kubectl logs -n flux-system deploy/kustomize-controller -f
+./scripts/build-env-file.sh
 ```
 
-# Deploy Pod Info
 
-```sh
-flux create source git podinfo \
-  --url=https://github.com/stefanprodan/podinfo \
-  --branch=master \
-  --interval=1m \
-  --export > ./clusters/homelab/podinfo-source.yaml
-```
-
-```sh
-  flux create kustomization podinfo \
-  --target-namespace=default \
-  --source=podinfo \
-  --path="./kustomize" \
-  --prune=true \
-  --wait=true \
-  --interval=30m \
-  --retry-interval=2m \
-  --health-check-timeout=3m \
-  --export > ./clusters/homelab/podinfo-kustomization.yaml
-```
-
-# helpful sync commands
-
-```sh
-k get gitrepository -A
-flux -n flux-system reconcile source git flux-system
-
-flux -n flux-system reconcile kustomization flux-system
-
-k get kustomization -A
-flux -n flux-system reconcile kustomization infra-controllers
-
-```
-# Helpful ingress command
-
-```sh
-helm show values ingress-nginx --repo https://kubernetes.github.io/ingress-nginx > temp.yaml
-```
 
 # Resources
 
 kustomization docs
 https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/
 
-# Chart documentation
+## Chart documentation
 
-## Verdaccio
+### Verdaccio
 https://verdaccio.org/docs/kubernetes/#install
 https://github.com/verdaccio/charts
 
-## ingress-nginx
+### ingress-nginx
 
 `config:` documentation https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
 
@@ -101,12 +65,18 @@ https://github.com/verdaccio/charts
 `custom headers:`
 https://kubernetes.github.io/ingress-nginx/examples/customization/custom-headers/
 
-## Prometheus
+### Prometheus
 
 prometheus operator (custom CRDs spec): https://prometheus-operator.dev/docs/api-reference/api/
 
-## Harbor
+### Harbor
 
 ```sh
 helm show values harbor/harbor > harbor.yaml
+```
+
+## Helpful ingress command
+
+```sh
+helm show values ingress-nginx --repo https://kubernetes.github.io/ingress-nginx > temp.yaml
 ```
