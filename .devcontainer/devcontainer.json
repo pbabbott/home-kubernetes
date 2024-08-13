@@ -1,5 +1,7 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "build": {
+    "dockerfile": "./Dockerfile"
+  },
   "features": {
       "ghcr.io/devcontainers/features/common-utils:2": {
           "installZsh": true,
@@ -12,7 +14,8 @@
       "ghcr.io/gickis/devcontainer-features/kubeseal:1":{},
       "ghcr.io/devcontainers-contrib/features/starship:1": {},
       "ghcr.io/flexwie/devcontainer-features/op:1": {},
-      "ghcr.io/dhoeric/features/k9s:1": {}
+      "ghcr.io/dhoeric/features/k9s:1": {},
+      "ghcr.io/devcontainers-contrib/features/kubectx-kubens:1": {}
   },
   "postStartCommand": ["zsh ./scripts/dev-env-setup.sh"],
   "customizations": {

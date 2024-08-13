@@ -7,6 +7,7 @@ A gitops-based approach for all my kubernetes charts, manifests, and helm deploy
     - [1. Login to 1password](#1-login-to-1password)
     - [2. Get SSH Key](#2-get-ssh-key)
     - [3. Build .env file](#3-build-env-file)
+    - [4. Get KubeConfig file](#4-get-kubeconfig-file)
 - [Resources](#resources)
   - [Chart documentation](#chart-documentation)
     - [Verdaccio](#verdaccio)
@@ -24,7 +25,8 @@ This project is meant to run in a devcontainer.  There are a few commands set up
 
 ### 1. Login to 1password
 ```sh
-eval $(op signin)    
+# Requires secret key from 1Password
+eval $(op signin)
 ```
 
 ### 2. Get SSH Key
@@ -43,7 +45,19 @@ This command will automatically build an .env file, pulling data from 1Password.
 ./scripts/build-env-file.sh
 ```
 
+### 4. Get KubeConfig file
 
+Login to the controller once manually to trust fingerprint
+```sh
+$ controller # Here in the devcontainer
+$ logout # In the controller
+```
+
+Get the kubeconfig file
+```sh
+mkdir -p ~/.kube/
+scp firebolt@192.168.4.193:~/.kube/config ~/.kube/config
+```
 
 # Resources
 
