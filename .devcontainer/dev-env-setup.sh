@@ -4,10 +4,10 @@ if [ -d "/workspaces/home-kubernetes-docker" ]; then
 fi
 
 echo "Creating project aliases"
-cp scripts/files/aliases.zsh ~/.oh-my-zsh/custom/home-kubernetes-aliases.zsh
+cp files/aliases.zsh ~/.oh-my-zsh/custom/home-kubernetes-aliases.zsh
 
 echo "Setting up starship"
-cp scripts/files/starship.toml ~/.config/starship.toml
+cp files/starship.toml ~/.config/starship.toml
 
 echo "Fetching oh-my-zsh plugins"
 # TODO: wrap each one of these with a directory check

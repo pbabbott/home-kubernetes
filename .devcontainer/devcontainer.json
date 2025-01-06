@@ -1,5 +1,6 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "name": "Flux Development Container",
+  "image": "mcr.microsoft.com/devcontainers/base:jammy",
   "features": {
       "ghcr.io/devcontainers/features/common-utils:2": {
           "installZsh": true,
@@ -15,7 +16,10 @@
       "ghcr.io/dhoeric/features/k9s:1": {},
       "ghcr.io/devcontainers-contrib/features/kubectx-kubens:1": {}
   },
-  "postStartCommand": ["zsh ./scripts/dev-env-setup.sh"],
+  "mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly"
+	],
+  "postStartCommand": ["zsh ./.devcontainer/dev-env-setup.sh"],
   "customizations": {
     "vscode": {
       "extensions": [
