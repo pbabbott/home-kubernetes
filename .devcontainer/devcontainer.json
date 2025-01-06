@@ -19,7 +19,6 @@
   "mounts": [
 		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly"
 	],
-  "postStartCommand": ["zsh ./.devcontainer/dev-env-setup.sh"],
   "customizations": {
     "vscode": {
       "extensions": [
@@ -29,5 +28,6 @@
           "yzhang.markdown-all-in-one"
       ]
     }
-  }
+  },
+  "postStartCommand": "/workspaces/home-kubernetes/.devcontainer/init-script.sh"
 }

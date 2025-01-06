@@ -4,10 +4,10 @@ if [ -d "/workspaces/home-kubernetes-docker" ]; then
 fi
 
 echo "Creating project aliases"
-cp files/aliases.zsh ~/.oh-my-zsh/custom/home-kubernetes-aliases.zsh
+cp files/aliases.zsh /home/vscode/.oh-my-zsh/custom/home-kubernetes-aliases.zsh
 
 echo "Setting up starship"
-cp files/starship.toml ~/.config/starship.toml
+cp files/starship.toml /home/vscode/.config/starship.toml
 
 echo "Fetching oh-my-zsh plugins"
 # TODO: wrap each one of these with a directory check
@@ -16,4 +16,4 @@ git clone https://github.com/MichaelAquilina/zsh-you-should-use.git $ZSH_CUSTOM/
 git clone https://github.com/superbrothers/zsh-kubectl-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-kubectl-prompt
 
 echo "Overwriting .zshrc file"
-cp scripts/files/.zshrc ~/.zshrc
+cp files/.zshrc /home/vscode/.zshrc
