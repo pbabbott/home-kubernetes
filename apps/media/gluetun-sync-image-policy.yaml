@@ -8,4 +8,4 @@ spec:
     name: gluetun-sync
   policy:
     semver:
-      range: 0.0.x
+      range: 0.x.x
