@@ -35,7 +35,7 @@ spec:
         app: uptime-kuma
     spec:
       containers:
-        - image: louislam/uptime-kuma:1
+        - image: louislam/uptime-kuma:1.23.15 # {"$imagepolicy": "flux-system:uptime-kuma"}
           name: uptime-kuma
           ports:
             - containerPort: 3001
