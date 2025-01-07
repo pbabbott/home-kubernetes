@@ -20,5 +20,5 @@ spec:
     push:
       branch: main
   update:
-    path: ./clusters/homelab
+    path: ./apps
     strategy: Setters
