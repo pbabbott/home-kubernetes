@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Install YQ if its not already
 VERSION=v4.44.1
 BINARY=yq_linux_amd64
@@ -59,3 +58,16 @@ kubectl create secret docker-registry regcred \
 
 export SECRET_VALUE=$(echo -n $QBITTORRENT_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
 yq -i '.spec.encryptedData.QBITTORRENT_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/qbittorrent-secrets.yaml
+
+# Update flux-system secrets
+kubectl create secret docker-registry regcred \
+  --namespace=flux-system \
+  --docker-server=harbor.local.example.com \
+  --docker-username=$HARBOR_REG_USERNAME \
+  --docker-password=$HARBOR_REG_PASSWORD \
+  --docker-email=$HARBOR_REG_EMAIL \
+  --output json --dry-run=client \
+  | kubeseal \
+    --scope namespace-wide \
+    --namespace flux-system \
+    | yq --prettyPrint > ./clusters/homelab/harbor-regcred.yaml

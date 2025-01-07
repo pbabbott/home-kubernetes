@@ -2,12 +2,9 @@
 A gitops-based approach for all my kubernetes charts, manifests, and helm deployments. Flux for cluster-level, ArgoCD for applications
 
 - [home-kubernetes](#home-kubernetes)
-- [Get Started with this Project](#get-started-with-this-project)
-  - [Getting Started Procedure](#getting-started-procedure)
-    - [1. Login to 1password](#1-login-to-1password)
-    - [2. Get SSH Key](#2-get-ssh-key)
-    - [3. Build .env file](#3-build-env-file)
-    - [4. Get KubeConfig file](#4-get-kubeconfig-file)
+- [Contribution](#contribution)
+  - [Getting Started](#getting-started)
+  - [Developer Guides](#developer-guides)
 - [Resources](#resources)
   - [Chart documentation](#chart-documentation)
     - [Verdaccio](#verdaccio)
@@ -17,46 +14,17 @@ A gitops-based approach for all my kubernetes charts, manifests, and helm deploy
   - [Helpful ingress command](#helpful-ingress-command)
 
 
-# Get Started with this Project
+# Contribution 
 
-This project is meant to run in a devcontainer.  There are a few commands set up to build your environment rapidly.
+## Getting Started
 
-## Getting Started Procedure
+This project is meant to run in a devcontainer on a VM in my homelab.
 
-### 1. Login to 1password
-```sh
-# Requires secret key from 1Password
-eval $(op signin)
-```
+Follow this guide to make sure you're ready to start work on this project: [Dev Environment - Main](./docs/dev-env-main.md)
 
-### 2. Get SSH Key
+## Developer Guides
 
-This command helps get the SSH id_rsa key to quickly connect to remote hosts.
-
-```sh
-./scripts/get-ssh-key.sh
-```
-
-### 3. Build .env file
-
-This command will automatically build an .env file, pulling data from 1Password.
-
-```sh
-./scripts/build-env-file.sh
-```
-
-### 4. Get KubeConfig file
-
-Login to the controller once manually to trust fingerprint
-```sh
-$ controller # SSH to k8s controller from the devcontainer
-$ logout # In the controller vm, logout.
-```
-
-Back here in the devcontainer, Get the kubeconfig file
-```sh
-./scripts/get-kube-config-file.sh
-```
+- [Bootstrap the cluster with Flux](./docs/dev-guide-flux-bootstrap.md) - This is a one-time activity until it isn't.
 
 # Resources
 

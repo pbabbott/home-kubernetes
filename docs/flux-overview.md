@@ -3,43 +3,10 @@
 This project is set up with flux.  Here are some helpful commands.
 
 - [Getting Started with Flux](#getting-started-with-flux)
-  - [Install Flux locally](#install-flux-locally)
-  - [Ensure local env is good](#ensure-local-env-is-good)
-  - [Install flux onto cluster](#install-flux-onto-cluster)
   - [Debugging Commands](#debugging-commands)
   - [Manual Flux Manifest Creation](#manual-flux-manifest-creation)
   - [helpful sync commands](#helpful-sync-commands)
 
-
-## Install Flux locally
-
-[Flux Documenation: Installation instructions](https://fluxcd.io/flux/installation/#install-the-flux-cli)
-
-This project uses a devcontainer, and flux is set up as a feature, so no need to install.
-
-## Ensure local env is good
-
-https://fluxcd.io/flux/get-started/
-
-```sh
-kubectl version
-which flux
-echo $GITHUB_TOKEN
-echo $GITHUB_USER
-flux check --pre
-```
-
-## Install flux onto cluster
-
-```sh
-flux bootstrap github \
-  --token-auth \
-  --owner=$GITHUB_USER \
-  --repository=home-kubernetes \
-  --branch=main \
-  --path=./clusters/homelab \
-  --personal
-```
 
 ## Debugging Commands
 
@@ -74,8 +41,6 @@ flux create source git podinfo \
   --export > ./clusters/homelab/podinfo-kustomization.yaml
 ```
 
-
-
 ## helpful sync commands
 
 ```sh
@@ -86,5 +51,4 @@ flux -n flux-system reconcile kustomization flux-system
 
 k get kustomization -A
 flux -n flux-system reconcile kustomization infra-controllers
-
 ```
