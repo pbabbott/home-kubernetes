@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +29,7 @@ spec:
                       - arm64
       containers:
         - name: gluetun-sync
-          image: harbor.local.abbottland.io/library/gluetun-sync:0.0.7  # {"$imagepolicy": "flux-system:gluetun-sync"}
+          image: harbor.local.abbottland.io/library/gluetun-sync:0.0.9 # {"$imagepolicy": "flux-system:gluetun-sync"}
           imagePullPolicy: Always
           resources: {}
           ports:
@@ -43,12 +42,10 @@ spec:
                 name: gluetun-sync-config
             - secretRef:
                 name: qbittorrent-secrets
-
         - name: curl-container
           image: quay.io/curl/curl:latest
           command: ["sleep", "infinity"]
           resources: {}
-
         - image: qmcgaw/gluetun
           name: gluetun
           resources: {}
@@ -80,7 +77,6 @@ spec:
               mountPath: "/dev/net/tun"
             - name: gluetun-config
               mountPath: /gluetun
-
         - image: lscr.io/linuxserver/qbittorrent:latest
           name: qbittorrent
           resources: {}
