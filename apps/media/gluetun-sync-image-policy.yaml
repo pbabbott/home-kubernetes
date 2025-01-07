@@ -1,0 +1,11 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: gluetun-sync
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: gluetun-sync
+  policy:
+    semver:
+      range: 0.0.x

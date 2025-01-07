@@ -46,7 +46,7 @@ yq -i '.spec.encryptedData.OPENVPN_PASSWORD = strenv(SECRET_VALUE)' ./apps/media
 
 kubectl create secret docker-registry regcred \
   --namespace=media \
-  --docker-server=harbor.local.example.com \
+  --docker-server=harbor.local.abbottland.io \
   --docker-username=$HARBOR_REG_USERNAME \
   --docker-password=$HARBOR_REG_PASSWORD \
   --docker-email=$HARBOR_REG_EMAIL \
@@ -62,7 +62,7 @@ yq -i '.spec.encryptedData.QBITTORRENT_PASSWORD = strenv(SECRET_VALUE)' ./apps/m
 # Update flux-system secrets
 kubectl create secret docker-registry regcred \
   --namespace=flux-system \
-  --docker-server=harbor.local.example.com \
+  --docker-server=harbor.local.abbottland.io \
   --docker-username=$HARBOR_REG_USERNAME \
   --docker-password=$HARBOR_REG_PASSWORD \
   --docker-email=$HARBOR_REG_EMAIL \
