@@ -16,6 +16,7 @@ spec:
         namespace: flux-system
       version: 1.15.0
   values:
+    labelFilter: external-dns-enabled=true
     provider:
       name: cloudflare
     env:
@@ -26,7 +27,6 @@ spec:
             key: api-token
     domainFilters:
       - abbottland.io
-    labelFilter: external-dns-enabled=true
     managedRecordTypes:
     - CNAME
     sources:
