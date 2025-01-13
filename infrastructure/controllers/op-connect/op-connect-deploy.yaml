@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: op-connect
   name: op-connect
 spec:
   selector:
