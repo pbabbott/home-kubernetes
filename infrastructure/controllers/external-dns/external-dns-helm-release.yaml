@@ -27,4 +27,6 @@ spec:
     domainFilters:
       - abbottland.io
     labelFilter: "external-dns/enable=true"
+    managedRecordTypes:
+    - CNAME
     
