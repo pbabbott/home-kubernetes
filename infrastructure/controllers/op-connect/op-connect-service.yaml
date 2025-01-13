@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: op-connect
+  name: op-connect
+spec:
+  selector:
+    app: op-connect
+  ports:
+    - name: connect-api
+      port: 8080
+      targetPort: connect-api
+ 

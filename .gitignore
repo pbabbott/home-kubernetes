@@ -2,3 +2,4 @@ temp.yaml
 temp*.yaml
 .env
 temp
+1password-credentials.json
