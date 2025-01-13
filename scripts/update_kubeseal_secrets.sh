@@ -17,11 +17,14 @@ source .env
 
 
 update_cloudflare_secrets() {
-  export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope cluster-wide)
-  yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/config/cert-manager/cert-manager-cloudflare-secret.yaml
+  # export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope cluster-wide)
+  # yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/controllers/cert-manager/cert-manager-cloudflare-secret.yaml
 
   export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope namespace-wide --namespace external-dns)
-  yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/config/external-dns/external-dns-cloudflare-secret.yaml
+  yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/controllers/external-dns/external-dns-cloudflare-secret.yaml
+
+  export SECRET_VALUE=$(echo -n $CLOUDFLARE_EMAIL | kubeseal --raw --scope namespace-wide --namespace external-dns)
+  yq -i '.spec.encryptedData.api-email = strenv(SECRET_VALUE)' ./infrastructure/controllers/external-dns/external-dns-cloudflare-secret.yaml
 }
 
 update_drone_secrets() {
@@ -85,7 +88,7 @@ update_flux_system_secrets() {
 }
 
 echo "Starting to update secrets..."
-# update_cloudflare_secrets
+update_cloudflare_secrets
 # update_drone_secrets
 # update_harbor_secrets
 # update_media_secrets

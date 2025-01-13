@@ -14,15 +14,21 @@ spec:
         kind: HelmRepository
         name: external-dns
         namespace: flux-system
-      version: 1.13.0 # Use the latest version
+      version: 1.13.0
   values:
-    provider: cloudflare
-    cloudflare:
-      apiTokenSecretRef:
-        name: cloudflare-api-key-secret
-        key: token
+    provider:
+      name: cloudflare
+    env:
+      - name: CF_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-api-key-secret
+            key: api-token
+      - name: CF_API_EMAIL
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-api-key
+            key: api-email
     domainFilters:
       - abbottland.io
-    txtOwnerId: external-dns
-    logLevel: info
-    policy: upsert-only
+    

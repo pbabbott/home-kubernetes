@@ -27,7 +27,7 @@ update_env_key() {
 # Function to update all keys in the .env file
 update_all_keys() {
     local env_file="$1"
-
+    update_env_key "$env_file" "CLOUDFLARE_EMAIL" "$(get_login_username "Cloudflare")"
     update_env_key "$env_file" "CLOUDFLARE_TOKEN" "$(get_note_value "CLOUDFLARE_TOKEN")"
     
     update_env_key "$env_file" "DRONE_RPC_SECRET" "$(get_note_value "DRONE_RPC_SECRET")"
