@@ -3,7 +3,10 @@ kind: Ingress
 metadata:
   name: home-assistant
   namespace: home-assistant
+  labels:
+    external-dns-enabled: "true"
   annotations:
+    external-dns.alpha.kubernetes.io/target: abbottland.io
     cert-manager.io/cluster-issuer: letsencrypt-prod
     external-dns.alpha.kubernetes.io/hostname: homeassistant.abbottland.io
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
