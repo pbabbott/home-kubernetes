@@ -26,4 +26,6 @@ spec:
             key: api-token
     domainFilters:
       - abbottland.io
+    labelFilter:
+      - "external-dns/enable=true"
     
