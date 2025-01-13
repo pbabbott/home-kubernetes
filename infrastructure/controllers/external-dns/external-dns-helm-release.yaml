@@ -24,5 +24,6 @@ spec:
           secretKeyRef:
             name: cloudflare-api-key-secret
             key: api-token
-    
+    domainFilters:
+      - abbottland.io
     

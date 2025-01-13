@@ -17,14 +17,11 @@ source .env
 
 
 update_cloudflare_secrets() {
-  # export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope cluster-wide)
-  # yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/controllers/cert-manager/cert-manager-cloudflare-secret.yaml
+  export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope cluster-wide)
+  yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/controllers/cert-manager/cert-manager-cloudflare-secret.yaml
 
   export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope namespace-wide --namespace external-dns)
   yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/controllers/external-dns/external-dns-cloudflare-secret.yaml
-
-  export SECRET_VALUE=$(echo -n $CLOUDFLARE_EMAIL | kubeseal --raw --scope namespace-wide --namespace external-dns)
-  yq -i '.spec.encryptedData.api-email = strenv(SECRET_VALUE)' ./infrastructure/controllers/external-dns/external-dns-cloudflare-secret.yaml
 }
 
 update_drone_secrets() {
