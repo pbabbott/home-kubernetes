@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: plex
   namespace: plex
-  labels:
-    external-dns/enable: "true"
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     external-dns.alpha.kubernetes.io/hostname: plex.abbottland.io

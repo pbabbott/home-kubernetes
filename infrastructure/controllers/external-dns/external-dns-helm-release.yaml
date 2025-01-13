@@ -29,4 +29,6 @@ spec:
     annotationFilter: "external-dns/enabled=true"
     managedRecordTypes:
     - CNAME
+    sources:
+      - ingress
     
