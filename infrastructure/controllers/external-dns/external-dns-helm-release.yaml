@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: external-dns
         namespace: flux-system
-      version: 1.13.0
+      version: 1.15.0
   values:
     provider:
       name: cloudflare
