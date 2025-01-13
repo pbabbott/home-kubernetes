@@ -52,9 +52,6 @@ ENV_FILE='.env'
 cp .env.sample .env
 update_all_keys "$ENV_FILE"
 
-
-
-
 # Example of updating a single key
 # update_env_key "$ENV_FILE" "CLOUDFLARE_TOKEN" "$(get_op_value "Cloudflare" "API Token")"
 
