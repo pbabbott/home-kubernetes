@@ -1,0 +1,13 @@
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: drone
+  name: drone-config
+data:
+  DRONE_SERVER_HOST: drone.abbottland.io
+  DRONE_SERVER_PROTO: https
+  DRONE_USER_FILTER: "pbabbott"
+  DRONE_USER_CREATE: "username:pbabbott,admin:true"
+  DRONE_DATABASE_DRIVER: postgres
