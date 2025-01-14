@@ -17,17 +17,13 @@ spec:
       version: 8.7.1 # TODO: fix this once external-dns chart 1.15.1 becomes available.
   values:
     labelFilter: external-dns-enabled=true
-    provider:
-      name: cloudflare
-    env:
-      - name: CF_API_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: cloudflare-api-key-secret
-            key: api-token
+    provider: cloudflare
+    cloudflare:
+      secretName: cloudflare-api-key-secret
+      proxied: true
     domainFilters:
       - abbottland.io
-    managedRecordTypes:
+    managedRecordTypesFilters:
     - CNAME
     sources:
       - ingress
