@@ -11,7 +11,6 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: drone.abbottland.io
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    external-dns/enabled: "true"
 spec:
   ingressClassName: nginx
   rules:

@@ -10,7 +10,6 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     external-dns.alpha.kubernetes.io/hostname: plex.abbottland.io
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-    external-dns/enabled: "true"
 spec:
   ingressClassName: nginx
   rules:
