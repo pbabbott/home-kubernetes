@@ -1,4 +1,4 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: external-dns
@@ -11,10 +11,10 @@ spec:
     spec:
       chart: external-dns
       sourceRef:
-        kind: OCIRepository
+        kind: HelmRepository
         name: external-dns
         namespace: flux-system
-      version: 8.7.1 # TODO: fis this once external-dns chart 1.15.1 becomes available.
+      version: 8.7.1 # TODO: fix this once external-dns chart 1.15.1 becomes available.
   values:
     labelFilter: external-dns-enabled=true
     provider:
