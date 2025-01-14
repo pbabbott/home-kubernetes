@@ -12,7 +12,7 @@ spec:
       chart: external-dns
       sourceRef:
         kind: HelmRepository
-        name: external-dns
+        name: bitnami
         namespace: flux-system
       version: 8.7.1 # TODO: fix this once external-dns chart 1.15.1 becomes available.
   values:
