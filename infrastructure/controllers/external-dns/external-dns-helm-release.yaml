@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: external-dns
         namespace: flux-system
-      version: 1.15.0
+      version: 8.7.1 # TODO: fis this once external-dns chart 1.15.1 becomes available.
   values:
     labelFilter: external-dns-enabled=true
     provider:
