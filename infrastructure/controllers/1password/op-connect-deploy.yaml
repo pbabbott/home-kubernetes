@@ -60,6 +60,7 @@ spec:
               port: connect-api
             initialDelaySeconds: 5
             periodSeconds: 5
+            
         - name: connect-sync
           image: 1password/connect-sync:1.5.7
           resources:
