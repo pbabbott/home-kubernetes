@@ -8,9 +8,14 @@ if [ ! -f "./1password-credentials.json" ]; then
   exit 1
 fi
 
+mkdir -p ./temp
+
+# op-connect expects content of this secret to be base64 encoded
+base64 ./1password-credentials.json > ./temp/1password-credentials.json.base64
+
 kubectl create secret generic op-credentials \
     --namespace=op-connect \
-    --from-file=1password-credentials.json=./1password-credentials.json \
+    --from-file=1password-credentials.json=./temp/1password-credentials.json.base64 \
     --output json --dry-run=client > ./temp/op-connect-secret.yaml
 
 kubeseal \
