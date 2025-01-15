@@ -31,14 +31,6 @@ spec:
         ingressClassName: nginx
         hosts:
         - host: op-connect.local.abbottland.io
-          paths:
-          - backend:
-              service:
-                name: op-connect
-                port:
-                  number: 8080
-            path: /
-            pathType: Prefix
         tls:
         - hosts:
           - op-connect.local.abbottland.io
