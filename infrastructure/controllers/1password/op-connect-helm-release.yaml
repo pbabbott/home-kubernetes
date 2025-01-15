@@ -9,11 +9,12 @@ spec:
   releaseName: op-connect
   chart:
     spec:
-      chart: op-connect
+      chart: connect
       sourceRef:
         kind: HelmRepository
         name: 1password
         namespace: flux-system
+      version: 1.17.0
   values:
     sync:
       serviceType: ClusterIP
