@@ -16,13 +16,11 @@ spec:
         namespace: flux-system
       version: 1.17.0
   values:
-    sync:
-      serviceType: ClusterIP
-      
     connect:
       create: true
       credentialsName: op-credentials
       credentialsKey: 1password-credentials.json
+      serviceType: ClusterIP
       ingress:
         enabled: true
         annotations:
