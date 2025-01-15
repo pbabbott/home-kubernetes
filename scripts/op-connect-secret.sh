@@ -11,10 +11,13 @@ fi
 kubectl create secret generic op-credentials \
     --namespace=op-connect \
     --from-file=1password-credentials.json=./1password-credentials.json \
-    --output json --dry-run=client \
-    | kubeseal \
-      --scope namespace-wide \
-      | yq --prettyPrint > ./infrastructure/controllers/1password/op-credentials.yaml
+    --output json --dry-run=client > ./temp/op-connect-secret.yaml
+
+kubeseal \
+  --scope namespace-wide \
+  --namespace op-connect \
+  < ./temp/op-connect-secret.yaml \
+  | yq --prettyPrint > ./infrastructure/controllers/1password/op-credentials.yaml
 
 export SECRET_VALUE=$(echo -n $OP_CONNECT_TOKEN | kubeseal --raw --scope namespace-wide --namespace op-connect)
 yq -i '.spec.encryptedData.token = strenv(SECRET_VALUE)' ./infrastructure/controllers/1password/op-credentials.yaml
