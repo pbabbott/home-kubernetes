@@ -16,5 +16,5 @@ kubectl create secret generic op-credentials \
       --scope namespace-wide \
       | yq --prettyPrint > ./infrastructure/controllers/1password/op-credentials.yaml
 
-export SECRET_VALUE=$(echo -n $OP_CONNECT_TOKEN | kubeseal --raw --scope cluster-wide)
+export SECRET_VALUE=$(echo -n $OP_CONNECT_TOKEN | kubeseal --raw --scope namespace-wide --namespace op-connect)
 yq -i '.spec.encryptedData.token = strenv(SECRET_VALUE)' ./infrastructure/controllers/1password/op-credentials.yaml
