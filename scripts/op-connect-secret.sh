@@ -11,7 +11,9 @@ fi
 mkdir -p ./temp
 
 # op-connect expects content of this secret to be base64 encoded
-base64 ./1password-credentials.json > ./temp/1password-credentials.json.base64
+# the -w 0 flag is used to prevent line breaks
+# https://github.com/1Password/connect/issues/62#issuecomment-2065447121
+base64 -w 0 < ./1password-credentials.json > ./temp/1password-credentials.json.base64
 
 kubectl create secret generic op-credentials \
     --namespace=op-connect \
