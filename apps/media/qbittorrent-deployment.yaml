@@ -5,6 +5,8 @@ metadata:
   labels:
     app: qbittorrent-vpn
   name: qbittorrent-vpn
+  annotations:
+    operator.1password.io/auto-restart: "true"
 spec:
   replicas: 1
   selector:
