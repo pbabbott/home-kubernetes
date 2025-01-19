@@ -47,11 +47,6 @@ update_harbor_secrets() {
 }
 
 update_media_secrets() {
-  export SECRET_VALUE=$(echo -n $OPENVPN_USER | kubeseal --raw --scope namespace-wide --namespace media)
-  yq -i '.spec.encryptedData.OPENVPN_USER = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
-
-  export SECRET_VALUE=$(echo -n $OPENVPN_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
-  yq -i '.spec.encryptedData.OPENVPN_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/gluetun-secrets.yaml
 
   kubectl create secret docker-registry regcred \
     --namespace=media \

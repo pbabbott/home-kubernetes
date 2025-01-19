@@ -41,9 +41,6 @@ update_all_keys() {
     update_env_key "$env_file" "HARBOR_REG_USERNAME" "$(get_note_value "HARBOR_REG_USERNAME")"
     update_env_key "$env_file" "HARBOR_REG_PASSWORD" "$(get_login_password "harbor.local.abbottland.io - pbabbott")"
     
-    update_env_key "$env_file" "OPENVPN_USER" "$(get_login_username "PrivateInternetAccess.com")"
-    update_env_key "$env_file" "OPENVPN_PASSWORD" "$(get_login_password "PrivateInternetAccess.com")"
-
     update_env_key "$env_file" "QBITTORRENT_PASSWORD" "$(get_login_password "qbittorrent.local.abbottland.io - admin")"
 }
 
