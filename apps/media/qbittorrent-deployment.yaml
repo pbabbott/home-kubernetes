@@ -37,18 +37,21 @@ spec:
               hostPort: 4000
               name: sync-api
               protocol: TCP
+          env:
+            - name: QBITTORRENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-credentials
+                  key: password
           envFrom:
             - configMapRef:
                 name: gluetun-sync-config
-            - secretRef:
-                name: qbittorrent-secrets
         - name: curl-container
           image: quay.io/curl/curl:latest
           command: ["sleep", "infinity"]
           resources: {}
         - image: qmcgaw/gluetun
           name: gluetun
-          
           securityContext:
             capabilities:
               add: ["NET_ADMIN"]

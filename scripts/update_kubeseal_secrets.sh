@@ -60,8 +60,6 @@ update_media_secrets() {
       --namespace media \
       | yq --prettyPrint > ./apps/media/harbor-regcred.yaml
 
-  export SECRET_VALUE=$(echo -n $QBITTORRENT_PASSWORD | kubeseal --raw --scope namespace-wide --namespace media)
-  yq -i '.spec.encryptedData.QBITTORRENT_PASSWORD = strenv(SECRET_VALUE)' ./apps/media/qbittorrent-secrets.yaml
 }
 
 update_flux_system_secrets() {

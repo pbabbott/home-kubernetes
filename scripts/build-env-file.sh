@@ -40,8 +40,6 @@ update_all_keys() {
     update_env_key "$env_file" "HARBOR_REG_EMAIL" "$(get_note_value "HARBOR_REG_EMAIL")"
     update_env_key "$env_file" "HARBOR_REG_USERNAME" "$(get_note_value "HARBOR_REG_USERNAME")"
     update_env_key "$env_file" "HARBOR_REG_PASSWORD" "$(get_login_password "harbor.local.abbottland.io - pbabbott")"
-    
-    update_env_key "$env_file" "QBITTORRENT_PASSWORD" "$(get_login_password "qbittorrent.local.abbottland.io - admin")"
 }
 
 # Usage

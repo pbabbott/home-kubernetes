@@ -31,6 +31,7 @@ These are common activities one might take while working on this repository.
 Secrets should be rotated and it can become a bit tedious to do so. These documents make it easier to discern each secret's usage and how it should be rotated.
 
 - [Private Internet Access Credentials](./docs/secrets-pia-credentials.md)
+- [QbitTorrent Credentials](./docs/secrets-qbittorrent.md)
 
 
 ## Reference
