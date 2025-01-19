@@ -28,3 +28,5 @@ kubeseal \
 
 export SECRET_VALUE=$(echo -n $OP_CONNECT_TOKEN | kubeseal --raw --scope namespace-wide --namespace op-connect)
 yq -i '.spec.encryptedData.token = strenv(SECRET_VALUE)' ./infrastructure/controllers/1password/op-credentials.yaml
+
+rm ./temp/1password-credentials.json.base64

@@ -5,6 +5,7 @@ A gitops-based approach for all my kubernetes charts, manifests, and helm deploy
 - [Contribution](#contribution)
   - [Getting Started](#getting-started)
   - [Developer Guides](#developer-guides)
+  - [Reference](#reference)
 - [Resources](#resources)
   - [Chart documentation](#chart-documentation)
     - [Verdaccio](#verdaccio)
@@ -24,10 +25,13 @@ Follow this guide to make sure you're ready to start work on this project: [Dev 
 
 ## Developer Guides
 
-- [1Password - Enable the Integration](./docs/dev-guide-1password-connect-server.md) - The 1Password Connect Server allows access to all other secrets, here's how to get it working well.
 - [Bootstrap the cluster with Flux](./docs/dev-guide-flux-bootstrap.md) - This is a one-time activity unless the cluster needs to be rebuilt or more flux features need to be added.
 - [SealedSecrets - Create Manifest](./docs/dev-guide-sealed-secrets-create-manifest.md) - Here is how you can create a SealedSecret for use within the cluster
 - [SealedSecrets - Update Values](./docs/dev-guide-sealed-secrets-update-values.md) - This is how you can update SealedSecret manifests with the help of some scripts.
+
+## Reference
+- [1Password Integration Overview](./docs/reference-1password-integration-overview.md) - Here is how 1Password is setup and steps to get it working in the case of cluster rebuild.
+- [Secret Management Strategy](./docs/reference-secret-management-strategy.md) - Here is how to choose when to use 1Password or SealedSecrets.
 
 # Resources
 
