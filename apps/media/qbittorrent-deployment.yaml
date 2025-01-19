@@ -48,7 +48,7 @@ spec:
           resources: {}
         - image: qmcgaw/gluetun
           name: gluetun
-          resources: {}
+          
           securityContext:
             capabilities:
               add: ["NET_ADMIN"]
@@ -67,19 +67,28 @@ spec:
             - containerPort: 8388
               name: shadowsocks-udp
               protocol: UDP
+          env:
+            - name: OPENVPN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: pia-credentials
+                  key: username
+            - name: OPENVPN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pia-credentials
+                  key: password
           envFrom:
             - configMapRef:
                 name: gluetun-config
-            - secretRef:
-                name: gluetun-secrets
           volumeMounts:
             - name: dev-net-tun
               mountPath: "/dev/net/tun"
             - name: gluetun-config
               mountPath: /gluetun
+          resources: {}
         - image: lscr.io/linuxserver/qbittorrent:latest
           name: qbittorrent
-          resources: {}
           ports:
             - containerPort: 8080
               name: web
@@ -91,6 +100,7 @@ spec:
               mountPath: "/data"
             - name: qbit-config
               mountPath: /config
+          resources: {}
       volumes:
         - name: dev-net-tun
           hostPath:
