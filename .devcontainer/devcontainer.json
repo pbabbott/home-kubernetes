@@ -16,6 +16,7 @@
       "ghcr.io/dhoeric/features/k9s:1": {},
       "ghcr.io/devcontainers-contrib/features/kubectx-kubens:1": {}
   },
+  "runArgs": ["--env-file",".devcontainer/.env"],
   "customizations": {
     "vscode": {
       "extensions": [
@@ -26,5 +27,6 @@
       ]
     }
   },
+	"containerUser": "vscode",
   "postStartCommand": "/workspaces/home-kubernetes/.devcontainer/init-script.sh"
 }
