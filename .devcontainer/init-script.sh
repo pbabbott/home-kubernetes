@@ -20,3 +20,12 @@ git clone https://github.com/superbrothers/zsh-kubectl-prompt.git ${ZSH_CUSTOM:-
 
 echo "Overwriting .zshrc file"
 cp .devcontainer/files/.zshrc /home/vscode/.zshrc
+
+# Install YQ if its not already
+VERSION=v4.44.1
+BINARY=yq_linux_amd64
+
+# TODO: install yq in devcontainer
+if [ ! -f /usr/bin/yq ]; then
+    wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - | tar xz && sudo mv ${BINARY} /usr/bin/yq
+fi
