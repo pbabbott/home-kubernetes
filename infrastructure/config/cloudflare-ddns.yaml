@@ -24,7 +24,7 @@ spec:
           - name: API_KEY
             valueFrom:
               secretKeyRef:
-                name: cloudflare-api-key-token
+                name: cloudflare-api-token-secret
                 key: cloudflare_api_token
           - name: ZONE
             value: abbottland.io
