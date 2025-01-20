@@ -19,12 +19,13 @@ spec:
       containers:
       - image: oznu/cloudflare-ddns
         name: cloudflare-ddns
+        resources: {}
         env:
           - name: API_KEY
             valueFrom:
               secretKeyRef:
-                name: 'cloudflare-api-key-secret'
-                key: 'api-token'
+                name: cloudflare-api-key-token
+                key: cloudflare_api_token
           - name: ZONE
             value: abbottland.io
           

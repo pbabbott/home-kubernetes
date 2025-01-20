@@ -12,8 +12,8 @@ spec:
       - dns01:
           cloudflare:
             apiTokenSecretRef:
-              name: cloudflare-api-key-secret
-              key: api-token
+              name: cloudflare-api-token-secret
+              key: cloudflare_api_token
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -29,5 +29,5 @@ spec:
       - dns01:
           cloudflare:
             apiTokenSecretRef:
-              name: cloudflare-api-key-secret
-              key: api-token
+              name: cloudflare-api-token-secret
+              key: cloudflare_api_token

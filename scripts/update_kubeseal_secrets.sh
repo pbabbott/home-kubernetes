@@ -15,15 +15,6 @@ if [ ! -f .env ]; then
 fi
 source .env
 
-
-update_cloudflare_secrets() {
-  export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope cluster-wide)
-  yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/base/cert-manager/cert-manager-cloudflare-secret.yaml
-
-  export SECRET_VALUE=$(echo -n $CLOUDFLARE_TOKEN | kubeseal --raw --scope namespace-wide --namespace external-dns)
-  yq -i '.spec.encryptedData.api-token = strenv(SECRET_VALUE)' ./infrastructure/controllers/external-dns/external-dns-cloudflare-secret.yaml
-}
-
 update_drone_secrets() {
   export SECRET_VALUE=$(echo -n $DRONE_RPC_SECRET | kubeseal --raw --scope namespace-wide --namespace drone)
   yq -i '.spec.encryptedData.DRONE_RPC_SECRET = strenv(SECRET_VALUE)' ./apps/public/drone/drone-secrets.yaml
@@ -78,7 +69,6 @@ update_flux_system_secrets() {
 }
 
 echo "Starting to update secrets..."
-update_cloudflare_secrets
 # update_drone_secrets
 # update_harbor_secrets
 # update_media_secrets

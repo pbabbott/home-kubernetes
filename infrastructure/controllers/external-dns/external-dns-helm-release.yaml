@@ -19,7 +19,7 @@ spec:
     labelFilter: external-dns-enabled=true
     provider: cloudflare
     cloudflare:
-      secretName: cloudflare-api-key-secret
+      secretName: cloudflare-api-token-secret
       proxied: true
     domainFilters:
       - abbottland.io
