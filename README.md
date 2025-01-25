@@ -30,9 +30,12 @@ These are common activities one might take while working on this repository.
 
 Secrets should be rotated and it can become a bit tedious to do so. These documents make it easier to discern each secret's usage and how it should be rotated.
 
+- [Cloudflare Token](./docs/secrets-cloudflare-token.md)
 - [Private Internet Access Credentials](./docs/secrets-pia-credentials.md)
 - [QbitTorrent Credentials](./docs/secrets-qbittorrent.md)
-- [Cloudflare Token](./docs/secrets-cloudflare-token.md)
+- [Registry Credentials](./docs/secrets-regcred.md)
+- [Harbor Administration](./docs/secrets-harbor-admin.md)
+
 
 ## Reference
 - [1Password Integration Overview](./docs/reference-1password-integration-overview.md) - Here is how 1Password is setup and steps to get it working in the case of cluster rebuild.

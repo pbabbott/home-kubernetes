@@ -32,11 +32,6 @@ update_all_keys() {
     update_env_key "$env_file" "DRONE_GITHUB_CLIENT_SECRET" "$(get_note_value "DRONE_GITHUB_CLIENT_SECRET")"
     update_env_key "$env_file" "DRONE_DATABASE_DATASOURCE" "$(get_note_value "DRONE_DATABASE_DATASOURCE")"
 
-    update_env_key "$env_file" "HARBOR_ADMIN_PASSWORD" "$(get_login_password "harbor.local.abbottland.io - admin")"
-    update_env_key "$env_file" "HARBOR_POSTGRES_PASSWORD" "$(get_note_value "HARBOR_POSTGRES_PASSWORD")"
-    update_env_key "$env_file" "HARBOR_REG_EMAIL" "$(get_note_value "HARBOR_REG_EMAIL")"
-    update_env_key "$env_file" "HARBOR_REG_USERNAME" "$(get_note_value "HARBOR_REG_USERNAME")"
-    update_env_key "$env_file" "HARBOR_REG_PASSWORD" "$(get_login_password "harbor.local.abbottland.io - pbabbott")"
 }
 
 # Usage

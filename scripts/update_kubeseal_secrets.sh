@@ -29,48 +29,7 @@ update_drone_secrets() {
   yq -i '.spec.encryptedData.DRONE_DATABASE_DATASOURCE = strenv(SECRET_VALUE)' ./apps/public/drone/drone-secrets.yaml
 }
 
-update_harbor_secrets() {
-  export SECRET_VALUE=$(echo -n $HARBOR_ADMIN_PASSWORD | kubeseal --raw --scope namespace-wide --namespace harbor)
-  yq -i '.spec.encryptedData.adminPassword = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
-
-  export SECRET_VALUE=$(echo -n $HARBOR_POSTGRES_PASSWORD | kubeseal --raw --scope namespace-wide --namespace harbor)
-  yq -i '.spec.encryptedData.password = strenv(SECRET_VALUE)' ./apps/homelab/harbor/harbor-secrets.yaml
-}
-
-update_media_secrets() {
-
-  kubectl create secret docker-registry regcred \
-    --namespace=media \
-    --docker-server=harbor.local.abbottland.io \
-    --docker-username=$HARBOR_REG_USERNAME \
-    --docker-password=$HARBOR_REG_PASSWORD \
-    --docker-email=$HARBOR_REG_EMAIL \
-    --output json --dry-run=client \
-    | kubeseal \
-      --scope namespace-wide \
-      --namespace media \
-      | yq --prettyPrint > ./apps/media/harbor-regcred.yaml
-
-}
-
-update_flux_system_secrets() {
-  # This is needed for Flux to be able to pull images from Harbor for ImageUpdateAutomation
-  kubectl create secret docker-registry regcred \
-    --namespace=flux-system \
-    --docker-server=harbor.local.abbottland.io \
-    --docker-username=$HARBOR_REG_USERNAME \
-    --docker-password=$HARBOR_REG_PASSWORD \
-    --docker-email=$HARBOR_REG_EMAIL \
-    --output json --dry-run=client \
-    | kubeseal \
-      --scope namespace-wide \
-      --namespace flux-system \
-      | yq --prettyPrint > ./clusters/homelab/harbor-regcred.yaml
-}
 
 echo "Starting to update secrets..."
 # update_drone_secrets
-# update_harbor_secrets
-# update_media_secrets
-# update_flux_system_secrets
 echo "Done."
