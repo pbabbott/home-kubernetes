@@ -1,0 +1,26 @@
+## TODO: determine if a dependency on the arc HelmRelease is required.
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: home-web-apps-amd64
+  namespace: arc
+spec:
+  replicas: 1
+  template:
+    spec:
+      repository: 'pbabbott/home-web-apps'
+      group: default
+      labels:
+        - self-hosted
+        - kube-runner
+        - amd64-runner
+      image: summerwind/actions-runner:latest
+      resources:
+        limits:
+          cpu: "2"
+          memory: "2Gi"
+        requests:
+          cpu: "1"
+          memory: "1Gi"
+      nodeSelector:
+        kubernetes.io/arch: amd64
