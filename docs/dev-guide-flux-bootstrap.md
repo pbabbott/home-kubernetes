@@ -50,7 +50,7 @@ flux check --pre
 ### Step 3 - Rotate the deploy key 
 
 >[!IMPORTANT]
-> This step is only required if the cluster is already boostrapped.  That is, for a first-time flux install, no need to do this step!
+> This step is only required if the cluster is already bootstrapped.  That is, for a first-time flux install, no need to do this step!
 
 Delete the key with:
 ```sh

@@ -14,7 +14,6 @@ This project is meant to run in a `devcontainer` on a VM in my homelab. That is,
 
 ## Getting Started
 
-
 Follow this guide to make sure you're ready to start work on this project: [Dev Environment - Main](./docs/dev-env-main.md)
 
 ## Developer Guides
@@ -25,6 +24,7 @@ These are common activities one might take while working on this repository.
 - [Login to 1Password](./docs/dev-guide-login-to-one-password.md) - Depending on the state of the connect server, here are some tips for authenticating with 1Password.
 - [SealedSecrets - Create Manifest](./docs/dev-guide-sealed-secrets-create-manifest.md) - Here is how you can create a SealedSecret for use within the cluster
 - [SealedSecrets - Update Values](./docs/dev-guide-sealed-secrets-update-values.md) - This is how you can update SealedSecret manifests with the help of some scripts.
+- [Cluster Access](./docs/dev-guide-cluster-access.md) - Once the cluster has been provisioned, this is how you can can set a secret in 1Password so the home-web-apps can access.
 
 ## Secret Rotations
 
