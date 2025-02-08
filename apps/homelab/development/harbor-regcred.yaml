@@ -1,0 +1,19 @@
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: regcred
+  namespace: brandon-dev
+  creationTimestamp: null
+  annotations:
+    sealedsecrets.bitnami.com/namespace-wide: "true"
+spec:
+  template:
+    metadata:
+      name: regcred
+      namespace: brandon-dev
+      creationTimestamp: null
+      annotations:
+        sealedsecrets.bitnami.com/namespace-wide: "true"
+    type: kubernetes.io/dockerconfigjson
+  encryptedData:
+    .dockerconfigjson: AgAWIbJ1D4AvdQZl0i2ofD+kZyxVTMoi+KVnhQzs6TptXLQKSV9cKT+SxPF2ErnmNhlAs+GTNMdCdwCMZAyBgYrxcxtnL4BjsE3miEPlxKr8H0GXDN/WK5+yV0xS5sV+LVoWPrySTntHeqrOKmUgzkmAqRHdR65TQiTqOAiNV4LR8s9eKCIsAhYEv3lTGGkPUWAkIgYE5crgYxPGo05b8FKznBI+S36xzZEJQ3LzoAGMARkRHqunwXW0+33aPHjEu5i/XYvk4yz6e8W8AysggtVBV2pUNz0rlF4SfRR9LNN3NEhgwnEv9zI654e2H9B+UUUVChoTB6VYEzz0rAwXNhHrqHfa+z4tERM+gMcqc7vCHXOAOPzo7MIYrlESZD3PY/mtscZBj+p7QaFywQPER4y6RYp9jPTmVm52LISI+zARYjpDPtSuiN6C3oeG0Zt6imC4bZ66AM9LcNVq6chR+UTKmUHp9oQ2NixYyJLDAJVlMso2lXFTu1ExTF8V0S6wM4dIGRWM6/f4kdcBkyqLckNSazB2Gc8EvtDxMaCepYESwYOkjLqLDeTKVTurLv0ZJG4dJ674m0O1OEu4YpgFAvIqLcRfOmN8qmHjbuuVdByuXYnpJ+lTEWq5i/eVUA7hLZMqbOS5rv/ZNgoP8fW0xuPBDJAoy0hs7e2jd9dfPjR+Bg06S1NSo9w8NrJmt8STgi6cwJdJ++we1HCErJtSwEoygexsBjo0YEMx6IQRaojhtYMWDilO/lB43Bq7XtEhM19p3+VPbJpslD3lXmgxAwnNR0E5ROeTC3oUj1HzU6nNw0qcPOxiJxwgDt+qZopnHQWUyCVADKobMtQEQKWvqcTbgZg6uNtz/rZB1wTLWKXWHDl2TvjsUqWR4jqPZsu2ECSRWmer66kbt02L3skM/KcrQWkoIpD4igI0AX8gMoNafw==

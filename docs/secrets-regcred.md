@@ -28,3 +28,31 @@ Next, we need to run a script to take this username/password combo, transform th
 ### Step 3 - Commit and Push
 
 Commit and push the changes to remote.
+
+## Create Procedure
+
+In order to set up a new instance of `regcred` in the cluster, there are a few steps that need to be followed:
+
+### Step 1 - Create a new file
+
+The first step is to create a new file where the secret should live. For example..
+
+```sh
+touch ./apps/homelab/development/harbor-regcred.yaml
+```
+
+### Step 2 - Update the update script
+
+Next, we want to update the script called `update-regcred-secret.sh` that way we'll get updates whenever the update procedure is run
+
+```sh
+create_reg_cred_secret brandon-dev ./apps/homelab/development/harbor-regcred.yaml
+```
+
+### Step 3 - Run the update script
+
+Finally, it makes sense to run the update script so that the newly created file gets actual content
+
+### Step 4 - Commit, Push, Reconcile
+
+The last step is to commit the sealed secret to git, push it to remote, and reconile changes into the cluster

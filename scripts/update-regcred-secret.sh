@@ -46,4 +46,5 @@ create_reg_cred_secret() {
 # Update registry credentials throughout the cluster
 create_reg_cred_secret media ./apps/media/harbor-regcred.yaml
 create_reg_cred_secret flux-system ./clusters/homelab/harbor-regcred.yaml
+create_reg_cred_secret brandon-dev ./apps/homelab/development/harbor-regcred.yaml
 
