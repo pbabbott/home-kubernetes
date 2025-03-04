@@ -1,0 +1,16 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: home-web-apps-amd64
+  namespace: arc
+spec:
+  scaleTargetRef:
+    name: home-web-apps-amd64
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+      repositoryNames:
+        - pbabbott/home-web-apps
+      scaleUpThreshold: "2"
+      scaleDownThreshold: "1"
