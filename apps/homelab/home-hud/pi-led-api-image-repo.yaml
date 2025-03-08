@@ -1,0 +1,10 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: pi-led-api
+  namespace: flux-system
+spec:
+  image: harbor.local.abbottland.io/library/pi-led-api
+  interval: 5m
+  secretRef:
+    name: regcred

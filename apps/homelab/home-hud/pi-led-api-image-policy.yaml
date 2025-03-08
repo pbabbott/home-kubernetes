@@ -1,0 +1,11 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: pi-led-api
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: pi-led-api
+  policy:
+    semver:
+      range: 0.x.x

@@ -7,7 +7,8 @@ mkdir -p ./temp
 vaultName=Homelab
 itemName=harbor.local.abbottland.io
 filepath=./temp/harbor-credentials.json
-# op item get $itemName --format json --vault $vaultName > $filepath
+# TODO: cache this file across runs
+op item get $itemName --format json --vault $vaultName > $filepath
 HARBOR_REG_USERNAME=$(cat $filepath | jq -r '.fields[] | select(.id == "username") | .value')
 HARBOR_REG_PASSWORD=$(cat $filepath | jq -r '.fields[] | select(.id == "password") | .value')
 HARBOR_REG_EMAIL=$(cat $filepath | jq -r '.fields[] | select(.label == "email") | .value')
@@ -47,4 +48,5 @@ create_reg_cred_secret() {
 create_reg_cred_secret media ./apps/media/harbor-regcred.yaml
 create_reg_cred_secret flux-system ./clusters/homelab/harbor-regcred.yaml
 create_reg_cred_secret brandon-dev ./apps/homelab/development/harbor-regcred.yaml
+create_reg_cred_secret brandon-dev ./apps/homelab/home-hud/harbor-regcred.yaml
 

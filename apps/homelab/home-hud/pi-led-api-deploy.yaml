@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pi-led-api
+  namespace: home-hud
+  labels:
+    app: pi-led-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pi-led-api
+  template:
+    metadata:
+      labels:
+        app: pi-led-api
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      nodeSelector:
+        kubernetes.io/hostname: dumbledore
+      hostPID: true
+      volumes:
+        - name: home-monitor
+          hostPath:
+            path: /home/albus/pironman_monitor
+            type: Directory
+        - name: opt-pironman
+          hostPath:
+            path: /opt/pironman
+            type: Directory
+        - name: var-log-pironman
+          hostPath:
+            path: /var/log/pironman
+            type: Directory
+      containers:
+        - name: pi-led-api
+          image: harbor.local.abbottland.io/library/pi-led-api:0.0.10 # {"$imagepolicy": "flux-system:pi-led-api"}
+          ports:
+            - containerPort: 4001
+          volumeMounts:
+            - name: home-monitor
+              mountPath: /pironman_monitor
+            - name: opt-pironman
+              mountPath: /opt/pironman
+            - name: var-log-pironman
+              mountPath: /var/log/pironman
+          resources:
+            limits:
+              cpu: '1000m'
+              memory: '1024Mi'
+            requests:
+              cpu: '250m'
+              memory: '128Mi'

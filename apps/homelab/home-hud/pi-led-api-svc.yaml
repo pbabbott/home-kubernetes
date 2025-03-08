@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pi-led-api
+  namespace: home-hud
+  labels:
+    app: pi-led-api
+spec:
+  ports:
+    - port: 4001
+      protocol: TCP
+  selector:
+    app: pi-led-api
