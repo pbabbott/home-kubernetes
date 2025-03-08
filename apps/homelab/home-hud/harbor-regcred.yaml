@@ -2,7 +2,7 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: regcred
-  namespace: brandon-dev
+  namespace: home-hud
   creationTimestamp: null
   annotations:
     sealedsecrets.bitnami.com/namespace-wide: "true"
@@ -10,10 +10,10 @@ spec:
   template:
     metadata:
       name: regcred
-      namespace: brandon-dev
+      namespace: home-hud
       creationTimestamp: null
       annotations:
         sealedsecrets.bitnami.com/namespace-wide: "true"
     type: kubernetes.io/dockerconfigjson
   encryptedData:
-    .dockerconfigjson: AgAbIPfRbSBUTR5dlUDcsPckggfPduOdKY4/6DYyer5U6hrfcHt8BENDJWgKxJpwSXABs2hyQaLkBzlkrKu9l7WqHIKFHSgXo6r+PnurSlOZfZaBl9xEC+D7IINMoAgGqpBrX1SJtXNNwpiaJzdrn5Ecbw0a4mTdiAQCMWihrefTInKrIO23vOzypA9cxfRklCCHFKqGzbBpOj0u/EualtXIKti6CqoDQgF4BYABQugBcBT/fPUxon0gv8yBIjAuDvDVQTkyDlMJAaYEcYzY5Xc/iL6/RdnLJ7iyP9N7uPhpu/5yQhwcMGspnzpy7oWnyOrc7l5I4DEt7KEkea3amTHDkmqpdY4by3TydcmzWl6eSpAyGtbhs2KvPT2QvS/RBpt/WjMWW9VHeQE1aK+rma3ZRpSjw7BKIkKIPtM0JW5qMod30dRTyuTlFIcs0wrzq43cI44upnGxjozH6vP3K7d8HFZi8tu0PsvkeSYPNck3MAgbEUBf7UN3moG7QYsPsmKhuLMLIzRi/cYQgzRiQoaI8dQ4SCs/tVTDQ/7BsbAKtqAwM0Kh6jQrnxBeISrcvLX+QXNidciVMtBThaBeYv6oKXwIzsrPq/Ul7QU6ZIG9YldZI7Ep82rJpZVaIVO2byyyL3XYerJtjguo8xX3uj1O2ghTzwTtw16j5v21xjdNA2jK9mjCxqtfZGJFAsIG+KPtZ9pdFYlkPFuYLYfk/2MXO2jHwmrbITeh/WT3a7eFWjiklU8ZFBX1/2XEy2wTmAwHBkR5o4XmkRSXgFPhWhl+dh5ZtVXzfuj28u7hwX9pmjgr5KjxjJQJZ1pksod94sIY1Fuu8nSy+QQIKtUwhuufMWsIf08rOLVK5Q2+nQnkUZ5Qm8S5ORefKptpAg9x3i5fbuRn7R5EC7eK+SRb/TjLwwTMleMKqZzURlVOtai1jg==
+    .dockerconfigjson: AgCCMcDhB+wK4gDeQv7mrNsWKXWZucrcMkeXbi71bOGnzWXHCApIgpGvk14W8qIk1n7mSG5u0tN7ayq2ZM8ysXS+tu4FX1SNwbKm5RHkPEQF5Yz8sHCPwkTy30DHjS/ASORxEQ10gQSaJ7bVvhcUQRpmrxy2jwywBofGK5UUNi1JOLHtTOMWQ/55cdSrVa2d+IXzaLKtLSJHAg719xrUiVDeAozPlbVfqsrwj+mmvihPkxASsLSKnI28zpGklAxs/4LgTPDLrX+LDjq5U8xZl0tUgk/rn6GXcJNGYNFxiqNuAF91HBp3M/y+e/flo8theJULZLczVEp5PhWZ03dbjlTq4VLhDLv/BMD8laWUXzzlVrlr8wZ5UuSaNOo71revFm1Qb57ZPjC740pI8VB9U2r/T285Kn1DB8D3bzMN3wboqaTamWZO/9kj5SeD8UynvFprrjYtgxuNQswG75M1y7Mn93pJ52SHb8ffeB9Q8zKZ3dQR4f50R5z5Kw7QhneqzK8JWsDfnWzy0Ya1mlUwcGE+IeSQZfabgXQA8GyMDyhnQL27Vbb6fD2EmkG48Zc33vpqHF4l9gRtyF62fKN0wr6htvcpdycktGjZmTEuYgHvuP6qJfgH4HkFbFENdvZQ8UnBDuLgtvahlfS5rAh/vd0oM6rWSjHYnNH1MPH42nTgfrx9xpsRnJED7xZR2yDMx80nJK1sJXMY2472SKN/Oxp1MAWsuOMdl9HUpOGOLDXsHNX9C7b8A+eyGq0y1Ubgh2fkVq+yY9RFYyFaFW0ExysHSajB0IDXXC70wcTE6QY32+z+ucju94fSteh+uyUT8d1OUzdQUGq4t/IpdF/bMZzPnVgrNWc0gWlG662yjacCalzGIB/C+vEye0CcXeYZe5HBoc/8fFXWYf6/MezjITipPArqzgHcgTVFWnvrf9Wm4w==
