@@ -35,7 +35,7 @@ spec:
             type: Directory
       containers:
         - name: pi-led-api
-          image: harbor.local.abbottland.io/library/pi-led-api:0.0.10 # {"$imagepolicy": "flux-system:pi-led-api"}
+          image: harbor.local.abbottland.io/library/pi-led-api:0.1.0 # {"$imagepolicy": "flux-system:pi-led-api"}
           ports:
             - containerPort: 4001
           volumeMounts:
