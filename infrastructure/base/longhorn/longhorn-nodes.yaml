@@ -1,0 +1,33 @@
+apiVersion: longhorn.io/v1beta1
+kind: Node
+metadata:
+  name: k8s-worker-1
+spec:
+  disks:
+    ssd-disk:
+      path: /mnt/longhorn-ssd
+      allowScheduling: true
+      storageReserved: 0
+---
+apiVersion: longhorn.io/v1beta1
+kind: Node
+metadata:
+  name: k8s-worker-2
+spec:
+  disks:
+    ssd-disk:
+      path: /mnt/longhorn-ssd
+      allowScheduling: true
+      storageReserved: 0
+---
+apiVersion: longhorn.io/v1beta1
+kind: Node
+metadata:
+  name: k8s-worker-3
+spec:
+  disks:
+    ssd-disk:
+      path: /mnt/longhorn-ssd
+      allowScheduling: true
+      storageReserved: 0
+
