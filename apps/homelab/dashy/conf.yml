@@ -50,11 +50,20 @@ sections:
         target: newtab
         statusCheck: true
         id: 3_1478_asustor
+      - &ref_4
+        title: Longhorn
+        description: Storage Management Portal
+        icon: hl-longhorn
+        url: https://longhorn.local.abbottland.io
+        target: newtab
+        statusCheck: true
+        id: 4_1478_longhorn
     filteredItems:
       - *ref_0
       - *ref_1
       - *ref_2
       - *ref_3
+      - *ref_4
   - name: Observability
     icon: fas fa-eye
     displayData:
