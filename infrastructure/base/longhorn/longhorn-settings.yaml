@@ -2,4 +2,5 @@ apiVersion: longhorn.io/v1beta1
 kind: Setting
 metadata:
   name: create-default-disk
+  namespace: longhorn
 value: "false"
