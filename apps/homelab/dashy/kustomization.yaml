@@ -1,6 +1,6 @@
 resources:
   - ./dashy-deployment.yaml
-  - ./dashy-icons-pvc.yaml
+  - ./dashy-icons-pvc-fast.yaml
   - ./dashy-ingress.yaml
   - ./dashy-namespace.yaml
   - ./dashy-service.yaml
