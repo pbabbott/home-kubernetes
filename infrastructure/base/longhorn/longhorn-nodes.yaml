@@ -2,6 +2,7 @@ apiVersion: longhorn.io/v1beta1
 kind: Node
 metadata:
   name: k8s-worker-1
+  namespace: longhorn
 spec:
   disks:
     ssd-disk:
@@ -13,6 +14,7 @@ apiVersion: longhorn.io/v1beta1
 kind: Node
 metadata:
   name: k8s-worker-2
+  namespace: longhorn
 spec:
   disks:
     ssd-disk:
@@ -24,6 +26,7 @@ apiVersion: longhorn.io/v1beta1
 kind: Node
 metadata:
   name: k8s-worker-3
+  namespace: longhorn
 spec:
   disks:
     ssd-disk:
