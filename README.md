@@ -35,6 +35,7 @@ Secrets should be rotated and it can become a bit tedious to do so. These docume
 - [QbitTorrent Credentials](./docs/secrets-qbittorrent.md)
 - [Registry Credentials](./docs/secrets-regcred.md)
 - [Harbor Administration](./docs/secrets-harbor-admin.md)
+- [Longhorn NAS Backup Credentials](./docs/secrets-longhorn-nas.md)
 
 
 ## Reference
