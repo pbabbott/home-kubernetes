@@ -6,9 +6,9 @@ metadata:
 spec:
   disks:
     ssd-disk:
+      allowScheduling: true
       diskType: filesystem
       path: /mnt/longhorn-ssd
-      allowScheduling: true
       storageReserved: 0
 ---
 apiVersion: longhorn.io/v1beta1
@@ -19,9 +19,9 @@ metadata:
 spec:
   disks:
     ssd-disk:
+      allowScheduling: true
       diskType: filesystem
       path: /mnt/longhorn-ssd
-      allowScheduling: true
       storageReserved: 0
 ---
 apiVersion: longhorn.io/v1beta1
@@ -32,8 +32,8 @@ metadata:
 spec:
   disks:
     ssd-disk:
+      allowScheduling: true
       diskType: filesystem
       path: /mnt/longhorn-ssd
-      allowScheduling: true
       storageReserved: 0
 
