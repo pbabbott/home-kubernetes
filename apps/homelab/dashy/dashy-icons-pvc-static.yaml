@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dashy-item-icons-pv
+  namespace: dashy
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 100Mi
+  storageClassName: longhorn-static
+  csi:
+    driver: driver.longhorn.io 
+    fsType: ext4
+    volumeHandle: dashy-item-icons-pv
+  persistentVolumeReclaimPolicy: Delete
+  volumeMode: Filesystem
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: dashy-item-icons-static
+  namespace: dashy
+spec:
+  storageClassName: "longhorn-static"
+  volumeName: dashy-item-icons-pv
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi

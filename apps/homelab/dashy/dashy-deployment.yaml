@@ -33,7 +33,7 @@ spec:
       volumes:
         - name: dashy-item-icons
           persistentVolumeClaim:
-            claimName: dashy-item-icons-fast
+            claimName: dashy-item-icons-static
         - name: config-volume
           configMap:
             name: dashboard-config
