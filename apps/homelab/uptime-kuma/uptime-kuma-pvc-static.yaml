@@ -1,0 +1,45 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: uptime-kuma-app-data
+  namespace: uptime-kuma
+spec:
+  storageClassName: nas-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: uptime-kuma-app-data-pv
+  namespace: uptime-kuma
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 2Gi
+  storageClassName: longhorn-static
+  csi:
+    driver: driver.longhorn.io 
+    fsType: ext4
+    volumeHandle: uptime-kuma-app-data-pv
+  persistentVolumeReclaimPolicy: Delete
+  volumeMode: Filesystem
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: uptime-kuma-app-data-static
+  namespace: uptime-kuma
+spec:
+  storageClassName: "longhorn-static"
+  volumeName: uptime-kuma-app-data-pv
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
