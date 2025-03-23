@@ -1,17 +1,4 @@
 ---
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: uptime-kuma-app-data
-  namespace: uptime-kuma
-spec:
-  storageClassName: nas-storage
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Mi
----
 apiVersion: v1
 kind: PersistentVolume
 metadata:
