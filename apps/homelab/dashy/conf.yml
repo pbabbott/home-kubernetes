@@ -45,7 +45,7 @@ sections:
       - &ref_3
         title: Asustor
         description: Server Management Portal
-        icon: fa fa-server
+        icon: asustor-nas.png
         url: https://asustor.local.abbottland.io
         target: newtab
         statusCheck: true
