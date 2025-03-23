@@ -25,8 +25,8 @@ spec:
               name: http
           volumeMounts:
             - mountPath: "/app/data"
-              name: uptime-kuma-app-data
+              name: uptime-kuma-app-data-static
       volumes:
-        - name: uptime-kuma-app-data
+        - name: uptime-kuma-app-data-static
           persistentVolumeClaim:
-            claimName: uptime-kuma-app-data
+            claimName: uptime-kuma-app-data-static
