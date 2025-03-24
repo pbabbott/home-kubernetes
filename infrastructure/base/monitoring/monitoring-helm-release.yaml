@@ -17,26 +17,47 @@ spec:
         name: prometheus-community
         namespace: flux-system
       interval: 12h
-    # values:
-    # grafana:
-    #   enabled: true
-    #   adminPassword: "admin"
-    #   service:
-    #     type: LoadBalancer
-    # prometheus:
-    #   prometheusSpec:
-    #     retention: 10m
-    # alertmanager:
-    #   alertmanagerSpec:
-    #     retention: 10m
-    # kubeStateMetrics:
-    #   enabled: true
-    # nodeExporter:
-    #   enabled: true
-    # pushgateway:
-    #   enabled: true
-    # blackboxExporter:
-    #   enabled: true
-    # additionalScrapeConfigs:
-    #   name: additional-scrape-configs
-    #   key: prometheus-additional-scrape-configs.yaml
+  values:
+    alertmanager:
+      enabled: true
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+        hosts:
+          - alertmanager.local.abbottland.io
+        tls:
+          - secretName: alertmanager-tls
+            hosts:
+              - alertmanager.local.abbottland.io
+    grafana:
+      enabled: true
+      defaultDashboardsEnabled: true
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+        hosts:
+          - grafana.local.abbottland.io
+        tls:
+          - secretName: grafana-tls
+            hosts:
+              - grafana.local.abbottland.io
+    prometheus:
+      enabled: true
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,192.168.0.0/16,172.20.0.0/12,10.244.0.0/16
+        hosts:
+          - prometheus.local.abbottland.io
+        tls:
+          - secretName: prometheus-tls
+            hosts:
+              - prometheus.local.abbottland.io
