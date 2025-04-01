@@ -16,8 +16,45 @@ spec:
         namespace: flux-system
   interval: 30m
   values:
-    loki: 
+    deploymentMode: SingleBinary
+    loki:
       auth_enabled: false
-      
+      commonConfig:
+        replication_factor: 1
       storage:
-        type: filesystem
+        type: 'filesystem'
+      schemaConfig:
+        configs:
+        - from: "2024-01-01"
+          store: tsdb
+          index:
+            prefix: loki_index_
+            period: 24h
+          object_store: filesystem # we're storing on filesystem so there's no real persistence here.
+          schema: v13
+    singleBinary:
+      replicas: 1
+      persistence:
+        enableStatefulSetAutoDeletePVC: true
+        enabled: true
+        size: 10Gi
+        storageClass: longhorn
+    read:
+      replicas: 0
+    backend:
+      replicas: 0
+    write:
+      replicas: 0
+
+    gateway:
+      enabled: false
+
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - loki.local.abbottland.io
+      tls:
+      - secretName: loki-gateway-tls
+        hosts:
+          - loki.local.abbottland.io
