@@ -17,5 +17,7 @@ spec:
   interval: 30m
   values:
     loki: 
+      auth_enabled: false
+      
       storage:
         type: filesystem
