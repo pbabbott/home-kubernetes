@@ -17,7 +17,7 @@ spec:
   interval: 30m
   values:
     chunksCache:
-      allocatedMemory: 1Gi
+      allocatedMemory: 1024
     deploymentMode: SingleBinary
     loki:
       auth_enabled: false
