@@ -32,7 +32,6 @@ spec:
         includeCollectorLogs: false
     config:
       receivers:
-        filelogreceiver:
         otlp:
           protocols:
             grpc:
