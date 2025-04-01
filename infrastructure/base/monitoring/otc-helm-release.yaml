@@ -35,10 +35,10 @@ spec:
         pipelines:
           traces:
             receivers: [otlp]
-            exporters: [loki]
+            exporters: [otlphttp]
           metrics:
             receivers: [otlp]
             exporters: [prometheus]
           logs:
             receivers: [otlp]
-            exporters: [loki]
+            exporters: [otlphttp]
