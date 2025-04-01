@@ -26,9 +26,9 @@ spec:
             http:
 
       exporters:
-        loki:
+        lokiexporter:
           endpoint: http://loki.monitoring.svc:3100
-        prometheus:
+        prometheusremotewriteexporter:
           endpoint: "0.0.0.0:8889"
 
       service:
