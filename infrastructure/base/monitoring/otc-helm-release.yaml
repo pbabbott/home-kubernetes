@@ -2,9 +2,10 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: opentelemetry-collector
-  namespace: monitoring
+  namespace: flux-system
 spec:
-  interval: 10m
+  interval: 30m
+  targetNamespace: monitoring
   chart:
     spec:
       chart: opentelemetry-collector
