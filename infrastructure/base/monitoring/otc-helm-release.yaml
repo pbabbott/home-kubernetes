@@ -1,0 +1,41 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: opentelemetry-collector
+  namespace: monitoring
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: opentelemetry-collector
+      version: 0.84.1
+      sourceRef:
+        kind: HelmRepository
+        name: opentelemetry-helm
+        namespace: flux-system
+  values:
+    mode: deployment
+    config:
+      receivers:
+        otlp:
+          protocols:
+            grpc:
+            http:
+
+      exporters:
+        loki:
+          endpoint: http://loki.monitoring.svc:3100
+        prometheus:
+          endpoint: "0.0.0.0:8889"
+
+      service:
+        pipelines:
+          traces:
+            receivers: [otlp]
+            exporters: [loki]
+          metrics:
+            receivers: [otlp]
+            exporters: [prometheus]
+          logs:
+            receivers: [otlp]
+            exporters: [loki]
