@@ -35,8 +35,11 @@ spec:
             period: 24h
           object_store: filesystem # we're storing on filesystem so there's no real persistence here.
           schema: v13
+    # The Loki canary pushes logs to and queries from this loki installation to test
+    # that it's working correctly
     lokiCanary:
-      push: false
+      enabled: false
+      push: true
     singleBinary:
       replicas: 1
       persistence:
