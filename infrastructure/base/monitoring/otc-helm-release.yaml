@@ -29,16 +29,16 @@ spec:
         otlphttp:
           endpoint: http://loki.monitoring.svc:3100
         prometheusremotewrite:
-          endpoint: "0.0.0.0:8889"
+          endpoint: "http://prometheus.monitoring.svc:8889"
 
       service:
         pipelines:
-          traces:
-            receivers: [otlp]
-            exporters: [otlphttp]
+          # traces:
+          #   receivers: [otlp]
+          #   exporters: [otlphttp]
           metrics:
             receivers: [otlp]
-            exporters: [prometheus]
+            exporters: [prometheusremotewrite]
           logs:
             receivers: [otlp]
             exporters: [otlphttp]
