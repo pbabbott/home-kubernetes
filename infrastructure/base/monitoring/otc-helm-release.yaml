@@ -17,28 +17,34 @@ spec:
   values:
     image:
       repository: "otel/opentelemetry-collector-contrib"
-    mode: deployment
+    mode: daemonset
+    presets:
+      # hostMetrics:
+      #   enabled: true
+      # kubeletMetrics:
+      #   enabled: true
+      # clusterMetrics:
+      #   enabled: true
+      # kubernetesEvents:
+      #   enabled: true
+      logsCollection:
+        enabled: true
+        includeCollectorLogs: true
     config:
       receivers:
         otlp:
           protocols:
             grpc:
             http:
-
       exporters:
         otlphttp:
-          endpoint: http://loki.monitoring.svc:3100
+          endpoint: http://loki.monitoring.svc:3100/otlp
         prometheusremotewrite:
           endpoint: "http://prometheus.monitoring.svc:8889"
-
       service:
         pipelines:
-          # traces:
-          #   receivers: [otlp]
-          #   exporters: [otlphttp]
           metrics:
             receivers: [otlp]
             exporters: [prometheusremotewrite]
           logs:
-            receivers: [otlp]
             exporters: [otlphttp]
