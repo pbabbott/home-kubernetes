@@ -1,0 +1,51 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: opentelemetry-collector
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: monitoring
+  chart:
+    spec:
+      chart: opentelemetry-collector
+      version: 0.120.0
+      sourceRef:
+        kind: HelmRepository
+        name: opentelemetry-helm
+        namespace: flux-system
+  values:
+    image:
+      repository: "otel/opentelemetry-collector-contrib"
+    mode: daemonset
+    presets:
+      # hostMetrics:
+      #   enabled: true
+      # kubeletMetrics:
+      #   enabled: true
+      # clusterMetrics:
+      #   enabled: true
+      # kubernetesEvents:
+      #   enabled: true
+      logsCollection:
+        enabled: true
+        includeCollectorLogs: false
+    config:
+      receivers:
+        filelogreceiver:
+        otlp:
+          protocols:
+            grpc:
+            http:
+      exporters:
+        otlphttp:
+          endpoint: http://loki.monitoring.svc:3100/otlp
+        prometheusremotewrite:
+          endpoint: "http://prometheus.monitoring.svc:8889"
+      service:
+        pipelines:
+          metrics:
+            receivers: [otlp]
+            exporters: [prometheusremotewrite]
+          logs:
+            exporters: [otlphttp]
