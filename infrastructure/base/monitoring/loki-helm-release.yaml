@@ -40,6 +40,8 @@ spec:
     lokiCanary:
       enabled: false
       push: true
+    test:
+      enabled: false # disabled because the canary is disabled
     singleBinary:
       replicas: 1
       persistence:
