@@ -18,7 +18,7 @@ spec:
     image:
       repository: "otel/opentelemetry-collector-contrib"
     mode: daemonset
-    # presets:
+    presets:
       # hostMetrics:
       #   enabled: true
       # kubeletMetrics:
@@ -27,30 +27,15 @@ spec:
       #   enabled: true
       # kubernetesEvents:
       #   enabled: true
-      # logsCollection:
-      #   enabled: false
-      #   includeCollectorLogs: true
+      logsCollection:
+        enabled: true
+        includeCollectorLogs: true
     config:
       receivers:
         otlp:
           protocols:
             grpc:
             http:
-        filelog:
-          exclude:
-            - /var/log/pods/monitoring_monitoring-opentelemetry-collector*_*/opentelemetry-collector/*.log 
-          include:
-            - /var/log/pods/*/*/*.log
-          include_file_name: false
-          include_file_path: true
-          operators:
-            - id: container-parser
-              max_log_size: 102400
-              type: container
-          retry_on_failure:
-            enabled: true
-          start_at: end
-      
       exporters:
         otlphttp:
           endpoint: http://loki.monitoring.svc:3100/otlp
@@ -63,5 +48,3 @@ spec:
             exporters: [prometheusremotewrite]
           logs:
             exporters: [otlphttp]
-            processors: [memory_limiter, batch]
-            receivers: [otlp, filelog]
