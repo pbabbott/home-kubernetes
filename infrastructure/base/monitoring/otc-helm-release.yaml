@@ -21,7 +21,7 @@ spec:
     presets:
       logsCollection:
         enabled: true
-        includeCollectorLogs: true
+        includeCollectorLogs: false
     config:
       receivers:
         otlp:
