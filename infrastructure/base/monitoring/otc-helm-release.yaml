@@ -18,7 +18,7 @@ spec:
     image:
       repository: "otel/opentelemetry-collector-contrib"
     mode: daemonset
-    presets:
+    # presets:
       # hostMetrics:
       #   enabled: true
       # kubeletMetrics:
@@ -27,8 +27,8 @@ spec:
       #   enabled: true
       # kubernetesEvents:
       #   enabled: true
-      logsCollection:
-        enabled: false
+      # logsCollection:
+      #   enabled: false
       #   includeCollectorLogs: true
     config:
       receivers:
