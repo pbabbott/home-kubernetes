@@ -145,7 +145,6 @@ sections:
         statusCheck: true
         id: 3_848_podinfo
     filteredItems:
-      - *ref_8
       - *ref_9
       - *ref_10
       - *ref_11
