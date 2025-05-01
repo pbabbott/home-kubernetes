@@ -120,14 +120,6 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_8
-        title: Drone
-        description: CI/CD Server
-        icon: hl-drone
-        url: https://drone.abbottland.io
-        target: newtab
-        statusCheck: true
-        id: 0_848_drone
       - &ref_9
         title: Harbor
         description: Container Registry
