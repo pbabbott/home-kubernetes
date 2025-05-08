@@ -59,11 +59,7 @@ spec:
         additionalScrapeConfigs:
           # Re-label node-exporter to use the node name as the instance label
           - job_name: 'node-exporter'
-            kubernetes_sd_configs:
-              - role: node
             relabel_configs:
-              - source_labels: [__meta_kubernetes_node_name]
-                target_label: instance
               - source_labels: [__instance__]
                 regex: 192\.168\.4\.157:9100
                 action: replace
