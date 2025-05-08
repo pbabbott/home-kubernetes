@@ -64,19 +64,28 @@ spec:
             relabel_configs:
               - source_labels: [__meta_kubernetes_node_name]
                 target_label: instance
+              - source_labels: [__instance__]
+                regex: 192\.168\.4\.157:9100
+                action: replace
+                target_label: host_type
+                replacement: physical
             static_configs:
               - targets:
                 - 192.168.4.192:9100
                 labels:
                   nickname: chimaera
+                  host_type: physical
               - targets:
                 - 192.168.4.124:9100
                 labels:
                   nickname: room_of_requirement
+                  nodename: room_of_requirement
+                  host_type: physical
               - targets:
                 - 192.168.4.144:9100
                 labels:
                   nickname: bananapi
+                  host_type: physical
                 
 
       enabled: true
