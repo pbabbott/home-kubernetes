@@ -58,7 +58,7 @@ spec:
       prometheusSpec:
         additionalScrapeConfigs:
           # Re-label node-exporter to use the node name as the instance label
-          - job_name: 'node-exporter'
+          - job_name: 'node-exporter-physical'
             relabel_configs:
               - source_labels: [__instance__]
                 regex: 192\.168\.4\.157:9100
