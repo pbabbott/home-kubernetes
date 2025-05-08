@@ -66,9 +66,18 @@ spec:
                 target_label: instance
             static_configs:
               - targets:
-                  - 192.168.4.192:9100
+                - 192.168.4.192:9100
                 labels:
                   nickname: chimaera
+              - targets:
+                - 192.168.4.124:9100
+                labels:
+                  nickname: room_of_requirement
+              - targets:
+                - 192.168.4.144:9100
+                labels:
+                  nickname: bananapi
+                
 
       enabled: true
       ingress:
