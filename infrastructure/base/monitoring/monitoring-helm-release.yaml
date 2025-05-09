@@ -65,6 +65,11 @@ spec:
                 replacement: physical
             static_configs:
               - targets:
+                - 192.168.4.157:9100
+                labels:
+                  nickname: dumbledore
+                  host_type: physical
+              - targets:
                 - 192.168.4.192:9100
                 labels:
                   nickname: chimaera
