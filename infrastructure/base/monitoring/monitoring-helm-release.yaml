@@ -58,11 +58,6 @@ spec:
       prometheusSpec:
         additionalScrapeConfigs:
           - job_name: 'node-exporter-physical'
-            relabel_configs:
-              - source_labels: [instance]
-                regex: 192\.168\.4\.157:9100
-                target_label: host_type
-                replacement: physical
             static_configs:
               - targets:
                 - 192.168.4.157:9100
