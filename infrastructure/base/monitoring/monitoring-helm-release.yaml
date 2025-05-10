@@ -80,7 +80,6 @@ spec:
                 labels:
                   nickname: bananapi
                   host_type: physical
-                
 
       enabled: true
       ingress:
