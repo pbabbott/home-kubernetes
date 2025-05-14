@@ -7,6 +7,7 @@ A gitops-based approach for all my kubernetes charts, manifests, and helm deploy
   - [Developer Guides](#developer-guides)
   - [Secret Rotations](#secret-rotations)
   - [Reference](#reference)
+    - [External Docs](#external-docs)
 
 # Contribution 
 
@@ -42,3 +43,6 @@ Secrets should be rotated and it can become a bit tedious to do so. These docume
 - [1Password Integration Overview](./docs/reference-1password-integration-overview.md) - Here is how 1Password is setup and steps to get it working in the case of cluster rebuild.
 - [Chart Documentation](./docs/reference-chart-documentation.md) - A bunch of links to handy documentation websites and a few commands.
 - [Secret Management Strategy](./docs/reference-secret-management-strategy.md) - Here is how to choose when to use 1Password or SealedSecrets.
+
+### External Docs
+- [Grafana Operator Documentation](https://grafana.github.io/grafana-operator/docs/)

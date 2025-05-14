@@ -1,20 +1,21 @@
+---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: Grafana
 metadata:
-  name: grafana
+  name: grafana-staging
   namespace: grafana
   labels:
-    dashboards: "grafana"
+    dashboards: grafana-staging
 spec:
   config:
-    security:
-      admin_user: admin
-      admin_password: admin
-    auth:
-      disable_login_form: "false"
     log:
       mode: console
       level: warn
+    auth:
+      disable_login_form: "false"
+    security:
+      admin_user: admin
+      admin_password: admin
   ingress:
     metadata:
       annotations:
@@ -23,7 +24,7 @@ spec:
     spec:
       ingressClassName: nginx
       rules:
-        - host: grafana2.local.abbottland.io
+        - host: grafana-staging.local.abbottland.io
           http:
             paths:
               - backend:
@@ -35,5 +36,19 @@ spec:
                 pathType: Prefix
       tls:
         - hosts:
-            - grafana2.local.abbottland.io
-          secretName: grafana-tls
+            - grafana-staging.local.abbottland.io
+          secretName: grafana-staging-tls
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: grafana
+              readinessProbe:
+                failureThreshold: 3
+          volumes:
+            - name: grafana-data
+              persistentVolumeClaim:
+                claimName: grafana-staging-pvc
+      strategy:
+        type: Recreate

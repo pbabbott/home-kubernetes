@@ -1,0 +1,6 @@
+resources:
+  - ./grafana.yaml
+  - ./grafana-staging-pvc.yaml
+  - ./grafana-staging.yaml
+  - ./dashboard-my-hosts-configmap.yaml
+  # - ./prometheus-grafana-datasource.yaml
