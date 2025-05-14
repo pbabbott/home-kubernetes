@@ -67,13 +67,13 @@ sections:
   - name: Observability
     icon: fas fa-eye
     displayData:
-      sortBy: default
+      sortBy: alphabetical
       rows: 1
       cols: 1
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_4
+      - &ref_5
         title: Uptime Kuma
         description: Uptime Dashboard
         icon: hl-uptime-kuma
@@ -82,7 +82,7 @@ sections:
         statusCheck: true
         statusCheckAllowInsecure: true
         id: 0_1375_uptimekuma
-      - &ref_5
+      - &ref_6
         title: Grafana
         description: Dashboards
         icon: hl-grafana
@@ -90,7 +90,7 @@ sections:
         target: newtab
         statusCheck: true
         id: 1_1375_grafana
-      - &ref_6
+      - &ref_7
         title: Alert Manager
         description: Send prometheus data-driven alerts
         icon: hl-alertmanager
@@ -98,7 +98,7 @@ sections:
         target: newtab
         statusCheck: true
         id: 2_1375_alertmanager
-      - &ref_7
+      - &ref_8
         title: Prometheus
         description: Metrics Aggregator
         icon: hl-prometheus
@@ -106,11 +106,20 @@ sections:
         target: newtab
         statusCheck: true
         id: 3_1375_prometheus
+      - &ref_9
+        title: Grafana 2
+        description: GitOps Managed Grafana
+        icon: hl-grafana
+        url: https://grafana2.local.abbottland.io
+        target: newtab
+        statusCheck: true
+        id: 4_1375_grafana
     filteredItems:
-      - *ref_4
       - *ref_5
       - *ref_6
       - *ref_7
+      - *ref_8
+      - *ref_9
   - name: Dev Tools
     icon: fas fa-building
     displayData:
@@ -120,34 +129,34 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_9
+      - &ref_10
         title: Harbor
         description: Container Registry
         icon: hl-harbor
         url: https://harbor.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 1_848_harbor
-      - &ref_10
+        id: 0_848_harbor
+      - &ref_11
         title: Verdaccio
         description: NPM Registry & Proxy
         icon: verdaccio.svg
         url: https://verdaccio.local.abbottland.io
         target: newtab
         statusCheck: true
-        id: 2_848_verdaccio
-      - &ref_11
+        id: 1_848_verdaccio
+      - &ref_12
         title: Pod Info
         description: Diagnostic K8s Pod
         icon: hl-kubernetes
         url: https://podinfo.local.abbottland.io/
         target: newtab
         statusCheck: true
-        id: 3_848_podinfo
+        id: 2_848_podinfo
     filteredItems:
-      - *ref_9
       - *ref_10
       - *ref_11
+      - *ref_12
   - name: Public Apps
     icon: fas fa-server
     displayData:
@@ -157,7 +166,7 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_12
+      - &ref_13
         title: Home Assistant
         description: Home Automations
         icon: hl-home-assistant
@@ -165,7 +174,7 @@ sections:
         target: newtab
         statusCheck: true
         id: 0_1043_homeassistant
-      - &ref_13
+      - &ref_14
         title: Mealie
         description: Recipe database
         icon: hl-mealie
@@ -174,7 +183,7 @@ sections:
         statusCheck: true
         statusCheckAllowInsecure: true
         id: 1_1043_mealie
-      - &ref_14
+      - &ref_15
         title: Plex
         description: Plex Media Server
         icon: hl-plex
@@ -183,9 +192,9 @@ sections:
         statusCheck: true
         id: 2_1043_plex
     filteredItems:
-      - *ref_12
       - *ref_13
       - *ref_14
+      - *ref_15
   - name: Media
     icon: fas fa-server
     displayData:
@@ -195,7 +204,7 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_15
+      - &ref_16
         title: qBittorrent
         description: Torrents for Media
         icon: hl-qbittorrent
@@ -203,7 +212,7 @@ sections:
         target: newtab
         statusCheck: true
         id: 0_480_qbittorrent
-      - &ref_16
+      - &ref_17
         title: Prowlarr
         description: Indexer manager
         icon: hl-prowlarr
@@ -211,7 +220,7 @@ sections:
         target: newtab
         statusCheck: true
         id: 1_480_prowlarr
-      - &ref_17
+      - &ref_18
         title: Radarr
         description: Movie downloads
         icon: hl-radarr
@@ -219,7 +228,7 @@ sections:
         target: newtab
         statusCheck: true
         id: 2_480_radarr
-      - &ref_18
+      - &ref_19
         title: Sonarr
         description: TV Shows
         icon: hl-sonarr
@@ -228,10 +237,10 @@ sections:
         statusCheck: true
         id: 3_480_sonarr
     filteredItems:
-      - *ref_15
       - *ref_16
       - *ref_17
       - *ref_18
+      - *ref_19
   - name: Gaming
     icon: hl-steam
     displayData:
@@ -241,7 +250,7 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_19
+      - &ref_20
         title: Home File Service
         description: Helps move content onto my NAS
         icon: corsair-svgrepo-com.svg
@@ -249,7 +258,7 @@ sections:
         target: newtab
         statusCheck: true
         id: 0_595_homefileservice
-      - &ref_20
+      - &ref_21
         title: HandBrake
         description: Video converter service
         icon: hl-handbrake
@@ -258,8 +267,8 @@ sections:
         statusCheck: true
         id: 1_595_handbrake
     filteredItems:
-      - *ref_19
       - *ref_20
+      - *ref_21
   - name: Icons
     icon: fa fa-icons
     displayData:
@@ -269,36 +278,36 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_21
+      - &ref_22
         title: Font Awesome
         description: Font Awesome Icon Search
         icon: fa fa-font-awesome
         url: https://fontawesome.com/
         target: newtab
         id: 0_508_fontawesome
-      - &ref_22
+      - &ref_23
         title: Dashy Icon Docs
         icon: hl-dashy
         url: https://dashy.to/docs/icons
         id: 1_508_dashyicondocs
-      - &ref_23
+      - &ref_24
         title: Homelab Icons
         description: List of supported homelab icons
         icon: fa fa-icons
         url: https://github.com/WalkxCode/dashboard-icons/tree/main/png
         target: newtab
         id: 2_508_homelabicons
-      - &ref_24
+      - &ref_25
         title: SVG Repo
         icon: fa fa-icons
         url: https://www.svgrepo.com/
         target: newtab
         id: 3_508_svgrepo
     filteredItems:
-      - *ref_21
       - *ref_22
       - *ref_23
       - *ref_24
+      - *ref_25
   - name: Project Links
     icon: fa fa-link
     displayData:
@@ -308,14 +317,14 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_25
+      - &ref_26
         title: Miro
         description: 'Whiteboard designs '
         icon: fa fa-link
         url: https://miro.com/app/board/uXjVPzv9we8=/
         target: newtab
         id: 0_1272_miro
-      - &ref_26
+      - &ref_27
         title: Figma
         description: Hi fidelity designs
         icon: fa fa-link
@@ -323,8 +332,8 @@ sections:
         target: newtab
         id: 1_1272_figma
     filteredItems:
-      - *ref_25
       - *ref_26
+      - *ref_27
   - name: Code
     icon: hl-github
     displayData:
@@ -334,28 +343,28 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_27
+      - &ref_28
         title: home-file-service
         description: Automatically move files from PC onto NAS
         icon: hl-github
         url: https://github.com/pbabbott/home-file-service
         target: newtab
         id: 0_379_homefileservice
-      - &ref_28
+      - &ref_29
         title: home-playbooks
         description: Ansible playbooks to manage all home infra
         icon: hl-github
         url: https://github.com/pbabbott/home-playbooks
         target: newtab
         id: 1_379_homeplaybooks
-      - &ref_29
+      - &ref_30
         title: home-web-apps
         description: Web application code for home projects
         icon: hl-github
         url: https://github.com/pbabbott/home-web-apps
         target: newtab
         id: 2_379_homewebapps
-      - &ref_30
+      - &ref_31
         title: home-playbooks
         description: vs code workspace
         icon: hl-code
@@ -365,10 +374,10 @@ sections:
         statusCheck: true
         id: 3_379_homeplaybooks
     filteredItems:
-      - *ref_27
       - *ref_28
       - *ref_29
       - *ref_30
+      - *ref_31
   - name: Azure
     icon: hl-azure
     displayData:
@@ -378,7 +387,7 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_31
+      - &ref_32
         title: home-prod-001
         description: Azure Subscription
         icon: fa fa-key
@@ -386,7 +395,7 @@ sections:
           https://portal.azure.com/#@pbabbottgmail.onmicrosoft.com/resource/subscriptions/07619e8e-01a2-4b48-9d9c-281f290d3a37/overview
         target: newtab
         id: 0_519_homeprod
-      - &ref_32
+      - &ref_33
         title: sthomebackup001
         description: Azure Storage
         icon: fa fa-folder
@@ -394,7 +403,7 @@ sections:
           https://portal.azure.com/#@pbabbottgmail.onmicrosoft.com/resource/subscriptions/07619e8e-01a2-4b48-9d9c-281f290d3a37/resourceGroups/rg-home-prod-001/providers/Microsoft.Storage/storageAccounts/sthomebackup001/overview
         target: newtab
         id: 1_519_sthomebackup
-      - &ref_33
+      - &ref_34
         title: rpi001
         description: Storage Container
         icon: fa fa-folder
@@ -403,6 +412,6 @@ sections:
         target: newtab
         id: 2_519_rpi
     filteredItems:
-      - *ref_31
       - *ref_32
       - *ref_33
+      - *ref_34
