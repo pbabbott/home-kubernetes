@@ -46,3 +46,4 @@ Secrets should be rotated and it can become a bit tedious to do so. These docume
 
 ### External Docs
 - [Grafana Operator Documentation](https://grafana.github.io/grafana-operator/docs/)
+- [Kustomize Documentation Reference](https://kubectl.docs.kubernetes.io/references/kustomize/)
