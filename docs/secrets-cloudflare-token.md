@@ -30,4 +30,4 @@ Updating this secret is easy, as the secret just needs to be updated in the `1Pa
   - I chose abbottland.io
   - No client filtering
   - TTL is 1 year
-
+- Step 6 - Find the password in 1Password called `cloudflare_api_token` & update the value.
