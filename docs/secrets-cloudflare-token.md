@@ -31,3 +31,5 @@ Updating this secret is easy, as the secret just needs to be updated in the `1Pa
   - No client filtering
   - TTL is 1 year
 - Step 6 - Find the password in 1Password called `cloudflare_api_token` & update the value.
+- Step 7 (optional) - Go delete the k8s secrets in the namespaces above
+- Step 8 (optional) - `k apply -f <one-password-item.yaml>`
