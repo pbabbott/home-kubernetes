@@ -24,6 +24,11 @@ spec:
       interval: 12h
   values:
     controller:
+      metrics:
+        enabled: true
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
       kind: DaemonSet
       allowSnippetAnnotations: true
       config:
