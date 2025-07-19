@@ -49,4 +49,5 @@ create_reg_cred_secret media ./apps/media/harbor-regcred.yaml
 create_reg_cred_secret flux-system ./clusters/homelab/harbor-regcred.yaml
 create_reg_cred_secret brandon-dev ./apps/homelab/development/harbor-regcred.yaml
 create_reg_cred_secret home-hud ./apps/homelab/home-hud/harbor-regcred.yaml
+create_reg_cred_secret fui-components ./apps/public/fui-components/harbor-regcred.yaml
 

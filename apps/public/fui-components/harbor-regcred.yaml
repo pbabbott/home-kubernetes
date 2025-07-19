@@ -1,0 +1,19 @@
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: regcred
+  namespace: fui-components
+  creationTimestamp: null
+  annotations:
+    sealedsecrets.bitnami.com/namespace-wide: "true"
+spec:
+  template:
+    metadata:
+      name: regcred
+      namespace: fui-components
+      creationTimestamp: null
+      annotations:
+        sealedsecrets.bitnami.com/namespace-wide: "true"
+    type: kubernetes.io/dockerconfigjson
+  encryptedData:
+    .dockerconfigjson: AgCUYnRyLjWMtTJWn74Y8gpwoDnmmQhfHWTgM0okRTxUfC0nX3kowMxLmsgLJ2M5Q8aSFLl/wpGeUE4skO/Bh4jsRWW4KJTHMhwh1GTH5OlNt76MeTetuhhFNXO41C/7pKXnjnUKBJuX11DRS0wYbYXsJHuns3WYQwh1vZ/LC/GVsGNdzBd5zlYuRBfgTJWhsnkRMTzkR80Ka2l2D0tfFBWw9FKXBvAn7AVEIDRCp45Q407CIrheywFIue5QOQ6PMf+T8JAp9ZhxRTHq8b97u5PKv0Q35zUC4OThD7jwUEP3+GMzajhHtTZRwQmIObkUOK8MsPeFEWzPpoJ1vvp4bN51CPkwBDdiruZ6blZBvRKsXZftsF9u9x7UrFSv8RIDgllsoDyMOw42xy01FNsoeLgTbZxlOChTynAYIJspCgtY5U+dfGcii1OTd2Yx2jwjIlJKezQcYW7rdB5GgEqdCuvE30f0QT09/WzkZ250otxLbhOnKMnAjdM6gURjKwbF0e6F0ScydoRQC4bzG5cBVwXclGvx3XiYq4BMolUyucuE1+Z8ph+w6lCnJGPYo8KCrA+VDcNXpGyVf47PCI7vnQw4g0sddeyMji3UlTOHKagSqA5MqraiLE1tTqUvJzOciG6ECOveJOB69HgpVg+9pwESfOoytg+B75Q+adelTjoLEPRn82e6+8FA/m/ZRacwL+NF1utQxfswhY22PnTGz4RIOD4xkEcadeLoSRC17GeIXqDW+ku5I0v1jCYE9CCaw3WaEMsXXodKF4jCuFj3vnhsQULw1okJ+7uwBw3D1OBZm+X2Ug5f4BoBrKSnFOIpkcuIZniwih9blo0eu0X+KUwy+YYZ14f/LXB8jT9062CWbjDGiSA6AFghYJfovj4zznTPhvw5L1/PuZTS+4zc38/SchmuxGG9AiUO4fhJSEQ5Hg==

@@ -1,0 +1,28 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: fui-components
+  labels:
+    app: fui-components
+  name: fui-components
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fui-components
+  template:
+    metadata:
+      labels:
+        app: fui-components
+    spec:
+      containers:
+        - image: harbor.local.abbottland.io/library/fui-components:0.2.0
+          name: fui-components
+          ports:
+            - containerPort: 80
+              hostPort: 80
+              name: http
+          resources: {}
+          

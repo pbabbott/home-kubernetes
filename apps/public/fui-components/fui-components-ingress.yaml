@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fui-components
+  namespace: fui-components
+  labels:
+    external-dns-enabled: "true"
+  annotations:
+    external-dns.alpha.kubernetes.io/target: abbottland.io
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: fui-components.abbottland.io
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: fui-components.abbottland.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: fui-components
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - fui-components.abbottland.io
+    secretName: fui-components-tls

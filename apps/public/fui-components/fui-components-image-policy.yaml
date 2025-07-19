@@ -1,0 +1,11 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: fui-components
+  namespace: fui-components
+spec:
+  imageRepositoryRef:
+    name: fui-components
+  policy:
+    semver:
+      range: 0.x.x
