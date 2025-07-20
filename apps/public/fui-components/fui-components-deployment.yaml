@@ -17,6 +17,17 @@ spec:
       labels:
         app: fui-components
     spec:
+      imagePullSecrets:
+        - name: regcred
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: NotIn
+                    values:
+                      - arm64
       containers:
         - image: harbor.local.abbottland.io/library/fui-components:0.2.0
           name: fui-components
