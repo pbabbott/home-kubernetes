@@ -10,6 +10,7 @@ spec:
   chartRef:
     kind: HelmChart
     name: ingress-nginx
+    namespace: flux-system
   values:
     controller:
       metrics:
