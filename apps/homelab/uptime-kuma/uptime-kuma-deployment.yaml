@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +16,7 @@ spec:
         app: uptime-kuma
     spec:
       containers:
-        - image: louislam/uptime-kuma:1.23.16 # {"$imagepolicy": "flux-system:uptime-kuma"}
+        - image: louislam/uptime-kuma:1.23.17 # {"$imagepolicy": "flux-system:uptime-kuma"}
           name: uptime-kuma
           resources: {}
           ports:
