@@ -3,6 +3,12 @@ if [ -d "/workspaces/home-kubernetes-docker" ]; then
     git config --global --add safe.directory /workspaces/home-kubernetes-docker
 fi
 
+# Set up git origin to resolve push warning
+git config --global push.autoSetupRemote true
+
+# Set up git credential helper
+git config --global credential.helper store
+
 echo "pwd"
 pwd
 
@@ -29,3 +35,7 @@ BINARY=yq_linux_amd64
 if [ ! -f /usr/bin/yq ]; then
     wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - | tar xz && sudo mv ${BINARY} /usr/bin/yq
 fi
+
+# Clean up yq junk
+rm yq.1
+rm install-man-page.sh
