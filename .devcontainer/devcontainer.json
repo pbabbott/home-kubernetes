@@ -11,11 +11,14 @@
       "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
       "ghcr.io/goldsam/dev-container-features/flux2:1": {},
       "ghcr.io/gickis/devcontainer-features/kubeseal:1":{},
-      "ghcr.io/devcontainers-contrib/features/starship:1": {},
+      "ghcr.io/devcontainers-extra/features/starship:1": {},
       "ghcr.io/flexwie/devcontainer-features/op:1": {},
       "ghcr.io/dhoeric/features/k9s:1": {},
-      "ghcr.io/devcontainers-contrib/features/kubectx-kubens:1": {}
+      "ghcr.io/devcontainers-extra/features/kubectx-kubens:1": {}
   },
+  "mounts": [
+    "type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly"
+  ],
   "runArgs": ["--env-file",".devcontainer/.env"],
   "customizations": {
     "vscode": {
@@ -29,4 +32,4 @@
   },
 	"containerUser": "vscode",
   "postStartCommand": "/workspaces/home-kubernetes/.devcontainer/init-script.sh"
-}
+} 
