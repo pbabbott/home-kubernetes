@@ -29,7 +29,7 @@ spec:
                     values:
                       - arm64
       containers:
-        - image: harbor.local.abbottland.io/library/fui-components:0.2.0
+        - image: harbor.local.abbottland.io/library/fui-components:0.3.0 # {"$imagepolicy": "flux-system:fui-components"}
           name: fui-components
           ports:
             - containerPort: 80
