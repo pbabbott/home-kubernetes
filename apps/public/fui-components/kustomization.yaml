@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - fui-components-ns.yaml
+  - harbor-regcred.yaml
+  - fui-components-deployment.yaml
+  - fui-components-service.yaml
+  - fui-components-ingress.yaml
+  - fui-components-netpol.yaml
+  - fui-components-image-policy.yaml
+  - fui-components-image-repo.yaml
+
