@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ./arc-gh-secret.yaml
+  - ./arc-helm-release.yaml
+  - ./arc-helm-repo.yaml
+  - ./arc-home-web-apps-amd64-hra.yaml
+  - ./arc-home-web-apps-amd64-runner-deployment.yaml
+  - ./arc-hwa-arm64-runner-deployment.yaml
+  - ./arc-hwa-dind-amd64-runner-deployment.yaml
+  - ./arc-hwa-dind-amd64-runner-hra.yaml
+  - ./arc-ns.yaml
+  - ./arc-service-monitor.yaml
