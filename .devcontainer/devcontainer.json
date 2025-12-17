@@ -14,7 +14,8 @@
       "ghcr.io/devcontainers-extra/features/starship:1": {},
       "ghcr.io/flexwie/devcontainer-features/op:1": {},
       "ghcr.io/dhoeric/features/k9s:1": {},
-      "ghcr.io/devcontainers-extra/features/kubectx-kubens:1": {}
+      "ghcr.io/devcontainers-extra/features/kubectx-kubens:1": {},
+      "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "mounts": [
     "type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly"
