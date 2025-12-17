@@ -73,15 +73,6 @@ sections:
       collapsed: false
       hideForGuests: false
     items:
-      - &ref_5
-        title: Uptime Kuma
-        description: Uptime Dashboard
-        icon: hl-uptime-kuma
-        url: https://kuma.local.abbottland.io
-        target: newtab
-        statusCheck: true
-        statusCheckAllowInsecure: true
-        id: 0_1375_uptimekuma
       - &ref_6
         title: Grafana
         description: Dashboards
