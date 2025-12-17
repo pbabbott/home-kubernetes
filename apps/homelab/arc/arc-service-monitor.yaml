@@ -1,0 +1,22 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: arc-actions-runner-controller
+  namespace: arc
+  labels:
+    release: monitoring
+spec:
+  endpoints:
+    - port: metrics-port
+      interval: 30s
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: actions-runner-controller
+      app.kubernetes.io/instance: arc
+  namespaceSelector:
+    matchNames:
+      - arc
