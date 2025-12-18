@@ -113,7 +113,6 @@ sections:
         target: newtab
         id: 5_1375_grafanastaging
     filteredItems:
-      - *ref_5
       - *ref_6
       - *ref_7
       - *ref_8
