@@ -11,4 +11,3 @@ resources:
   - ./arc-hwa-dind-amd64-runner-deployment.yaml
   - ./arc-hwa-dind-amd64-runner-hra.yaml
   - ./arc-ns.yaml
-  - ./arc-service-monitor.yaml
