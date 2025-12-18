@@ -10,7 +10,7 @@ spec:
   targetNamespace: arc
   releaseName: arc
   chart:
-    spec:
+    spec: 
       chart: actions-runner-controller
       version: '0.23.7'
       sourceRef:
@@ -26,3 +26,5 @@ spec:
         timeout: 30s
         interval: 1m
       port: 8443
+      serviceMonitorLabels:
+        release: monitoring
