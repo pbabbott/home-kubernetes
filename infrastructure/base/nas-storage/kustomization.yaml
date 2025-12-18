@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ./storage-helm-release.yaml
+  - ./storage-helm-repo.yaml
+  - ./storage-namespace.yaml

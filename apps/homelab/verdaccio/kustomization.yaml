@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ./verdaccio-helm.yaml
+  - ./verdaccio-ingress.yaml
+  - ./verdaccio-repo.yaml

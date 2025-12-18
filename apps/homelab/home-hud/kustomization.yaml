@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ./harbor-regcred.yaml
+  - ./home-hud-ns.yaml
+  - ./pi-led-api-deploy.yaml
+  - ./pi-led-api-image-policy.yaml
+  - ./pi-led-api-image-repo.yaml
+  - ./pi-led-api-ingress.yaml
+  - ./pi-led-api-svc.yaml
