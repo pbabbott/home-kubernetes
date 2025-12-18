@@ -9,7 +9,7 @@ spec:
   endpoints:
     - port: metrics-port
       interval: 1m
-      timeout: 30s
+      scrapeTimeout: 30s
       scheme: https
       tlsConfig:
         insecureSkipVerify: true
