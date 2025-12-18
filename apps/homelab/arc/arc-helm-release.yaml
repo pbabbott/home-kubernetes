@@ -20,11 +20,5 @@ spec:
       interval: 12h
   values:
     metrics:
-      serviceMonitor:
-        enabled: true
-        namespace: arc
-        timeout: 30s
-        interval: 1m
-      port: 8443
-      serviceMonitorLabels:
-        release: monitoring
+      proxy:
+        enabled: false

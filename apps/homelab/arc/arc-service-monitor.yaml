@@ -10,9 +10,7 @@ spec:
     - port: metrics-port
       interval: 1m
       scrapeTimeout: 30s
-      scheme: https
-      tlsConfig:
-        insecureSkipVerify: true
+      scheme: http
   selector:
     matchLabels:
       app.kubernetes.io/name: actions-runner-controller
