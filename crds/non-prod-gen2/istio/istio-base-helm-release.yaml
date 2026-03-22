@@ -6,7 +6,6 @@ metadata:
 spec:
   interval: 1h
   targetNamespace: istio-system
-  crds: CreateReplace
   chart:
     spec:
       chart: base
@@ -14,7 +13,11 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: istio
+        namespace: flux-system
   values:
     defaultRevision: default
   install:
     createNamespace: true
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
