@@ -8,6 +8,7 @@ The purpose of this document is to explain how one can bootstrap a kubernetes cl
     - [Step 2 - Ensure local env is good](#step-2---ensure-local-env-is-good)
     - [Step 3 - Rotate the deploy key](#step-3---rotate-the-deploy-key)
     - [Step 4 - Run the bootstrap command](#step-4---run-the-bootstrap-command)
+  - [Alternate method using SSH Key](#alternate-method-using-ssh-key)
 
 
 ## Procedure
@@ -72,4 +73,14 @@ flux bootstrap github \
   --branch=main \
   --path=./clusters/homelab \
   --personal
+```
+
+## Alternate method using SSH Key
+
+```sh
+flux bootstrap git \
+  --url=ssh://git@github.com/pbabbott/home-kubernetes \
+  --branch=main \
+  --private-key-file=/home/vscode/.ssh/id_ed25519 \
+  --path=clusters/prod-gen2
 ```
