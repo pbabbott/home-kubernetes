@@ -1,0 +1,51 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: istio-ingress
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: istio-system
+  dependsOn:
+    - name: ztunnel
+      namespace: flux-system
+  chart:
+    spec:
+      chart: gateway
+      version: "1.24.*"
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+  values:
+    # Parity with ingress-nginx controller.kind: DaemonSet
+    kind: DaemonSet
+    # HPA is for Deployments; disable for DaemonSet gateways
+    autoscaling:
+      enabled: false
+    # Keep chart defaults for injection + Prometheus scrape (admin/stats on 15020).
+    # proxy.istio.io/config: PROXY protocol + trusted hop count (see INGRESS_TO_ISTIO_MAPPING.md).
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "15020"
+      prometheus.io/path: "/stats/prometheus"
+      inject.istio.io/templates: "gateway"
+      sidecar.istio.io/inject: "true"
+      proxy.istio.io/config: '{"gatewayTopology":{"proxyProtocol":{},"numTrustedProxies":1}}'
+    service:
+      type: NodePort
+      externalTrafficPolicy: Local
+      ports:
+        - name: status-port
+          port: 15021
+          protocol: TCP
+          targetPort: 15021
+        - name: http2
+          port: 80
+          protocol: TCP
+          targetPort: 80
+          nodePort: 30080
+        - name: https
+          port: 443
+          protocol: TCP
+          targetPort: 443
+          nodePort: 30443

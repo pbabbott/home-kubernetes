@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
   - istiod-helm-release.yaml
+  - istio-cni-helm-release.yaml
+  - ztunnel-helm-release.yaml
+  - istio-ingress-helm-release.yaml
