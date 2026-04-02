@@ -24,6 +24,10 @@ tfnpw1="ssh firebolt@192.168.6.32"
 tfnpw2="ssh firebolt@192.168.6.33"
 tfnpw3="ssh firebolt@192.168.6.34"
 
+### HAProxy (in front of gen 2)
+
+An HAProxy load balancer sits in front of **prod gen 2** and **non-prod gen 2**. For a quick view of backends and health, use the stats page at [http://192.168.6.28:8404/](http://192.168.6.28:8404/) (browser or `curl`).
+
 ### Prod gen 1
 controller="ssh firebolt@192.168.4.193"
 worker1="ssh firebolt@192.168.4.194"
