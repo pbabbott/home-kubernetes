@@ -6,3 +6,4 @@ resources:
   - istio-cni-helm-release.yaml
   - ztunnel-helm-release.yaml
   - istio-ingress-helm-release.yaml
+  - istio-ingress-gateway-api.yaml
