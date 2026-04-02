@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # Kubernetes Gateway API — CRDs only (Gateway, HTTPRoute, GatewayClass, …).
-# Resource *instances* (e.g. shared listeners) stay in infra with the ingress deployment.
+# Vendored so Flux can kustomize-build without fetching github.com from the cluster.
+# Source: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
 resources:
-  - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+  - standard-install.yaml
