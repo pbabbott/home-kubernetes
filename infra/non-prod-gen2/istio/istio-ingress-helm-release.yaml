@@ -25,17 +25,16 @@ spec:
     # HPA is for Deployments; disable for DaemonSet gateways
     autoscaling:
       enabled: false
-    # Keep chart defaults for injection + Prometheus scrape (admin/stats on 15020).
-    # proxyProtocol breaks plain HTTP clients (browsers, curl) that do not send PROXY headers.
-    # Re-enable {"gatewayTopology":{"proxyProtocol":{},"numTrustedProxies":1}} when an L4 LB
-    # in front always sends PROXY (see INGRESS_TO_ISTIO_MAPPING.md).
+    # HAProxy (and similar) hits NodePort with send-proxy-v2 — Envoy must expect PROXY.
+    # Plain in-cluster curls to :30080 without PROXY will fail unless you hop via the LB or use svc ClusterIP.
+    # See temp/haproxy.cfg and INGRESS_TO_ISTIO_MAPPING.md.
     podAnnotations:
       prometheus.io/scrape: "true"
       prometheus.io/port: "15020"
       prometheus.io/path: "/stats/prometheus"
       inject.istio.io/templates: "gateway"
       sidecar.istio.io/inject: "true"
-      proxy.istio.io/config: '{"gatewayTopology":{"numTrustedProxies":1}}'
+      proxy.istio.io/config: '{"gatewayTopology":{"proxyProtocol":{},"numTrustedProxies":1}}'
     service:
       type: NodePort
       externalTrafficPolicy: Local
