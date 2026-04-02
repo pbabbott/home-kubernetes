@@ -15,5 +15,6 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: podinfo
+        # Flux HelmRelease in flux-system → Helm release name podinfo-podinfo → Service name
+        - name: podinfo-podinfo
           port: 9898
