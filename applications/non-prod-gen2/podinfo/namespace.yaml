@@ -2,5 +2,4 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: podinfo
-  labels:
-    istio.io/dataplane-mode: ambient
+  # Not ambient: ingress → pod L7 without a namespace waypoint would 503 (HBONE/connect_originate).
