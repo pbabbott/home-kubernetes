@@ -3,5 +3,4 @@ kind: Kustomization
 
 resources:
   - ./istio
-  # Required for Istio Kubernetes Gateway API (Gateway, HTTPRoute, etc.)
-  - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+  - ./gateway-api
