@@ -31,6 +31,19 @@ worker2="ssh firebolt@192.168.4.195"
 worker3="ssh firebolt@192.168.5.81"
 dumbledore="ssh albus@192.168.4.157"
 
+## Gen 2 DNS and ingress hostnames
+
+These wildcard patterns apply to **prod gen 2** and **non-prod gen 2** only (HTTPRoute `hostnames`, TLS certs, split-horizon DNS, etc.).
+
+| URL | Workload | Publicly / internally facing |
+| --- | --- | --- |
+| `*.abbottland.io` | Production (gen 2 prod) | public |
+| `*.local.abbottland.io` | Production (gen 2 prod) | internal |
+| `*.non-prod.abbottland.io` | Non-production (gen 2 non-prod) | public |
+| `*.local.non-prod.abbottland.io` | Non-production (gen 2 non-prod) | internal |
+
+The `*.local.*` form is **internal**; the matching pattern **without** `local` is **public**.
+
 ## Kubernetes Nodes
 
 Each cluster has three worker nodes. When I refer to them, use the following aliases:
