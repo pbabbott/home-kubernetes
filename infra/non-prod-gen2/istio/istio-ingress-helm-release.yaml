@@ -17,6 +17,9 @@ spec:
         kind: HelmRepository
         name: istio
   values:
+    labels:
+      istio.io/dataplane-mode: none
+      "gateway.networking.k8s.io/gateway-name": istio-ingress
     # Parity with ingress-nginx controller.kind: DaemonSet
     kind: DaemonSet
     # HPA is for Deployments; disable for DaemonSet gateways
