@@ -7,6 +7,8 @@ kind: Gateway
 metadata:
   name: istio-ingress
   namespace: istio-system
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   gatewayClassName: istio
   addresses:
@@ -16,6 +18,18 @@ spec:
     - name: http
       port: 80
       protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      port: 443
+      protocol: HTTPS
+      hostname: "*.local.non-prod.abbottland.io"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: wildcard-local-non-prod-tls
       allowedRoutes:
         namespaces:
           from: All

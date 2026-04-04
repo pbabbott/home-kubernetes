@@ -7,6 +7,7 @@ spec:
   parentRefs:
     - name: istio-ingress
       namespace: istio-system
+      sectionName: https
   hostnames:
     - "podinfo.local.non-prod.abbottland.io"
   rules:
