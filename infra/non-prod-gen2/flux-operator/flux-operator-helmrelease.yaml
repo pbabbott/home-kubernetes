@@ -1,0 +1,36 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: flux-operator
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: flux-system
+  releaseName: flux-operator
+  dependsOn:
+    - name: istio-ingress
+      namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: flux-operator
+    namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    installCRDs: true
+    web:
+      enabled: true
+      httpRoute:
+        enabled: true
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: istio-ingress
+            namespace: istio-system
+            sectionName: https
+        hostnames:
+          - flux.local.non-prod.abbottland.io

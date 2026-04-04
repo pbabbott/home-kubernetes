@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "flux-operator-mcp": {
+      "command": "flux-operator-mcp",
+      "args": ["serve", "--read-only"],
+      "env": {
+        "KUBECONFIG": "/home/vscode/.kube/config"
+      }
+    }
+  }
+}

@@ -69,10 +69,21 @@ This repository contains two sets of top-level directories, each tied to a diffe
 - `infrastructure/` — infrastructure components (controllers, operators, etc.) for the gen 1 cluster
 
 ### Gen 2 (prod gen 2 & non-prod gen 2)
+- `crds/` — CRD installs and CRD-layer Helm/releases per cluster path (e.g. `crds/non-prod-gen2/`)
 - `applications/` — application workloads deployed to gen 2 clusters
-- `infra/` — infrastructure components for gen 2 clusters
+- `infra/` — infrastructure components for gen 2 clusters (after CRDs are present)
 
-When I refer to a folder like `apps/` or `infrastructure/`, assume gen 1. When I refer to `applications/` or `infra/`, assume gen 2.
+When I refer to a folder like `apps/` or `infrastructure/`, assume gen 1. When I refer to `crds/`, `applications/`, or `infra/`, assume gen 2.
+
+#### Gen 2 — Flux order: `00-` CRDs, `01-` infra, `02-` apps
+
+**Non-prod gen 2** uses numbered Flux `Kustomization` files under `clusters/non-prod-gen2/`:
+
+- `00-crds-ks.yaml` → `spec.path: ./crds/non-prod-gen2/`
+- `01-infra-ks.yaml` → `spec.path: ./infra/non-prod-gen2/`, `dependsOn: [crds-ks]`
+- `02-apps-ks.yaml` → `spec.path: ./applications/non-prod-gen2/`, `dependsOn: [infra-ks]`
+
+Add new CRD-related material under `crds/<cluster>/` so it is applied before `infra/` and `applications/`. Prefer not to rely solely on an app chart to own CRDs when this repo’s layering should own the cluster API surface.
 
 ## Cluster Notes
 

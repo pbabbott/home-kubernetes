@@ -16,4 +16,7 @@ DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
 . <(flux completion zsh)
+
+[[ $commands[flux-operator] ]] && . <(flux-operator completion zsh)
+
 eval "$(starship init zsh)"

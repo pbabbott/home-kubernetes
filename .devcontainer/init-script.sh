@@ -37,5 +37,31 @@ if [ ! -f /usr/bin/yq ]; then
 fi
 
 # Clean up yq junk
-rm yq.1
-rm install-man-page.sh
+rm -f yq.1 install-man-page.sh
+
+# Flux Operator CLI + flux-operator-mcp (pin to match cluster charts; override via FLUX_OPERATOR_TOOLS_VERSION)
+FLUX_OPERATOR_TOOLS_VERSION="${FLUX_OPERATOR_TOOLS_VERSION:-v0.45.1}"
+FO_VER="${FLUX_OPERATOR_TOOLS_VERSION#v}"
+case "$(uname -m)" in
+  x86_64) FO_ARCH=amd64 ;;
+  aarch64) FO_ARCH=arm64 ;;
+  *)
+    echo "Skipping flux-operator tools install: unsupported arch $(uname -m)"
+    FO_ARCH=""
+    ;;
+esac
+if [ -n "$FO_ARCH" ]; then
+  FO_BASE="https://github.com/controlplaneio-fluxcd/flux-operator/releases/download/${FLUX_OPERATOR_TOOLS_VERSION}"
+  if [ ! -f /usr/local/bin/flux-operator ]; then
+    echo "Installing flux-operator ${FLUX_OPERATOR_TOOLS_VERSION} (${FO_ARCH})"
+    curl -fsSL "${FO_BASE}/flux-operator_${FO_VER}_linux_${FO_ARCH}.tar.gz" | tar xz -C /tmp
+    sudo install -m 0755 "/tmp/flux-operator" /usr/local/bin/flux-operator
+    rm -f "/tmp/flux-operator"
+  fi
+  if [ ! -f /usr/local/bin/flux-operator-mcp ]; then
+    echo "Installing flux-operator-mcp ${FLUX_OPERATOR_TOOLS_VERSION} (${FO_ARCH})"
+    curl -fsSL "${FO_BASE}/flux-operator-mcp_${FO_VER}_linux_${FO_ARCH}.tar.gz" | tar xz -C /tmp
+    sudo install -m 0755 "/tmp/flux-operator-mcp" /usr/local/bin/flux-operator-mcp
+    rm -f "/tmp/flux-operator-mcp"
+  fi
+fi
