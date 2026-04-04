@@ -20,7 +20,7 @@ This 1Password integration provides two major offerings to my homelab:
 
 ## Integration Procedure
 
-These are the steps I took to enable the integration
+These are the steps I took to enable the integration.  Each cluster (homelab, non-prod gen2) needs its own SealedSecret because SealedSecret ciphertext is encrypted for a specific cluster's sealed-secrets controller and is not portable.  Repeat this procedure once per cluster, noting the cluster-specific differences in Steps 4 and 5.
 
 ### Step 1 - Follow steps on 1Password documentation site
 
@@ -33,34 +33,51 @@ This will give you two things:
 - A `1password-credentials.json` file. It contains the credentials necessary to deploy 1Password Connect Server.
 - An access token: `OP_CONNECT_TOKEN`. This is used applications or services to authenticate with the Connect REST API. And it is used in the 1password kubernetes operator.
 
+>[!TIP]
+> Create a dedicated workflow per cluster to keep environments independent. The homelab credentials are stored in the `Homelab` vault as `Kubernetes Production Credentials File`; non-prod gen2 credentials are stored as `Kubernetes Non-Prod Gen2 Credentials File`.
+
 ### Step 2 - Obtain the file
 
 Next, we need to put the `1password-credentials.json` into the root of this repository.  Don't worry, its been added to `.gitignore`
 
-The value in my vault is called `Kubernetes Production Credentials File` and its just in the `Homelab` vault.
-
 >[!TIP]
 > Delete the file after you're done with it, as we don't want this sensitive data just hanging around. 
 
+### Step 3 - Export the token
 
-### Step 3 - Export the token.
-
-Next up, we need to export the token on the command line
 ```sh
 export OP_CONNECT_TOKEN="TOKEN VALUE GOES HERE"
 ```
 
 ### Step 4 - Create a SealedSecret
 
-To create the SealedSecret, you just need to run this command:
+Make sure your `kubectl` context is pointed at the target cluster, then run the appropriate command:
 
+**Homelab**
 ```sh
 ./scripts/op-connect-secret.sh
 ```
 
+**Non-prod gen2**
+```sh
+OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/non-prod-gen2/onepassword/op-credentials.yaml ./scripts/op-connect-secret.sh
+```
+
 This will create or overwrite the existing SealedSecret enabling the 1password integration.
 
-### Step 5 - Commit
+### Step 5 - (Non-prod gen2 only) Wire up the kustomization
+
+Add `op-credentials.yaml` to the resources list in `infra/non-prod-gen2/onepassword/kustomization.yaml`:
+
+```yaml
+resources:
+  - namespace.yaml
+  - op-connect-helm-repo.yaml
+  - op-connect-helm-release.yaml
+  - op-credentials.yaml
+```
+
+### Step 6 - Commit
 
 ```sh
 git add .
@@ -69,7 +86,7 @@ git commit -m "Update op-connect credentials file"
 
 Push this stuff to remote and then flux will sync it to the cluster
 
-### Step 6 - Delete the credentials file
+### Step 7 - Delete the credentials file
 
 ```sh
 rm 1password-credentials.json

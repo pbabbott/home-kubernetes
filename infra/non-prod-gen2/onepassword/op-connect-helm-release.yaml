@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: op-connect
+  namespace: flux-system
+spec:
+  interval: 5m
+  targetNamespace: op-connect
+  releaseName: op-connect
+  dependsOn:
+    - name: sealed-secrets
+      namespace: flux-system
+  chart:
+    spec:
+      chart: connect
+      sourceRef:
+        kind: HelmRepository
+        name: 1password
+        namespace: flux-system
+      version: 1.17.0
+      interval: 12h
+  install:
+    crds: Skip
+  upgrade:
+    crds: Skip
+  values:
+    connect:
+      create: true
+      credentialsName: op-credentials
+      credentialsKey: 1password-credentials.json
+      serviceType: ClusterIP
+      ingress:
+        enabled: false
+    operator:
+      create: true
+      token:
+        name: op-credentials
+        key: token

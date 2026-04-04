@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# After generating infra/non-prod-gen2/onepassword/op-credentials.yaml (see
+# docs/reference-1password-integration-overview.md — “Non-prod gen2 cluster”),
+resources:
+  - namespace.yaml
+  - op-connect-helm-repo.yaml
+  - op-connect-helm-release.yaml
+  - op-credentials.yaml
