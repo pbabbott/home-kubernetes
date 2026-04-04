@@ -20,7 +20,7 @@ This 1Password integration provides two major offerings to my homelab:
 
 ## Integration Procedure
 
-These are the steps I took to enable the integration.  Each cluster (homelab, non-prod gen2) needs its own SealedSecret because SealedSecret ciphertext is encrypted for a specific cluster's sealed-secrets controller and is not portable.  Repeat this procedure once per cluster, noting the cluster-specific differences in Steps 4 and 5.
+These are the steps I took to enable the integration. Each cluster (homelab, non-prod gen2, prod gen2) needs its own SealedSecret because SealedSecret ciphertext is encrypted for a specific cluster's sealed-secrets controller and is not portable. Repeat this procedure once per cluster, noting the cluster-specific differences in Steps 4 and 5.
 
 ### Step 1 - Follow steps on 1Password documentation site
 
@@ -34,7 +34,7 @@ This will give you two things:
 - An access token: `OP_CONNECT_TOKEN`. This is used applications or services to authenticate with the Connect REST API. And it is used in the 1password kubernetes operator.
 
 >[!TIP]
-> Create a dedicated workflow per cluster to keep environments independent. The homelab credentials are stored in the `Homelab` vault as `Kubernetes Production Credentials File`; non-prod gen2 credentials are stored as `Kubernetes Non-Prod Gen2 Credentials File`.
+> Create a dedicated workflow per cluster to keep environments independent. The homelab credentials are stored in the `Homelab` vault as `Kubernetes Production Credentials File`; non-prod gen2 credentials are stored as `Kubernetes Non-Prod Gen2 Credentials File`; prod gen2 credentials are stored as `Kubernetes Prod Gen2 Credentials File`.
 
 ### Step 2 - Obtain the file
 
@@ -63,17 +63,32 @@ Make sure your `kubectl` context is pointed at the target cluster, then run the 
 OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/non-prod-gen2/onepassword/op-credentials.yaml ./scripts/op-connect-secret.sh
 ```
 
-This will create or overwrite the existing SealedSecret enabling the 1password integration.
+**Prod gen2**
+```sh
+OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/prod-gen2/onepassword/op-credentials.yaml ./scripts/op-connect-secret.sh
+```
 
-### Step 5 - (Non-prod gen2 only) Wire up the kustomization
+This will create or overwrite the existing SealedSecret enabling the 1Password integration.
 
-Add `op-credentials.yaml` to the resources list in `infra/non-prod-gen2/onepassword/kustomization.yaml`:
+### Step 5 - Wire up the kustomization (gen2 clusters)
+
+Shared Connect manifests live under `infra/base/onepassword`. Each gen2 cluster keeps its own sealed credentials next to a small overlay `kustomization.yaml`.
+
+Ensure `op-credentials.yaml` is listed under `resources` after `../../base/onepassword`:
+
+**Non-prod gen2** — `infra/non-prod-gen2/onepassword/kustomization.yaml` should look like:
 
 ```yaml
 resources:
-  - namespace.yaml
-  - op-connect-helm-repo.yaml
-  - op-connect-helm-release.yaml
+  - ../../base/onepassword
+  - op-credentials.yaml
+```
+
+**Prod gen2** — `infra/prod-gen2/onepassword/kustomization.yaml` should match that shape once Step 4 has produced the file:
+
+```yaml
+resources:
+  - ../../base/onepassword
   - op-credentials.yaml
 ```
 

@@ -10,6 +10,8 @@ spec:
   dependsOn:
     - name: flux-operator
       namespace: flux-system
+    - name: istio-ingress
+      namespace: flux-system
   chartRef:
     kind: OCIRepository
     name: flux-operator-mcp

@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# op-credentials.yaml must be produced with this cluster's sealing key (same flow as non-prod;
+# see docs/reference-1password-integration-overview.md). Add it to resources below when ready.
+resources:
+  - ../../base/onepassword
+  - op-credentials.yaml

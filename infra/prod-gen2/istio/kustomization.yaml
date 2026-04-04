@@ -12,7 +12,7 @@ patches:
     patch: |-
       - op: replace
         path: /spec/listeners/1/hostname
-        value: "*.local.non-prod.abbottland.io"
+        value: "*.local.abbottland.io"
       - op: replace
         path: /spec/listeners/1/tls/certificateRefs/0/name
-        value: wildcard-local-non-prod-tls
+        value: wildcard-local-tls

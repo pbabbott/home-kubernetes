@@ -1,4 +1,4 @@
-# Gateway API resource (listener config), not a CRD. CRDs: crds/non-prod-gen2/gateway-api/
+# Gateway API resource (listener config), not a CRD. CRDs: crds/base/gateway-api/
 # Use the Helm-provisioned gateway Service (NodePort 30080/30443) instead of a second
 # dataplane (istio-ingress-istio). See:
 # https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment
@@ -24,12 +24,12 @@ spec:
     - name: https
       port: 443
       protocol: HTTPS
-      hostname: "*.local.non-prod.abbottland.io"
+      hostname: "*.local.abbottland.io"
       tls:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: wildcard-local-non-prod-tls
+            name: wildcard-local-tls
       allowedRoutes:
         namespaces:
           from: All

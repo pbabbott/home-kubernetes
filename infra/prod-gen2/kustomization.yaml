@@ -3,3 +3,7 @@ kind: Kustomization
 
 resources:
   - ../base/sealed-secrets
+  - ./onepassword
+  - ./cert-manager
+  - ./istio
+  - ./flux-operator

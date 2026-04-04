@@ -33,4 +33,4 @@ spec:
             namespace: istio-system
             sectionName: https
         hostnames:
-          - flux.local.non-prod.abbottland.io
+          - flux.local.abbottland.io

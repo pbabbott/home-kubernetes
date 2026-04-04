@@ -12,4 +12,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/values/web/httpRoute/hostnames/0
-        value: flux.local.non-prod.abbottland.io
+        value: flux.local.abbottland.io
