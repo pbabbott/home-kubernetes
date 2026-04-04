@@ -21,7 +21,7 @@ spec:
     remediation:
       retries: 3
   values:
-    installCRDs: true
+    installCRDs: false
     web:
       enabled: true
       httpRoute:
