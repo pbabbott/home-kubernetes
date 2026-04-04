@@ -5,3 +5,4 @@ resources:
   - fluxinstance.yaml
   - flux-operator-mcp-ocirepository.yaml
   - flux-operator-mcp-helmrelease.yaml
+  - flux-web-http-to-https-httproute.yaml
