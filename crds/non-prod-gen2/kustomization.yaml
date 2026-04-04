@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
   - ./istio
   - ./gateway-api
+  # - ./cert-manager
   - ./sealed-secrets
+  - ./onepassword
