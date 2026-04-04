@@ -15,14 +15,23 @@
       "ghcr.io/flexwie/devcontainer-features/op:1": {},
       "ghcr.io/dhoeric/features/k9s:1": {},
       "ghcr.io/devcontainers-extra/features/kubectx-kubens:1": {},
-      "ghcr.io/devcontainers/features/github-cli:1": {}
+      "ghcr.io/devcontainers/features/github-cli:1": {},
+      "ghcr.io/devcontainers-extra/features/asdf-package:1": {
+          "plugin": "istioctl",
+          "version": "1.25.2",
+          "pluginRepo": "https://github.com/virtualstaticvoid/asdf-istioctl.git"
+      }
   },
   "mounts": [
-    "type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly"
+    "type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly",
+    "type=bind,source=/home/${localEnv:USER}/.gitconfig,target=/home/vscode/.gitconfig,readonly"
   ],
   "runArgs": ["--env-file",".devcontainer/.env"],
   "customizations": {
     "vscode": {
+      "settings": {
+        "dev.containers.copyGitConfig": false
+      },
       "extensions": [
           "streetsidesoftware.code-spell-checker",
           "oderwat.indent-rainbow",
