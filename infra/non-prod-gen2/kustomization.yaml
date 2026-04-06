@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
   - ../base/sealed-secrets
   - ./onepassword
-  - ./cert-manager
+  - ../base/cert-manager
   - ./istio
   - ./flux-operator
