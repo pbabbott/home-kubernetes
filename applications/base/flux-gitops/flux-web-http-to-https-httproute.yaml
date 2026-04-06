@@ -1,5 +1,5 @@
 # Port 80 → 301 to HTTPS (listener "http" on istio-ingress Gateway). Flux Operator's
-# web.httpRoute uses sectionName https only; this route mirrors applications/non-prod-gen2/podinfo/httproute.yaml.
+# web.httpRoute uses sectionName https only; hostnames differ per env (see *-gen2/flux-gitops kustomization patches).
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

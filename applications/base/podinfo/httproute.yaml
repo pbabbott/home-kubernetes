@@ -1,3 +1,4 @@
+# Default hostnames; each cluster overrides in *-gen2/podinfo/kustomization.yaml patches.
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

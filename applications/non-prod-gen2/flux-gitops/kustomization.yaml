@@ -3,6 +3,22 @@ kind: Kustomization
 
 resources:
   - fluxinstance.yaml
-  - flux-operator-mcp-ocirepository.yaml
-  - flux-operator-mcp-helmrelease.yaml
-  - flux-web-http-to-https-httproute.yaml
+  - ../../base/flux-gitops
+
+patches:
+  - target:
+      kind: HelmRelease
+      name: flux-operator-mcp
+      namespace: flux-system
+    patch: |-
+      - op: replace
+        path: /spec/values/httpRoute/hostnames/0
+        value: flux-mcp.local.non-prod.abbottland.io
+  - target:
+      kind: HTTPRoute
+      name: flux-web-http-to-https
+      namespace: flux-system
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: flux.local.non-prod.abbottland.io
