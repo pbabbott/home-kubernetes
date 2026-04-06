@@ -6,3 +6,4 @@ resources:
   - ./flux-gitops
   - ./pihole
   - ./podinfo
+  - ./proxmox

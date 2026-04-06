@@ -1,0 +1,17 @@
+# External Proxmox UI (see apps/homelab/proxmox). Override per cluster if needed.
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: proxmox-1
+  namespace: proxmox
+  labels:
+    kubernetes.io/service-name: proxmox
+addressType: IPv4
+ports:
+  - name: https
+    appProtocol: https
+    protocol: TCP
+    port: 8006
+endpoints:
+  - addresses:
+      - "192.168.4.192"

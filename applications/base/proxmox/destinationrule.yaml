@@ -1,0 +1,13 @@
+# Proxmox serves HTTPS on 8006 with a self-signed cert (homelab proxmox-ingress used
+# backend-protocol HTTPS). Originate TLS from the ingress gateway to the backend.
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: proxmox
+  namespace: proxmox
+spec:
+  host: proxmox.proxmox.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: SIMPLE
+      insecureSkipVerify: true
