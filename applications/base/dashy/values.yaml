@@ -1,0 +1,7 @@
+hostname: dashy.local.non-prod.abbottland.io
+
+urls:
+  pihole: https://pihole.local.non-prod.abbottland.io/admin/
+  haproxy: https://haproxy.local.non-prod.abbottland.io
+  proxmox: https://proxmox.local.non-prod.abbottland.io
+  asustor: https://asustor.local.non-prod.abbottland.io

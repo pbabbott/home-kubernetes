@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboard-config
+  namespace: dashy
+data:
+  conf.yml: |
+    pageTitle: Dashy
+    pages: []
+    appConfig:
+      theme: default
+    pageInfo: {}
+    sections:
+      - name: Central Admin
+        icon: fas fa-server
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Pi Hole
+            description: Network Ad-blocking & DNS
+            icon: hl-pihole
+            url: {{ .Values.urls.pihole }}
+            target: newtab
+            statusCheck: true
+            id: 0_1234_pihole
+          - title: HA Proxy
+            description: Load Balancer (LXC)
+            icon: hl-haproxy
+            url: {{ .Values.urls.haproxy }}
+            target: newtab
+            statusCheck: true
+            id: 1_1234_haproxy
+          - title: Proxmox
+            description: Virtualization
+            icon: hl-proxmox
+            url: {{ .Values.urls.proxmox }}
+            target: newtab
+            statusCheck: true
+            id: 2_1234_proxmox
+          - title: Asustor
+            description: NAS Management Portal
+            url: {{ .Values.urls.asustor }}
+            target: newtab
+            statusCheck: true
+            id: 3_1234_asustor

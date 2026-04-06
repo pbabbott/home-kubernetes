@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - ./asustor
+  - ./dashy
   - ./flux-gitops
   - ./haproxy
   - ./pihole

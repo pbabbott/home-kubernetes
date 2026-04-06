@@ -1,0 +1,5 @@
+apiVersion: v2
+name: dashy
+description: Dashy dashboard
+type: application
+version: 0.1.0

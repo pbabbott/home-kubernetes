@@ -1,0 +1,22 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dashy
+  namespace: flux-system
+spec:
+  targetNamespace: dashy
+  chart:
+    spec:
+      chart: ./applications/base/dashy
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  interval: 30m
+  values:
+    hostname: dashy.local.abbottland.io
+    urls:
+      pihole: https://pihole.local.abbottland.io/admin/
+      haproxy: https://haproxy.local.abbottland.io
+      proxmox: https://proxmox.local.abbottland.io
+      asustor: https://asustor.local.abbottland.io
