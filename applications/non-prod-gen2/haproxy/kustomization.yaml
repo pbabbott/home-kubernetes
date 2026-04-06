@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base/haproxy
+
+patches:
+  - target:
+      kind: HTTPRoute
+      name: haproxy
+      namespace: haproxy
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: haproxy.local.non-prod.abbottland.io
+  - target:
+      kind: HTTPRoute
+      name: haproxy-http-to-https
+      namespace: haproxy
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: haproxy.local.non-prod.abbottland.io

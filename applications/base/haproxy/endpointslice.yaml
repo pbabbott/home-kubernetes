@@ -1,0 +1,17 @@
+# Stats UI (see apps/homelab/haproxy). Override per cluster if needed.
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: haproxy-1
+  namespace: haproxy
+  labels:
+    kubernetes.io/service-name: haproxy
+addressType: IPv4
+ports:
+  - name: http
+    appProtocol: http
+    protocol: TCP
+    port: 8404
+endpoints:
+  - addresses:
+      - "192.168.4.144"
