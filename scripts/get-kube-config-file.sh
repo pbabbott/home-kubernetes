@@ -9,7 +9,7 @@
 # Context names: if that kubeconfig has one context, the name is exactly the label (kubectx:
 # prod-gen2, nonprod-gen2). If it has several, each becomes "<label>-<original>" so nothing collides.
 #
-# Optional: KUBE_CONTEXT_AFTER_MERGE=…  KUBE_NS_AFTER_MERGE=…
+# Optional: KUBE_CONTEXT_AFTER_MERGE (default: nonprod-gen2), KUBE_NS_AFTER_MERGE=…
 
 set -euo pipefail
 
@@ -96,9 +96,7 @@ main() {
   mv "$new_cfg" "$dest"
   echo "wrote ${dest} (contexts: $(kubectl config get-contexts -o name | paste -sd, -))"
 
-  if [[ -n "${KUBE_CONTEXT_AFTER_MERGE:-}" ]]; then
-    kubectl config use-context "$KUBE_CONTEXT_AFTER_MERGE"
-  fi
+  kubectl config use-context "${KUBE_CONTEXT_AFTER_MERGE:-nonprod-gen2}"
   if [[ -n "${KUBE_NS_AFTER_MERGE:-}" ]]; then
     kubens "$KUBE_NS_AFTER_MERGE"
   fi
