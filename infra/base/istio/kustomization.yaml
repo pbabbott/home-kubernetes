@@ -7,3 +7,4 @@ resources:
   - ztunnel-helm-release.yaml
   - istio-ingress-helm-release.yaml
   - istio-ingress-gateway-api.yaml
+  - global-authorizationpolicy.yaml

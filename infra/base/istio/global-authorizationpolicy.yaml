@@ -1,0 +1,46 @@
+# Global IP allowlist for all internal (*.local.*) hostnames on the shared Istio
+# ingress gateway. Replaces per-app AuthorizationPolicies (proxmox, pihole, etc.).
+#
+# Both cluster wildcards are included here; each cluster's gateway only listens on
+# its own wildcard so the other is effectively a no-op in that cluster.
+#
+# ipBlocks: client IP from the connection (externalTrafficPolicy: Local).
+# remoteIpBlocks: trusted client IP from PROXY / X-Forwarded-For.
+# Two separate source entries use OR logic — allow if either matches.
+#
+# The catch-all notHosts rule prevents this ALLOW policy from default-denying
+# traffic to non-internal HTTPRoutes on the same gateway.
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: internal-apps-ip-allowlist
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      gateway.networking.k8s.io/gateway-name: istio-ingress
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            ipBlocks:
+              - "10.0.0.0/8"
+              - "192.168.0.0/16"
+              - "172.20.0.0/12"
+              - "10.244.0.0/16"
+        - source:
+            remoteIpBlocks:
+              - "10.0.0.0/8"
+              - "192.168.0.0/16"
+              - "172.20.0.0/12"
+              - "10.244.0.0/16"
+      to:
+        - operation:
+            hosts:
+              - "*.local.non-prod.abbottland.io"
+              - "*.local.abbottland.io"
+    - to:
+        - operation:
+            notHosts:
+              - "*.local.non-prod.abbottland.io"
+              - "*.local.abbottland.io"

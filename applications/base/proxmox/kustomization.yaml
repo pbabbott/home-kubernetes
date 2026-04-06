@@ -5,7 +5,6 @@ resources:
   - namespace.yaml
   - service.yaml
   - endpointslice.yaml
-  - authorizationpolicy.yaml
   - destinationrule.yaml
   - httproute.yaml
   - httproute-http-to-https.yaml

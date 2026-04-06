@@ -21,14 +21,3 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: proxmox.local.abbottland.io
-  - target:
-      kind: AuthorizationPolicy
-      name: proxmox-ingress-ip-allowlist
-      namespace: istio-system
-    patch: |-
-      - op: replace
-        path: /spec/rules/0/to/0/operation/hosts/0
-        value: proxmox.local.abbottland.io
-      - op: replace
-        path: /spec/rules/1/to/0/operation/notHosts/0
-        value: proxmox.local.abbottland.io
