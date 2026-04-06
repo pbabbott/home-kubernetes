@@ -23,7 +23,7 @@ spec:
           requestRedirect:
             scheme: https
             hostname: plex.abbottland.io
-            statusCode: 308
+            statusCode: 301
     - matches:
         - path:
             type: PathPrefix
