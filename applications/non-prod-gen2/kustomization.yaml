@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - ./dashy
   - ./flux-gitops
+  - ./pihole
   - ./podinfo
