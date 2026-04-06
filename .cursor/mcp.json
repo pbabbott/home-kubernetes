@@ -1,18 +1,12 @@
 {
   "mcpServers": {
-    "flux-operator-mcp": {
-      "command": "flux-operator-mcp",
-      "args": [
-        "serve",
-        "--read-only",
-        "-n",
-        "flux-system",
-        "--kubeconfig",
-        "/home/vscode/.kube/config"
-      ],
-      "env": {
-        "KUBECONFIG": "/home/vscode/.kube/config"
-      }
+    "flux-mcp-nonprod": {
+      "type": "streamableHttp",
+      "url": "https://flux-mcp.local.non-prod.abbottland.io/mcp"
+    },
+    "flux-mcp-prod": {
+      "type": "streamableHttp",
+      "url": "https://flux-mcp.local.abbottland.io/mcp"
     }
   }
 }
