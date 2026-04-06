@@ -44,5 +44,6 @@
     }
   },
 	"containerUser": "vscode",
-  "postStartCommand": "/workspaces/home-kubernetes/.devcontainer/init-script.sh"
+  "postCreateCommand": "bash .devcontainer/init-postcreate.sh",
+  "postStartCommand": "bash .devcontainer/init-poststart.sh"
 } 
