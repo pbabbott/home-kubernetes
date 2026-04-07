@@ -12,6 +12,8 @@ spec:
       app: dashy
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
         app: dashy
     spec:
