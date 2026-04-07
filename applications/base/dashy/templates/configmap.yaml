@@ -9,6 +9,8 @@ data:
     pages: []
     appConfig:
       theme: default
+      layout: auto
+      iconSize: large
     pageInfo: {}
     sections:
       - name: Central Admin
@@ -25,25 +27,49 @@ data:
             icon: hl-pihole
             url: {{ .Values.urls.pihole }}
             target: newtab
-            statusCheck: true
             id: 0_1234_pihole
           - title: HA Proxy
             description: Load Balancer (LXC)
             icon: hl-haproxy
             url: {{ .Values.urls.haproxy }}
             target: newtab
-            statusCheck: true
             id: 1_1234_haproxy
           - title: Proxmox
             description: Virtualization
             icon: hl-proxmox
             url: {{ .Values.urls.proxmox }}
             target: newtab
-            statusCheck: true
             id: 2_1234_proxmox
           - title: Asustor
             description: NAS Management Portal
+            icon: sh-asustor
             url: {{ .Values.urls.asustor }}
             target: newtab
-            statusCheck: true
             id: 3_1234_asustor
+          - title: Dashy (prod)
+            description: Production Dashboard
+            icon: sh-dashy
+            url: https://dashy.local.abbottland.io
+            target: sametab
+            id: 4_1234_dashyprod
+          - title: Dashy (non-prod)
+            description: Non-Prod Dashboard
+            icon: sh-dashy
+            url: https://dashy.local.non-prod.abbottland.io
+            target: sametab
+            id: 5_1234_dashynonprod
+      - name: Cluster Admin
+        icon: sh-kubernetes
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Flux Operator
+            description: Flux Status
+            icon: hl-flux-operator
+            url: {{ .Values.urls.flux }}
+            target: newtab
+            id: 0_1259_fluxoperator

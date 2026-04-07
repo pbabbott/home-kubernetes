@@ -20,3 +20,4 @@ spec:
       haproxy: https://haproxy.local.non-prod.abbottland.io
       proxmox: https://proxmox.local.non-prod.abbottland.io
       asustor: https://asustor.local.non-prod.abbottland.io
+      flux: https://flux.local.non-prod.abbottland.io

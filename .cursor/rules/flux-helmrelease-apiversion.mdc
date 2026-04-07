@@ -1,0 +1,19 @@
+---
+description: Preferred apiVersion for Flux HelmRelease resources
+globs: **/helmrelease.yaml
+alwaysApply: false
+---
+
+# Flux HelmRelease API Version
+
+Always use `helm.toolkit.fluxcd.io/v2` for HelmRelease resources. The `v2beta1` and `v2beta2` versions have been removed from the cluster.
+
+```yaml
+# ✅ GOOD
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+
+# ❌ BAD — deprecated and removed
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+```
