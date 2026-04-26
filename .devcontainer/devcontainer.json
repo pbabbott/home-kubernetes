@@ -23,7 +23,9 @@
           "plugin": "istioctl",
           "version": "1.25.2",
           "pluginRepo": "https://github.com/virtualstaticvoid/asdf-istioctl.git"
-      }
+      },
+      "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+
   },
   "mounts": [
     "type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly",

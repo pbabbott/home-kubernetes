@@ -32,3 +32,12 @@ cp .devcontainer/files/starship.toml /home/vscode/.config/starship.toml
 
 echo "Overwriting .zshrc file"
 cp .devcontainer/files/.zshrc /home/vscode/.zshrc
+
+echo "Configuring Claude"
+CLAUDE_JSON="$HOME/.claude.json"
+if [ -f "$CLAUDE_JSON" ]; then
+  tmp=$(mktemp)
+  jq '.hasCompletedOnboarding = true' "$CLAUDE_JSON" > "$tmp" && mv "$tmp" "$CLAUDE_JSON"
+else
+  printf '{"hasCompletedOnboarding":true}\n' > "$CLAUDE_JSON"
+fi
