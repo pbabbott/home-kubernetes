@@ -8,4 +8,3 @@ resources:
   - ../base/flux-operator
   - ../base/sealed-secrets
   - ../base/onepassword
-  - ../base/longhorn

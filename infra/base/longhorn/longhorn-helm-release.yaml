@@ -18,9 +18,9 @@ spec:
         namespace: flux-system
       interval: 12h
   install:
-    crds: Skip
+    crds: CreateReplace
   upgrade:
-    crds: Skip
+    crds: CreateReplace
   values:
     defaultSettings:
       defaultDataPath: /mnt/ssd
