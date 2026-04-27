@@ -36,3 +36,19 @@ spec:
       enabled: false
     thanosRuler:
       enabled: false
+    kubeApiServer:
+      enabled: false
+    kubelet:
+      enabled: false
+    kubeControllerManager:
+      enabled: false
+    coreDns:
+      enabled: false
+    kubeDns:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeProxy:
+      enabled: false

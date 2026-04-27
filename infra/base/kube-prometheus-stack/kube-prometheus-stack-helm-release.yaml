@@ -33,6 +33,24 @@ spec:
       enabled: false
     grafana:
       enabled: false
+    kubeStateMetrics:
+      enabled: false
+    kubeApiServer:
+      enabled: false
+    kubelet:
+      enabled: false
+    kubeControllerManager:
+      enabled: false
+    coreDns:
+      enabled: false
+    kubeDns:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeProxy:
+      enabled: false
     prometheus:
       prometheusSpec:
         serviceMonitorSelectorNilUsesHelmValues: false
