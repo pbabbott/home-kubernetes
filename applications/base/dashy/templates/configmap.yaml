@@ -5,13 +5,13 @@ metadata:
   namespace: dashy
 data:
   conf.yml: |
-    pageTitle: Dashy
-    pages: []
     appConfig:
       theme: default
       layout: auto
       iconSize: large
-    pageInfo: {}
+      language: en
+    pageInfo:
+      title: Homelab non-prod
     sections:
       - name: Central Admin
         icon: fas fa-server
@@ -79,3 +79,10 @@ data:
             url: {{ .Values.urls.longhorn }}
             target: newtab
             id: 1_1259_longhorn
+          - title: Prometheus
+            description: Metrics Aggregation
+            icon: hl-prometheus
+            url: {{ .Values.urls.prometheus }}
+            target: newtab
+            id: 2_1259_prometheus
+    pages: []

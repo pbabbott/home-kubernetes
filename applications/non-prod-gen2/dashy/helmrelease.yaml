@@ -22,3 +22,4 @@ spec:
       asustor: https://asustor.local.non-prod.abbottland.io
       flux: https://flux.local.non-prod.abbottland.io
       longhorn: https://longhorn.local.non-prod.abbottland.io
+      prometheus: https://prometheus.local.non-prod.abbottland.io

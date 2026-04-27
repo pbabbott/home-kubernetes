@@ -12,11 +12,13 @@ This repository contains two sets of top-level directories, each tied to a diffe
 - `applications/` — application workloads deployed to gen 2 clusters
 - `infra/` — infrastructure components for gen 2 clusters (after CRDs are present)
 
-## Working with Flux
+## Working with the clusters
+
+### Working with Flux
 
 Instead of annotating resources, prefer to use `flux` on the command line - there is an mcp available for flux as well.
 
-## Working with kubernetes
+### Working with kubernetes
 
 When issuing kubectl commands, you can simply using `kubectl` - there is no need for `ssh`
 
