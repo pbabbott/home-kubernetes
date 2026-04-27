@@ -27,7 +27,7 @@ configMapGenerator:
     namespace: kube-prometheus-stack
     options:
       disableNameSuffixHash: true
-    labels:
-      grafana_dashboard: "1"
+      labels:
+        grafana_dashboard: "1"
     files:
       - dashboards/kubernetes-cluster-overview.json
