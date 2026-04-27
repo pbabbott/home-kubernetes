@@ -85,4 +85,10 @@ data:
             url: {{ .Values.urls.prometheus }}
             target: newtab
             id: 2_1259_prometheus
+          - title: Grafana
+            description: Dashboards
+            icon: hl-grafana
+            url: {{ .Values.urls.grafana }}
+            target: newtab
+            id: temp_Grafana
     pages: []

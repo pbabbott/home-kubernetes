@@ -3,4 +3,31 @@ kind: Kustomization
 
 resources:
   - ../../base/kube-prometheus-stack
-  - prometheus-httproute.yaml
+
+patches:
+  - target:
+      kind: HTTPRoute
+      name: prometheus-ui
+      namespace: kube-prometheus-stack
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: prometheus.local.non-prod.abbottland.io
+  - target:
+      kind: HTTPRoute
+      name: grafana-ui
+      namespace: kube-prometheus-stack
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: grafana.local.non-prod.abbottland.io
+
+configMapGenerator:
+  - name: grafana-dashboard-kubernetes-cluster-overview
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+    labels:
+      grafana_dashboard: "1"
+    files:
+      - dashboards/kubernetes-cluster-overview.json

@@ -8,3 +8,4 @@ urls:
   flux: https://flux.local.non-prod.abbottland.io
   longhorn: https://longhorn.local.non-prod.abbottland.io
   prometheus: https://prometheus.local.non-prod.abbottland.io
+  grafana: https://grafana.local.non-prod.abbottland.io

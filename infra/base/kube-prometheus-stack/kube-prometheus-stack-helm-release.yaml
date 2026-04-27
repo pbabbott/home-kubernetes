@@ -32,7 +32,14 @@ spec:
     alertmanager:
       enabled: false
     grafana:
-      enabled: false
+      enabled: true
+      adminPassword: admin
+      sidecar:
+        dashboards:
+          enabled: true
+          label: grafana_dashboard
+          labelValue: "1"
+          searchNamespace: ALL
     kubeStateMetrics:
       enabled: false
     kubeApiServer:
