@@ -24,7 +24,7 @@ data:
         items:
           - title: Pi Hole
             description: Network Ad-blocking & DNS
-            icon: hl-pihole
+            icon: hl-pi-hole
             url: {{ .Values.urls.pihole }}
             target: newtab
             id: 0_1234_pihole
@@ -73,3 +73,9 @@ data:
             url: {{ .Values.urls.flux }}
             target: newtab
             id: 0_1259_fluxoperator
+          - title: Longhorn
+            description: Cluster Storage Management
+            icon: hl-longhorn
+            url: {{ .Values.urls.longhorn }}
+            target: newtab
+            id: 1_1259_longhorn

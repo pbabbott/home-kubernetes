@@ -21,3 +21,4 @@ spec:
       proxmox: https://proxmox.local.abbottland.io
       asustor: https://asustor.local.abbottland.io
       flux: https://flux.local.abbottland.io
+      longhorn: https://longhorn.local.abbottland.io
