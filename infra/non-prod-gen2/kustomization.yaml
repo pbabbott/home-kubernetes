@@ -9,3 +9,4 @@ resources:
   - ./flux-operator
   - ./longhorn
   - ./kube-prometheus-stack
+  - ../base/metrics-server

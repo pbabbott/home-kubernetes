@@ -3,6 +3,8 @@
 
 This repository contains two sets of top-level directories, each tied to a different cluster generation:
 
+For more complete information on infra, repository topology and common ssh targets, refer to: `.cursor/infra.md`
+
 ### Gen 1 (homelab / "prod gen 1")
 - `apps/` — application workloads deployed to the gen 1 cluster
 - `infrastructure/` — infrastructure components (controllers, operators, etc.) for the gen 1 cluster
