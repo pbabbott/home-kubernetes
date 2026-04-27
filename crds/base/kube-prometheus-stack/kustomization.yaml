@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - prometheus-community-helm-repo.yaml
+  - kube-prometheus-stack-crds-helm-release.yaml

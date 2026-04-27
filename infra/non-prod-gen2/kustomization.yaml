@@ -8,3 +8,4 @@ resources:
   - ./istio
   - ./flux-operator
   - ./longhorn
+  - ./kube-prometheus-stack
