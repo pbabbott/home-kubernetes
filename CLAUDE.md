@@ -15,3 +15,9 @@ This repository contains two sets of top-level directories, each tied to a diffe
 ## Working with Flux
 
 Instead of annotating resources, prefer to use `flux` on the command line - there is an mcp available for flux as well.
+
+## Working with kubernetes
+
+When issuing kubectl commands, you can simply using `kubectl` - there is no need for `ssh`
+
+Additionally, `kubectx` is available to rapidly switch contexts.

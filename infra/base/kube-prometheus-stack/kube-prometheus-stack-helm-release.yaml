@@ -27,6 +27,8 @@ spec:
   values:
     crds:
       enabled: false
+    defaultRules:
+      enabled: false
     alertmanager:
       enabled: false
     grafana:
