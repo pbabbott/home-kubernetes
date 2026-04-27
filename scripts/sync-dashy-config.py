@@ -20,6 +20,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMP_CONFIG = os.path.join(REPO_ROOT, "temp", "dashboard-config.yaml")
 HELMRELEASE = os.path.join(REPO_ROOT, "applications", "non-prod-gen2", "dashy", "helmrelease.yaml")
 CONFIGMAP = os.path.join(REPO_ROOT, "applications", "base", "dashy", "templates", "configmap.yaml")
+CHART_YAML = os.path.join(REPO_ROOT, "applications", "base", "dashy", "Chart.yaml")
 
 CONFIGMAP_HEADER = """\
 apiVersion: v1
@@ -144,6 +145,22 @@ def transform(raw: str, url_map: dict[str, str]) -> str:
     return "\n".join(merged).rstrip() + "\n"
 
 
+def bump_chart_version(chart_path: str) -> str:
+    """Bump the patch version in Chart.yaml and return the new version string."""
+    with open(chart_path) as f:
+        content = f.read()
+    m = re.search(r"^version:\s*(\d+)\.(\d+)\.(\d+)", content, re.MULTILINE)
+    if not m:
+        print(f"  {YELLOW}WARNING: could not parse version in Chart.yaml – skipping bump.{RESET}", file=sys.stderr)
+        return ""
+    major, minor, patch = int(m.group(1)), int(m.group(2)), int(m.group(3))
+    new_version = f"{major}.{minor}.{patch + 1}"
+    new_content = re.sub(r"^(version:\s*)\d+\.\d+\.\d+", rf"\g<1>{new_version}", content, flags=re.MULTILINE)
+    with open(chart_path, "w") as f:
+        f.write(new_content)
+    return new_version
+
+
 def build_configmap(config_content: str) -> str:
     indented = "\n".join(
         "    " + l if l.strip() else ""
@@ -174,6 +191,10 @@ def main() -> None:
     with open(CONFIGMAP, "w") as f:
         f.write(configmap)
     print(f"\n  {GREEN}{BOLD}✓ Written to {os.path.relpath(CONFIGMAP, REPO_ROOT)}{RESET}\n")
+
+    new_version = bump_chart_version(CHART_YAML)
+    if new_version:
+        print(f"  {GREEN}{BOLD}✓ Bumped chart version to {new_version} in {os.path.relpath(CHART_YAML, REPO_ROOT)}{RESET}\n")
 
 
 if __name__ == "__main__":
