@@ -34,6 +34,12 @@ spec:
     grafana:
       enabled: true
       adminPassword: admin
+      additionalDataSources:
+        - name: Prometheus
+          type: prometheus
+          url: http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc:9090
+          access: proxy
+          isDefault: true
       sidecar:
         dashboards:
           enabled: true

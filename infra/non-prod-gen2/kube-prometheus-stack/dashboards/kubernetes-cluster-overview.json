@@ -217,7 +217,7 @@
   ],
   "refresh": "30s",
   "schemaVersion": 38,
-  "tags": ["kubernetes"],
+  "tags": ["kubernetes", "gitops-managed"],
   "templating": {
     "list": [
       {
