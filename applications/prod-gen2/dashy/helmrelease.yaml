@@ -15,6 +15,7 @@ spec:
   interval: 30m
   values:
     hostname: dashy.local.abbottland.io
+    pageTitle: "Homelab"
     urls:
       pihole: https://pihole.local.abbottland.io/admin/
       haproxy: https://haproxy.local.abbottland.io

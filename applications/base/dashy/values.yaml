@@ -1,4 +1,5 @@
 hostname: dashy.local.non-prod.abbottland.io
+pageTitle: Homelab
 
 urls:
   pihole: https://pihole.local.non-prod.abbottland.io/admin/

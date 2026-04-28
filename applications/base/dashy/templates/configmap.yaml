@@ -11,7 +11,7 @@ data:
       iconSize: large
       language: en
     pageInfo:
-      title: Homelab non-prod
+      title: {{ .Values.pageTitle }}
     sections:
       - name: Central Admin
         icon: fas fa-server
