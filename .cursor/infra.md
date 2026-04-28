@@ -85,6 +85,15 @@ When I refer to a folder like `apps/` or `infrastructure/`, assume gen 1. When I
 
 Add new CRD-related material under `crds/<cluster>/` so it is applied before `infra/` and `applications/`. Prefer not to rely solely on an app chart to own CRDs when this repo’s layering should own the cluster API surface.
 
+## Longhorn Backup Targets
+
+NFS share host: `192.168.4.124`, export base: `/volume1/Backups/`
+
+| Cluster | Backup target |
+| --- | --- |
+| Non-prod gen 2 | `nfs://192.168.4.124:/volume1/Backups/longhorn-nonprod` |
+| Prod gen 2 | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod` |
+
 ## Cluster Notes
 
 - Workers run containerd
