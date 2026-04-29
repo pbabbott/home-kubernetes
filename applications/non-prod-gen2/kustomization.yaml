@@ -6,6 +6,7 @@ resources:
   - ./dashy
   - ./flux-gitops
   - ./haproxy
+  - ./harbor
   - ./pihole
   - ./podinfo
   - ./proxmox

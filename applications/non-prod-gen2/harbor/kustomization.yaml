@@ -1,0 +1,44 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base/harbor
+
+patches:
+  - target:
+      kind: HelmRelease
+      name: harbor
+      namespace: flux-system
+    patch: |-
+      - op: replace
+        path: /spec/values/externalURL
+        value: https://harbor.local.non-prod.abbottland.io
+      - op: replace
+        path: /spec/values/database/external/coreDatabase
+        value: harbor_nonprod
+      - op: replace
+        path: /spec/values/redis/external/coreDatabaseIndex
+        value: "8"
+      - op: replace
+        path: /spec/values/redis/external/jobserviceDatabaseIndex
+        value: "9"
+      - op: replace
+        path: /spec/values/redis/external/registryDatabaseIndex
+        value: "10"
+      - op: replace
+        path: /spec/values/redis/external/trivyAdapterDatabaseIndex
+        value: "13"
+      - op: replace
+        path: /spec/values/redis/external/harborDatabaseIndex
+        value: "14"
+      - op: replace
+        path: /spec/values/redis/external/cacheLayerDatabaseIndex
+        value: "15"
+  - target:
+      kind: HTTPRoute
+      name: harbor
+      namespace: harbor
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: harbor.local.non-prod.abbottland.io

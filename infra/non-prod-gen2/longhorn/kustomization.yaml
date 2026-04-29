@@ -4,5 +4,9 @@ kind: Kustomization
 resources:
   - ../../base/longhorn
   - longhorn-httproute.yaml
+  # TODO: promote longhorn-recurring-job.yaml and longhorn-backup-storageclass.yaml
+  # to infra/base/longhorn/ once validated in non-prod.
+  - longhorn-recurring-job.yaml
+  - longhorn-backup-storageclass.yaml
 patches:
   - path: longhorn-helmrelease-patch.yaml

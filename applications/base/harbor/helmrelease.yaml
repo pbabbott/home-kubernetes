@@ -1,0 +1,67 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: harbor
+  releaseName: harbor
+  chart:
+    spec:
+      chart: harbor
+      version: '1.15.0'
+      sourceRef:
+        kind: HelmRepository
+        name: harbor
+        namespace: flux-system
+      interval: 12h
+  values:
+    # TLS terminates at the Istio Gateway; Harbor serves HTTP internally.
+    # externalURL is overridden per cluster in the overlay kustomization.
+    externalURL: https://harbor.local.non-prod.abbottland.io
+    expose:
+      type: clusterIP
+      tls:
+        enabled: false
+    existingSecretAdminPassword: harbor-admin-secret
+    existingSecretAdminPasswordKey: password
+    database:
+      type: external
+      external:
+        host: nas.local.abbottland.io
+        port: 5432
+        username: postgres
+        existingSecret: harbor-db-secret
+        # coreDatabase is overridden per cluster in the overlay kustomization
+        # to avoid collision between prod and non-prod on the same Postgres server.
+        coreDatabase: harbor
+    redis:
+      type: external
+      external:
+        addr: nas.local.abbottland.io:6379
+        # Database indexes are overridden per cluster in the overlay kustomization
+        # to avoid collision between prod and non-prod on the same Redis server.
+        # Gen1 (prod) uses defaults: 0,1,2,5,6,7
+        coreDatabaseIndex: "0"
+        jobserviceDatabaseIndex: "1"
+        registryDatabaseIndex: "2"
+        trivyAdapterDatabaseIndex: "5"
+        harborDatabaseIndex: "6"
+        cacheLayerDatabaseIndex: "7"
+    persistence:
+      enabled: true
+      resourcePolicy: keep
+      persistentVolumeClaim:
+        registry:
+          storageClass: longhorn
+        jobservice:
+          jobLog:
+            storageClass: longhorn
+        trivy:
+          storageClass: longhorn
+    registry:
+      relativeurls: true
+    trivy:
+      enabled: true
