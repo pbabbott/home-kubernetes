@@ -6,3 +6,13 @@ resources:
   - kube-prometheus-stack-helm-release.yaml
   - prometheus-httproute.yaml
   - grafana-httproute.yaml
+
+configMapGenerator:
+  - name: grafana-dashboard-my-hosts
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - dashboards/my-hosts.json
