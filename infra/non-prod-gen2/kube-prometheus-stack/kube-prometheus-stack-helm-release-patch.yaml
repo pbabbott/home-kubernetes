@@ -16,3 +16,12 @@ spec:
       enabled: true
     coreDns:
       enabled: true
+    prometheus:
+      prometheusSpec:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 2000m
+            memory: 1500Mi
