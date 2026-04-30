@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__flux-mcp-nonprod__get_flux_instance",
+      "mcp__flux-mcp-nonprod__get_kubernetes_resources",
+      "Bash(xargs ls:*)",
+      "Bash(grep -A5 \"httpRoute\" /workspaces/home-kubernetes/infra/base/flux-operator/*.yaml)",
+      "Bash(ssh-keyscan:*)",
+      "mcp__flux-mcp-nonprod__get_kubernetes_logs",
+      "Bash(git commit:*)",
+      "WebFetch(domain:artifacthub.io)",
+      "Bash(ls:*)",
+      "Bash(awk -F: '$2 > 3316 {print; exit}')",
+      "Bash(awk:*)",
+      "Bash(kubectx)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl --context=nonprod-gen2 get servicemonitors -A --no-headers)",
+      "Bash(grep -l \"hostname\\\\|HTTPRoute\" /workspaces/home-kubernetes/applications/non-prod-gen2/*/kustomization.yaml)",
+      "mcp__flux-mcp-prod__get_kubernetes_resources",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl delete:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(flux reconcile:*)",
+      "Bash(flux get:*)",
+      "Bash(kubectl patch secret:*)",
+      "Bash(kubectl config get-contexts:*)",
+      "Bash(find:*)",
+      "Bash(grep -E \"\\\\.\\(yaml|yml\\)$\")",
+      "Bash(kubectl kustomize:*)",
+      "Bash(wait)",
+      "Bash(npm list:*)",
+      "Bash(claude --version)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "flux-mcp-nonprod",
+    "flux-mcp-prod"
+  ]
+}

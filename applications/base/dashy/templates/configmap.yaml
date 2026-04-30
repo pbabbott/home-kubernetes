@@ -91,4 +91,10 @@ data:
             url: {{ .Values.urls.grafana }}
             target: newtab
             id: temp_Grafana
+          - title: Harbor
+            description: Container Registry
+            icon: hl-harbor
+            url: {{ .Values.urls.harbor }}
+            target: newtab
+            id: temp_Harbor
     pages: []

@@ -25,3 +25,4 @@ spec:
       longhorn: https://longhorn.local.non-prod.abbottland.io
       prometheus: https://prometheus.local.non-prod.abbottland.io
       grafana: https://grafana.local.non-prod.abbottland.io
+      harbor: https://harbor.local.non-prod.abbottland.io
