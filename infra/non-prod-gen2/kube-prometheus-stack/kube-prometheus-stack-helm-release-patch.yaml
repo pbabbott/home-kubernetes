@@ -1,0 +1,18 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: flux-system
+spec:
+  values:
+    defaultRules:
+      enabled: true
+    kubeStateMetrics:
+      enabled: true
+    kubeApiServer:
+      enabled: true
+    kubelet:
+      enabled: true
+    coreDns:
+      enabled: true
