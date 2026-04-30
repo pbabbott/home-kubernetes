@@ -30,10 +30,10 @@ patches:
         value: "12"
       - op: replace
         path: /spec/values/redis/external/harborDatabaseIndex
-        value: "16"
+        value: "5"
       - op: replace
         path: /spec/values/redis/external/cacheLayerDatabaseIndex
-        value: "17"
+        value: "6"
   - target:
       kind: HTTPRoute
       name: harbor
