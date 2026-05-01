@@ -34,6 +34,9 @@ spec:
     grafana:
       enabled: true
       adminPassword: admin
+      grafana.ini:
+        date_formats:
+          default_timezone: America/Chicago
       sidecar:
         dashboards:
           enabled: true
