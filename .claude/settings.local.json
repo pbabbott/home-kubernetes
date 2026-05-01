@@ -29,7 +29,20 @@
       "Bash(kubectl kustomize:*)",
       "Bash(wait)",
       "Bash(npm list:*)",
-      "Bash(claude --version)"
+      "Bash(claude --version)",
+      "Bash(flux suspend *)",
+      "Bash(flux resume *)",
+      "mcp__flux-mcp-prod__get_kubernetes_logs",
+      "Bash(kubectl *)",
+      "Bash(ssh 192.168.6.32 \"top -bn1 | head -20\")",
+      "Bash(ssh 192.168.6.33 \"top -bn1 | head -20\")",
+      "Bash(ssh 192.168.6.34 \"top -bn1 | head -20\")",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "mcp__playwright__browser_navigate",
+      "Bash(helm get *)",
+      "Bash(kustomize build *)",
+      "Skill(update-config)"
     ]
   },
   "enabledMcpjsonServers": [
