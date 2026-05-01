@@ -24,7 +24,8 @@
           "version": "1.25.2",
           "pluginRepo": "https://github.com/virtualstaticvoid/asdf-istioctl.git"
       },
-      "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+      "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+      "ghcr.io/jsburckhardt/devcontainer-features/uv:1": {}
 
   },
   "mounts": [

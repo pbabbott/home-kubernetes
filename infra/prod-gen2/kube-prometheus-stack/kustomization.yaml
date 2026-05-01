@@ -5,6 +5,7 @@ resources:
   - ../../base/kube-prometheus-stack
 
 patches:
+  - path: kube-prometheus-stack-helm-release-patch.yaml
   - target:
       kind: HTTPRoute
       name: prometheus-ui

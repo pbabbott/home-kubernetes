@@ -1,4 +1,8 @@
 
+## Operational Guidelines
+
+Be brief.
+
 ## Repository Folder Structure
 
 This repository contains two sets of top-level directories, each tied to a different cluster generation:

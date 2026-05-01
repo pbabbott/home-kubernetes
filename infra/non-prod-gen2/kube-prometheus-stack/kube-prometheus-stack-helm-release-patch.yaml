@@ -23,6 +23,8 @@ spec:
         timeoutSeconds: 5
     prometheus:
       prometheusSpec:
+        externalLabels:
+          cluster: non-prod-gen2
         resources:
           requests:
             cpu: 200m

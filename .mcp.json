@@ -1,5 +1,21 @@
 {
   "mcpServers": {
+    "grafana-nonprod": {
+      "command": "uvx",
+      "args": ["mcp-grafana"],
+      "env": {
+        "GRAFANA_URL": "https://grafana.local.non-prod.abbottland.io",
+        "GRAFANA_SERVICE_ACCOUNT_TOKEN": "${GRAFANA_TOKEN_NON_PROD}"
+      }
+    },
+    "grafana-prod": {
+      "command": "uvx",
+      "args": ["mcp-grafana"],
+      "env": {
+        "GRAFANA_URL": "https://grafana.local.abbottland.io",
+        "GRAFANA_SERVICE_ACCOUNT_TOKEN": "${GRAFANA_TOKEN_PROD}"
+      }
+    },
     "flux-mcp-nonprod": {
       "type": "http",
       "url": "https://flux-mcp.local.non-prod.abbottland.io/mcp"

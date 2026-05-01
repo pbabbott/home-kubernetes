@@ -42,11 +42,17 @@
       "mcp__playwright__browser_navigate",
       "Bash(helm get *)",
       "Bash(kustomize build *)",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "mcp__grafana-nonprod__search_dashboards",
+      "mcp__grafana-nonprod__get_dashboard_panel_queries",
+      "mcp__grafana-nonprod__list_datasources",
+      "mcp__grafana-nonprod__query_prometheus"
     ]
   },
   "enabledMcpjsonServers": [
     "flux-mcp-nonprod",
-    "flux-mcp-prod"
+    "flux-mcp-prod",
+    "grafana-nonprod",
+    "grafana-prod"
   ]
 }
