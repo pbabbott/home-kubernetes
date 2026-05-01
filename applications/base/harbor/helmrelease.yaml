@@ -63,5 +63,10 @@ spec:
           storageClass: longhorn
     registry:
       relativeurls: true
+      updateStrategy:
+        type: Recreate
+    jobservice:
+      updateStrategy:
+        type: Recreate
     trivy:
       enabled: true
