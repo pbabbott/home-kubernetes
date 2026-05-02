@@ -16,3 +16,19 @@ configMapGenerator:
         grafana_dashboard: "1"
     files:
       - dashboards/my-hosts.json
+  - name: grafana-dashboard-kubernetes-cluster-overview
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - dashboards/kubernetes-cluster-overview.json
+  - name: grafana-dashboard-longhorn
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - dashboards/longhorn.json

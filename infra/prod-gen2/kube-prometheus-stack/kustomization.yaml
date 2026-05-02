@@ -23,12 +23,3 @@ patches:
         path: /spec/hostnames/0
         value: grafana.local.abbottland.io
 
-configMapGenerator:
-  - name: grafana-dashboard-kubernetes-cluster-overview
-    namespace: kube-prometheus-stack
-    options:
-      disableNameSuffixHash: true
-      labels:
-        grafana_dashboard: "1"
-    files:
-      - dashboards/kubernetes-cluster-overview.json
