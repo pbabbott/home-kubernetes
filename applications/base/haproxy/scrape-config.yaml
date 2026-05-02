@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: haproxy
+  namespace: haproxy
+  labels:
+    release: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - "192.168.6.28:8404"
+      labels:
+        job: haproxy
+  metricsPath: /metrics
+  scrapeInterval: 30s

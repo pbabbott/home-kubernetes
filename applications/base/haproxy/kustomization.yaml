@@ -7,4 +7,4 @@ resources:
   - endpointslice.yaml
   - httproute.yaml
   - httproute-http-to-https.yaml
-  - service-monitor.yaml
+  - scrape-config.yaml
