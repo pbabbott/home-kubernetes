@@ -5,4 +5,7 @@ resources:
   - namespace.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  - httproute.yaml
+  - podinfo-httproute.yaml
+  - podinfo-http-to-https-httproute.yaml
+  - podinfo-public-httproute.yaml
+  - podinfo-public-http-to-https-httproute.yaml

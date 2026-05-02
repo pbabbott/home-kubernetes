@@ -48,7 +48,8 @@
       "mcp__grafana-nonprod__list_datasources",
       "mcp__grafana-nonprod__query_prometheus",
       "Bash(python3 -m json.tool)",
-      "WebFetch(domain:grafana.com)"
+      "WebFetch(domain:grafana.com)",
+      "Bash(xargs -I{} sh -c 'echo \"FILE: {}\"; cat {}')"
     ]
   },
   "enabledMcpjsonServers": [

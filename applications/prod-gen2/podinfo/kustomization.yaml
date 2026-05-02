@@ -21,3 +21,19 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: podinfo.local.abbottland.io
+  - target:
+      kind: HTTPRoute
+      name: podinfo-public
+      namespace: podinfo
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: podinfo.abbottland.io
+  - target:
+      kind: HTTPRoute
+      name: podinfo-public-http-to-https
+      namespace: podinfo
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: podinfo.abbottland.io
