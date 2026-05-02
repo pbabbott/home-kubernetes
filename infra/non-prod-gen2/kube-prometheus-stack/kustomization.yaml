@@ -27,11 +27,11 @@ patches:
         value: grafana.local.non-prod.abbottland.io
 
 configMapGenerator:
-  - name: grafana-dashboard-harbor
+  - name: grafana-dashboard-hello-world
     namespace: kube-prometheus-stack
     options:
       disableNameSuffixHash: true
       labels:
         grafana_dashboard: "1"
     files:
-      - dashboards/harbor.json
+      - dashboards/hello-world.json

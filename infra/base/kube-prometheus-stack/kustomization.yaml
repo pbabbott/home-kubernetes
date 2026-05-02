@@ -14,6 +14,7 @@ configMapGenerator:
       disableNameSuffixHash: true
       labels:
         grafana_dashboard: "1"
+        gitops-managed: "true"
     files:
       - dashboards/my-hosts.json
   - name: grafana-dashboard-kubernetes-cluster-overview
@@ -22,6 +23,7 @@ configMapGenerator:
       disableNameSuffixHash: true
       labels:
         grafana_dashboard: "1"
+        gitops-managed: "true"
     files:
       - dashboards/kubernetes-cluster-overview.json
   - name: grafana-dashboard-longhorn
@@ -30,5 +32,24 @@ configMapGenerator:
       disableNameSuffixHash: true
       labels:
         grafana_dashboard: "1"
+        gitops-managed: "true"
     files:
       - dashboards/longhorn.json
+  - name: grafana-dashboard-harbor
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+        gitops-managed: "true"
+    files:
+      - dashboards/harbor.json
+  - name: grafana-dashboard-haproxy
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+        gitops-managed: "true"
+    files:
+      - dashboards/haproxy.json

@@ -1,0 +1,24 @@
+{
+  "title": "Hello World",
+  "uid": "hello-world",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "",
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "Hello World",
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 4 },
+      "options": {
+        "mode": "markdown",
+        "content": "# Hello World\n\nThis is a test dashboard."
+      }
+    }
+  ],
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "tags": [],
+  "annotations": { "list": [] },
+  "templating": { "list": [] }
+}
