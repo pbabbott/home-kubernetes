@@ -21,6 +21,7 @@ spec:
       gateway.networking.k8s.io/gateway-name: istio-ingress
   action: ALLOW
   rules:
+    # Rule 1: LAN IPs only → *.local.* hostnames
     - from:
         - source:
             ipBlocks:
@@ -39,6 +40,8 @@ spec:
             hosts:
               - "*.local.non-prod.abbottland.io"
               - "*.local.abbottland.io"
+    # Rule 2: any source → public hostnames (notHosts prevents this ALLOW policy from
+    # default-denying public routes; anything not matched by rule 1 falls here)
     - to:
         - operation:
             notHosts:

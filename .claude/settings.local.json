@@ -49,7 +49,10 @@
       "mcp__grafana-nonprod__query_prometheus",
       "Bash(python3 -m json.tool)",
       "WebFetch(domain:grafana.com)",
-      "Bash(xargs -I{} sh -c 'echo \"FILE: {}\"; cat {}')"
+      "Bash(xargs -I{} sh -c 'echo \"FILE: {}\"; cat {}')",
+      "Bash(grep -E \"^kind: CustomResourceDefinition$|^  name: \" /workspaces/home-kubernetes/crds/base/gateway-api/standard-install.yaml)",
+      "Bash(git -C /workspaces/home-kubernetes log --oneline -1 40862bb)",
+      "Bash(git -C /workspaces/home-kubernetes show --stat 40862bb)"
     ]
   },
   "enabledMcpjsonServers": [

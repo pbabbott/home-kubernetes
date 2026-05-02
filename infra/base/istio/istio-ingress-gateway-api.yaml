@@ -33,3 +33,15 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: https-public
+      port: 443
+      protocol: HTTPS
+      hostname: "*.abbottland.io"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: wildcard-public-tls
+      allowedRoutes:
+        namespaces:
+          from: All
