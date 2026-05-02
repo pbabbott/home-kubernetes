@@ -8,3 +8,7 @@ resources:
   - istio-ingress-helm-release.yaml
   - istio-ingress-gateway-api.yaml
   - global-authorizationpolicy.yaml
+  - istiod-service-monitor.yaml
+  - istio-ingress-pod-monitor.yaml
+  - ztunnel-pod-monitor.yaml
+  - istio-cni-pod-monitor.yaml

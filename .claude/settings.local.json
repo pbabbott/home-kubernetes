@@ -46,7 +46,9 @@
       "mcp__grafana-nonprod__search_dashboards",
       "mcp__grafana-nonprod__get_dashboard_panel_queries",
       "mcp__grafana-nonprod__list_datasources",
-      "mcp__grafana-nonprod__query_prometheus"
+      "mcp__grafana-nonprod__query_prometheus",
+      "Bash(python3 -m json.tool)",
+      "WebFetch(domain:grafana.com)"
     ]
   },
   "enabledMcpjsonServers": [

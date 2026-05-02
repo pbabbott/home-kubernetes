@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: istiod
+  namespace: istio-system
+spec:
+  endpoints:
+    - port: http-monitoring
+      interval: 30s
+      path: /metrics
+  selector:
+    matchLabels:
+      app: istiod
+      istio: pilot
+  namespaceSelector:
+    matchNames:
+      - istio-system

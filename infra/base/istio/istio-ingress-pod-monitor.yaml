@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: istio-ingress
+  namespace: istio-system
+spec:
+  podMetricsEndpoints:
+    - port: http-envoy-prom
+      interval: 30s
+      path: /stats/prometheus
+  selector:
+    matchLabels:
+      app: istio-system-istio-ingress
+  namespaceSelector:
+    matchNames:
+      - istio-system
