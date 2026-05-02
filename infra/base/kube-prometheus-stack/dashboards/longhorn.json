@@ -2388,7 +2388,8 @@
   "tags": [
     "Storage",
     "K8s",
-    "Longhorn"
+    "Longhorn",
+    "gitops-managed"
   ],
   "templating": {
     "list": [

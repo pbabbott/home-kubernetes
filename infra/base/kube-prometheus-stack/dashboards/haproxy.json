@@ -11367,7 +11367,8 @@
   "schemaVersion": 41,
   "tags": [
     "haproxy",
-    "servers"
+    "servers",
+    "gitops-managed"
   ],
   "templating": {
     "list": [

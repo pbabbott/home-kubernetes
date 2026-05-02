@@ -28,6 +28,10 @@ When issuing kubectl commands, you can simply using `kubectl` - there is no need
 
 Additionally, `kubectx` is available to rapidly switch contexts.
 
+## Conventions
+
+- Grafana dashboard JSON files must include `"gitops-managed"` in their `tags` array.
+
 ## Reference
 
 - `.cursor/infra.md` - For more complete information on infra, repository topology and common ssh targets

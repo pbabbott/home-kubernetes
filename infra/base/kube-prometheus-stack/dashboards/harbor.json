@@ -1526,7 +1526,8 @@
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
-    "harbor"
+    "harbor",
+    "gitops-managed"
   ],
   "templating": {
     "list": [
