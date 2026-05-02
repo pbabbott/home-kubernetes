@@ -6,21 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   values:
-    defaultRules:
-      enabled: true
-    kubeStateMetrics:
-      enabled: true
-    kubeApiServer:
-      enabled: true
-    kubelet:
-      enabled: true
-    coreDns:
-      enabled: true
-    prometheus-node-exporter:
-      livenessProbe:
-        timeoutSeconds: 5
-      readinessProbe:
-        timeoutSeconds: 5
     prometheus:
       prometheusSpec:
         externalLabels:

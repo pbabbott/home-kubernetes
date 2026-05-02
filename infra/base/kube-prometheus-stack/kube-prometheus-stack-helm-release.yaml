@@ -27,8 +27,6 @@ spec:
   values:
     crds:
       enabled: false
-    defaultRules:
-      enabled: false
     alertmanager:
       enabled: false
     grafana:
@@ -43,16 +41,18 @@ spec:
           label: grafana_dashboard
           labelValue: "1"
           searchNamespace: ALL
+    defaultRules:
+      enabled: true
     kubeStateMetrics:
-      enabled: false
+      enabled: true
     kubeApiServer:
-      enabled: false
+      enabled: true
     kubelet:
-      enabled: false
+      enabled: true
     kubeControllerManager:
       enabled: false
     coreDns:
-      enabled: false
+      enabled: true
     kubeDns:
       enabled: false
     kubeEtcd:
@@ -61,6 +61,11 @@ spec:
       enabled: false
     kubeProxy:
       enabled: false
+    prometheus-node-exporter:
+      livenessProbe:
+        timeoutSeconds: 5
+      readinessProbe:
+        timeoutSeconds: 5
     prometheus:
       prometheusSpec:
         serviceMonitorSelectorNilUsesHelmValues: false

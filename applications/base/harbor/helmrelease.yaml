@@ -70,3 +70,7 @@ spec:
         type: Recreate
     trivy:
       enabled: true
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true

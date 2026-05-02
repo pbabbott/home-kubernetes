@@ -26,3 +26,12 @@ patches:
         path: /spec/hostnames/0
         value: grafana.local.non-prod.abbottland.io
 
+configMapGenerator:
+  - name: grafana-dashboard-harbor
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - dashboards/harbor.json
