@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - flux-operator-ocirepository.yaml
   - flux-operator-helmrelease.yaml
+  - flux-operator-servicemonitor.yaml

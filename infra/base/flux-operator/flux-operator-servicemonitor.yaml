@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: flux-operator
+  namespace: flux-system
+spec:
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: flux-operator
+      app.kubernetes.io/instance: flux-operator
+  namespaceSelector:
+    matchNames:
+      - flux-system
