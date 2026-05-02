@@ -90,11 +90,23 @@ data:
             icon: hl-grafana
             url: {{ .Values.urls.grafana }}
             target: newtab
-            id: temp_Grafana
+            id: 3_1259_grafana
           - title: Harbor
             description: Container Registry
             icon: hl-harbor
-            url: {{ .Values.urls.harbor }}
+            url: {{ .Values.urls.harbor }}/
             target: newtab
-            id: temp_Harbor
+            id: 4_1259_harbor
+          - title: Pod info (local)
+            description: Internal networking check
+            icon: 🦑
+            url: {{ .Values.urls.podinfoLocal }}
+            target: newtab
+            id: 5_1259_podinfolocal
+          - title: Pod Info (public)
+            description: Public networking check
+            icon: 🦑
+            url: {{ .Values.urls.podinfoPublic }}
+            target: newtab
+            id: 6_1259_podinfopublic
     pages: []

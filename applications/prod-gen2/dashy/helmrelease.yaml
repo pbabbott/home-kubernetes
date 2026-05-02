@@ -26,3 +26,5 @@ spec:
       prometheus: https://prometheus.local.abbottland.io
       grafana: https://grafana.local.abbottland.io
       harbor: https://harbor.local.abbottland.io
+      podinfoLocal: https://podinfo.local.abbottland.io/
+      podinfoPublic: http://podinfo.abbottland.io/
