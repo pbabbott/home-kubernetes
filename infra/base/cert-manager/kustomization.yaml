@@ -7,3 +7,4 @@ resources:
   - cloudflare-api-token-onepassword.yaml
   - cert-manager-helm-release.yaml
   - cluster-issuers.yaml
+  - cloudflare-ddns-deployment.yaml
