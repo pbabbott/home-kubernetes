@@ -58,6 +58,13 @@ data:
             url: https://dashy.local.non-prod.abbottland.io
             target: sametab
             id: 5_1234_dashynonprod
+          - title: Cloudflare
+            description: Abbottland.io DNS records
+            icon: hl-cloudflare
+            url: >-
+              https://dash.cloudflare.com/f7f4e563bdfb5e6ca826972edfc2820c/abbottland.io/dns/records
+            target: newtab
+            id: temp_Cloudflare
       - name: Cluster Admin
         icon: sh-kubernetes
         displayData:
