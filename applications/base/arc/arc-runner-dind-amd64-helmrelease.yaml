@@ -30,6 +30,10 @@ spec:
       type: dind
     template:
       spec:
+        dnsConfig:
+          options:
+            - name: ndots
+              value: "2"
         nodeSelector:
           kubernetes.io/arch: amd64
         containers:
