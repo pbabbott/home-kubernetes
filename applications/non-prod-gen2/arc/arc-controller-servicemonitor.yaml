@@ -1,0 +1,21 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: arc-controller
+  namespace: arc-systems
+  labels:
+    release: monitoring
+spec:
+  endpoints:
+    - port: metrics
+      interval: 1m
+      scrapeTimeout: 30s
+      scheme: http
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gha-runner-scale-set-controller
+      app.kubernetes.io/instance: arc-controller
+  namespaceSelector:
+    matchNames:
+      - arc-systems

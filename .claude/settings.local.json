@@ -59,7 +59,13 @@
       "Bash(dig CNAME podinfo.abbottland.io @8.8.8.8)",
       "Bash(dig podinfo.abbottland.io @8.8.8.8 +short)",
       "Bash(curl -v --max-redirs 3 https://podinfo.abbottland.io)",
-      "Bash(curl -sI --max-redirs 5 -L https://podinfo.abbottland.io)"
+      "Bash(curl -sI --max-redirs 5 -L https://podinfo.abbottland.io)",
+      "WebFetch(domain:actions-runner-controller.github.io)",
+      "Bash(mv helmrepository.yaml gha-runner-scale-set-charts-helmrepository.yaml)",
+      "Bash(mv helmrelease-controller.yaml arc-controller-helmrelease.yaml)",
+      "Bash(mv helmrelease-runner-amd64.yaml arc-runner-amd64-helmrelease.yaml)",
+      "Bash(mv helmrelease-runner-dind-amd64.yaml arc-runner-dind-amd64-helmrelease.yaml)",
+      "Bash(rm namespace.yaml)"
     ]
   },
   "enabledMcpjsonServers": [

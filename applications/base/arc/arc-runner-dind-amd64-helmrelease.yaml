@@ -1,0 +1,45 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: arc-runner-dind-amd64
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: arc-runners
+  releaseName: gen2-dind-runner
+  dependsOn:
+    - name: arc-controller
+  chart:
+    spec:
+      chart: gha-runner-scale-set
+      version: '0.14.1'
+      sourceRef:
+        kind: HelmRepository
+        name: gha-runner-scale-set-charts
+        namespace: flux-system
+      interval: 12h
+  values:
+    githubConfigUrl: https://github.com/pbabbott/home-web-apps
+    githubConfigSecret: arc-gh-secret
+    runnerScaleSetName: gen2-dind-runner
+    minRunners: 1
+    maxRunners: 2
+    runnerGroup: default
+    containerMode:
+      type: dind
+    template:
+      spec:
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        containers:
+          - name: runner
+            image: ghcr.io/actions/actions-runner:latest
+            command: ["/home/runner/run.sh"]
+            resources:
+              requests:
+                cpu: "1"
+                memory: "1Gi"
+              limits:
+                cpu: "2"
+                memory: "2Gi"

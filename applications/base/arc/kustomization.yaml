@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - arc-systems-ns.yaml
+  - arc-runners-ns.yaml
+  - gha-runner-scale-set-charts-helmrepository.yaml
+  - arc-controller-helmrelease.yaml
+  - arc-runner-amd64-helmrelease.yaml
+  - arc-runner-dind-amd64-helmrelease.yaml

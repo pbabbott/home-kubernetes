@@ -31,6 +31,8 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 ## Conventions
 
 - Grafana dashboard JSON files must include `"gitops-managed"` in their `tags` array.
+- When working with resource files, use the convention `<name>-<kind>.yaml` 
+  -  For example `haproxy-httproute.yaml` or `arc-ns.yaml` are acceptable. 
 
 ## Reference
 
