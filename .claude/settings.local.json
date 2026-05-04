@@ -53,7 +53,13 @@
       "Bash(grep -E \"^kind: CustomResourceDefinition$|^  name: \" /workspaces/home-kubernetes/crds/base/gateway-api/standard-install.yaml)",
       "Bash(git -C /workspaces/home-kubernetes log --oneline -1 40862bb)",
       "Bash(git -C /workspaces/home-kubernetes show --stat 40862bb)",
-      "mcp__flux-mcp-prod__get_flux_instance"
+      "mcp__flux-mcp-prod__get_flux_instance",
+      "Bash(dig +short abbottland.io)",
+      "Bash(dig CNAME podinfo.abbottland.io +short)",
+      "Bash(dig CNAME podinfo.abbottland.io @8.8.8.8)",
+      "Bash(dig podinfo.abbottland.io @8.8.8.8 +short)",
+      "Bash(curl -v --max-redirs 3 https://podinfo.abbottland.io)",
+      "Bash(curl -sI --max-redirs 5 -L https://podinfo.abbottland.io)"
     ]
   },
   "enabledMcpjsonServers": [
