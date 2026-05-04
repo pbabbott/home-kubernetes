@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: arc-runners
-  releaseName: gen2-dind-runner
+  releaseName: non-prod-gen2-dind-runner
   dependsOn:
     - name: arc-controller
   chart:
@@ -22,7 +22,7 @@ spec:
   values:
     githubConfigUrl: https://github.com/pbabbott/home-web-apps
     githubConfigSecret: arc-gh-secret
-    runnerScaleSetName: gen2-dind-runner
+    runnerScaleSetName: non-prod-gen2-dind-runner
     minRunners: 1
     maxRunners: 2
     runnerGroup: default
