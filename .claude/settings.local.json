@@ -65,7 +65,8 @@
       "Bash(mv helmrelease-controller.yaml arc-controller-helmrelease.yaml)",
       "Bash(mv helmrelease-runner-amd64.yaml arc-runner-amd64-helmrelease.yaml)",
       "Bash(mv helmrelease-runner-dind-amd64.yaml arc-runner-dind-amd64-helmrelease.yaml)",
-      "Bash(rm namespace.yaml)"
+      "Bash(rm namespace.yaml)",
+      "Bash(curl -s http://192.168.6.28:8404/stats)"
     ]
   },
   "enabledMcpjsonServers": [

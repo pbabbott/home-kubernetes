@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base/arc
+  - arc-gh-secret.yaml
+  - arc-controller-servicemonitor.yaml
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/releaseName
+        value: prod-gen2-amd64-runner
+      - op: replace
+        path: /spec/values/runnerScaleSetName
+        value: prod-gen2-amd64-runner
+    target:
+      kind: HelmRelease
+      name: arc-runner-amd64
+  - patch: |-
+      - op: replace
+        path: /spec/releaseName
+        value: prod-gen2-dind-runner
+      - op: replace
+        path: /spec/values/runnerScaleSetName
+        value: prod-gen2-dind-runner
+    target:
+      kind: HelmRelease
+      name: arc-runner-dind-amd64
