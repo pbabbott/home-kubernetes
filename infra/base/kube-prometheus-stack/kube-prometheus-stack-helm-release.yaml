@@ -83,6 +83,9 @@ spec:
             memory: 1500Mi
         storageSpec:
           volumeClaimTemplate:
+            metadata:
+              labels:
+                recurring-job-group.longhorn.io/default: disabled
             spec:
               storageClassName: longhorn
               accessModes:
