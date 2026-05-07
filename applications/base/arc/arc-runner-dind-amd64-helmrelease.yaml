@@ -64,8 +64,6 @@ spec:
             emptyDir: { sizeLimit: 20Gi }
           - name: work
             emptyDir: { sizeLimit: 10Gi }
-          - name: dind-sock
-            emptyDir: {}
         priorityClassName: arc-runner-low
         affinity:
           podAntiAffinity:
