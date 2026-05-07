@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: arc-runners
+  namespace: arc-runners
+spec:
+  hard:
+    pods: "12"
+    limits.cpu: "12"
+    limits.memory: 24Gi
+    limits.ephemeral-storage: 100Gi

@@ -25,6 +25,8 @@ spec:
     defaultSettings:
       defaultDataPath: /mnt/ssd
       engineReplicaTimeout: 30
+      priorityClass: system-node-critical
+      replicaAutoBalance: best-effort
     nodeSelector:
       kubernetes.io/arch: amd64
     longhornManager:

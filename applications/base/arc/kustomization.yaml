@@ -8,3 +8,5 @@ resources:
   - arc-controller-helmrelease.yaml
   - arc-runner-amd64-helmrelease.yaml
   - arc-runner-dind-amd64-helmrelease.yaml
+  - arc-runners-resourcequota.yaml
+  - arc-runners-limitrange.yaml

@@ -44,6 +44,44 @@ spec:
               requests:
                 cpu: "1"
                 memory: "1Gi"
+                ephemeral-storage: "2Gi"
               limits:
                 cpu: "2"
                 memory: "2Gi"
+                ephemeral-storage: "20Gi"
+          - name: dind
+            resources:
+              requests:
+                cpu: "500m"
+                memory: "1Gi"
+                ephemeral-storage: "2Gi"
+              limits:
+                cpu: "2"
+                memory: "4Gi"
+                ephemeral-storage: "20Gi"
+        volumes:
+          - name: var-lib-docker
+            emptyDir: { sizeLimit: 20Gi }
+          - name: work
+            emptyDir: { sizeLimit: 10Gi }
+          - name: dind-sock
+            emptyDir: {}
+        priorityClassName: arc-runner-low
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchExpressions:
+                      - key: longhorn.io/component
+                        operator: In
+                        values: ["instance-manager"]
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: runner
