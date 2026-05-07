@@ -93,4 +93,4 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
-        retention: 15d
+        retention: 3d
