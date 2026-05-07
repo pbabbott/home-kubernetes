@@ -43,7 +43,7 @@ spec:
             resources:
               requests:
                 cpu: "1"
-                memory: "1Gi"
+                memory: "512Mi"
                 ephemeral-storage: "2Gi"
               limits:
                 cpu: "2"
@@ -53,7 +53,7 @@ spec:
             resources:
               requests:
                 cpu: "500m"
-                memory: "1Gi"
+                memory: "512Mi"
                 ephemeral-storage: "2Gi"
               limits:
                 cpu: "2"
@@ -79,7 +79,7 @@ spec:
         topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
-            whenUnsatisfiable: ScheduleAnyway
+            whenUnsatisfiable: DoNotSchedule
             labelSelector:
               matchLabels:
                 app.kubernetes.io/component: runner
