@@ -45,6 +45,14 @@ spec:
         limits:
           cpu: 300m
           memory: 256Mi
+    longhornInstanceManager:
+      resources:
+        requests:
+          cpu: 200m
+          memory: 128Mi
+        limits:
+          cpu: 1000m
+          memory: 384Mi
     longhornUI:
       replicas: 1
     ingress:
