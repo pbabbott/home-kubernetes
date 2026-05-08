@@ -83,3 +83,4 @@ spec:
             labelSelector:
               matchLabels:
                 app.kubernetes.io/component: runner
+                app.kubernetes.io/instance: non-prod-gen2-dind-runner
