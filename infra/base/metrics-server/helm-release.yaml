@@ -19,3 +19,10 @@ spec:
   values:
     args:
       - --kubelet-insecure-tls
+    priorityClassName: system-cluster-critical
+    resources:
+      requests:
+        cpu: 100m
+        memory: 200Mi
+      limits:
+        memory: 512Mi
