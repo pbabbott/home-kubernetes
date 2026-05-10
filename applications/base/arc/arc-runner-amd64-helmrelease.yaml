@@ -24,7 +24,7 @@ spec:
     githubConfigSecret: arc-gh-secret
     runnerScaleSetName: non-prod-gen2-amd64-runner
     minRunners: 1
-    maxRunners: 2
+    maxRunners: 3
     runnerGroup: default
     template:
       spec:
@@ -41,11 +41,11 @@ spec:
             resources:
               requests:
                 cpu: "1"
-                memory: "512Mi"
+                memory: "1Gi"
                 ephemeral-storage: "1Gi"
               limits:
                 cpu: "2"
-                memory: "2Gi"
+                memory: "2.5Gi"
                 ephemeral-storage: "10Gi"
         priorityClassName: arc-runner-low
         affinity:

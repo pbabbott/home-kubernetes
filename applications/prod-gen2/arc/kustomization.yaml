@@ -14,6 +14,15 @@ patches:
       - op: replace
         path: /spec/values/runnerScaleSetName
         value: prod-gen2-amd64-runner
+      - op: replace
+        path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution/0/labelSelector/matchLabels/app.kubernetes.io~1instance
+        value: prod-gen2-dind-runner
+      - op: replace
+        path: /spec/values/template/spec/topologySpreadConstraints/0/labelSelector/matchLabels/app.kubernetes.io~1instance
+        value: prod-gen2-amd64-runner
+      - op: replace
+        path: /spec/values/template/spec/containers/0/resources/limits/memory
+        value: "4Gi"
     target:
       kind: HelmRelease
       name: arc-runner-amd64
@@ -24,6 +33,18 @@ patches:
       - op: replace
         path: /spec/values/runnerScaleSetName
         value: prod-gen2-dind-runner
+      - op: replace
+        path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution/0/labelSelector/matchLabels/app.kubernetes.io~1instance
+        value: prod-gen2-amd64-runner
+      - op: replace
+        path: /spec/values/template/spec/topologySpreadConstraints/0/labelSelector/matchLabels/app.kubernetes.io~1instance
+        value: prod-gen2-dind-runner
+      - op: replace
+        path: /spec/values/template/spec/containers/0/resources/limits/memory
+        value: "3Gi"
+      - op: replace
+        path: /spec/values/template/spec/containers/1/resources/limits/memory
+        value: "5Gi"
     target:
       kind: HelmRelease
       name: arc-runner-dind-amd64

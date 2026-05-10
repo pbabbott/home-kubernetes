@@ -76,15 +76,57 @@ grafana:
 
 ---
 
+---
+
+### 5. Second OOM — cross-scale-set co-location
+
+**Problem:** After topology spread was scoped per-scale-set, amd64 and dind runners were still free to land on the same node (different scale sets = no spread constraint between them). During a subsequent intensive turbo build:
+- worker-1: amd64 runner `xqjj7` (566 MB+ and climbing) + dind runner `fh8px` + Prometheus + system pods
+- Node hit global OOM — kernel OOM killer fired and killed `longhorn-manage` (oom_score_adj=1000, BestEffort) first, destabilizing the node → NodeNotReady again
+
+**Kernel evidence:**
+```
+oom-kill: global_oom, task=longhorn-manage, pid=3447421, oom_score_adj=1000
+Out of memory: Killed process 3447421 (longhorn-manage) anon-rss:223824kB
+```
+
+**Fix:** Hard pod anti-affinity (`requiredDuringSchedulingIgnoredDuringExecution`) added to both scale sets, preventing co-location:
+
+```yaml
+# arc-runner-amd64: repel dind runners
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/instance: non-prod-gen2-dind-runner
+
+# arc-runner-dind-amd64: repel amd64 runners
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/instance: non-prod-gen2-amd64-runner
+```
+
+**Commit:** `b61dd91`
+
+**Result after applying:** amd64 runner on worker-2, dind runner on worker-1 — confirmed separate nodes.
+
+---
+
 ## State at session end
 
-- `758c14c` and `339f61a` applied via Flux (apps-ks and infra-ks reconciled to `d7aa5c3` and newer)
-- `e099ce9` (topology spread fix) committed but **not yet reconciled** — Flux will pick it up on next interval or manual reconcile
-- Worker-2 recovered and showing Ready at session end
-- Pending runner pod `flj9b` still in queue until topology spread HelmRelease rolls
+- All fixes applied and reconciled: `b61dd91` (apps-ks at `2dcb08bc`)
+- `arc-runner-amd64` v5, `arc-runner-dind-amd64` v7 — both live
+- All 4 nodes Ready
+- amd64 and dind runners permanently separated by hard anti-affinity
 
 ## Key findings
 
 - `kube-reserved` without `enforceNodeAllocatable` + `kubeReservedCgroup` = scheduler accounting only, no real cgroup CPU cap on kubepods
-- NodeNotReady was **OOM** (runner stacking), not CPU starvation — kube-reserved memory accounting did NOT prevent this
-- Primary protection against node OOM: **topology spread `DoNotSchedule`** ensuring one runner per node
+- NodeNotReady was **OOM** in both incidents, not CPU starvation
+- **Incident 1:** amd64 runner stacking (pre topology-spread fix) → 2x builds on same node
+- **Incident 2:** amd64 + dind co-location (different scale sets) → combined memory exceeded physical RAM
+- Final topology: each node holds at most one runner type; builds can't combine to exhaust node memory

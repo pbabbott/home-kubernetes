@@ -24,7 +24,7 @@ spec:
     githubConfigSecret: arc-gh-secret
     runnerScaleSetName: non-prod-gen2-dind-runner
     minRunners: 1
-    maxRunners: 2
+    maxRunners: 3
     runnerGroup: default
     containerMode:
       type: dind
@@ -43,11 +43,11 @@ spec:
             resources:
               requests:
                 cpu: "1"
-                memory: "512Mi"
+                memory: "1Gi"
                 ephemeral-storage: "2Gi"
               limits:
                 cpu: "3"
-                memory: "2Gi"
+                memory: "2.5Gi"
                 ephemeral-storage: "20Gi"
           - name: dind
             resources:
