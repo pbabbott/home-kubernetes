@@ -5,3 +5,4 @@ resources:
   - namespace.yaml
   - op-connect-helm-repo.yaml
   - op-connect-helm-release.yaml
+  - op-connect-httproute.yaml
