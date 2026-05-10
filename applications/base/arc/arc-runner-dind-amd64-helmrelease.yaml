@@ -50,6 +50,9 @@ spec:
                 memory: "2.5Gi"
                 ephemeral-storage: "20Gi"
           - name: dind
+            env:
+              - name: DOCKER_OPTS
+                value: "--mtu=1450"
             resources:
               requests:
                 cpu: "500m"
