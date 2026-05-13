@@ -26,6 +26,12 @@ spec:
     minRunners: 1
     maxRunners: 3
     runnerGroup: default
+    listenerTemplate:
+      spec:
+        dnsConfig:
+          options:
+            - name: ndots
+              value: "2"
     template:
       spec:
         dnsConfig:

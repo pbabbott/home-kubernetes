@@ -24,3 +24,7 @@ spec:
       listenerEndpoint: "/metrics"
     flags:
       logLevel: "info"
+    dnsConfig:
+      options:
+        - name: ndots
+          value: "2"
