@@ -43,3 +43,12 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 - `docs/incidents/` incident post-mortems and notes
 - `.cursor/k8s-namespaces.md` A nice one-sentence summary of each namespace in the Kubernetes cluster. 
 - `.cursor/k8s-namespaces.md` Explanation of how storage classes are set up in my kubernetes clusters. 
+
+## AI Reference Docs
+
+Docs prefixed `ai-reference-` in `docs/` are written for AI assistant use — step-by-step procedures, known gotchas, and copy-paste commands.
+
+- `docs/ai-reference-op-connect-api-access.md` — query the op-connect vault API via port-forward; list vaults/items; known vault IDs
+- `docs/ai-reference-onepassword-operator.md` — force-reconcile `OnePasswordItem` CRDs; debug secret key mismatches; common operator errors
+- `docs/ai-reference-pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access
+- `docs/ai-reference-external-dns-pihole.md` — external-dns pihole config; why `registry: noop` is required; gateway annotation controls target (not HTTPRoute annotations); troubleshooting commands
