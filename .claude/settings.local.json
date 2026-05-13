@@ -70,7 +70,8 @@
       "Bash(git log *)",
       "Bash(ping *)",
       "mcp__flux-mcp-nonprod__get_kubernetes_metrics",
-      "Bash(kubectx nonprod-gen2 *)"
+      "Bash(kubectx nonprod-gen2 *)",
+      "Bash(helm show *)"
     ]
   },
   "enabledMcpjsonServers": [

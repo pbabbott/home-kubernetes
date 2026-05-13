@@ -22,6 +22,8 @@ spec:
       retries: 3
   values:
     installCRDs: false
+    commonLabels:
+      pihole-dns-enabled: "true"
     web:
       enabled: true
       httpRoute:
