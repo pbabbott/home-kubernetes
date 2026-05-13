@@ -15,8 +15,14 @@ patches:
         path: /spec/values/runnerScaleSetName
         value: prod-gen2-amd64-runner
       - op: replace
-        path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution/0/labelSelector/matchLabels/app.kubernetes.io~1instance
-        value: prod-gen2-dind-runner
+        path: /spec/values/maxRunners
+        value: 5
+      - op: replace
+        path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
+        value: []
+      - op: replace
+        path: /spec/values/template/spec/topologySpreadConstraints/0/whenUnsatisfiable
+        value: ScheduleAnyway
       - op: replace
         path: /spec/values/template/spec/topologySpreadConstraints/0/labelSelector/matchLabels/app.kubernetes.io~1instance
         value: prod-gen2-amd64-runner
@@ -34,8 +40,14 @@ patches:
         path: /spec/values/runnerScaleSetName
         value: prod-gen2-dind-runner
       - op: replace
-        path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution/0/labelSelector/matchLabels/app.kubernetes.io~1instance
-        value: prod-gen2-amd64-runner
+        path: /spec/values/maxRunners
+        value: 5
+      - op: replace
+        path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
+        value: []
+      - op: replace
+        path: /spec/values/template/spec/topologySpreadConstraints/0/whenUnsatisfiable
+        value: ScheduleAnyway
       - op: replace
         path: /spec/values/template/spec/topologySpreadConstraints/0/labelSelector/matchLabels/app.kubernetes.io~1instance
         value: prod-gen2-dind-runner
