@@ -52,3 +52,4 @@ Docs prefixed `ai-reference-` in `docs/` are written for AI assistant use — st
 - `docs/ai-reference-onepassword-operator.md` — force-reconcile `OnePasswordItem` CRDs; debug secret key mismatches; common operator errors
 - `docs/ai-reference-pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access
 - `docs/ai-reference-external-dns-pihole.md` — external-dns pihole config; why `registry: noop` is required; gateway annotation controls target (not HTTPRoute annotations); troubleshooting commands
+- `docs/ai-reference-httproute-dns.md` — how HTTPRoutes wire to DNS; Cloudflare (public `*.non-prod.abbottland.io`) vs Pihole (local `*.local.non-prod.abbottland.io`); correct labels, annotations, and gateway sectionName per provider
