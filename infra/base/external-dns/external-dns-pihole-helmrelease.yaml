@@ -21,19 +21,15 @@ spec:
       interval: 12h
   values:
     provider:
-      name: webhook
-      webhook:
-        image:
-          repository: ghcr.io/mwalbeck/external-dns-pihole-webhook
-          tag: "1"
-        env:
-          - name: PIHOLE_SERVER
-            value: "http://pihole.pihole.svc.cluster.local:8081"
-          - name: PIHOLE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: pihole-admin-secret
-                key: password
+      name: pihole
+    env:
+      - name: EXTERNAL_DNS_PIHOLE_SERVER
+        value: "http://pihole.pihole.svc.cluster.local:8081"
+      - name: EXTERNAL_DNS_PIHOLE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: pihole-admin-secret
+            key: password
     sources:
       - gateway-httproute
     policy: sync
