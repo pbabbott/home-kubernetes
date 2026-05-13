@@ -6,3 +6,5 @@ resources:
   - external-dns-helm-repository.yaml
   - cloudflare-api-token-onepassword.yaml
   - external-dns-helm-release.yaml
+  - pihole-admin-onepassword.yaml
+  - external-dns-pihole-helmrelease.yaml

@@ -15,3 +15,13 @@ patches:
       - op: add
         path: /spec/values/domainFilters
         value: ["abbottland.io"]
+  - target:
+      kind: HelmRelease
+      name: external-dns-pihole
+    patch: |-
+      - op: add
+        path: /spec/values/txtOwnerId
+        value: prod-gen2-pihole
+      - op: replace
+        path: /spec/values/domainFilters
+        value: ["local.abbottland.io"]

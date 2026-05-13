@@ -38,5 +38,8 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 
 - `.cursor/infra.md` - For more complete information on infra, repository topology and common ssh targets
 - `docs/` common operational processes usually carried out to maintain the cluster, rotating secrets, etc.. 
+- `docs/plans/` implementation plans for migrations, features, or architectural changes — put new plans here
+- `docs/claude-sessions/` session summaries dumped by the `/dump` skill — put new session dumps here
+- `docs/incidents/` incident post-mortems and notes
 - `.cursor/k8s-namespaces.md` A nice one-sentence summary of each namespace in the Kubernetes cluster. 
 - `.cursor/k8s-namespaces.md` Explanation of how storage classes are set up in my kubernetes clusters. 
