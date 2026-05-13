@@ -19,9 +19,6 @@ patches:
       kind: HelmRelease
       name: external-dns-pihole
     patch: |-
-      - op: add
-        path: /spec/values/txtOwnerId
-        value: non-prod-gen2-pihole
       - op: replace
         path: /spec/values/domainFilters
         value: ["local.non-prod.abbottland.io"]

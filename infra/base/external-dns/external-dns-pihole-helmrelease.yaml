@@ -33,8 +33,7 @@ spec:
     sources:
       - gateway-httproute
     policy: sync
-    registry: txt
-    txtPrefix: "_extdns-local."
+    registry: noop
     # txtOwnerId and domainFilters set per cluster via overlay patch
     managedRecordTypes:
       - A
