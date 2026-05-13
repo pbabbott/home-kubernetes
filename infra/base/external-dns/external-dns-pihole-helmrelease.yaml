@@ -29,7 +29,7 @@ spec:
         valueFrom:
           secretKeyRef:
             name: pihole-admin-secret
-            key: password
+            key: pw
     sources:
       - gateway-httproute
     policy: sync
