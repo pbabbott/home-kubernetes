@@ -69,7 +69,8 @@
       "Bash(curl -s http://192.168.6.28:8404/stats)",
       "Bash(git log *)",
       "Bash(ping *)",
-      "mcp__flux-mcp-nonprod__get_kubernetes_metrics"
+      "mcp__flux-mcp-nonprod__get_kubernetes_metrics",
+      "Bash(kubectx nonprod-gen2 *)"
     ]
   },
   "enabledMcpjsonServers": [

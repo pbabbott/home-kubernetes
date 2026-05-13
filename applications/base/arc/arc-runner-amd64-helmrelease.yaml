@@ -28,6 +28,8 @@ spec:
     runnerGroup: default
     listenerTemplate:
       spec:
+        containers:
+          - name: listener
         dnsConfig:
           options:
             - name: ndots
