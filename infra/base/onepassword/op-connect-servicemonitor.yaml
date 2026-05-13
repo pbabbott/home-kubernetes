@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: op-connect
+  namespace: op-connect
+spec:
+  endpoints:
+    - port: connect-api
+      path: /metrics
+      interval: 1m
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: connect
+      app.kubernetes.io/instance: op-connect
+  namespaceSelector:
+    matchNames:
+      - op-connect

@@ -6,3 +6,4 @@ resources:
   - op-connect-helm-repo.yaml
   - op-connect-helm-release.yaml
   - op-connect-httproute.yaml
+  - op-connect-servicemonitor.yaml
