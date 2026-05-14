@@ -49,11 +49,16 @@ Place the credentials files into the root of this repository using cluster-speci
 >[!TIP]
 > Delete the files after you're done with them, as we don't want this sensitive data just hanging around.
 
-### Step 3 - Export the token
+### Step 3 - Set the tokens in .env
+
+Add the tokens to `.env` in the root of the repository (see `.env.sample` for the expected keys):
 
 ```sh
-export OP_CONNECT_TOKEN="TOKEN VALUE GOES HERE"
+OP_CONNECT_TOKEN_NONPROD=your-nonprod-token-here
+OP_CONNECT_TOKEN_PROD=your-prod-token-here
 ```
+
+The script will source `.env` automatically and pick the right token based on the credentials filename.
 
 ### Step 4 - Create a SealedSecret
 

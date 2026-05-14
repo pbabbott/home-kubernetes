@@ -1,11 +1,26 @@
-if [ -z "$OP_CONNECT_TOKEN" ]; then
-  echo "Error: OP_CONNECT_TOKEN environment variable not set!"
-  exit 1
+#!/usr/bin/env bash
+if [ -f "./.env" ]; then
+  set -a
+  # shellcheck source=.env
+  source ./.env
+  set +a
 fi
 
 CREDENTIALS_FILE="${OP_CONNECT_CREDENTIALS_FILE:-./1password-credentials.json}"
 if [ ! -f "$CREDENTIALS_FILE" ]; then
   echo "Error: credentials file not found: $CREDENTIALS_FILE"
+  exit 1
+fi
+
+# Infer token from credentials filename; fall back to OP_CONNECT_TOKEN
+case "$CREDENTIALS_FILE" in
+  *nonprod*) TOKEN="${OP_CONNECT_TOKEN_NONPROD:-$OP_CONNECT_TOKEN}" ;;
+  *prod*)    TOKEN="${OP_CONNECT_TOKEN_PROD:-$OP_CONNECT_TOKEN}" ;;
+  *)         TOKEN="$OP_CONNECT_TOKEN" ;;
+esac
+
+if [ -z "$TOKEN" ]; then
+  echo "Error: no token found — set OP_CONNECT_TOKEN_NONPROD / OP_CONNECT_TOKEN_PROD in .env"
   exit 1
 fi
 
@@ -33,7 +48,7 @@ kubeseal \
   < ./temp/op-connect-secret.yaml \
   | yq --prettyPrint > "$OUTPUT"
 
-export SECRET_VALUE=$(echo -n $OP_CONNECT_TOKEN | kubeseal --raw --scope namespace-wide --namespace op-connect)
+export SECRET_VALUE=$(echo -n "$TOKEN" | kubeseal --raw --scope namespace-wide --namespace op-connect)
 yq -i '.spec.encryptedData.token = strenv(SECRET_VALUE)' "$OUTPUT"
 
 rm ./temp/1password-credentials.json.base64
