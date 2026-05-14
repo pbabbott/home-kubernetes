@@ -36,12 +36,18 @@ This will give you two things:
 >[!TIP]
 > Create a dedicated workflow per cluster to keep environments independent. The homelab credentials are stored in the `Homelab` vault as `Kubernetes Production Credentials File`; non-prod gen2 credentials are stored as `Kubernetes Non-Prod Gen2 Credentials File`; prod gen2 credentials are stored as `Kubernetes Prod Gen2 Credentials File`.
 
-### Step 2 - Obtain the file
+### Step 2 - Obtain the files
 
-Next, we need to put the `1password-credentials.json` into the root of this repository.  Don't worry, its been added to `.gitignore`
+Place the credentials files into the root of this repository using cluster-specific names (all are in `.gitignore`):
+
+| Cluster | File |
+|---------|------|
+| Non-prod gen2 | `1password-credentials-nonprod.json` |
+| Prod gen2 | `1password-credentials-prod.json` |
+| Homelab (gen1) | `1password-credentials.json` |
 
 >[!TIP]
-> Delete the file after you're done with it, as we don't want this sensitive data just hanging around. 
+> Delete the files after you're done with them, as we don't want this sensitive data just hanging around.
 
 ### Step 3 - Export the token
 
@@ -60,12 +66,16 @@ Make sure your `kubectl` context is pointed at the target cluster, then run the 
 
 **Non-prod gen2**
 ```sh
-OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/non-prod-gen2/onepassword/op-credentials.yaml ./scripts/op-connect-secret.sh
+OP_CONNECT_CREDENTIALS_FILE=./1password-credentials-nonprod.json \
+OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/non-prod-gen2/onepassword/op-credentials.yaml \
+./scripts/op-connect-secret.sh
 ```
 
 **Prod gen2**
 ```sh
-OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/prod-gen2/onepassword/op-credentials.yaml ./scripts/op-connect-secret.sh
+OP_CONNECT_CREDENTIALS_FILE=./1password-credentials-prod.json \
+OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/prod-gen2/onepassword/op-credentials.yaml \
+./scripts/op-connect-secret.sh
 ```
 
 This will create or overwrite the existing SealedSecret enabling the 1Password integration.
@@ -101,8 +111,8 @@ git commit -m "Update op-connect credentials file"
 
 Push this stuff to remote and then flux will sync it to the cluster
 
-### Step 7 - Delete the credentials file
+### Step 7 - Delete the credentials files
 
 ```sh
-rm 1password-credentials.json
+rm -f 1password-credentials.json 1password-credentials-nonprod.json 1password-credentials-prod.json
 ```

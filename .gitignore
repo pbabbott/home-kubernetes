@@ -3,3 +3,5 @@ temp*.yaml
 .env
 temp
 1password-credentials.json
+1password-credentials-nonprod.json
+1password-credentials-prod.json
