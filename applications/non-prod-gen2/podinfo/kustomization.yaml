@@ -29,6 +29,11 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: podinfo.non-prod.abbottland.io
+      - op: remove
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1cloudflare-proxied
+      - op: replace
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
+        value: non-prod.abbottland.io
   - target:
       kind: HTTPRoute
       name: podinfo-public-http-to-https
@@ -37,3 +42,8 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: podinfo.non-prod.abbottland.io
+      - op: remove
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1cloudflare-proxied
+      - op: replace
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
+        value: non-prod.abbottland.io

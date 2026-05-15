@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - ../base/sealed-secrets
   - ./onepassword
-  - ../base/cert-manager
+  - ./cert-manager
   - ./istio
   - ./flux-operator
   - ./longhorn

@@ -27,3 +27,6 @@ patches:
       - op: replace
         path: /spec/listeners/0/tls/certificateRefs/0/name
         value: wildcard-public-non-prod-tls
+      - op: replace
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
+        value: non-prod.abbottland.io
