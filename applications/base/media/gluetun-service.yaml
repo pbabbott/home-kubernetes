@@ -7,9 +7,11 @@ metadata:
     api: gluetun
 spec:
   ports:
-    - port: 8000
+    - name: api
+      port: 8000
       protocol: TCP
-    - port: 9999
+    - name: health
+      port: 9999
       protocol: TCP
   selector:
     api: gluetun
