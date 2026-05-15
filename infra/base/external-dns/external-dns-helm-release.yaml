@@ -38,3 +38,4 @@ spec:
       - --cloudflare-proxied
       - --label-filter=external-dns-enabled=true
       - --managed-record-types=CNAME
+      - --managed-record-types=TXT
