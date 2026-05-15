@@ -22,6 +22,16 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: gateway.networking.k8s.io
+              kind: HTTPRoute
+            patch: |-
+              - op: add
+                path: /metadata/labels/pihole-dns-enabled
+                value: "true"
   values:
     transport: http
     readonly: true
