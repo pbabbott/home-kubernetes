@@ -50,22 +50,22 @@ spec:
             command: ["/home/runner/run.sh"]
             resources:
               requests:
-                cpu: "1"
+                cpu: "500m"
                 memory: "1Gi"
                 ephemeral-storage: "2Gi"
               limits:
-                cpu: "3"
+                cpu: "1000m"
                 memory: "2.5Gi"
                 ephemeral-storage: "20Gi"
           - name: dind
             args: ["--mtu=1450"]
             resources:
               requests:
-                cpu: "500m"
+                cpu: "250m"
                 memory: "512Mi"
                 ephemeral-storage: "2Gi"
               limits:
-                cpu: "3"
+                cpu: "500m"
                 memory: "4Gi"
                 ephemeral-storage: "20Gi"
         volumes:
