@@ -9,15 +9,24 @@ Two external-dns instances manage DNS for gen2 clusters. Each handles a differen
 | Cloudflare | `*.non-prod.abbottland.io` | Public internet | `abbottland.io` (CNAME, Cloudflare-proxied) |
 | Pihole | `*.local.non-prod.abbottland.io` | LAN only | `192.168.6.28` (A record, direct to gateway) |
 
-The `local.` subdomain prefix distinguishes internal from public. Both use the same Istio gateway (`istio-ingress` in `istio-system`) but different listeners.
+The `local.` subdomain prefix distinguishes internal from public. Internal routes use `istio-ingress`; public routes use `istio-ingress-public`.
 
-## Gateway Listeners
+## Gateways
 
+Two Gateways in `istio-system`, both backed by the same `istio-system-istio-ingress` Service:
+
+**`istio-ingress`** — internal traffic, annotation `192.168.6.28`
 ```
-https        → *.local.abbottland.io    (internal TLS, wildcard-local-tls cert)
-https-public → *.abbottland.io          (public TLS, wildcard-public-tls cert)
 http         → port 80, no hostname filter
+https        → *.local.abbottland.io    (internal TLS, wildcard-local-tls cert)
 ```
+
+**`istio-ingress-public`** — public/Cloudflare traffic, annotation `abbottland.io`
+```
+https-public → *.abbottland.io          (public TLS, wildcard-public-tls cert)
+```
+
+**Why two Gateways:** external-dns v0.15.x `gateway-httproute` source reads the DNS target exclusively from the Gateway annotation — HTTPRoute-level `external-dns.alpha.kubernetes.io/target` annotations are ignored. Two Gateways with different annotations let each external-dns instance resolve the correct target.
 
 ## Pihole HTTPRoute (internal/local)
 
@@ -49,9 +58,9 @@ metadata:
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 spec:
   parentRefs:
-    - name: istio-ingress
+    - name: istio-ingress-public          # public Gateway — annotation abbottland.io
       namespace: istio-system
-      sectionName: https-public         # public listener
+      sectionName: https-public
   hostnames:
     - myapp.non-prod.abbottland.io
 ```
@@ -62,16 +71,16 @@ Result in Cloudflare: `myapp.non-prod.abbottland.io CNAME abbottland.io` (proxie
 
 - `external-dns-pihole` watches routes with label `pihole-dns-enabled=true`, domain filter `local.non-prod.abbottland.io`
 - `external-dns` (cloudflare) watches routes with label `external-dns-enabled=true`, domain filter `non-prod.abbottland.io`
-- Both read from the same Gateway. Target IP comes from the **Gateway annotation** (`external-dns.alpha.kubernetes.io/target: 192.168.6.28`), not the HTTPRoute annotation. See `ai-reference-external-dns-pihole.md` for details.
+- Target comes from the **Gateway annotation** that the HTTPRoute's `parentRef` points to — NOT the HTTPRoute annotation (ignored by v0.15.x). Routes referencing `istio-ingress` resolve to `192.168.6.28` (A); routes referencing `istio-ingress-public` resolve to `abbottland.io` (CNAME).
 - DNS records appear within ~1 minute (sync interval)
 
 ## Adding a New Service
 
-**Internal only (pihole):** add `pihole-dns-enabled: "true"` label, use `sectionName: https`, hostname `*.local.<cluster-domain>.abbottland.io`.
+**Internal only (pihole):** add `pihole-dns-enabled: "true"` label, parent `istio-ingress` `sectionName: https`, hostname `*.local.<cluster-domain>.abbottland.io`.
 
-**Public (cloudflare):** add `external-dns-enabled: "true"` label, annotation `external-dns.alpha.kubernetes.io/target: abbottland.io` + `cloudflare-proxied: "true"`, use `sectionName: https-public`, hostname `*.<cluster-domain>.abbottland.io`.
+**Public (cloudflare):** add `external-dns-enabled: "true"` label, annotations `external-dns.alpha.kubernetes.io/target: abbottland.io` + `cloudflare-proxied: "true"`, parent **`istio-ingress-public`** `sectionName: https-public`, hostname `*.<cluster-domain>.abbottland.io`.
 
-**Both:** add both labels and both hostnames in separate HTTPRoutes (or one route with both parent refs if the service needs both).
+**Both:** create two separate HTTPRoutes — one per Gateway.
 
 ## Hostname Conventions by Cluster
 

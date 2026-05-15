@@ -16,9 +16,14 @@ patches:
       - op: replace
         path: /spec/listeners/1/tls/certificateRefs/0/name
         value: wildcard-local-non-prod-tls
+  - target:
+      kind: Gateway
+      name: istio-ingress-public
+      namespace: istio-system
+    patch: |-
       - op: replace
-        path: /spec/listeners/2/hostname
+        path: /spec/listeners/0/hostname
         value: "*.non-prod.abbottland.io"
       - op: replace
-        path: /spec/listeners/2/tls/certificateRefs/0/name
+        path: /spec/listeners/0/tls/certificateRefs/0/name
         value: wildcard-public-non-prod-tls

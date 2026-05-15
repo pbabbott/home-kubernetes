@@ -10,7 +10,7 @@ metadata:
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 spec:
   parentRefs:
-    - name: istio-ingress
+    - name: istio-ingress-public
       namespace: istio-system
       sectionName: https-public
   hostnames:

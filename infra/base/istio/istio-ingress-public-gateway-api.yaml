@@ -1,0 +1,26 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: istio-ingress-public
+  namespace: istio-system
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/target: abbottland.io
+spec:
+  gatewayClassName: istio
+  addresses:
+    - type: Hostname
+      value: istio-system-istio-ingress.istio-system.svc.cluster.local
+  listeners:
+    - name: https-public
+      port: 443
+      protocol: HTTPS
+      hostname: "*.abbottland.io"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: wildcard-public-tls
+      allowedRoutes:
+        namespaces:
+          from: All
