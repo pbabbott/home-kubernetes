@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: media
+  labels:
+    app: qbittorrent-vpn
+  name: qbittorrent-vpn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent-vpn
+  template:
+    metadata:
+      labels:
+        app: qbittorrent-vpn
+        api: gluetun
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: NotIn
+                    values:
+                      - arm64
+      containers:
+        - name: gluetun-sync
+          image: harbor.local.abbottland.io/library/gluetun-sync:0.0.10 # {"$imagepolicy": "flux-system:gluetun-sync"}
+          imagePullPolicy: Always
+          resources: {}
+          ports:
+            - containerPort: 4000
+              hostPort: 4000
+              name: sync-api
+              protocol: TCP
+          env:
+            - name: QBITTORRENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: gluetun-sync-config
+        - image: qmcgaw/gluetun
+          name: gluetun
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+          ports:
+            - containerPort: 8000
+              hostPort: 8000
+              name: api
+              protocol: TCP
+            - containerPort: 8888
+              hostPort: 8888
+              name: http-proxy
+              protocol: TCP
+            - containerPort: 8388
+              name: shadowsocks-tcp
+              protocol: TCP
+            - containerPort: 8388
+              name: shadowsocks-udp
+              protocol: UDP
+          env:
+            - name: OPENVPN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: pia-credentials
+                  key: username
+            - name: OPENVPN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pia-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: gluetun-config
+          volumeMounts:
+            - name: dev-net-tun
+              mountPath: "/dev/net/tun"
+            - name: gluetun-config
+              mountPath: /gluetun
+          resources: {}
+        - image: lscr.io/linuxserver/qbittorrent:latest
+          name: qbittorrent
+          ports:
+            - containerPort: 8080
+              name: web
+          envFrom:
+            - configMapRef:
+                name: qbittorrent-env
+          volumeMounts:
+            - name: media-pvc
+              mountPath: "/data"
+            - name: qbit-config
+              mountPath: /config
+          resources: {}
+      volumes:
+        - name: dev-net-tun
+          hostPath:
+            path: /dev/net/tun
+        - name: gluetun-config
+          persistentVolumeClaim:
+            claimName: gluetun-config
+        - name: media-pvc
+          persistentVolumeClaim:
+            claimName: media-pvc
+        - name: qbit-config
+          persistentVolumeClaim:
+            claimName: qbit-config

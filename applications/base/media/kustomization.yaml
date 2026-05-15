@@ -1,0 +1,53 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # Namespace
+  - namespace.yaml
+  # Storage
+  - media-pv.yaml
+  - media-pvc.yaml
+  - gluetun-config-pvc.yaml
+  - qbittorrent-config-pvc.yaml
+  - prowlarr-config-pvc.yaml
+  - radarr-config-pvc.yaml
+  - sonarr-config-pvc.yaml
+  # ConfigMaps
+  - gluetun-configmap.yaml
+  - gluetun-sync-configmap.yaml
+  - qbittorrent-configmap.yaml
+  - servarr-env-configmap.yaml
+  # Secrets (1Password)
+  - pia-credentials-onepassworditem.yaml
+  - qbittorrent-credentials-onepassworditem.yaml
+  - regcred-onepassworditem.yaml
+  - regcred-flux-onepassworditem.yaml
+  # Services
+  - gluetun-service.yaml
+  - gluetun-service-http-proxy.yaml
+  - gluetun-sync-service.yaml
+  - qbittorrent-service-ui.yaml
+  - prowlarr-service.yaml
+  - radarr-service.yaml
+  - sonarr-service.yaml
+  # Deployments
+  - qbittorrent-deployment.yaml
+  - prowlarr-deployment.yaml
+  - radarr-deployment.yaml
+  - sonarr-deployment.yaml
+  # HTTPRoutes
+  - gluetun-httproute.yaml
+  - gluetun-http-to-https-httproute.yaml
+  - gluetun-sync-httproute.yaml
+  - gluetun-sync-http-to-https-httproute.yaml
+  - qbittorrent-httproute.yaml
+  - qbittorrent-http-to-https-httproute.yaml
+  - prowlarr-httproute.yaml
+  - prowlarr-http-to-https-httproute.yaml
+  - radarr-httproute.yaml
+  - radarr-http-to-https-httproute.yaml
+  - sonarr-httproute.yaml
+  - sonarr-http-to-https-httproute.yaml
+  # Flux image automation (in flux-system namespace)
+  - gluetun-sync-image-repository.yaml
+  - gluetun-sync-image-policy.yaml
