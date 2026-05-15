@@ -34,8 +34,7 @@ spec:
     registry: txt
     txtPrefix: "_extdns."
     # txtOwnerId and domainFilters set per cluster via overlay patch
-    managedRecordTypes:
-      - CNAME
     extraArgs:
       - --cloudflare-proxied
       - --label-filter=external-dns-enabled=true
+      - --managed-record-types=CNAME
