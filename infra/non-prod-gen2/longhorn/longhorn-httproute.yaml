@@ -5,13 +5,5 @@ metadata:
   name: longhorn-ui
   namespace: longhorn-system
 spec:
-  parentRefs:
-    - name: istio-ingress
-      namespace: istio-system
-      sectionName: https
   hostnames:
     - longhorn.local.non-prod.abbottland.io
-  rules:
-    - backendRefs:
-        - name: longhorn-frontend
-          port: 80

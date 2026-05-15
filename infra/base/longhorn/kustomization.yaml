@@ -7,3 +7,4 @@ resources:
   - longhorn-helm-release.yaml
   - longhorn-cifs-secret.yaml
   - longhorn-instance-manager-pdb.yaml
+  - longhorn-httproute.yaml
