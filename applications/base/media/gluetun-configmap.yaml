@@ -15,4 +15,5 @@ data:
   # 8080 - qbittorrent ui
   # 6881 - ~~qbittorrent torrents~~ (DONT WANT)
   # 4000 - gluetun-sync status check
-  FIREWALL_INPUT_PORTS: "8000,8080,4000"
+  FIREWALL_INPUT_PORTS: "8000,8080,4000,9999"
+  HEALTH_SERVER_ADDRESS: "0.0.0.0:9999"

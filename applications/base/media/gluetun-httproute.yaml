@@ -18,6 +18,19 @@ spec:
     - matches:
         - path:
             type: PathPrefix
+            value: /healthz
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: gluetun-http
+          port: 9999
+    - matches:
+        - path:
+            type: PathPrefix
             value: /
       backendRefs:
         - name: gluetun-http

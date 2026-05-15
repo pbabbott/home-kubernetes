@@ -71,7 +71,9 @@
       "Bash(ping *)",
       "mcp__flux-mcp-nonprod__get_kubernetes_metrics",
       "Bash(kubectx nonprod-gen2 *)",
-      "Bash(helm show *)"
+      "Bash(helm show *)",
+      "Bash(gh api *)",
+      "Bash(gh search *)"
     ]
   },
   "enabledMcpjsonServers": [

@@ -66,6 +66,9 @@ spec:
             - containerPort: 8388
               name: shadowsocks-udp
               protocol: UDP
+            - containerPort: 9999
+              name: health
+              protocol: TCP
           env:
             - name: OPENVPN_USER
               valueFrom:
