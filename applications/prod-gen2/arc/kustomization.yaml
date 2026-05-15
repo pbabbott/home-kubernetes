@@ -27,6 +27,9 @@ patches:
         path: /spec/values/template/spec/topologySpreadConstraints/0/labelSelector/matchLabels/app.kubernetes.io~1instance
         value: prod-gen2-amd64-runner
       - op: replace
+        path: /spec/values/template/spec/containers/0/resources/requests/memory
+        value: "2Gi"
+      - op: replace
         path: /spec/values/template/spec/containers/0/resources/limits/memory
         value: "4Gi"
     target:
@@ -51,6 +54,9 @@ patches:
       - op: replace
         path: /spec/values/template/spec/topologySpreadConstraints/0/labelSelector/matchLabels/app.kubernetes.io~1instance
         value: prod-gen2-dind-runner
+      - op: replace
+        path: /spec/values/template/spec/containers/0/resources/requests/memory
+        value: "2Gi"
       - op: replace
         path: /spec/values/template/spec/containers/0/resources/limits/memory
         value: "3Gi"

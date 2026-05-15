@@ -54,6 +54,11 @@
       "version": "1.0.1",
       "resolved": "ghcr.io/goldsam/dev-container-features/flux2@sha256:8a843dd3af9e1840005e634659b84e67498d09dcbe1a3ce293a924208369fe60",
       "integrity": "sha256:8a843dd3af9e1840005e634659b84e67498d09dcbe1a3ce293a924208369fe60"
+    },
+    "ghcr.io/jsburckhardt/devcontainer-features/uv:1": {
+      "version": "1.0.0",
+      "resolved": "ghcr.io/jsburckhardt/devcontainer-features/uv@sha256:542a0bc2203205b3c696de650ba862f280b20af3543493cc232edd9ac35791f7",
+      "integrity": "sha256:542a0bc2203205b3c696de650ba862f280b20af3543493cc232edd9ac35791f7"
     }
   }
 }
