@@ -16,7 +16,7 @@ patches:
         value: prod-gen2-amd64-runner
       - op: replace
         path: /spec/values/maxRunners
-        value: 5
+        value: 8
       - op: replace
         path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
         value: []
@@ -44,7 +44,7 @@ patches:
         value: prod-gen2-dind-runner
       - op: replace
         path: /spec/values/maxRunners
-        value: 5
+        value: 6
       - op: replace
         path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
         value: []
