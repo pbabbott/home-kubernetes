@@ -9,3 +9,4 @@ resources:
   - ../base/sealed-secrets
   - ../base/onepassword
   - ../base/kube-prometheus-stack
+  - ../base/external-dns

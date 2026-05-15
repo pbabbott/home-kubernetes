@@ -30,8 +30,11 @@ spec:
           secretKeyRef:
             name: pihole-admin-secret
             key: pw
+    crds:
+      create: false
     sources:
       - gateway-httproute
+      - crd
     policy: sync
     registry: noop
     # txtOwnerId and domainFilters set per cluster via overlay patch
