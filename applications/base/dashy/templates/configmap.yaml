@@ -6,7 +6,7 @@ metadata:
 data:
   conf.yml: |
     appConfig:
-      theme: default
+      theme: nord-frost
       layout: auto
       iconSize: large
       language: en
@@ -64,7 +64,7 @@ data:
             url: >-
               https://dash.cloudflare.com/f7f4e563bdfb5e6ca826972edfc2820c/abbottland.io/dns/records
             target: newtab
-            id: temp_Cloudflare
+            id: 6_1234_cloudflare
       - name: Cluster Admin
         icon: sh-kubernetes
         displayData:
@@ -116,4 +116,45 @@ data:
             url: {{ .Values.urls.podinfoPublic }}
             target: newtab
             id: 6_1259_podinfopublic
+      {{- if .Values.sections.mediaEnabled }}
+      - name: Media
+        icon: fas fa-film
+        items:
+          - title: qBittorrent
+            description: Torrent client, tunneled via VPN
+            icon: hl-qbittorrent
+            url: https://qbittorrent.local.abbottland.io
+            target: newtab
+            id: 0_480_qbittorrent
+          - title: Gluetun Sync
+            description: Syncs VPN port to qBittorrent
+            icon: fas fa-cog
+            url: https://gluetun-sync.local.abbottland.io
+            target: newtab
+            id: 1_480_gluetunsync
+          - title: Gluetun
+            description: PIA VPN control API
+            icon: fas fa-network-wired
+            url: https://gluetun.local.abbottland.io
+            target: newtab
+            id: 2_480_gluetun
+          - title: Prowlarr
+            description: Indexer aggregator for servarr
+            icon: hl-prowlarr
+            url: https://prowlarr.local.abbottland.io
+            target: newtab
+            id: 3_480_prowlarr
+          - title: Radarr
+            description: Automated movie downloads
+            icon: hl-radarr
+            url: https://radarr.local.abbottland.io
+            target: newtab
+            id: 4_480_radarr
+          - title: Sonarr
+            description: Automated TV show downloads
+            icon: hl-sonarr
+            url: https://sonarr.local.abbottland.io
+            target: newtab
+            id: temp_Sonarr
+      {{- end }}
     pages: []

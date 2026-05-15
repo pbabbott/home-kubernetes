@@ -28,3 +28,5 @@ spec:
       harbor: https://harbor.local.abbottland.io
       podinfoLocal: https://podinfo.local.abbottland.io/
       podinfoPublic: http://podinfo.abbottland.io/
+    sections:
+      mediaEnabled: true
