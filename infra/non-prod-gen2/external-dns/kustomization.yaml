@@ -14,7 +14,7 @@ patches:
         value: non-prod-gen2
       - op: add
         path: /spec/values/domainFilters
-        value: ["non-prod.abbottland.io"]
+        value: ["abbottland.io"]
   - target:
       kind: HelmRelease
       name: external-dns-pihole
