@@ -129,13 +129,13 @@ data:
           - title: Gluetun Sync
             description: Syncs VPN port to qBittorrent
             icon: fas fa-cog
-            url: https://gluetun-sync.local.abbottland.io
+            url: https://gluetun-sync.local.abbottland.io/status
             target: newtab
             id: 1_480_gluetunsync
           - title: Gluetun
             description: PIA VPN control API
             icon: fas fa-network-wired
-            url: https://gluetun.local.abbottland.io
+            url: https://gluetun.local.abbottland.io/healthz
             target: newtab
             id: 2_480_gluetun
           - title: Prowlarr
