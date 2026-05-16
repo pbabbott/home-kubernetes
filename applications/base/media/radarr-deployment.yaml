@@ -12,6 +12,7 @@ spec:
       app: radarr
   strategy:
     type: Recreate
+    rollingUpdate: null
   template:
     metadata:
       labels:
