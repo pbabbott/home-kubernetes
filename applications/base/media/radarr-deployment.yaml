@@ -22,6 +22,27 @@ spec:
           envFrom:
             - configMapRef:
                 name: servarr-env
+          env:
+            - name: RADARR__POSTGRES__HOST
+              value: "nas.local.abbottland.io"
+            - name: RADARR__POSTGRES__PORT
+              value: "5432"
+            - name: RADARR__POSTGRES__USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: RADARR__POSTGRES__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: RADARR__POSTGRES__MAINDB
+              value: "radarrdb"
+            - name: RADARR__POSTGRES__LOGDB
+              value: "radarrlogdb"
+            - name: RADARR__POSTGRES__CACHEDB
+              value: "radarrcachedb"
           volumeMounts:
             - name: radarr-config
               mountPath: /config

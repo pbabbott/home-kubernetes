@@ -22,6 +22,25 @@ spec:
           envFrom:
             - configMapRef:
                 name: servarr-env
+          env:
+            - name: PROWLARR__POSTGRES__HOST
+              value: "nas.local.abbottland.io"
+            - name: PROWLARR__POSTGRES__PORT
+              value: "5432"
+            - name: PROWLARR__POSTGRES__USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: PROWLARR__POSTGRES__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: PROWLARR__POSTGRES__MAINDB
+              value: "prowlarrdb"
+            - name: PROWLARR__POSTGRES__LOGDB
+              value: "prowlarrlogdb"
           volumeMounts:
             - name: prowlarr-config
               mountPath: /config

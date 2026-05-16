@@ -19,6 +19,7 @@ resources:
   - servarr-env-configmap.yaml
   # Secrets (1Password)
   - pia-credentials-onepassworditem.yaml
+  - postgres-credentials-onepassworditem.yaml
   - qbittorrent-credentials-onepassworditem.yaml
   - regcred-onepassworditem.yaml
   - regcred-flux-onepassworditem.yaml

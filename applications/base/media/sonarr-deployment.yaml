@@ -22,6 +22,25 @@ spec:
           envFrom:
             - configMapRef:
                 name: servarr-env
+          env:
+            - name: SONARR__POSTGRES__HOST
+              value: "nas.local.abbottland.io"
+            - name: SONARR__POSTGRES__PORT
+              value: "5432"
+            - name: SONARR__POSTGRES__USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: SONARR__POSTGRES__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: SONARR__POSTGRES__MAINDB
+              value: "sonarrdb"
+            - name: SONARR__POSTGRES__LOGDB
+              value: "sonarrlogdb"
           volumeMounts:
             - name: sonarr-config
               mountPath: /config
