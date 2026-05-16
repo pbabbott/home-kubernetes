@@ -5,14 +5,14 @@ resources:
   - ../../base/cert-manager
 
 patches:
-  - target:
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: cloudflare-ddns
+        namespace: cert-manager
+        $patch: delete
+    target:
       kind: Deployment
       name: cloudflare-ddns
       namespace: cert-manager
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/env/1/value
-        value: non-prod.abbottland.io
-      - op: replace
-        path: /spec/template/spec/containers/0/env/3/value
-        value: "false"

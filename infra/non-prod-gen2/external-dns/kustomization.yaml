@@ -5,16 +5,28 @@ resources:
   - ../../base/external-dns
 
 patches:
-  - target:
+  - patch: |-
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: external-dns
+        namespace: flux-system
+        $patch: delete
+    target:
       kind: HelmRelease
       name: external-dns
-    patch: |-
-      - op: add
-        path: /spec/values/txtOwnerId
-        value: non-prod-gen2
-      - op: add
-        path: /spec/values/domainFilters
-        value: ["abbottland.io"]
+      namespace: flux-system
+  - patch: |-
+      apiVersion: onepassword.com/v1
+      kind: OnePasswordItem
+      metadata:
+        name: cloudflare-api-token-secret
+        namespace: external-dns
+        $patch: delete
+    target:
+      kind: OnePasswordItem
+      name: cloudflare-api-token-secret
+      namespace: external-dns
   - target:
       kind: HelmRelease
       name: external-dns-pihole

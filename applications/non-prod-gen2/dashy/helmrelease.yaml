@@ -27,6 +27,5 @@ spec:
       grafana: https://grafana.local.non-prod.abbottland.io
       harbor: https://harbor.local.non-prod.abbottland.io
       podinfoLocal: https://podinfo.local.non-prod.abbottland.io/
-      podinfoPublic: http://podinfo.non-prod.abbottland.io/
     sections:
       mediaEnabled: false
