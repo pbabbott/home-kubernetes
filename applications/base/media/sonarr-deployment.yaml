@@ -10,7 +10,8 @@ spec:
   selector:
     matchLabels:
       app: sonarr
-  strategy: {}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:

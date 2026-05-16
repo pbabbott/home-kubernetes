@@ -10,7 +10,8 @@ spec:
   selector:
     matchLabels:
       app: radarr
-  strategy: {}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
