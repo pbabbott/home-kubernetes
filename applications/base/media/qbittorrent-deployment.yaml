@@ -83,6 +83,9 @@ spec:
                 secretKeyRef:
                   name: pia-credentials
                   key: password
+          env:
+            - name: HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH
+              value: /gluetun-auth/auth.toml
           envFrom:
             - configMapRef:
                 name: gluetun-config
@@ -91,6 +94,8 @@ spec:
               mountPath: "/dev/net/tun"
             - name: gluetun-config
               mountPath: /gluetun
+            - name: gluetun-auth
+              mountPath: /gluetun-auth
           resources: {}
         - image: lscr.io/linuxserver/qbittorrent:latest
           name: qbittorrent
@@ -119,3 +124,6 @@ spec:
         - name: qbit-config
           persistentVolumeClaim:
             claimName: qbit-config
+        - name: gluetun-auth
+          configMap:
+            name: gluetun-auth-config

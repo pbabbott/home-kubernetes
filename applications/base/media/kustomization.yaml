@@ -14,6 +14,7 @@ resources:
   - sonarr-config-pvc.yaml
   # ConfigMaps
   - gluetun-configmap.yaml
+  - gluetun-auth-configmap.yaml
   - gluetun-sync-configmap.yaml
   - qbittorrent-configmap.yaml
   - servarr-env-configmap.yaml
