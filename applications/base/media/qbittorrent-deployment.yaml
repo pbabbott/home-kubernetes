@@ -83,7 +83,6 @@ spec:
                 secretKeyRef:
                   name: pia-credentials
                   key: password
-          env:
             - name: HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH
               value: /gluetun-auth/auth.toml
           envFrom:
