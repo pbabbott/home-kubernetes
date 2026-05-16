@@ -2,7 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base/podinfo
+  - ../../base/podinfo/namespace.yaml
+  - ../../base/podinfo/helmrepository.yaml
+  - ../../base/podinfo/helmrelease.yaml
+  - ../../base/podinfo/podinfo-httproute.yaml
+  - ../../base/podinfo/podinfo-http-to-https-httproute.yaml
 
 patches:
   - target:
@@ -21,25 +25,3 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: podinfo.local.non-prod.abbottland.io
-  - patch: |-
-      apiVersion: gateway.networking.k8s.io/v1
-      kind: HTTPRoute
-      metadata:
-        name: podinfo-public
-        namespace: podinfo
-        $patch: delete
-    target:
-      kind: HTTPRoute
-      name: podinfo-public
-      namespace: podinfo
-  - patch: |-
-      apiVersion: gateway.networking.k8s.io/v1
-      kind: HTTPRoute
-      metadata:
-        name: podinfo-public-http-to-https
-        namespace: podinfo
-        $patch: delete
-    target:
-      kind: HTTPRoute
-      name: podinfo-public-http-to-https
-      namespace: podinfo
