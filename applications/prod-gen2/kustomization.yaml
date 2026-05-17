@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./arc
   - ./asustor
+  - ./blog
   - ./dashy
   - ./flux-gitops
   - ./haproxy
