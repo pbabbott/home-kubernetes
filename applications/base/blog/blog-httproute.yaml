@@ -3,16 +3,11 @@ kind: HTTPRoute
 metadata:
   name: blog-public
   namespace: blog
-  labels:
-    external-dns-enabled: "true"
-  annotations:
-    external-dns.alpha.kubernetes.io/target: abbottland.io
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 spec:
   parentRefs:
     - name: istio-ingress-public
       namespace: istio-system
-      sectionName: https-public
+      sectionName: https-public-apex
   hostnames:
     - "abbottland.io"
   rules:

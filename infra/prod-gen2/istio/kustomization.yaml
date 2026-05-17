@@ -16,3 +16,23 @@ patches:
       - op: replace
         path: /spec/listeners/1/tls/certificateRefs/0/name
         value: wildcard-local-tls
+  - target:
+      kind: Gateway
+      name: istio-ingress-public
+      namespace: istio-system
+    patch: |-
+      - op: add
+        path: /spec/listeners/-
+        value:
+          name: https-public-apex
+          port: 443
+          protocol: HTTPS
+          hostname: "abbottland.io"
+          tls:
+            mode: Terminate
+            certificateRefs:
+              - kind: Secret
+                name: apex-public-tls
+          allowedRoutes:
+            namespaces:
+              from: All
