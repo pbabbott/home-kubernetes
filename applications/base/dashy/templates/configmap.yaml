@@ -155,6 +155,12 @@ data:
             icon: hl-sonarr
             url: https://sonarr.local.abbottland.io
             target: newtab
-            id: temp_Sonarr
+            id: 5_480_sonarr
+          - title: Plex
+            description: Movies & TV Shows
+            icon: hl-plex
+            url: https://plex.abbottland.io
+            target: newtab
+            id: temp_Plex
       {{- end }}
     pages: []
