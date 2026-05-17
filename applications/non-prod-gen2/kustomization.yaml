@@ -9,5 +9,6 @@ resources:
   - ./haproxy
   - ./harbor
   - ./pihole
+  - ./plex
   - ./podinfo
   - ./proxmox

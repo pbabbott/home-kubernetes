@@ -1,5 +1,4 @@
 # Default hostnames; each cluster overrides in *-gen2/asustor/kustomization.yaml patches.
-# Plex redirect hostname: patch /spec/rules/0/filters/0/requestRedirect/hostname per env if needed.
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -17,17 +16,6 @@ spec:
   hostnames:
     - asustor.local.non-prod.abbottland.io
   rules:
-    # apps/homelab/asustor asustor-ingress configuration-snippet: /plexmediaserver → plex
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /plexmediaserver
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            hostname: plex.abbottland.io
-            statusCode: 301
     - matches:
         - path:
             type: PathPrefix

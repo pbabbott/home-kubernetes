@@ -11,5 +11,6 @@ resources:
   - ./harbor
   - ./media
   - ./pihole
+  - ./plex
   - ./podinfo
   - ./proxmox
