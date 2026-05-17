@@ -10,3 +10,4 @@ resources:
   - blog-service.yaml
   - blog-httproute.yaml
   - blog-http-to-https-httproute.yaml
+  - blog-netpol.yaml

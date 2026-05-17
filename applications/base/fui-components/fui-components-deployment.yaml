@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fui-components
+  namespace: fui-components
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fui-components
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fui-components
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: fui-components
+          image: harbor.local.abbottland.io/library/fui-components:0.4.3 # {"$imagepolicy": "flux-system:fui-components"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
