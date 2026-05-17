@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diagram-maker
+  namespace: diagram-maker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: diagram-maker
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: diagram-maker
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: diagram-maker
+          image: harbor.local.abbottland.io/library/diagram-maker:0.0.1 # {"$imagepolicy": "flux-system:diagram-maker"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi

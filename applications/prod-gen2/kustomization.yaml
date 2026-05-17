@@ -6,6 +6,7 @@ resources:
   - ./asustor
   - ./blog
   - ./dashy
+  - ./diagram-maker
   - ./flux-gitops
   - ./haproxy
   - ./harbor
