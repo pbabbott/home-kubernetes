@@ -8,5 +8,5 @@ resources:
   - fui-components-image-policy.yaml
   - fui-components-deployment.yaml
   - fui-components-service.yaml
-  - fui-components-httproute.yaml
+  - fui-components-public-httproute.yaml
   - fui-components-netpol.yaml
