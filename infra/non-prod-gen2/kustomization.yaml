@@ -8,6 +8,7 @@ resources:
   - ./istio
   - ./flux-operator
   - ./longhorn
+  - ./nas-storage
   - ./kube-prometheus-stack
   - ../base/metrics-server
   - ../base/priorityclass
