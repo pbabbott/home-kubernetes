@@ -30,3 +30,4 @@ spec:
       podinfoPublic: http://podinfo.abbottland.io/
     sections:
       mediaEnabled: true
+      appsEnabled: true

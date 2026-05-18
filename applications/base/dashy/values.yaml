@@ -16,3 +16,4 @@ urls:
 
 sections:
   mediaEnabled: true
+  appsEnabled: false

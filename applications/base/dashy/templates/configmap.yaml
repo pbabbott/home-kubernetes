@@ -159,8 +159,37 @@ data:
           - title: Plex
             description: Movies & TV Shows
             icon: hl-plex
-            url: https://plex.abbottland.io
+            url: https://app.plex.tv/
             target: newtab
-            id: temp_Plex
+            id: 6_480_plex
+      {{- end }}
+      {{- if .Values.sections.appsEnabled }}
+      - name: Apps
+        icon: fas fa-pencil
+        items:
+          - title: Abbottland.io
+            description: Personal blog website
+            icon: hl-reactjs
+            url: https://abbottland.io
+            target: newtab
+            id: 0_404_abbottlandio
+          - title: Diagram Maker
+            description: Custom diagram making tool
+            icon: hl-reactjs
+            url: https://diagram-maker.local.abbottland.io
+            target: newtab
+            id: 1_404_diagrammaker
+          - title: FUI Components
+            description: Futuristic UI Component Library
+            icon: hl-npm
+            url: https://fui-components.abbottland.io
+            target: newtab
+            id: 2_404_fuicomponents
+          - title: Home Assistant
+            description: Home Automation Platform
+            icon: hl-home-assistant
+            url: https://homeassistant.abbottland.io
+            target: newtab
+            id: 3_404_homeassistant
       {{- end }}
     pages: []
