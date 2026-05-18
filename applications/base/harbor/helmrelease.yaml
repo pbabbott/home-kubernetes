@@ -55,8 +55,7 @@ spec:
       resourcePolicy: keep
       persistentVolumeClaim:
         registry:
-          storageClass: longhorn
-          size: 50Gi
+          existingClaim: harbor-registry-nas
         jobservice:
           jobLog:
             storageClass: longhorn
