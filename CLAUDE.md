@@ -10,6 +10,7 @@ This repository contains two sets of top-level directories, each tied to a diffe
 ### Gen 1 (homelab / "prod gen 1")
 - `apps/` — application workloads deployed to the gen 1 cluster
 - `infrastructure/` — infrastructure components (controllers, operators, etc.) for the gen 1 cluster
+- Note: Gen1 cluster is dead. Only its code remains in this repository.
 
 ### Gen 2 (prod gen 2 & non-prod gen 2)
 - `crds/` — CRD installs and CRD-layer Helm/releases per cluster path (e.g. `crds/non-prod-gen2/`)
@@ -36,18 +37,18 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 
 ## Reference
 
-- `.cursor/infra.md` - For more complete information on infra, repository topology and common ssh targets
-- `docs/` common operational processes usually carried out to maintain the cluster, rotating secrets, etc.. 
-- `docs/plans/` implementation plans for migrations, features, or architectural changes — put new plans here
-- `docs/claude-sessions/` session summaries dumped by the `/dump` skill — put new session dumps here
-- `docs/incidents/` incident post-mortems and notes
-- `.cursor/k8s-namespaces.md` A nice one-sentence summary of each namespace in the Kubernetes cluster. 
-- `.cursor/k8s-namespaces.md` Explanation of how storage classes are set up in my kubernetes clusters. 
+- `docs/bootstrap-flux-operator.md` — how to bootstrap Flux Operator on a fresh cluster (Ansible handoff)
+- `docs/` — common operational processes: rotating secrets, maintenance tasks, etc.
+- `docs/plans/` — implementation plans for migrations, features, or architectural changes — put new plans here
+- `docs/claude-sessions/` — session summaries dumped by the `/dump` skill — put new session dumps here
+- `docs/incidents/` — incident post-mortems and notes
+- `.cursor/k8s-namespaces.md` — namespace inventory with storage class explanations
 
 ## AI Reference Docs
 
 Docs prefixed `ai-reference-` in `docs/` are written for AI assistant use — step-by-step procedures, known gotchas, and copy-paste commands.
 
+- `docs/ai-reference-infra.md` — cluster SSH targets, DNS patterns, Flux layering order, Longhorn backup targets
 - `docs/ai-reference-op-connect-api-access.md` — query the op-connect vault API via port-forward; list vaults/items; known vault IDs
 - `docs/ai-reference-onepassword-operator.md` — force-reconcile `OnePasswordItem` CRDs; debug secret key mismatches; common operator errors
 - `docs/ai-reference-pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access
