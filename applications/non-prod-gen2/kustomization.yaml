@@ -8,7 +8,6 @@ resources:
   - ./flux-gitops
   - ./haproxy
   - ./harbor
-  - ./pihole
   - ./plex
   - ./podinfo
   - ./proxmox
