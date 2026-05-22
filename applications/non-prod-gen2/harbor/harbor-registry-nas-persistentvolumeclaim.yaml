@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harbor-registry-nas
+  namespace: harbor
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nas-storage
+  resources:
+    requests:
+      storage: 50Gi

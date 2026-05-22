@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - ../../base/harbor
+  - harbor-registry-nas-persistentvolumeclaim.yaml
 
 patches:
   - target:
