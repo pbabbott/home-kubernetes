@@ -10,3 +10,4 @@ resources:
   - ../base/onepassword
   - ../base/kube-prometheus-stack
   - ../base/external-dns
+  - ../base/longhorn
