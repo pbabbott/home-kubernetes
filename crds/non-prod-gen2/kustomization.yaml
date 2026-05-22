@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ../base/istio
   - ../base/gateway-api
+  - ../base/longhorn
   - ../base/cert-manager
   - ../base/flux-operator
   - ../base/sealed-secrets
