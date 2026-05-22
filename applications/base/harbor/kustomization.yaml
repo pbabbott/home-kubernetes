@@ -8,3 +8,4 @@ resources:
   - harbor-admin-secret.yaml
   - harbor-db-secret.yaml
   - httproute.yaml
+  - harbor-registry-nas-persistentvolumeclaim.yaml
