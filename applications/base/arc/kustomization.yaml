@@ -10,3 +10,4 @@ resources:
   - arc-runner-dind-amd64-helmrelease.yaml
   - arc-runners-resourcequota.yaml
   - arc-runners-limitrange.yaml
+  - arc-pnpm-store-persistentvolumeclaim.yaml

@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: arc-pnpm-store
+  namespace: arc-runners
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nas-storage
+  resources:
+    requests:
+      storage: 20Gi

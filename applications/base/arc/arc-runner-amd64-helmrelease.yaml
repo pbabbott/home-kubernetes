@@ -55,6 +55,13 @@ spec:
                 cpu: "2"
                 memory: "2.5Gi"
                 ephemeral-storage: "10Gi"
+            volumeMounts:
+              - name: pnpm-store
+                mountPath: /home/runner/.local/share/pnpm/store
+        volumes:
+          - name: pnpm-store
+            persistentVolumeClaim:
+              claimName: arc-pnpm-store
         priorityClassName: arc-runner-low
         affinity:
           podAntiAffinity:

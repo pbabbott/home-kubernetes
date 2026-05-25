@@ -57,6 +57,9 @@ spec:
                 cpu: "1000m"
                 memory: "2.5Gi"
                 ephemeral-storage: "20Gi"
+            volumeMounts:
+              - name: pnpm-store
+                mountPath: /home/runner/.local/share/pnpm/store
           - name: dind
             args: ["--mtu=1450"]
             resources:
@@ -73,6 +76,9 @@ spec:
             emptyDir: { sizeLimit: 20Gi }
           - name: work
             emptyDir: { sizeLimit: 10Gi }
+          - name: pnpm-store
+            persistentVolumeClaim:
+              claimName: arc-pnpm-store
         priorityClassName: arc-runner-low
         affinity:
           podAntiAffinity:
