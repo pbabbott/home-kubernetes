@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: turborepo-cache
+  namespace: arc-runners
+  labels:
+    pihole-dns-enabled: "true"
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "192.168.6.28"
+spec:
+  parentRefs:
+    - name: istio-ingress
+      namespace: istio-system
+      sectionName: https
+  hostnames:
+    - turborepo-cache.local.abbottland.io
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: turborepo-remote-cache
+          port: 80

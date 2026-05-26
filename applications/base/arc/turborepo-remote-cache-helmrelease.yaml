@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: turborepo-remote-cache
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: arc-runners
+  releaseName: turborepo-remote-cache
+  chart:
+    spec:
+      chart: turborepo-remote-cache
+      sourceRef:
+        kind: HelmRepository
+        name: adriantr-charts
+        namespace: flux-system
+      interval: 12h
+  values:
+    fullnameOverride: turborepo-remote-cache
+    config:
+      storageProvider: local
+      storagePath: /data
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: turborepo-remote-cache
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: turborepo-remote-cache
+              spec:
+                template:
+                  spec:
+                    volumes:
+                      - name: cache-storage
+                        persistentVolumeClaim:
+                          claimName: turbo-cache-storage
+                    containers:
+                      - name: turborepo-remote-cache
+                        env:
+                          - name: TURBO_TOKEN
+                            valueFrom:
+                              secretKeyRef:
+                                name: turbo-cache-token
+                                key: token
+                        volumeMounts:
+                          - name: cache-storage
+                            mountPath: /data

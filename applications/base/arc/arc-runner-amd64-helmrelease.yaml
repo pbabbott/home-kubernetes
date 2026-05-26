@@ -49,6 +49,13 @@ spec:
             env:
               - name: CUSTOM_ACTIONS_RESULTS_URL
                 value: http://actions-cache-server.arc-runners.svc.cluster.local:3000/
+              - name: TURBO_API
+                value: http://turborepo-remote-cache.arc-runners.svc.cluster.local
+              - name: TURBO_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: turbo-cache-token
+                    key: token
             resources:
               requests:
                 cpu: "1"

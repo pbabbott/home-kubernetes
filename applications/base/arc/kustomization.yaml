@@ -13,3 +13,6 @@ resources:
   - arc-pnpm-store-persistentvolumeclaim.yaml
   - actions-cache-server-helmrepository.yaml
   - actions-cache-server-helmrelease.yaml
+  - turborepo-remote-cache-helmrepository.yaml
+  - turbo-cache-storage-persistentvolumeclaim.yaml
+  - turborepo-remote-cache-helmrelease.yaml

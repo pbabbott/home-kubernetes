@@ -5,6 +5,8 @@ resources:
   - ../../base/arc
   - arc-gh-secret.yaml
   - arc-controller-servicemonitor.yaml
+  - turbo-cache-token-onepassworditem.yaml
+  - turborepo-cache-httproute.yaml
 
 patches:
   - patch: |-
