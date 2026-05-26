@@ -46,7 +46,7 @@ spec:
                             valueFrom:
                               secretKeyRef:
                                 name: turbo-cache-token
-                                key: token
+                                key: turbo-cache-token
                         volumeMounts:
                           - name: cache-storage
                             mountPath: /data

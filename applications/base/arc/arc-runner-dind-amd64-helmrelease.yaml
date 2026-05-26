@@ -57,7 +57,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: turbo-cache-token
-                    key: token
+                    key: turbo-cache-token
             resources:
               requests:
                 cpu: "500m"
