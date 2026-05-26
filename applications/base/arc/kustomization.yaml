@@ -11,3 +11,5 @@ resources:
   - arc-runners-resourcequota.yaml
   - arc-runners-limitrange.yaml
   - arc-pnpm-store-persistentvolumeclaim.yaml
+  - actions-cache-server-helmrepository.yaml
+  - actions-cache-server-helmrelease.yaml
