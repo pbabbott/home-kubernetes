@@ -57,5 +57,5 @@ spec:
                 name: actions-cache-server
               spec:
                 strategy:
+                  $patch: replace
                   type: Recreate
-                  rollingUpdate: null
