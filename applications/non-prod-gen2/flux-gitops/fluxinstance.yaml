@@ -17,6 +17,8 @@ spec:
     multitenant: false
     networkPolicy: true
     domain: cluster.local
+  migrateResources: true
+  wait: true
   sync:
     kind: GitRepository
     url: ssh://git@github.com/pbabbott/home-kubernetes
