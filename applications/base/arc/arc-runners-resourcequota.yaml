@@ -7,6 +7,6 @@ metadata:
 spec:
   hard:
     pods: "16"
-    limits.cpu: "20"
+    limits.cpu: "22"
     limits.memory: 80Gi
     limits.ephemeral-storage: 200Gi
