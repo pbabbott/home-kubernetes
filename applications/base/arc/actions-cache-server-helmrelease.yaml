@@ -44,3 +44,17 @@ spec:
         ephemeral-storage: 1Gi
     nodeSelector:
       kubernetes.io/arch: amd64
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: actions-cache-server
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: actions-cache-server
+              spec:
+                strategy:
+                  type: Recreate

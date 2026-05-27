@@ -33,6 +33,8 @@ spec:
               metadata:
                 name: turborepo-remote-cache
               spec:
+                strategy:
+                  type: Recreate
                 template:
                   spec:
                     volumes:
