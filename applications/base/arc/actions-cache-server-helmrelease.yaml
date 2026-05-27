@@ -58,3 +58,4 @@ spec:
               spec:
                 strategy:
                   type: Recreate
+                  rollingUpdate: null
