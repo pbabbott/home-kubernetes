@@ -77,7 +77,8 @@
       "Bash(curl -sk https://gluetun.local.abbottland.io/healthz)",
       "Bash(curl -s http://localhost:7981/metrics)",
       "Bash(kill %1)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(git push *)"
     ]
   },
   "enabledMcpjsonServers": [

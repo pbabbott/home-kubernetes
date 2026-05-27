@@ -62,11 +62,11 @@ spec:
               requests:
                 cpu: "500m"
                 memory: "1Gi"
-                ephemeral-storage: "2Gi"
+                ephemeral-storage: "1Gi"
               limits:
                 cpu: "1000m"
                 memory: "2.5Gi"
-                ephemeral-storage: "20Gi"
+                ephemeral-storage: "5Gi"
             volumeMounts:
               - name: pnpm-store
                 mountPath: /home/runner/.local/share/pnpm/store
@@ -76,14 +76,14 @@ spec:
               requests:
                 cpu: "250m"
                 memory: "512Mi"
-                ephemeral-storage: "2Gi"
+                ephemeral-storage: "1Gi"
               limits:
                 cpu: "500m"
                 memory: "4Gi"
-                ephemeral-storage: "20Gi"
+                ephemeral-storage: "5Gi"
         volumes:
           - name: var-lib-docker
-            emptyDir: { sizeLimit: 20Gi }
+            emptyDir: { sizeLimit: 10Gi }
           - name: work
             emptyDir: { sizeLimit: 10Gi }
           - name: pnpm-store
