@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - fluxinstance.yaml
-  - ../../base/flux-gitops
+  - ../../../applications/base/flux-gitops
 
 patches:
   - target:
