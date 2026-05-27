@@ -5,7 +5,6 @@ resources:
   - ./arc
   - ./asustor
   - ./dashy
-  - ./flux-gitops
   - ./haproxy
   - ./harbor
   - ./plex

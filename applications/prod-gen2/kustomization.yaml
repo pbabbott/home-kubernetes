@@ -8,7 +8,6 @@ resources:
   - ./dashy
   - ./diagram-maker
   - ./fui-components
-  - ./flux-gitops
   - ./haproxy
   - ./home-assistant
   - ./harbor

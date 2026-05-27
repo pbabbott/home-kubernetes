@@ -5,4 +5,5 @@ resources:
   - 00-crds-ks.yaml
   - 01-infra-ks.yaml
   - 02-apps-ks.yaml
+  - 03-flux-gitops-ks.yaml
   - image-update-automation.yaml
