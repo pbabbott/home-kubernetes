@@ -17,6 +17,7 @@ spec:
   cluster:
     type: kubernetes
     multitenant: false
+    multitenantWorkloadIdentity: false
     networkPolicy: true
     domain: cluster.local
   migrateResources: true
@@ -27,7 +28,7 @@ spec:
     ref: refs/heads/main
     path: clusters/prod-gen2
     pullSecret: flux-system
-    interval: 5m
+    interval: 1m
   kustomize:
     patches:
       - patch: |

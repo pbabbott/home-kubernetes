@@ -9,7 +9,7 @@ spec:
   timeout: 5m
   path: ./clusters/non-prod-gen2/flux-gitops/
   prune: true
-  wait: true
+  wait: false
   sourceRef:
     kind: GitRepository
     name: flux-system

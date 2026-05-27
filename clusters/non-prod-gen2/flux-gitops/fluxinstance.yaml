@@ -5,16 +5,19 @@ metadata:
   namespace: flux-system
 spec:
   distribution:
-    version: "2.8.x"
+    version: "2.x"
     registry: ghcr.io/fluxcd
   components:
     - source-controller
     - kustomize-controller
     - helm-controller
     - notification-controller
+    - image-reflector-controller
+    - image-automation-controller
   cluster:
     type: kubernetes
     multitenant: false
+    multitenantWorkloadIdentity: false
     networkPolicy: true
     domain: cluster.local
   migrateResources: true
@@ -25,4 +28,4 @@ spec:
     ref: refs/heads/main
     path: clusters/non-prod-gen2
     pullSecret: flux-system
-    interval: 5m
+    interval: 1m
