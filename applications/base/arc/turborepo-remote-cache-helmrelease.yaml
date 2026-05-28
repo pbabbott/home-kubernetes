@@ -28,13 +28,19 @@ spec:
               kind: Deployment
               name: turborepo-remote-cache
             patch: |
+              - op: add
+                path: /spec/strategy
+                value:
+                  type: Recreate
+          - target:
+              kind: Deployment
+              name: turborepo-remote-cache
+            patch: |
               apiVersion: apps/v1
               kind: Deployment
               metadata:
                 name: turborepo-remote-cache
               spec:
-                strategy:
-                  type: Recreate
                 template:
                   spec:
                     volumes:
