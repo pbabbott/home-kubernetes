@@ -51,11 +51,7 @@ spec:
               kind: Deployment
               name: actions-cache-server
             patch: |
-              apiVersion: apps/v1
-              kind: Deployment
-              metadata:
-                name: actions-cache-server
-              spec:
-                strategy:
-                  $patch: replace
+              - op: add
+                path: /spec/strategy
+                value:
                   type: Recreate
