@@ -48,3 +48,11 @@ configMapGenerator:
         grafana_dashboard: "1"
     files:
       - dashboards/haproxy.json
+  - name: grafana-dashboard-arc-runner-scale-set
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - dashboards/arc-runner-scale-set.json
