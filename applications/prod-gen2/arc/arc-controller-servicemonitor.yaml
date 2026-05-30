@@ -12,6 +12,9 @@ spec:
       interval: 1m
       scrapeTimeout: 30s
       scheme: http
+      relabelings:
+        - targetLabel: job
+          replacement: arc-controller
   selector:
     matchLabels:
       app.kubernetes.io/name: gha-rs-controller

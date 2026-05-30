@@ -17,3 +17,4 @@ resources:
   - turbo-cache-storage-persistentvolumeclaim.yaml
   - turborepo-remote-cache-helmrelease.yaml
   - arc-controller-metrics-service.yaml
+  - arc-listener-podmonitor.yaml
