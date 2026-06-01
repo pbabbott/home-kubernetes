@@ -11,3 +11,4 @@ data:
   CLEANUP_CRON_EXPRESSION: "0 3 * * *"
   TZ: "America/Chicago"
   PROD_KEEP_COUNT: "5"
+  PORT: "4030"
