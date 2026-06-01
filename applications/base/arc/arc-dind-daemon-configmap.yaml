@@ -7,9 +7,6 @@ metadata:
 data:
   daemon.json: |
     {
-      "registry-mirrors": [
-        "https://harbor.local.abbottland.io/proxy-dockerhub"
-      ],
       "mtu": 1450,
       "insecure-registries": []
     }
