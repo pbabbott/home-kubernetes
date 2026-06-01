@@ -34,8 +34,7 @@ spec:
           options:
             - name: ndots
               value: "2"
-    containerMode:
-      type: dind
+    containerMode: {}
     template:
       spec:
         dnsConfig:
@@ -44,11 +43,59 @@ spec:
               value: "2"
         nodeSelector:
           kubernetes.io/arch: amd64
+        initContainers:
+          - name: init-dind-externals
+            image: ghcr.io/falcondev-oss/actions-runner:latest
+            command: ["cp", "-r", "/home/runner/externals/.", "/home/runner/tmpDir/"]
+            volumeMounts:
+              - name: dind-externals
+                mountPath: /home/runner/tmpDir
+
+          - name: dind
+            image: docker:dind
+            restartPolicy: Always
+            args:
+              - dockerd
+              - --host=unix:///var/run/docker.sock
+              - --group=$(DOCKER_GROUP_GID)
+            env:
+              - name: DOCKER_GROUP_GID
+                value: "123"
+            securityContext:
+              privileged: true
+            startupProbe:
+              exec:
+                command: [docker, info]
+              initialDelaySeconds: 0
+              failureThreshold: 24
+              periodSeconds: 5
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "512Mi"
+              limits:
+                cpu: "1000m"
+                memory: "2Gi"
+            volumeMounts:
+              - name: work
+                mountPath: /home/runner/_work
+              - name: dind-sock
+                mountPath: /var/run
+              - name: dind-externals
+                mountPath: /home/runner/externals
+              - name: var-lib-docker
+                mountPath: /var/lib/docker
+              - name: arc-dind-daemon-config
+                mountPath: /etc/docker
         containers:
           - name: runner
             image: ghcr.io/falcondev-oss/actions-runner:latest
             command: ["/home/runner/run.sh"]
             env:
+              - name: DOCKER_HOST
+                value: unix:///var/run/docker.sock
+              - name: RUNNER_WAIT_FOR_DOCKER_IN_SECONDS
+                value: "120"
               - name: CUSTOM_ACTIONS_RESULTS_URL
                 value: http://actions-cache-server.arc-runners.svc.cluster.local:3000/
               - name: TURBO_API
@@ -68,20 +115,17 @@ spec:
                 memory: "2.5Gi"
                 ephemeral-storage: "5Gi"
             volumeMounts:
+              - name: dind-sock
+                mountPath: /var/run
+              - name: work
+                mountPath: /home/runner/_work
               - name: pnpm-store
                 mountPath: /home/runner/.local/share/pnpm/store
-          - name: dind
-            args: ["--mtu=1450"]
-            resources:
-              requests:
-                cpu: "250m"
-                memory: "512Mi"
-                ephemeral-storage: "1Gi"
-              limits:
-                cpu: "500m"
-                memory: "4Gi"
-                ephemeral-storage: "5Gi"
         volumes:
+          - name: dind-sock
+            emptyDir: {}
+          - name: dind-externals
+            emptyDir: {}
           - name: var-lib-docker
             emptyDir: { sizeLimit: 20Gi }
           - name: work
@@ -89,6 +133,9 @@ spec:
           - name: pnpm-store
             persistentVolumeClaim:
               claimName: arc-pnpm-store
+          - name: arc-dind-daemon-config
+            configMap:
+              name: arc-dind-daemon-config
         priorityClassName: arc-runner-low
         affinity:
           podAntiAffinity:
