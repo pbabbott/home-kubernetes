@@ -7,3 +7,67 @@ resources:
   - arc-controller-servicemonitor.yaml
   - turbo-cache-token-onepassworditem.yaml
   - turborepo-cache-httproute.yaml
+
+patches:
+  - target:
+      kind: ConfigMap
+      name: arc-dind-daemon-config
+      namespace: arc-runners
+    patch: |-
+      - op: replace
+        path: /data/daemon.json
+        value: |
+          {
+            "registry-mirrors": [
+              "https://harbor.local.non-prod.abbottland.io/proxy-dockerhub"
+            ],
+            "mtu": 1450,
+            "insecure-registries": []
+          }
+  - target:
+      kind: HelmRelease
+      name: arc-runner-dind-amd64
+      namespace: flux-system
+    patch: |-
+      - op: replace
+        path: /spec/values/maxRunners
+        value: 2
+      - op: replace
+        path: /spec/values/template/spec/initContainers/1/resources
+        value:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+      - op: replace
+        path: /spec/values/template/spec/containers/0/resources
+        value:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+            ephemeral-storage: "1Gi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+            ephemeral-storage: "3Gi"
+      - op: replace
+        path: /spec/values/template/spec/affinity
+        value:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/instance: non-prod-gen2-amd64-runner
+              - weight: 50
+                podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchExpressions:
+                      - key: longhorn.io/component
+                        operator: In
+                        values: ["instance-manager"]
