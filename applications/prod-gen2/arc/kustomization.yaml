@@ -62,9 +62,6 @@ patches:
       - op: replace
         path: /spec/values/template/spec/containers/0/resources/limits/memory
         value: "3Gi"
-      - op: replace
-        path: /spec/values/template/spec/containers/1/resources/limits/memory
-        value: "5Gi"
     target:
       kind: HelmRelease
       name: arc-runner-dind-amd64

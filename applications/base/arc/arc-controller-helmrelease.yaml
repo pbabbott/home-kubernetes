@@ -18,6 +18,13 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "500m"
+        memory: "256Mi"
     metrics:
       controllerManagerAddr: ":8080"
       listenerAddr: ":8080"

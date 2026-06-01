@@ -8,7 +8,7 @@ spec:
   limits:
     - type: Container
       default:
-        cpu: 500m
+        cpu: 1000m
         memory: 2Gi
         ephemeral-storage: 5Gi
       defaultRequest:

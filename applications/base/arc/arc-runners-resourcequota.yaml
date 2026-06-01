@@ -6,7 +6,7 @@ metadata:
   namespace: arc-runners
 spec:
   hard:
-    pods: "16"
-    limits.cpu: "22"
+    pods: "20"
+    limits.cpu: "28"
     limits.memory: 80Gi
     limits.ephemeral-storage: 200Gi
