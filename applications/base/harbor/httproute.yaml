@@ -22,6 +22,32 @@ spec:
     - matches:
         - path:
             type: PathPrefix
+            value: /proxy-dockerhub/v2
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /v2/proxy-dockerhub
+      backendRefs:
+        - name: harbor
+          port: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /proxy-ghcr/v2
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /v2/proxy-ghcr
+      backendRefs:
+        - name: harbor
+          port: 80
+    - matches:
+        - path:
+            type: PathPrefix
             value: /
       backendRefs:
         - name: harbor
