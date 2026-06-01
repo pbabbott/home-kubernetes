@@ -9,7 +9,7 @@ spec:
     matchLabels:
       app: blog
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
