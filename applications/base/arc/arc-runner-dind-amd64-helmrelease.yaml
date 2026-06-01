@@ -83,7 +83,7 @@ spec:
                 ephemeral-storage: "5Gi"
         volumes:
           - name: var-lib-docker
-            emptyDir: { sizeLimit: 10Gi }
+            emptyDir: { sizeLimit: 20Gi }
           - name: work
             emptyDir: { sizeLimit: 10Gi }
           - name: pnpm-store

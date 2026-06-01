@@ -58,7 +58,7 @@ patches:
         value: prod-gen2-dind-runner
       - op: replace
         path: /spec/values/template/spec/containers/0/resources/requests/memory
-        value: "2Gi"
+        value: "512Mi"
       - op: replace
         path: /spec/values/template/spec/containers/0/resources/limits/memory
         value: "3Gi"
