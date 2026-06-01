@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: harbor-cleanup
+  namespace: harbor-cleanup
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: harbor-cleanup
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 60s
+  namespaceSelector:
+    matchNames:
+      - harbor-cleanup

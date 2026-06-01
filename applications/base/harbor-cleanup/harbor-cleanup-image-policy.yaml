@@ -1,0 +1,13 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: harbor-cleanup
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: harbor-cleanup
+  filterTags:
+    pattern: '^\d{8}-\d+-[a-f0-9]{7}$'
+  policy:
+    alphabetical:
+      order: asc

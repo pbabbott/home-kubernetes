@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harbor-cleanup
+  namespace: harbor-cleanup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: harbor-cleanup
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: harbor-cleanup
+    spec:
+      serviceAccountName: harbor-cleanup
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: harbor-cleanup
+          image: harbor.local.abbottland.io/library/harbor-cleanup:20260601-0-0000000 # {"$imagepolicy": "flux-system:harbor-cleanup"}
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 4030
+          envFrom:
+            - configMapRef:
+                name: harbor-cleanup-config
+          env:
+            - name: HARBOR_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: harbor-credentials
+                  key: username
+            - name: HARBOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: harbor-credentials
+                  key: password
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-pat
+                  key: github_pat
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 4030
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 4030
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi

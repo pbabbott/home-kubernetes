@@ -11,6 +11,7 @@ resources:
   - ./haproxy
   - ./home-assistant
   - ./harbor
+  - ./harbor-cleanup
   - ./media
   - ./plex
   - ./podinfo
