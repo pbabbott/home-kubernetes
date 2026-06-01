@@ -6,6 +6,8 @@ metadata:
 spec:
   imageRepositoryRef:
     name: gluetun-sync
+  filterTags:
+    pattern: '^\d{8}-\d+-[a-f0-9]{7}$'
   policy:
-    semver:
-      range: 0.x.x
+    alphabetical:
+      order: asc
