@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: coder-workspace-perms
+  namespace: coder-workspaces
+subjects:
+  - kind: ServiceAccount
+    name: coder
+    namespace: coder
+roleRef:
+  kind: Role
+  name: coder-workspace-perms
+  apiGroup: rbac.authorization.k8s.io

@@ -8,3 +8,6 @@ resources:
   - coder-helmrelease.yaml
   - coder-httproute.yaml
   - coder-http-to-https-httproute.yaml
+  - coder-workspaces-ns.yaml
+  - coder-workspaces-role.yaml
+  - coder-workspaces-rolebinding.yaml
