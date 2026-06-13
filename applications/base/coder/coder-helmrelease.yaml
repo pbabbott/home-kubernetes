@@ -6,8 +6,6 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: coder
-  dependsOn:
-    - name: coder-db
   chart:
     spec:
       chart: coder
@@ -22,8 +20,18 @@ spec:
       # Scale down: reduce replicaCount to 1 (already 1); scale up: 2+
       replicaCount: 1
       env:
+        - name: PG_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: username
+        - name: PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: password
         - name: CODER_PG_CONNECTION_URL
-          value: "postgresql://coder:coder@coder-db-postgresql.coder.svc.cluster.local/coder?sslmode=disable"
+          value: "postgresql://$(PG_USER):$(PG_PASSWORD)@nas.local.abbottland.io/coderdb?sslmode=disable"
         - name: CODER_ACCESS_URL
           value: "https://coder.local.abbottland.io"
       service:

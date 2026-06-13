@@ -4,8 +4,7 @@ kind: Kustomization
 resources:
   - coder-ns.yaml
   - coder-helmrepository.yaml
-  - coder-db-helmrepository.yaml
-  - coder-db-helmrelease.yaml
+  - coder-postgres-credentials-onepassworditem.yaml
   - coder-helmrelease.yaml
   - coder-httproute.yaml
   - coder-http-to-https-httproute.yaml
