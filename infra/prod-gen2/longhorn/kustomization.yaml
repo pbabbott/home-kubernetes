@@ -3,5 +3,6 @@ kind: Kustomization
 
 resources:
   - ../../base/longhorn
+  - longhorn-recurring-job.yaml
 patches:
   - path: longhorn-helmrelease-patch.yaml
