@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coder
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: coder
+  dependsOn:
+    - name: coder-db
+  chart:
+    spec:
+      chart: coder
+      version: ">=2.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: coder
+        namespace: flux-system
+      interval: 24h
+  values:
+    coder:
+      # Scale down: reduce replicaCount to 1 (already 1); scale up: 2+
+      replicaCount: 1
+      env:
+        - name: CODER_PG_CONNECTION_URL
+          value: "postgresql://coder:coder@coder-db-postgresql.coder.svc.cluster.local/coder?sslmode=disable"
+        - name: CODER_ACCESS_URL
+          value: "https://coder.local.abbottland.io"
+      service:
+        type: ClusterIP
+      resources:
+        requests:
+          # Scale down: drop to 50m/128Mi; scale up: 500m/512Mi+
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 512Mi

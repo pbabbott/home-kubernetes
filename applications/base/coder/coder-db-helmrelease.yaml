@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coder-db
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: coder
+  chart:
+    spec:
+      chart: postgresql
+      version: ">=15.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 24h
+  values:
+    auth:
+      username: coder
+      password: coder
+      database: coder
+    primary:
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        # Scale down: 2Gi is sufficient for light use; scale up: 20Gi+
+        size: 8Gi
+      resources:
+        requests:
+          # Scale down: drop to 50m/128Mi for idle; scale up: 500m/512Mi+ under load
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 512Mi

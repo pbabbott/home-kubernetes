@@ -14,5 +14,6 @@ resources:
   - ./harbor-cleanup
   - ./media
   - ./plex
+  - ./coder
   - ./podinfo
   - ./proxmox
