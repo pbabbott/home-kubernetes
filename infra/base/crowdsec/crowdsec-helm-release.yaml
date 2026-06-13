@@ -1,0 +1,32 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: crowdsec
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: crowdsec
+  dependsOn:
+    - name: istiod
+      namespace: flux-system
+  chart:
+    spec:
+      chart: crowdsec
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: crowdsec
+  values:
+    container_runtime: containerd
+    agent:
+      acquisition:
+        - namespace: istio-system
+          podName: istio-system-istio-ingress-*
+          program: istio
+      env:
+        - name: COLLECTIONS
+          value: "crowdsecurity/istio crowdsecurity/base-http-scenarios"
+    lapi:
+      env:
+        - name: SCENARIOS
+          value: "crowdsecurity/http-crawl-non_statics crowdsecurity/http-bad-user-agent crowdsecurity/http-path-traversal-probing"
