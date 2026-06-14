@@ -71,6 +71,30 @@ kubectl logs -n coder <coder-pod> --context prod-gen2 2>&1 | tail -30
 | `Falling back to the default image` | devcontainer.json not found or build failed | Check `/workspaces/<repo>/.devcontainer/` exists in pod |
 | `RetriesExceeded` | Helm install timed out (pod never Ready) | `flux reconcile helmrelease coder -n flux-system --reset --context prod-gen2` |
 | `CrashLoopBackOff` | Coder server crashing | Check coder pod logs for DB connection errors |
+| `code-server app unhealthy, port 13337 refused` | code-server not installed/running | See section below |
+
+## code-server unhealthy
+
+Check if binary exists and process is running:
+```bash
+POD=$(kubectl get pods -n coder-workspaces -o jsonpath='{.items[0].metadata.name}')
+kubectl exec -n coder-workspaces $POD -- bash -c "ls /tmp/code-server/bin/ 2>/dev/null && ps aux | grep code-server | grep -v grep"
+```
+
+**Root causes:**
+
+1. **`allowPrivilegeEscalation: false` in container securityContext** — blocks `sudo`, which blocks the module's deb-based install. Remove that field from the template's container `security_context {}` block. `codercom/enterprise-base:ubuntu` has sudo pre-configured for uid 1000.
+
+2. **Module install script silently exits 0 in ~50ms without installing** — the `registry.coder.com/coder/code-server/coder` module runs its install script in parallel with the startup script; `output=$(curl ... | sh)` swallows all output. Permanent fix: install + start code-server in `startup_script` directly, replace the module with a bare `coder_app` resource.
+
+**Emergency workaround** (persists until next restart):
+```bash
+POD=$(kubectl get pods -n coder-workspaces -o jsonpath='{.items[0].metadata.name}')
+kubectl exec -n coder-workspaces $POD -- bash -c "
+  curl -fsSL https://code-server.dev/install.sh | sh -s -- --method=standalone --prefix=/tmp/code-server
+  /tmp/code-server/bin/code-server --auth none --port 13337 --app-name code-server > /tmp/code-server.log 2>&1 &
+"
+```
 
 ## Template variable override pattern
 

@@ -92,6 +92,18 @@ curl -s -X POST \
   python3 -c "import sys,json; v=json.load(sys.stdin); print('Template:', v.get('id'), v.get('name'))"
 ```
 
+## Step 5b: Promote version as active (after Step 4)
+
+```bash
+curl -s -X PATCH \
+  -H "Coder-Session-Token: $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"id\": \"$VERSION_ID\"}" \
+  "$BASE/api/v2/templates/<template_id>/versions" | python3 -c "import sys,json; print(json.load(sys.stdin)['message'])"
+```
+
+> **Note:** `PATCH /templates/:id` with `active_version_id` body does NOT work. Use `PATCH /templates/:id/versions` with `{"id": "..."}` instead.
+
 ## Step 6: Create workspace with specific version
 
 ```bash
