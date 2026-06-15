@@ -79,7 +79,8 @@
       "Bash(kill %1)",
       "Bash(curl *)",
       "Bash(git push *)",
-      "Bash(gh run *)"
+      "Bash(gh run *)",
+      "Bash(bash .claude/skills/radarr-grab/*.sh *)"
     ]
   },
   "enabledMcpjsonServers": [
