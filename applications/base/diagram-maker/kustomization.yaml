@@ -8,4 +8,5 @@ resources:
   - diagram-maker-image-policy.yaml
   - diagram-maker-deployment.yaml
   - diagram-maker-service.yaml
-  - diagram-maker-httproute.yaml
+  - diagram-maker-netpol.yaml
+  - diagram-maker-public-httproute.yaml
