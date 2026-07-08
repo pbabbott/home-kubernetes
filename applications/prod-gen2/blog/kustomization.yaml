@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
   - ../../base/blog
+
+patches:
+  - path: blog-deployment-patch.yaml
