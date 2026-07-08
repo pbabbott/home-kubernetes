@@ -18,6 +18,3 @@ spec:
         name: istio
   values:
     profile: ambient
-    cni:
-      ambient:
-        reconcilePodRulesOnStartup: true
