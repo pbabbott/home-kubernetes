@@ -17,3 +17,4 @@ resources:
   - ./coder
   - ./podinfo
   - ./proxmox
+  - ./umami

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: umami
+  namespace: umami
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: umami
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: umami
+    spec:
+      containers:
+        - name: umami
+          image: ghcr.io/umami-software/umami:postgresql-latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: DATABASE_URL
+              value: "postgresql://$(PG_USER):$(PG_PASSWORD)@nas.local.abbottland.io/umamidb"
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: umami-secret
+                  key: app-secret
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 256Mi

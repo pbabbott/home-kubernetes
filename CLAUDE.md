@@ -34,6 +34,7 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 - Grafana dashboard JSON files must include `"gitops-managed"` in their `tags` array.
 - When working with resource files, use the convention `<name>-<kind>.yaml` 
   -  For example `haproxy-httproute.yaml` or `arc-ns.yaml` are acceptable. 
+- Publicly-facing apps (any app with a Cloudflare/public HTTPRoute) must include a NetworkPolicy. See `applications/base/blog/blog-netpol.yaml` and `applications/base/umami/umami-netpol.yaml` for examples. Ingress: allow from `istio-system` namespace only. Egress: deny all by default; add rules only for what the app needs (e.g. DNS to `kube-system`, PostgreSQL to NAS at `192.168.4.124:5432`).
 
 ## Reference
 

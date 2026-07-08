@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - umami-ns.yaml
+  - postgres-credentials-onepassworditem.yaml
+  - umami-secret-onepassworditem.yaml
+  - umami-deployment.yaml
+  - umami-service.yaml
+  - umami-netpol.yaml
+  - umami-public-httproute.yaml
+  - umami-admin-httproute.yaml
