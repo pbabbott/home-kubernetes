@@ -88,7 +88,7 @@ kubectl --context=$CTX get pods -A -o wide | awk -v node="$NODE" '$8==node && $4
 
 ## Step 8: Recycle the istio-cni-node pod on this node
 
-**Critical:** The `install-cni` container has a readiness probe race condition (Istio CNI 1.25.5 bug). The pod that survived the reboot (or was running before drain) will be stuck 0/1 because it hit the fast kube-proxy path. The fresh reboot created a 30s kube-proxy window — exploit it by deleting the old pod immediately after uncordon so the new pod catches the window.
+**Note:** On Istio 1.30+ the CNI readiness probe issue from 1.25 is resolved. Still delete the old pod after uncordon — the pre-drain pod may have stale state. New pod should come up 1/1 without timing tricks.
 
 ```bash
 # Find and delete the istio-cni-node pod on this node
@@ -101,9 +101,7 @@ if [ -n "$CNI_POD" ]; then
 fi
 ```
 
-Check that the new pod comes up 1/1. If it's 0/1, the timing window was missed. Options:
-- Wait and delete again (may or may not help — depends on kube-proxy state)
-- Repeat full drain+reboot cycle (reliable but slow)
+Check that the new pod comes up 1/1. If still 0/1 after a minute, delete again. Persistent failure → repeat full drain+reboot.
 
 ## Step 9: Final health check
 
@@ -116,6 +114,6 @@ ContainerCreating and Init pods are expected for a few minutes post-uncordon. Cr
 ## Known caveats
 
 - **Longhorn drain delay**: instance-manager PDB blocks until replicas move off. Normal. Wait it out.
-- **istio-cni-node race**: if new pod is 0/1 after step 8, the only reliable fix is a second full drain+reboot of the node.
+- **istio-cni-node 0/1**: rare on 1.30+. Pod delete usually sufficient. Second drain+reboot as last resort.
 - **DaemonSet pods survive drain**: `--ignore-daemonsets` skips eviction. They get killed by the OS reboot.
 - **Control plane nodes**: draining a controller node will cause kube-apiserver, etcd, and scheduler to go offline briefly. Only do this if you know what you're doing and the cluster can tolerate downtime.

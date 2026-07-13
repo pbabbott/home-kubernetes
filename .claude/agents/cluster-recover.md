@@ -117,6 +117,6 @@ For full cluster rebuild procedure: `docs/plans/2026-05-21-prod-gen2-cluster-reb
 | apiserver slow/unready | etcd fragmentation | defrag on all control planes |
 | scheduler lease timeouts | etcd fragmentation | defrag |
 | kube-state-metrics crash loop | liveness probe too aggressive | verify initialDelaySeconds=120 |
-| istio-cni-node 0/1 | CNI readiness race | full node reboot (not just pod restart) |
+| istio-cni-node 0/1 | Readiness handler not registered | pod delete first; drain+reboot if persistent (rare on 1.30+) |
 | Pods stuck Terminating | Node came back with stale state | `kubectl delete pod --force --grace-period=0` |
 | Flux kustomizations degraded | Control plane not ready during reconcile | `flux reconcile kustomization flux-system --reset` |

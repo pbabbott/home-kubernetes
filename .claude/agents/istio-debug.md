@@ -10,27 +10,21 @@ You are an Istio service mesh debugging specialist for homelab gen2 clusters run
 
 Both clusters (prod-gen2, non-prod-gen2) run Istio with ambient mesh. `istio-cni-node` DaemonSet runs on every node.
 
-## istio-cni-node Readiness Race Condition (Istio 1.25.5)
+## istio-cni-node 0/1 (Readiness Probe Failure)
 
-**Symptom**: `istio-cni-node` pod on a specific worker node stays `0/1` — readiness probe fails with HTTP 404 on `/readyz:8000`.
+**Symptom**: `istio-cni-node` pod stays `0/1` — readiness probe fails with HTTP 404 on `/readyz:8000`.
 
-**Root cause**: HTTP handler registration races with API server reachability on startup. When kube-proxy takes ~30s to establish service VIP iptables (e.g., fresh boot), this delay allows the handler to register before the API server responds. When API responds immediately (node already running, pod just restarted), handler never registers → empty mux → 404 on all paths.
+**As of Istio 1.30**: This is largely resolved. The `/readyz` handler registration was fixed. Pod delete is usually sufficient:
 
-**Workaround: Full node reboot** — gets the 30s kube-proxy startup window:
 ```bash
-# Use the drain-node skill, or manually:
-kubectl drain <node> --ignore-daemonsets --delete-emptydir-data
-# SSH to node and reboot
-ssh <node-ip> sudo reboot
-# Wait for node to come back, then uncordon
-kubectl uncordon <node>
-# Delete the stuck istio-cni-node pod so it restarts fresh
-kubectl delete pod -n istio-system -l k8s-app=istio-cni-node --field-selector spec.nodeName=<node>
+kubectl --context=$CTX delete pod -n istio-system <stuck-cni-pod>
 ```
 
-**Do NOT**: Block iptables to the API server to simulate the delay — this blocks kubelet and destabilizes the node.
+Watch replacement come up `1/1`. If still stuck after a minute, use the drain-node skill for a full node reboot.
 
-**`reconcilePodRulesOnStartup: true`**: This setting triggers the race. Avoid it. If committed, revert.
+**Historical context (1.25.5)**: The handler registration raced with API server reachability. Drain+reboot was required to get the 30s kube-proxy startup window. No longer the primary fix on 1.30+.
+
+**`reconcilePodRulesOnStartup: true`**: Was a known trigger for the race in 1.25. Avoid it.
 
 ## Stale iptables/ipset After Failed Pod
 
@@ -132,4 +126,4 @@ kubectl get gateways.gateway.networking.k8s.io -A
 
 ## Istio Version
 
-Istio 1.25.5 — CNI readiness race is a known issue in this version. Check Istio changelog before upgrading; this may be fixed in later patch releases.
+Istio 1.30.2 (upgraded from 1.25.5 on 2026-07-13). Gateway API CRDs at v1.6.0. CNI readiness probe issue present in 1.25 is resolved in 1.30.
