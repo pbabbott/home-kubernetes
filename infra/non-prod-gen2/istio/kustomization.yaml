@@ -25,3 +25,31 @@ patches:
       - op: replace
         path: /spec/listeners/1/tls/certificateRefs/0/name
         value: wildcard-local-non-prod-tls
+  - target:
+      kind: HelmRelease
+      name: istio-cni
+    patch: |-
+      - op: replace
+        path: /spec/chart/spec/version
+        value: "1.30.*"
+  - target:
+      kind: HelmRelease
+      name: istiod
+    patch: |-
+      - op: replace
+        path: /spec/chart/spec/version
+        value: "1.30.*"
+  - target:
+      kind: HelmRelease
+      name: ztunnel
+    patch: |-
+      - op: replace
+        path: /spec/chart/spec/version
+        value: "1.30.*"
+  - target:
+      kind: HelmRelease
+      name: istio-ingress
+    patch: |-
+      - op: replace
+        path: /spec/chart/spec/version
+        value: "1.30.*"

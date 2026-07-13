@@ -3,6 +3,6 @@ kind: Kustomization
 
 # Kubernetes Gateway API — CRDs only (Gateway, HTTPRoute, GatewayClass, …).
 # Vendored so Flux can kustomize-build without fetching github.com from the cluster.
-# Source: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+# Source: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.0/standard-install.yaml
 resources:
   - standard-install.yaml
