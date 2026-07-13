@@ -20,7 +20,7 @@ spec:
         - name: regcred
       containers:
         - name: harbor-cleanup
-          image: harbor.local.abbottland.io/library/harbor-cleanup:20260709-42-d38bfba # {"$imagepolicy": "flux-system:harbor-cleanup"}
+          image: harbor.local.abbottland.io/library/harbor-cleanup:20260713-43-d82a677 # {"$imagepolicy": "flux-system:harbor-cleanup"}
           imagePullPolicy: Always
           ports:
             - name: http
