@@ -46,10 +46,14 @@ patches:
         value: prod-gen2-dind-runner
       - op: replace
         path: /spec/values/maxRunners
-        value: 6
+        value: 3
       - op: replace
         path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
-        value: []
+        value:
+          - topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/instance: prod-gen2-dind-runner
       - op: replace
         path: /spec/values/template/spec/topologySpreadConstraints/0/whenUnsatisfiable
         value: ScheduleAnyway
