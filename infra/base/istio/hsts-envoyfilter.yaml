@@ -11,7 +11,7 @@ spec:
     - applyTo: VIRTUAL_HOST
       match:
         context: GATEWAY
-        listener:
+        routeConfiguration:
           portNumber: 443
       patch:
         operation: MERGE
