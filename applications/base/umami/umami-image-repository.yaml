@@ -1,0 +1,8 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: umami
+  namespace: flux-system
+spec:
+  image: ghcr.io/umami-software/umami
+  interval: 1h

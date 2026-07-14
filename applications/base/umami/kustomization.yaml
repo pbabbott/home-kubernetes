@@ -3,6 +3,8 @@ kind: Kustomization
 
 resources:
   - umami-ns.yaml
+  - umami-image-repository.yaml
+  - umami-image-policy.yaml
   - postgres-credentials-onepassworditem.yaml
   - umami-secret-onepassworditem.yaml
   - umami-deployment.yaml

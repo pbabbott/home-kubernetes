@@ -1,0 +1,14 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: umami
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: umami
+  filterTags:
+    pattern: '^postgresql-v(?P<version>\d+\.\d+\.\d+)$'
+    extract: '$version'
+  policy:
+    semver:
+      range: '>=2.0.0'

@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: umami
-          image: ghcr.io/umami-software/umami:postgresql-latest
-          imagePullPolicy: Always
+          image: ghcr.io/umami-software/umami:postgresql-v2.20.2 # {"$imagepolicy": "flux-system:umami"}
           ports:
             - containerPort: 3000
           env:
