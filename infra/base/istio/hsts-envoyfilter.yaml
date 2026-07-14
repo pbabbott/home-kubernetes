@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: hsts-public-gateway
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      gateway.networking.k8s.io/gateway-name: istio-ingress
+  configPatches:
+    - applyTo: VIRTUAL_HOST
+      match:
+        context: GATEWAY
+        listener:
+          portNumber: 443
+      patch:
+        operation: MERGE
+        value:
+          response_headers_to_add:
+            - header:
+                key: Strict-Transport-Security
+                value: "max-age=15552000; includeSubDomains; preload"
+              keep_empty_value: false
