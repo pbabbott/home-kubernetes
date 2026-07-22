@@ -33,6 +33,8 @@ spec:
       ports:
         - port: 5432
           protocol: TCP
+        - port: 2049
+          protocol: TCP
     - ports:
         - port: 80
           protocol: TCP
