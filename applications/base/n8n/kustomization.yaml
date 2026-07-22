@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - n8n-ns.yaml
+  - n8n-helmrepository.yaml
+  - n8n-helmrelease.yaml
+  - n8n-secret-onepassworditem.yaml
+  - n8n-postgres-credentials-onepassworditem.yaml
+  - n8n-netpol.yaml
+  - n8n-public-httproute.yaml
+  - n8n-local-httproute.yaml

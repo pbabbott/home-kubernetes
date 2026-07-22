@@ -1,0 +1,28 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: n8n-public
+  namespace: n8n
+  labels:
+    external-dns-enabled: "true"
+  annotations:
+    external-dns.alpha.kubernetes.io/target: abbottland.io
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+spec:
+  parentRefs:
+    - name: istio-ingress-public
+      namespace: istio-system
+      sectionName: https-public
+  hostnames:
+    - "n8n.abbottland.io"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /webhook/
+        - path:
+            type: PathPrefix
+            value: /webhook-test/
+      backendRefs:
+        - name: n8n
+          port: 5678
