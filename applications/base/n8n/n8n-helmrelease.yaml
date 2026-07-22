@@ -31,11 +31,12 @@ spec:
     existingEncryptionKeySecret: n8n-secret
     webhook:
       url: https://n8n.abbottland.io
-    extraVolumes:
-      - name: media
-        nfs:
-          server: 192.168.4.124
-          path: /volume1/Media
-    extraVolumeMounts:
-      - name: media
-        mountPath: /data/media
+    main:
+      volumes:
+        - name: media
+          nfs:
+            server: 192.168.4.124
+            path: /volume1/Media
+      volumeMounts:
+        - name: media
+          mountPath: /data/media
