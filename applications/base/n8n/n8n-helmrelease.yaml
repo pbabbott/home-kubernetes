@@ -34,8 +34,6 @@ spec:
     db:
       type: postgresdb
     main:
-      extraEnvVars:
-        NODES_EXCLUDE: "[]"
       volumes:
         - name: media
           nfs:
