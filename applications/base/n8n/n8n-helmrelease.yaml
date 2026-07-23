@@ -35,7 +35,7 @@ spec:
       type: postgresdb
     main:
       extraEnvVars:
-        N8N_ALLOW_EXEC_COMMAND: "true"
+        NODES_EXCLUDE: "[]"
       volumes:
         - name: media
           nfs:
