@@ -32,6 +32,18 @@ spec:
     webhook:
       url: https://n8n.abbottland.io
     main:
+      extraEnvVars:
+        DB_TYPE: postgresdb
+        DB_POSTGRESDB_HOST: nas.local.abbottland.io
+        DB_POSTGRESDB_PORT: "5432"
+        DB_POSTGRESDB_DATABASE: n8n
+        DB_POSTGRESDB_USER: postgres
+      extraEnv:
+        - name: DB_POSTGRESDB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: password
       volumes:
         - name: media
           nfs:
