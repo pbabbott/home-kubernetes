@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: blog
-          image: harbor.local.abbottland.io/library/blog:20260714-45-81d9a91 # {"$imagepolicy": "flux-system:blog"}
+          image: harbor.local.abbottland.io/library/blog:20260724-46-0cc1033 # {"$imagepolicy": "flux-system:blog"}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
