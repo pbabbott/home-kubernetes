@@ -37,5 +37,5 @@ PVC subdir path pattern: `arc-runners-arc-pnpm-store`
   namespace to keep replica IO local to runner nodes.
 - BuildKit registry cache: DONE — `home-web-apps` uses `harbor.local.abbottland.io/build-cache/<repoName>`
   via abctl for all apps. Docker build steps already cache-accelerated.
-- Harbor ghcr.io proxy: add proxy project for `ghcr.io` and register in daemon.json
-  `registry-mirrors` to reduce startup image pull latency (currently ~5min p95).
+- Harbor ghcr.io proxy: DONE — `proxy-ghcr` project exists; wired via `buildkitd-config-inline`
+  in the `docker/setup-buildx-action` step in ci.yml (not daemon.json — BuildKit handles it).
