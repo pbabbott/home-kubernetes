@@ -17,23 +17,8 @@ patches:
         path: /spec/values/runnerScaleSetName
         value: prod-gen2-amd64-runner
       - op: replace
-        path: /spec/values/maxRunners
-        value: 8
-      - op: replace
-        path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
-        value: []
-      - op: replace
-        path: /spec/values/template/spec/topologySpreadConstraints/0/whenUnsatisfiable
-        value: ScheduleAnyway
-      - op: replace
         path: /spec/values/template/spec/topologySpreadConstraints/0/labelSelector/matchLabels/app.kubernetes.io~1instance
         value: prod-gen2-amd64-runner
-      - op: replace
-        path: /spec/values/template/spec/containers/0/resources/requests/memory
-        value: "2Gi"
-      - op: replace
-        path: /spec/values/template/spec/containers/0/resources/limits/memory
-        value: "4Gi"
     target:
       kind: HelmRelease
       name: arc-runner-amd64
@@ -45,27 +30,8 @@ patches:
         path: /spec/values/runnerScaleSetName
         value: prod-gen2-dind-runner
       - op: replace
-        path: /spec/values/maxRunners
-        value: 3
-      - op: replace
-        path: /spec/values/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
-        value:
-          - topologyKey: kubernetes.io/hostname
-            labelSelector:
-              matchLabels:
-                app.kubernetes.io/instance: prod-gen2-dind-runner
-      - op: replace
-        path: /spec/values/template/spec/topologySpreadConstraints/0/whenUnsatisfiable
-        value: ScheduleAnyway
-      - op: replace
         path: /spec/values/template/spec/topologySpreadConstraints/0/labelSelector/matchLabels/app.kubernetes.io~1instance
         value: prod-gen2-dind-runner
-      - op: replace
-        path: /spec/values/template/spec/containers/0/resources/requests/memory
-        value: "512Mi"
-      - op: replace
-        path: /spec/values/template/spec/containers/0/resources/limits/memory
-        value: "3Gi"
     target:
       kind: HelmRelease
       name: arc-runner-dind-amd64
