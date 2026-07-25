@@ -63,7 +63,7 @@ spec:
                 ephemeral-storage: "1Gi"
               limits:
                 cpu: "1250m"
-                memory: "2.5Gi"
+                memory: "4Gi"
                 ephemeral-storage: "10Gi"
             volumeMounts:
               - name: pnpm-store
@@ -75,12 +75,13 @@ spec:
         priorityClassName: arc-runner-low
         affinity:
           podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/instance: non-prod-gen2-dind-runner
             preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/instance: non-prod-gen2-dind-runner
               - weight: 100
                 podAffinityTerm:
                   topologyKey: kubernetes.io/hostname

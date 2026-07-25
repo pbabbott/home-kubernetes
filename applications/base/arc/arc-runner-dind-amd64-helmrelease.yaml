@@ -23,8 +23,8 @@ spec:
     githubConfigUrl: https://github.com/pbabbott/home-web-apps
     githubConfigSecret: arc-gh-secret
     runnerScaleSetName: non-prod-gen2-dind-runner
-    minRunners: 1
-    maxRunners: 3
+    minRunners: 2
+    maxRunners: 5
     runnerGroup: default
     listenerTemplate:
       spec:
@@ -75,7 +75,7 @@ spec:
                 memory: "512Mi"
               limits:
                 cpu: "1000m"
-                memory: "2Gi"
+                memory: "3Gi"
             volumeMounts:
               - name: work
                 mountPath: /home/runner/_work
@@ -112,7 +112,7 @@ spec:
                 ephemeral-storage: "1Gi"
               limits:
                 cpu: "1000m"
-                memory: "2.5Gi"
+                memory: "3Gi"
                 ephemeral-storage: "5Gi"
             volumeMounts:
               - name: dind-sock
@@ -139,12 +139,13 @@ spec:
         priorityClassName: arc-runner-low
         affinity:
           podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/instance: non-prod-gen2-amd64-runner
             preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/instance: non-prod-gen2-amd64-runner
               - weight: 100
                 podAffinityTerm:
                   topologyKey: kubernetes.io/hostname

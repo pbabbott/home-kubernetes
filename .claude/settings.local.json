@@ -80,7 +80,8 @@
       "Bash(curl *)",
       "Bash(git push *)",
       "Bash(gh run *)",
-      "Bash(bash .claude/skills/radarr-grab/*.sh *)"
+      "Bash(bash .claude/skills/radarr-grab/*.sh *)",
+      "mcp__grafana-prod__get_dashboard_by_uid"
     ]
   },
   "enabledMcpjsonServers": [
