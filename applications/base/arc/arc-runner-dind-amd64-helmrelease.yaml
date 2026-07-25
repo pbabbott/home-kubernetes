@@ -24,7 +24,7 @@ spec:
     githubConfigSecret: arc-gh-secret
     runnerScaleSetName: non-prod-gen2-dind-runner
     minRunners: 2
-    maxRunners: 5
+    maxRunners: 9
     runnerGroup: default
     listenerTemplate:
       spec:
