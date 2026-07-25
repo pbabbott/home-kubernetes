@@ -1,6 +1,17 @@
-# BuildKit Cache — Options and Recommendation
+# BuildKit Cache — Options and Status
 
-## Problem
+## Status: IMPLEMENTED (Option A)
+
+Harbor registry cache already wired in `home-web-apps` via `abctl`:
+- `packages/abctl/src/docker-cli/docker-commands.ts:68-72` — `--cache-from type=registry,ref=<cacheRef>/<repoName>` + `--cache-to ...,mode=max`
+- `packages/abctl/src/build-logic/docker-build-settings-builder/docker-build-settings-builder.ts:32` — wires `buildCache` config → `cacheRef`
+- All apps set `buildCache: harbor.local.abbottland.io/build-cache` in `abctl.yml`: blog, diagram-maker, home-hud, video-api, video-worker, pi-led-api, gluetun-sync, harbor-cleanup, fui-components
+
+Cache ref pattern: `harbor.local.abbottland.io/build-cache/<repoName>` (project `build-cache`, not `library/buildcache` as originally proposed — same idea, different namespace).
+
+---
+
+## Problem (original)
 dind runner `/var/lib/docker` is `emptyDir` — dies with pod. Every run re-pulls base
 layers and re-executes unchanged build stages. No layer cache survives between jobs.
 

@@ -35,7 +35,7 @@ PVC subdir path pattern: `arc-runners-arc-pnpm-store`
   pre-warming via an init job or DaemonSet that seeds the NAS store from a snapshot.
 - Consider `dataLocality: strict-local` for Longhorn RWO volumes in the arc-runners
   namespace to keep replica IO local to runner nodes.
-- Investigate BuildKit persistent cache as alternative to shared pnpm store for dind
-  runners (avoids NFS entirely for build steps).
+- BuildKit registry cache: DONE — `home-web-apps` uses `harbor.local.abbottland.io/build-cache/<repoName>`
+  via abctl for all apps. Docker build steps already cache-accelerated.
 - Harbor ghcr.io proxy: add proxy project for `ghcr.io` and register in daemon.json
   `registry-mirrors` to reduce startup image pull latency (currently ~5min p95).
