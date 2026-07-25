@@ -11,5 +11,7 @@ data:
         "https://harbor.local.abbottland.io/proxy-dockerhub"
       ],
       "mtu": 1450,
-      "insecure-registries": []
+      "insecure-registries": [],
+      "max-concurrent-downloads": 2,
+      "max-concurrent-uploads": 2
     }

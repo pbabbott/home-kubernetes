@@ -23,7 +23,7 @@ spec:
     githubConfigUrl: https://github.com/pbabbott/home-web-apps
     githubConfigSecret: arc-gh-secret
     runnerScaleSetName: non-prod-gen2-amd64-runner
-    minRunners: 1
+    minRunners: 2
     maxRunners: 8
     runnerGroup: default
     listenerTemplate:
