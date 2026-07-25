@@ -56,3 +56,11 @@ configMapGenerator:
         grafana_dashboard: "1"
     files:
       - dashboards/arc-runner-scale-set.json
+  - name: grafana-dashboard-harbor-cleanup
+    namespace: kube-prometheus-stack
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+    files:
+      - dashboards/harbor-cleanup.json
