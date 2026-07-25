@@ -6,7 +6,7 @@ metadata:
 spec:
   distribution:
     version: "2.x"
-    registry: "ghcr.io/fluxcd"
+    registry: ghcr.io/fluxcd
   components:
     - source-controller
     - kustomize-controller
@@ -17,11 +17,32 @@ spec:
   cluster:
     type: kubernetes
     multitenant: false
+    multitenantWorkloadIdentity: false
     networkPolicy: true
-    domain: "cluster.local"
+    domain: cluster.local
+  migrateResources: true
+  wait: true
   sync:
     kind: GitRepository
-    url: "ssh://git@github.com/pbabbott/home-kubernetes"
-    ref: "refs/heads/main"
-    path: "clusters/prod-gen2"
-    pullSecret: "flux-system"
+    url: ssh://git@github.com/pbabbott/home-kubernetes
+    ref: refs/heads/main
+    path: clusters/prod-gen2
+    pullSecret: flux-system
+    interval: 1m
+  kustomize:
+    patches:
+      - patch: |
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: placeholder
+          spec:
+            template:
+              spec:
+                dnsConfig:
+                  options:
+                    - name: ndots
+                      value: "1"
+        target:
+          kind: Deployment
+          labelSelector: "app.kubernetes.io/part-of=flux"
