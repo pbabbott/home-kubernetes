@@ -1,0 +1,24 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: home-hud
+  namespace: flux-system
+spec:
+  image: harbor.local.abbottland.io/library/home-hud
+  interval: 5m
+  secretRef:
+    name: regcred-flux
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: home-hud
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: home-hud
+  filterTags:
+    pattern: '^\d{8}-\d+-[a-f0-9]{7}$'
+  policy:
+    alphabetical:
+      order: asc

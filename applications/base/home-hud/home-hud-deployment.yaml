@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-hud
+  namespace: home-hud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-hud
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: home-hud
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: home-hud
+          image: harbor.local.abbottland.io/library/home-hud:20260726-1-0000000 # {"$imagepolicy": "flux-system:home-hud"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: VIDEO_API_URL
+              value: http://video-api.home-hud.svc.cluster.local:4002
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              memory: 256Mi

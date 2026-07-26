@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-pvc
+  namespace: home-hud
+spec:
+  storageClassName: manual
+  volumeName: home-hud-media-pv
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Ti

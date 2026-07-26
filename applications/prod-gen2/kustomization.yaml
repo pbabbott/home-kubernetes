@@ -19,3 +19,4 @@ resources:
   - ./proxmox
   - ./umami
   - ./n8n
+  - ./home-hud
