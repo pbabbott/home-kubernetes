@@ -8,6 +8,7 @@ resources:
   - blog-image-policy.yaml
   - blog-deployment.yaml
   - blog-service.yaml
+  - blog-servicemonitor.yaml
   - blog-httproute.yaml
   - blog-http-to-https-httproute.yaml
   - blog-netpol.yaml

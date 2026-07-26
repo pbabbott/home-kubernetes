@@ -5,9 +5,11 @@ metadata:
   namespace: media
   labels:
     api: gluetun
+    app: gluetun-sync
 spec:
   ports:
-    - port: 4000
+    - name: http
+      port: 4000
       protocol: TCP
   selector:
     api: gluetun

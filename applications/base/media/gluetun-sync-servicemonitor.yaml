@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: gluetun-sync
+  namespace: media
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: gluetun-sync
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 60s
+  namespaceSelector:
+    matchNames:
+      - media

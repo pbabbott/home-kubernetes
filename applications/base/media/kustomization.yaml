@@ -28,6 +28,7 @@ resources:
   - gluetun-service.yaml
   - gluetun-service-http-proxy.yaml
   - gluetun-sync-service.yaml
+  - gluetun-sync-servicemonitor.yaml
   - qbittorrent-service-ui.yaml
   - prowlarr-service.yaml
   - radarr-service.yaml

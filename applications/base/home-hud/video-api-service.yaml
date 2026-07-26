@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: video-api
   namespace: home-hud
+  labels:
+    app: video-api
 spec:
   selector:
     app: video-api
   ports:
-    - port: 4002
+    - name: http
+      port: 4002
       targetPort: 4002
   type: ClusterIP

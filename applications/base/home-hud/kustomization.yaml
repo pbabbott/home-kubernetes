@@ -14,11 +14,14 @@ resources:
   - video-api-service.yaml
   - video-api-httproute.yaml
   - video-api-netpol.yaml
+  - video-api-servicemonitor.yaml
   - video-worker-deployment.yaml
   - video-worker-service.yaml
   - video-worker-httproute.yaml
   - video-worker-netpol.yaml
+  - video-worker-servicemonitor.yaml
   - home-hud-deployment.yaml
   - home-hud-service.yaml
   - home-hud-httproute.yaml
   - home-hud-netpol.yaml
+  - home-hud-servicemonitor.yaml

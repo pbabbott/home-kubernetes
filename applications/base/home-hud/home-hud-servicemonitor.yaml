@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: home-hud
+  namespace: home-hud
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: home-hud
+  endpoints:
+    - port: http
+      path: /api/metrics
+      interval: 60s
+  namespaceSelector:
+    matchNames:
+      - home-hud

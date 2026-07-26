@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: home-hud
   namespace: home-hud
+  labels:
+    app: home-hud
 spec:
   selector:
     app: home-hud
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 3000
   type: ClusterIP
