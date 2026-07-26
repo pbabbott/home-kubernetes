@@ -27,7 +27,26 @@ NOW=$(date +%s)
 | `grafana.local.abbottland.io` | prod | `https://grafana.local.abbottland.io` |
 | `grafana.local.non-prod.abbottland.io` | non-prod | `https://grafana.local.non-prod.abbottland.io` |
 
-Auth: `admin:admin` (basic auth via `-u "admin:admin"`)  
+Auth: basic auth, credentials from the 1Password "Grafana" item (Homelab vault) — do NOT hardcode
+`admin:admin`, it rotates (confirmed stale as of 2026-07-25; k8s secret
+`kube-prometheus-stack-grafana`/`admin-password` can also lag behind a UI-changed password).
+Fetch it via the op-connect API (see `docs/ai-reference-op-connect-api-access.md`):
+
+```bash
+kubectl port-forward -n op-connect svc/onepassword-connect 18080:8080 &
+PF_PID=$!
+sleep 2
+OP_TOKEN=$(kubectl get secret -n op-connect op-credentials -o jsonpath='{.data.token}' | base64 -d)
+# Homelab vault: fkkvro6akbbm2po5qvh6iask2a, "Grafana" item: a2zambbneewfekrlu6gsjhhvte
+ITEM=$(curl -s -H "Authorization: Bearer $OP_TOKEN" \
+  http://localhost:18080/v1/vaults/fkkvro6akbbm2po5qvh6iask2a/items/a2zambbneewfekrlu6gsjhhvte)
+GRAFANA_USER=$(echo "$ITEM" | python3 -c "import json,sys; [print(f['value']) for f in json.load(sys.stdin)['fields'] if f['purpose']=='USERNAME']")
+GRAFANA_PASS=$(echo "$ITEM" | python3 -c "import json,sys; [print(f['value']) for f in json.load(sys.stdin)['fields'] if f['purpose']=='PASSWORD']")
+GRAFANA_AUTH="${GRAFANA_USER}:${GRAFANA_PASS}"
+kill $PF_PID
+```
+
+Use `-u "$GRAFANA_AUTH"` in place of `admin:admin` below.
 Datasource UID for Prometheus: `prometheus` (verified on both instances)
 
 ## Step 3: Run queries in parallel
@@ -43,7 +62,7 @@ BASE="https://grafana.local.abbottland.io"  # or non-prod
 
 qrange() {
   local label="$1" query="$2" divisor="${3:-1}" unit="${4:-}"
-  curl -sk -u "admin:admin" \
+  curl -sk -u "$GRAFANA_AUTH" \
     "$BASE/api/datasources/proxy/uid/prometheus/api/v1/query_range" \
     --data-urlencode "query=$query" \
     --data-urlencode "start=$START" \
@@ -96,7 +115,7 @@ Run IO + CPU + Memory query sets above.
 
 ```bash
 # Instant query for current limits
-curl -sk -u "admin:admin" \
+curl -sk -u "$GRAFANA_AUTH" \
   "$BASE/api/datasources/proxy/uid/prometheus/api/v1/query" \
   --data-urlencode "query=kube_pod_container_resource_limits{namespace=\"$NS\",pod=\"$POD\"}" \
   --data-urlencode "time=$NOW" \
