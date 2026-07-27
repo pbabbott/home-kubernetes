@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: video-worker
-          image: harbor.local.abbottland.io/library/video-worker:20260727-53-5526df0 # {"$imagepolicy": "flux-system:video-worker"}
+          image: harbor.local.abbottland.io/library/video-worker:20260727-54-4f8f48a # {"$imagepolicy": "flux-system:video-worker"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4003
