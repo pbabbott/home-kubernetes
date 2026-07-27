@@ -30,7 +30,8 @@
       "env": {
         "MCP_MODE": "stdio",
         "N8N_API_URL": "https://n8n.local.abbottland.io",
-        "N8N_API_KEY": "${N8N_API_KEY}"
+        "N8N_API_KEY": "${N8N_API_KEY}",
+        "WEBHOOK_SECURITY_MODE": "permissive"
       }
     }
   }

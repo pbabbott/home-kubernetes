@@ -79,3 +79,13 @@ NFS host: `192.168.4.124`, base export: `/volume1/Backups/`
 
 - Workers run containerd
 - SSH key auth only (no passwords)
+
+## MCP Setup — n8n
+
+`.mcp.json` expects `N8N_API_KEY` env var. Retrieve from 1Password via:
+
+```bash
+export N8N_API_KEY=$(./scripts/get-n8n-api-key.sh)
+```
+
+Script port-forwards op-connect on prod-gen2, reads `n8n-api-key` item from Homelab vault. Override cluster with `KUBE_CONTEXT=<ctx>`.

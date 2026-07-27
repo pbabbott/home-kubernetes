@@ -81,13 +81,19 @@
       "Bash(git push *)",
       "Bash(gh run *)",
       "Bash(bash .claude/skills/radarr-grab/*.sh *)",
-      "mcp__grafana-prod__get_dashboard_by_uid"
+      "mcp__grafana-prod__get_dashboard_by_uid",
+      "mcp__n8n__n8n_list_workflows",
+      "mcp__n8n__n8n_update_partial_workflow",
+      "mcp__n8n__n8n_get_workflow",
+      "mcp__n8n__n8n_update_full_workflow",
+      "mcp__n8n__search_nodes",
+      "mcp__n8n__get_node",
+      "mcp__n8n__n8n_manage_datatable"
     ]
   },
   "enabledMcpjsonServers": [
-    "flux-mcp-nonprod",
     "flux-mcp-prod",
-    "grafana-nonprod",
-    "grafana-prod"
+    "grafana-prod",
+    "n8n"
   ]
 }
