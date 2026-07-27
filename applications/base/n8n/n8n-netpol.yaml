@@ -35,6 +35,12 @@ spec:
           protocol: TCP
         - port: 2049
           protocol: TCP
+    - to:
+        - ipBlock:
+            cidr: 192.168.0.0/16
+      ports:
+        - port: 1234
+          protocol: TCP
     - ports:
         - port: 80
           protocol: TCP
