@@ -35,8 +35,7 @@ spec:
       type: postgresdb
     main:
       extraEnvVars:
-        - name: N8N_RESTRICT_FILE_ACCESS_TO
-          value: /home/node/.n8n-files;/data/media
+        N8N_RESTRICT_FILE_ACCESS_TO: /home/node/.n8n-files;/data/media
       volumes:
         - name: media
           nfs:
