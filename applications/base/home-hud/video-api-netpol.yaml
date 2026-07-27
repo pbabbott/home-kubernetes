@@ -26,6 +26,12 @@ spec:
               app: home-hud
       ports:
         - port: 4002
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-prometheus-stack
+      ports:
+        - port: 4002
   egress:
     - to:
         - namespaceSelector:

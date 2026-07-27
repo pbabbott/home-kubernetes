@@ -17,6 +17,12 @@ spec:
               kubernetes.io/metadata.name: istio-system
       ports:
         - port: 3000
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-prometheus-stack
+      ports:
+        - port: 3000
   egress:
     - to:
         - namespaceSelector:
