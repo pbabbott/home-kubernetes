@@ -23,6 +23,15 @@
     "flux-mcp-prod": {
       "type": "http",
       "url": "https://flux-mcp.local.abbottland.io/mcp"
+    },
+    "n8n": {
+      "command": "npx",
+      "args": ["-y", "n8n-mcp"],
+      "env": {
+        "MCP_MODE": "stdio",
+        "N8N_API_URL": "https://n8n.local.abbottland.io",
+        "N8N_API_KEY": "${N8N_API_KEY}"
+      }
     }
   }
 }
