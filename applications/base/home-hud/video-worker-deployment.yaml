@@ -48,6 +48,13 @@ spec:
               value: "5000"
             - name: FFMPEG_PATH
               value: ffmpeg
+            - name: SONARR_API_URL
+              value: https://sonarr.local.abbottland.io
+            - name: SONARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sonarr-api-key
+                  key: API_KEY
           livenessProbe:
             httpGet:
               path: /healthz

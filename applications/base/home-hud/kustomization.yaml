@@ -5,6 +5,7 @@ resources:
   - home-hud-ns.yaml
   - postgres-credentials-onepassworditem.yaml
   - regcred-onepassworditem.yaml
+  - sonarr-api-key-onepassworditem.yaml
   - media-pv.yaml
   - media-pvc.yaml
   - video-api-image-repository.yaml
