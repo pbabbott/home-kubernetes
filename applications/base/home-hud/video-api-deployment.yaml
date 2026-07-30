@@ -4,7 +4,7 @@ metadata:
   name: video-api
   namespace: home-hud
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: video-api
