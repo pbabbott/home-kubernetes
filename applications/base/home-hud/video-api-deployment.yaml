@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: video-api
-          image: harbor.local.abbottland.io/library/video-api:20260729-56-9c7670a # {"$imagepolicy": "flux-system:video-api"}
+          image: harbor.local.abbottland.io/library/video-api:20260730-58-1484f3c # {"$imagepolicy": "flux-system:video-api"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4002
