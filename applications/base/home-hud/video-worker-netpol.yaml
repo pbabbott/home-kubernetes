@@ -39,6 +39,12 @@ spec:
       ports:
         - port: 5432
           protocol: TCP
+    - to:
+        - ipBlock:
+            cidr: 192.168.5.142/32
+      ports:
+        - port: 1234
+          protocol: TCP
     - ports:
         - port: 443
           protocol: TCP
