@@ -27,7 +27,7 @@ spec:
             - name: PORT
               value: "4003"
             - name: MEDIA_ROOT
-              value: /media/media/tv_shows
+              value: /media
             - name: POSTGRES_HOST
               value: nas.local.abbottland.io
             - name: POSTGRES_PORT
