@@ -33,11 +33,13 @@ resources:
   - prowlarr-service.yaml
   - radarr-service.yaml
   - sonarr-service.yaml
+  - byparr-service.yaml
   # Deployments
   - qbittorrent-deployment.yaml
   - prowlarr-deployment.yaml
   - radarr-deployment.yaml
   - sonarr-deployment.yaml
+  - byparr-deployment.yaml
   # HTTPRoutes
   - gluetun-httproute.yaml
   - gluetun-http-to-https-httproute.yaml

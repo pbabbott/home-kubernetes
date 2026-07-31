@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: byparr
+  name: byparr
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: byparr
+  strategy:
+    type: Recreate
+    rollingUpdate: null
+  template:
+    metadata:
+      labels:
+        app: byparr
+    spec:
+      containers:
+        - image: ghcr.io/thephaseless/byparr:latest
+          name: byparr
+          envFrom:
+            - configMapRef:
+                name: servarr-env
+          resources: {}
+          ports:
+            - containerPort: 8191
+              name: http
+              protocol: TCP

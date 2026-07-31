@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: byparr
+  namespace: media
+  labels:
+    app: byparr
+spec:
+  ports:
+    - port: 8191
+      protocol: TCP
+  selector:
+    app: byparr
