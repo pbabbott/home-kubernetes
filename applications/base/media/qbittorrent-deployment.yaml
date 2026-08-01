@@ -36,7 +36,7 @@ spec:
                       - arm64
       containers:
         - name: gluetun-sync
-          image: harbor.local.abbottland.io/library/gluetun-sync:20260731-61-8c30b73 # {"$imagepolicy": "flux-system:gluetun-sync"}
+          image: harbor.local.abbottland.io/library/gluetun-sync:20260801-62-ae6feaf # {"$imagepolicy": "flux-system:gluetun-sync"}
           imagePullPolicy: Always
           resources: {}
           ports:
