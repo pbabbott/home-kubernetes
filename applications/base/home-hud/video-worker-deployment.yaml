@@ -22,7 +22,7 @@ spec:
         runAsGroup: 1000
       containers:
         - name: video-worker
-          image: harbor.local.abbottland.io/library/video-worker:20260806-63-95d31e4 # {"$imagepolicy": "flux-system:video-worker"}
+          image: harbor.local.abbottland.io/library/video-worker:20260821-64-eb6437e # {"$imagepolicy": "flux-system:video-worker"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4003
