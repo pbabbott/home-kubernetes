@@ -2,7 +2,9 @@
   "mcpServers": {
     "grafana-nonprod": {
       "command": "uvx",
-      "args": ["mcp-grafana"],
+      "args": [
+        "mcp-grafana"
+      ],
       "env": {
         "GRAFANA_URL": "https://grafana.local.non-prod.abbottland.io",
         "GRAFANA_SERVICE_ACCOUNT_TOKEN": "${GRAFANA_TOKEN_NON_PROD}"
@@ -10,7 +12,9 @@
     },
     "grafana-prod": {
       "command": "uvx",
-      "args": ["mcp-grafana"],
+      "args": [
+        "mcp-grafana"
+      ],
       "env": {
         "GRAFANA_URL": "https://grafana.local.abbottland.io",
         "GRAFANA_SERVICE_ACCOUNT_TOKEN": "${GRAFANA_TOKEN_PROD}"
@@ -23,16 +27,6 @@
     "flux-mcp-prod": {
       "type": "http",
       "url": "https://flux-mcp.local.abbottland.io/mcp"
-    },
-    "n8n": {
-      "command": "npx",
-      "args": ["-y", "n8n-mcp"],
-      "env": {
-        "MCP_MODE": "stdio",
-        "N8N_API_URL": "https://n8n.local.abbottland.io",
-        "N8N_API_KEY": "${N8N_API_KEY}",
-        "WEBHOOK_SECURITY_MODE": "permissive"
-      }
     }
   }
 }

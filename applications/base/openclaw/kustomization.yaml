@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - openclaw-ns.yaml
+  - openclaw-secret-onepassworditem.yaml
+  - openclaw-config-configmap.yaml
+  - openclaw-pvc.yaml
+  - openclaw-deployment.yaml
+  - openclaw-service.yaml
+  - openclaw-netpol.yaml
+  - openclaw-local-httproute.yaml

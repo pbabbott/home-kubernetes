@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: n8n-local
-  namespace: n8n
+  name: openclaw-local
+  namespace: openclaw
   labels:
     pihole-dns-enabled: "true"
   annotations:
@@ -13,12 +13,12 @@ spec:
       namespace: istio-system
       sectionName: https
   hostnames:
-    - "n8n.local.abbottland.io"
+    - "openclaw.local.abbottland.io"
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: n8n
-          port: 5678
+        - name: openclaw
+          port: 18789

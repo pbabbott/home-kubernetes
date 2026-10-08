@@ -18,5 +18,5 @@ resources:
   - ./podinfo
   - ./proxmox
   - ./umami
-  - ./n8n
+  - ./openclaw
   - ./home-hud

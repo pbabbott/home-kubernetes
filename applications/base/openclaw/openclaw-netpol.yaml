@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: n8n
-  namespace: n8n
+  name: openclaw
+  namespace: openclaw
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: n8n
+      app: openclaw
   policyTypes:
     - Ingress
     - Egress
@@ -16,7 +16,7 @@ spec:
             matchLabels:
               kubernetes.io/metadata.name: istio-system
       ports:
-        - port: 5678
+        - port: 18789
   egress:
     - to:
         - namespaceSelector:
@@ -29,20 +29,9 @@ spec:
           protocol: TCP
     - to:
         - ipBlock:
-            cidr: 192.168.4.124/32
-      ports:
-        - port: 5432
-          protocol: TCP
-        - port: 2049
-          protocol: TCP
-    - to:
-        - ipBlock:
-            cidr: 192.168.0.0/16
+            cidr: 192.168.5.142/32
       ports:
         - port: 1234
-          protocol: TCP
-    - ports:
-        - port: 80
           protocol: TCP
     - ports:
         - port: 443
