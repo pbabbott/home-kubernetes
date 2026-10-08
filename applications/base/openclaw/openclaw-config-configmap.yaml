@@ -10,7 +10,9 @@ data:
         "mode": "local",
         "bind": "lan",
         "port": 18789,
-        "publicOrigin": "https://openclaw.local.abbottland.io"
+        "controlUi": {
+          "allowedOrigins": ["https://openclaw.local.abbottland.io"]
+        }
       },
       "models": {
         "providers": {
