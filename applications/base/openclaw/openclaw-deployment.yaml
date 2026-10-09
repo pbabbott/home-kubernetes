@@ -23,7 +23,7 @@ spec:
           image: ghcr.io/openclaw/openclaw:2026.9.9-slim
           command: ["/bin/sh", "-c"]
           args:
-            - chown 1000:1000 /home/node/.openclaw /tmp /home/node/.cache
+            - chmod 1777 /tmp && chown 1000:1000 /home/node/.openclaw /tmp /home/node/.cache
           securityContext:
             runAsUser: 0
             readOnlyRootFilesystem: true
@@ -58,6 +58,9 @@ spec:
           envFrom:
             - secretRef:
                 name: openclaw-secrets
+          env:
+            - name: npm_config_cache
+              value: /home/node/.cache/npm
           securityContext:
             readOnlyRootFilesystem: true
             capabilities:
