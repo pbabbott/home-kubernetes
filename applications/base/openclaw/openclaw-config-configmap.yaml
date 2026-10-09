@@ -23,6 +23,13 @@ data:
             "api": "openai-completions",
             "models": [
               {
+                "id": "qwen3-coder-30b-a3b-instruct",
+                "name": "Qwen3 Coder 30B A3B Instruct",
+                "input": ["text"],
+                "contextWindow": 32768,
+                "maxTokens": 8192
+              },
+              {
                 "id": "google/gemma-4-e4b",
                 "name": "Gemma 4 E4B",
                 "input": ["text", "image"],
@@ -36,7 +43,7 @@ data:
       "agents": {
         "defaults": {
           "model": {
-            "primary": "lmstudio/google/gemma-4-e4b"
+            "primary": "lmstudio/qwen3-coder-30b-a3b-instruct"
           }
         }
       }
