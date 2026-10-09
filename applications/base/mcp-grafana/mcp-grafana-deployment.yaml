@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mcp-grafana
+  name: mcp-grafana
+  namespace: mcp-grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-grafana
+  template:
+    metadata:
+      labels:
+        app: mcp-grafana
+    spec:
+      containers:
+        - name: mcp-grafana
+          image: grafana/mcp-grafana:2.0.1
+          args:
+            - --transport=streamable-http
+            - --address=0.0.0.0:8000
+            # Host header validation is on by default (loopback only); allow in-cluster service names.
+            - --allowed-hosts=mcp-grafana.mcp-grafana.svc.cluster.local:8000,mcp-grafana.mcp-grafana.svc:8000,mcp-grafana.mcp-grafana:8000,mcp-grafana:8000,mcp-grafana.local.abbottland.io
+            # Read-only, metrics + dashboards only (this Grafana has just Prometheus and Alertmanager).
+            - --disable-write
+            - --disable-loki
+            - --disable-pyroscope
+            - --disable-oncall
+            - --disable-incident
+            - --disable-alerting
+            - --disable-asserts
+            - --disable-snapshot
+            - --disable-rendering
+          env:
+            - name: GRAFANA_URL
+              value: http://kube-prometheus-stack-grafana.kube-prometheus-stack.svc.cluster.local
+            - name: GRAFANA_SERVICE_ACCOUNT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: mcp-grafana-secrets
+                  key: GRAFANA_SERVICE_ACCOUNT_TOKEN
+          ports:
+            - containerPort: 8000
+              name: http
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+          livenessProbe:
+            tcpSocket:
+              port: 8000
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

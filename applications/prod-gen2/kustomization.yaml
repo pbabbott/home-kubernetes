@@ -19,4 +19,5 @@ resources:
   - ./proxmox
   - ./umami
   - ./openclaw
+  - ./mcp-grafana
   - ./home-hud

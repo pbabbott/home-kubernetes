@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-grafana
+  namespace: mcp-grafana
+spec:
+  type: ClusterIP
+  selector:
+    app: mcp-grafana
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP

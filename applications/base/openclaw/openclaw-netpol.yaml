@@ -48,6 +48,16 @@ spec:
         - port: 3000
           protocol: TCP
     - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: mcp-grafana
+          podSelector:
+            matchLabels:
+              app: mcp-grafana
+      ports:
+        - port: 8000
+          protocol: TCP
+    - to:
         - ipBlock:
             cidr: 192.168.5.142/32
       ports:
