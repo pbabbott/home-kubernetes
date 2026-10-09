@@ -69,6 +69,8 @@ spec:
               mountPath: /home/node/.openclaw
             - name: tmp
               mountPath: /tmp
+            - name: cache
+              mountPath: /home/node/.cache
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -77,4 +79,6 @@ spec:
           configMap:
             name: openclaw-config
         - name: tmp
+          emptyDir: {}
+        - name: cache
           emptyDir: {}
