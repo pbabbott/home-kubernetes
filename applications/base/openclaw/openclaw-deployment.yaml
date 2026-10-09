@@ -19,6 +19,24 @@ spec:
         runAsUser: 1000
         fsGroup: 1000
       initContainers:
+        - name: fix-perms
+          image: ghcr.io/openclaw/openclaw:2026.9.9-slim
+          command: ["/bin/sh", "-c"]
+          args:
+            - chown 1000:1000 /home/node/.openclaw /tmp /home/node/.cache
+          securityContext:
+            runAsUser: 0
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+              add: ["CHOWN"]
+          volumeMounts:
+            - name: data
+              mountPath: /home/node/.openclaw
+            - name: tmp
+              mountPath: /tmp
+            - name: cache
+              mountPath: /home/node/.cache
         - name: init-config
           image: ghcr.io/openclaw/openclaw:2026.9.9-slim
           command: ["/bin/sh", "-c"]
