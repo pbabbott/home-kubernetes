@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: openclaw
-  namespace: openclaw
+  name: mcp-arr
+  namespace: media
 spec:
   podSelector:
     matchLabels:
-      app: openclaw
+      app: mcp-arr
   policyTypes:
     - Ingress
     - Egress
@@ -14,9 +14,12 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: istio-system
+              kubernetes.io/metadata.name: openclaw
+          podSelector:
+            matchLabels:
+              app: openclaw
       ports:
-        - port: 18789
+        - port: 3000
   egress:
     - to:
         - namespaceSelector:
@@ -28,20 +31,25 @@ spec:
         - port: 53
           protocol: TCP
     - to:
-        - namespaceSelector:
+        - podSelector:
             matchLabels:
-              kubernetes.io/metadata.name: media
-          podSelector:
-            matchLabels:
-              app: mcp-arr
+              app: radarr
       ports:
-        - port: 3000
+        - port: 7878
           protocol: TCP
     - to:
-        - ipBlock:
-            cidr: 192.168.5.142/32
+        - podSelector:
+            matchLabels:
+              app: sonarr
       ports:
-        - port: 1234
+        - port: 8989
+          protocol: TCP
+    - to:
+        - podSelector:
+            matchLabels:
+              app: prowlarr
+      ports:
+        - port: 9696
           protocol: TCP
     - ports:
         - port: 443

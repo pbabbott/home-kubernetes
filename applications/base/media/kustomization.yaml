@@ -34,12 +34,16 @@ resources:
   - radarr-service.yaml
   - sonarr-service.yaml
   - byparr-service.yaml
+  - mcp-arr-service.yaml
   # Deployments
   - qbittorrent-deployment.yaml
   - prowlarr-deployment.yaml
   - radarr-deployment.yaml
   - sonarr-deployment.yaml
   - byparr-deployment.yaml
+  - mcp-arr-deployment.yaml
+  - mcp-arr-secret-onepassworditem.yaml
+  - mcp-arr-netpol.yaml
   # HTTPRoutes
   - gluetun-httproute.yaml
   - gluetun-http-to-https-httproute.yaml
