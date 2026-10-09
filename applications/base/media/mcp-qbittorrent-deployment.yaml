@@ -28,7 +28,7 @@ spec:
             - name: QBITTORRENT_SERVER_MODE
               value: http
             - name: QBITTORRENT_LAZY_MODE
-              value: "true"
+              value: "false"
             - name: QBITTORRENT_USERNAME
               valueFrom:
                 secretKeyRef:
