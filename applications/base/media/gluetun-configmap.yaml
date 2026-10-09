@@ -6,7 +6,7 @@ metadata:
 data:
   TZ: America/Chicago
   VPN_SERVICE_PROVIDER: "private internet access"
-  SERVER_REGIONS: "CA Toronto"
+  SERVER_REGIONS: "CA Ontario"
   PORT_FORWARD_ONLY: "true"
   VPN_PORT_FORWARDING: "on"
   # 8888 - gluetun http proxy (included by default)
