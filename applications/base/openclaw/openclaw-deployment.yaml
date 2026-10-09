@@ -20,7 +20,7 @@ spec:
         fsGroup: 1000
       initContainers:
         - name: init-config
-          image: ghcr.io/openclaw/openclaw:2026.7.1-2-slim
+          image: ghcr.io/openclaw/openclaw:2026.9.9-slim
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -33,7 +33,7 @@ spec:
               mountPath: /config
       containers:
         - name: gateway
-          image: ghcr.io/openclaw/openclaw:2026.7.1-2-slim
+          image: ghcr.io/openclaw/openclaw:2026.9.9-slim
           ports:
             - containerPort: 18789
               name: http
@@ -46,7 +46,7 @@ spec:
               drop: ["ALL"]
           startupProbe:
             httpGet:
-              path: /readyz
+              path: /startupz
               port: 18789
             failureThreshold: 36
             periodSeconds: 5
