@@ -57,6 +57,8 @@ resources:
   - radarr-http-to-https-httproute.yaml
   - sonarr-httproute.yaml
   - sonarr-http-to-https-httproute.yaml
+  - mcp-arr-httproute.yaml
+  - mcp-arr-http-to-https-httproute.yaml
   # Flux image automation (in flux-system namespace)
   - gluetun-sync-image-repository.yaml
   - gluetun-sync-image-policy.yaml

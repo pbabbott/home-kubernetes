@@ -27,6 +27,10 @@
     "flux-mcp-prod": {
       "type": "http",
       "url": "https://flux-mcp.local.abbottland.io/mcp"
+    },
+    "arr": {
+      "type": "http",
+      "url": "https://mcp-arr.local.abbottland.io/mcp"
     }
   }
 }
