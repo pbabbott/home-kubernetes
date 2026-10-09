@@ -18,13 +18,17 @@ spec:
       containers:
         - name: mcp-qbittorrent
           image: ghcr.io/nicholaswilde/qbittorrent-mcp-rs:0.3.7
+          # Env vars for host/port are not honoured by the binary; CLI flags are.
+          args:
+            - --qbittorrent-host=http://qbittorrent-ui
+            - --qbittorrent-port=8080
+            - --qbittorrent-username=$(QBITTORRENT_USERNAME)
+            - --qbittorrent-password=$(QBITTORRENT_PASSWORD)
           env:
             - name: QBITTORRENT_SERVER_MODE
               value: http
             - name: QBITTORRENT_LAZY_MODE
               value: "true"
-            - name: QBITTORRENT_HOST
-              value: http://qbittorrent-ui:8080
             - name: QBITTORRENT_USERNAME
               valueFrom:
                 secretKeyRef:
