@@ -79,12 +79,15 @@ spec:
             httpGet:
               path: /healthz
               port: 18789
+            timeoutSeconds: 10
+            periodSeconds: 20
+            failureThreshold: 6
           resources:
             requests:
-              cpu: 100m
-              memory: 512Mi
+              cpu: 500m
+              memory: 1Gi
             limits:
-              memory: 2Gi
+              memory: 4Gi
           volumeMounts:
             - name: data
               mountPath: /home/node/.openclaw
