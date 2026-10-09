@@ -31,6 +31,10 @@
     "arr": {
       "type": "http",
       "url": "https://mcp-arr.local.abbottland.io/mcp"
+    },
+    "qbittorrent": {
+      "type": "sse",
+      "url": "https://mcp-qbittorrent.local.abbottland.io/sse"
     }
   }
 }
