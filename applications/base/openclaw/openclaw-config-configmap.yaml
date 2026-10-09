@@ -9,6 +9,7 @@ data:
       "gateway": {
         "mode": "local",
         "bind": "lan",
+        "trustedProxies": ["10.244.0.0/16"],
         "port": 18789,
         "controlUi": {
           "allowedOrigins": ["https://openclaw.local.abbottland.io"]
