@@ -42,7 +42,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              cp /config/openclaw.json /home/node/.openclaw/openclaw.json
+              [ -f /home/node/.openclaw/openclaw.json ] || cp /config/openclaw.json /home/node/.openclaw/
               [ -f /home/node/.openclaw/AGENTS.md ] || cp /config/AGENTS.md /home/node/.openclaw/
           volumeMounts:
             - name: data
