@@ -69,7 +69,7 @@ spec:
             httpGet:
               path: /startupz
               port: 18789
-            failureThreshold: 36
+            failureThreshold: 120
             periodSeconds: 5
           readinessProbe:
             httpGet:
