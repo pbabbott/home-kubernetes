@@ -28,6 +28,16 @@ spec:
         - port: 53
           protocol: TCP
     - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+          podSelector:
+            matchLabels:
+              app: radarr
+      ports:
+        - port: 7878
+          protocol: TCP
+    - to:
         - ipBlock:
             cidr: 192.168.5.142/32
       ports:

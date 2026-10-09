@@ -45,6 +45,8 @@ spec:
               [ -f /home/node/.openclaw/openclaw.json ] || cp /config/openclaw.json /home/node/.openclaw/
               [ -f /home/node/.openclaw/AGENTS.md ] || cp /config/AGENTS.md /home/node/.openclaw/
               mkdir -p /home/node/.openclaw/claude-config
+              mkdir -p /home/node/.openclaw/skills/radarr
+              cp /config/radarr-SKILL.md /home/node/.openclaw/skills/radarr/SKILL.md
           volumeMounts:
             - name: data
               mountPath: /home/node/.openclaw
@@ -62,6 +64,8 @@ spec:
           env:
             - name: npm_config_cache
               value: /home/node/.cache/npm
+            - name: RADARR_URL
+              value: http://radarr.media.svc.cluster.local:7878
             - name: CLAUDE_CONFIG_DIR
               value: /home/node/.openclaw/claude-config
           securityContext:
