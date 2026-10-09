@@ -35,6 +35,7 @@ resources:
   - sonarr-service.yaml
   - byparr-service.yaml
   - mcp-arr-service.yaml
+  - mcp-qbittorrent-service.yaml
   # Deployments
   - qbittorrent-deployment.yaml
   - prowlarr-deployment.yaml
@@ -44,6 +45,8 @@ resources:
   - mcp-arr-deployment.yaml
   - mcp-arr-secret-onepassworditem.yaml
   - mcp-arr-netpol.yaml
+  - mcp-qbittorrent-deployment.yaml
+  - mcp-qbittorrent-netpol.yaml
   # HTTPRoutes
   - gluetun-httproute.yaml
   - gluetun-http-to-https-httproute.yaml
@@ -59,6 +62,7 @@ resources:
   - sonarr-http-to-https-httproute.yaml
   - mcp-arr-httproute.yaml
   - mcp-arr-http-to-https-httproute.yaml
+  - mcp-qbittorrent-httproute.yaml
   # Flux image automation (in flux-system namespace)
   - gluetun-sync-image-repository.yaml
   - gluetun-sync-image-policy.yaml

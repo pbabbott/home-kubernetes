@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mcp-qbittorrent
+  name: mcp-qbittorrent
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-qbittorrent
+  template:
+    metadata:
+      labels:
+        app: mcp-qbittorrent
+    spec:
+      containers:
+        - name: mcp-qbittorrent
+          image: ghcr.io/nicholaswilde/qbittorrent-mcp-rs:0.3.7
+          env:
+            - name: QBITTORRENT_SERVER_MODE
+              value: http
+            - name: QBITTORRENT_LAZY_MODE
+              value: "true"
+            - name: QBITTORRENT_HOST
+              value: http://qbittorrent-ui:8080
+            - name: QBITTORRENT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-credentials
+                  key: username
+            - name: QBITTORRENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-credentials
+                  key: password
+          ports:
+            - containerPort: 3000
+              name: http
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65532
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
