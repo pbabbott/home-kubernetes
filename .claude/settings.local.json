@@ -87,7 +87,9 @@
   },
   "enabledMcpjsonServers": [
     "flux-mcp-prod",
-    "grafana-prod"
+    "grafana-prod",
+    "arr",
+    "qbittorrent"
   ],
   "disabledMcpjsonServers": [
     "grafana-nonprod",
