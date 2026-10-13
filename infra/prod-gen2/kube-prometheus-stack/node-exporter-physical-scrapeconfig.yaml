@@ -1,0 +1,37 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter-physical
+  namespace: kube-prometheus-stack
+  labels:
+    release: kube-prometheus-stack
+spec:
+  jobName: node-exporter-physical
+  metricsPath: /metrics
+  scrapeInterval: 30s
+  staticConfigs:
+    - targets: ["192.168.4.157:9100"]
+      labels:
+        nickname: dumbledore
+        host_type: physical
+    - targets: ["192.168.4.192:9100"]
+      labels:
+        nickname: chimaera
+        host_type: physical
+    - targets: ["192.168.4.124:9100"]
+      labels:
+        nickname: room_of_requirement
+        nodename: room_of_requirement
+        host_type: physical
+    - targets: ["192.168.4.144:9100"]
+      labels:
+        nickname: bananapi
+        host_type: physical
+    - targets: ["192.168.5.142:9100"]
+      labels:
+        nickname: elderwand
+        host_type: physical
+    - targets: ["192.168.4.37:9100"]
+      labels:
+        nickname: homeassistant
+        host_type: physical
