@@ -11,6 +11,7 @@ resources:
   - video-api-image-repository.yaml
   - video-worker-image-repository.yaml
   - home-hud-image-repository.yaml
+  - homelab-api-image-repository.yaml
   - video-api-deployment.yaml
   - video-api-service.yaml
   - video-api-httproute.yaml
@@ -21,6 +22,13 @@ resources:
   - video-worker-httproute.yaml
   - video-worker-netpol.yaml
   - video-worker-servicemonitor.yaml
+  - homelab-api-serviceaccount.yaml
+  - homelab-api-clusterrole.yaml
+  - homelab-api-clusterrolebinding.yaml
+  - homelab-api-deployment.yaml
+  - homelab-api-service.yaml
+  - homelab-api-httproute.yaml
+  - homelab-api-servicemonitor.yaml
   - home-hud-deployment.yaml
   - home-hud-service.yaml
   - home-hud-httproute.yaml

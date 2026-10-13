@@ -26,6 +26,8 @@ spec:
           env:
             - name: VIDEO_API_URL
               value: http://video-api.home-hud.svc.cluster.local:4002
+            - name: HOMELAB_API_URL
+              value: http://homelab-api.home-hud.svc.cluster.local:4003
           resources:
             requests:
               cpu: 25m
