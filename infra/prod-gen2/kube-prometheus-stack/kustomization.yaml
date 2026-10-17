@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ../../base/kube-prometheus-stack
   - node-exporter-physical-scrapeconfig.yaml
+  - windows-exporter-physical-scrapeconfig.yaml
 
 patches:
   - path: kube-prometheus-stack-helm-release-patch.yaml
