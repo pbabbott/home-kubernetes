@@ -27,10 +27,6 @@ spec:
       labels:
         nickname: bananapi
         host_type: physical
-    - targets: ["192.168.5.142:9100"]
-      labels:
-        nickname: elderwand
-        host_type: physical
     - targets: ["192.168.4.37:9100"]
       labels:
         nickname: homeassistant
