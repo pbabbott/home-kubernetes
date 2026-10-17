@@ -35,3 +35,7 @@ spec:
       labels:
         nickname: homeassistant
         host_type: physical
+    - targets: ["192.168.5.91:9100"]
+      labels:
+        nickname: marauders-map
+        host_type: physical
