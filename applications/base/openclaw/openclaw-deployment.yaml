@@ -23,7 +23,7 @@ spec:
           image: ghcr.io/openclaw/openclaw:2026.9.9-slim
           command: ["/bin/sh", "-c"]
           args:
-            - chmod 1777 /tmp && chown 1000:1000 /home/node/.openclaw /tmp /home/node/.cache
+            - chmod 1777 /tmp && chown 1000:1000 /home/node/.openclaw /tmp /home/node/.cache /home/node/.openclaw/tmp
           securityContext:
             runAsUser: 0
             readOnlyRootFilesystem: true
@@ -37,6 +37,8 @@ spec:
               mountPath: /tmp
             - name: cache
               mountPath: /home/node/.cache
+            - name: openclaw-tmp
+              mountPath: /home/node/.openclaw/tmp
         - name: init-config
           image: ghcr.io/openclaw/openclaw:2026.9.9-slim
           command: ["/bin/sh", "-c"]
@@ -50,6 +52,8 @@ spec:
               mountPath: /home/node/.openclaw
             - name: config
               mountPath: /config
+            - name: openclaw-tmp
+              mountPath: /home/node/.openclaw/tmp
       containers:
         - name: gateway
           image: ghcr.io/openclaw/openclaw:2026.9.9-slim
@@ -72,7 +76,8 @@ spec:
             httpGet:
               path: /startupz
               port: 18789
-            failureThreshold: 120
+            initialDelaySeconds: 240
+            failureThreshold: 60
             periodSeconds: 5
           readinessProbe:
             httpGet:
@@ -98,6 +103,8 @@ spec:
               mountPath: /tmp
             - name: cache
               mountPath: /home/node/.cache
+            - name: openclaw-tmp
+              mountPath: /home/node/.openclaw/tmp
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -108,4 +115,6 @@ spec:
         - name: tmp
           emptyDir: {}
         - name: cache
+          emptyDir: {}
+        - name: openclaw-tmp
           emptyDir: {}

@@ -13,6 +13,10 @@ data:
         "port": 18789,
         "controlUi": {
           "allowedOrigins": ["https://openclaw.local.abbottland.io"]
+        },
+        "publicOrigin": "https://openclaw.local.abbottland.io",
+        "remote": {
+          "url": "wss://openclaw.local.abbottland.io"
         }
       },
       "models": {
