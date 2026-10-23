@@ -3,3 +3,14 @@ kind: Kustomization
 
 resources:
   - ../../base/home-hud
+
+patches:
+  - target:
+      kind: Deployment
+      name: home-hud
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: HOMELAB_API_PUBLIC_URL
+          value: https://homelab-api.local.abbottland.io
