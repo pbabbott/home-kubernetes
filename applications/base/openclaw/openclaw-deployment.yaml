@@ -23,7 +23,7 @@ spec:
           image: ghcr.io/openclaw/openclaw:2026.9.9-slim
           command: ["/bin/sh", "-c"]
           args:
-            - chmod 1777 /tmp && chown 1000:1000 /home/node/.openclaw /tmp /home/node/.cache /home/node/.openclaw/tmp
+            - chmod 1777 /tmp && chown 1000:1000 /home/node/.openclaw /tmp /home/node/.cache
           securityContext:
             runAsUser: 0
             readOnlyRootFilesystem: true
@@ -37,13 +37,12 @@ spec:
               mountPath: /tmp
             - name: cache
               mountPath: /home/node/.cache
-            - name: openclaw-tmp
-              mountPath: /home/node/.openclaw/tmp
         - name: init-config
           image: ghcr.io/openclaw/openclaw:2026.9.9-slim
           command: ["/bin/sh", "-c"]
           args:
             - |
+              rm -rf /home/node/.openclaw/tmp/plugin-captures
               [ -f /home/node/.openclaw/openclaw.json ] || cp /config/openclaw.json /home/node/.openclaw/
               [ -f /home/node/.openclaw/AGENTS.md ] || cp /config/AGENTS.md /home/node/.openclaw/
               mkdir -p /home/node/.openclaw/claude-config
@@ -52,8 +51,6 @@ spec:
               mountPath: /home/node/.openclaw
             - name: config
               mountPath: /config
-            - name: openclaw-tmp
-              mountPath: /home/node/.openclaw/tmp
       containers:
         - name: gateway
           image: ghcr.io/openclaw/openclaw:2026.9.9-slim
@@ -103,8 +100,6 @@ spec:
               mountPath: /tmp
             - name: cache
               mountPath: /home/node/.cache
-            - name: openclaw-tmp
-              mountPath: /home/node/.openclaw/tmp
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -115,6 +110,4 @@ spec:
         - name: tmp
           emptyDir: {}
         - name: cache
-          emptyDir: {}
-        - name: openclaw-tmp
           emptyDir: {}
