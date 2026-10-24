@@ -6,6 +6,7 @@ resources:
   - postgres-credentials-onepassworditem.yaml
   - regcred-onepassworditem.yaml
   - sonarr-api-key-onepassworditem.yaml
+  - exodus-credential-key-onepassworditem.yaml
   - media-pv.yaml
   - media-pvc.yaml
   - video-api-image-repository.yaml

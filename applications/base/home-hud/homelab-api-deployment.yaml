@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: postgres-credentials
                   key: password
+            - name: EXODUS_CREDENTIAL_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: exodus-credential-key
+                  key: EXODUS_CREDENTIAL_KEY
           livenessProbe:
             httpGet:
               path: /healthz
