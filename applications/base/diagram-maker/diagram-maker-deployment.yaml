@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: diagram-maker
-          image: harbor.local.abbottland.io/library/diagram-maker:20261024-78-1937021 # {"$imagepolicy": "flux-system:diagram-maker"}
+          image: harbor.local.abbottland.io/library/diagram-maker:20261025-80-b37fcbd # {"$imagepolicy": "flux-system:diagram-maker"}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
