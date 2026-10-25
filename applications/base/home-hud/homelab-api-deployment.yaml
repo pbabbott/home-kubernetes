@@ -20,7 +20,7 @@ spec:
         - name: regcred
       containers:
         - name: homelab-api
-          image: harbor.local.abbottland.io/library/homelab-api:20261024-78-1937021 # {"$imagepolicy": "flux-system:homelab-api"}
+          image: harbor.local.abbottland.io/library/homelab-api:20261025-79-c4e50f9 # {"$imagepolicy": "flux-system:homelab-api"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4003
