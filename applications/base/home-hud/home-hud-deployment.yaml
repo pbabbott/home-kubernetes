@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: home-hud
-          image: harbor.local.abbottland.io/library/home-hud:20261025-80-b37fcbd # {"$imagepolicy": "flux-system:home-hud"}
+          image: harbor.local.abbottland.io/library/home-hud:20261026-81-470d11b # {"$imagepolicy": "flux-system:home-hud"}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
