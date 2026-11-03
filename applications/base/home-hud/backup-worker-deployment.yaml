@@ -23,7 +23,7 @@ spec:
         runAsGroup: 1000
       containers:
         - name: backup-worker
-          image: harbor.local.abbottland.io/library/backup-worker:20261102-84-f638247 # {"$imagepolicy": "flux-system:backup-worker"}
+          image: harbor.local.abbottland.io/library/backup-worker:20261103-85-b1a362b # {"$imagepolicy": "flux-system:backup-worker"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4004
