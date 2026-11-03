@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backup-worker
+  namespace: home-hud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backup-worker
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: backup-worker
+    spec:
+      terminationGracePeriodSeconds: 60
+      imagePullSecrets:
+        - name: regcred
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: backup-worker
+          image: harbor.local.abbottland.io/library/backup-worker:20261102-84-f638247 # {"$imagepolicy": "flux-system:backup-worker"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4004
+          env:
+            - name: PORT
+              value: "4004"
+            - name: POSTGRES_HOST
+              value: nas.local.abbottland.io
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DATABASE
+              value: homelab_api
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: EXODUS_CREDENTIAL_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: exodus-credential-key
+                  key: EXODUS_CREDENTIAL_KEY
+            - name: BACKUP_DESTINATION_PATH
+              value: /backup
+            - name: BACKUP_DESTINATION_MOUNT_CHECK
+              value: nfs
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 4004
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 4004
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: backup
+              mountPath: /backup
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 256Mi
+      volumes:
+        - name: backup
+          persistentVolumeClaim:
+            claimName: backup-pvc

@@ -9,8 +9,11 @@ resources:
   - exodus-credential-key-onepassworditem.yaml
   - media-pv.yaml
   - media-pvc.yaml
+  - backup-pv.yaml
+  - backup-pvc.yaml
   - video-api-image-repository.yaml
   - video-worker-image-repository.yaml
+  - backup-worker-image-repository.yaml
   - home-hud-image-repository.yaml
   - homelab-api-image-repository.yaml
   - video-api-deployment.yaml
@@ -23,6 +26,7 @@ resources:
   - video-worker-httproute.yaml
   - video-worker-netpol.yaml
   - video-worker-servicemonitor.yaml
+  - backup-worker-deployment.yaml
   - homelab-api-serviceaccount.yaml
   - homelab-api-clusterrole.yaml
   - homelab-api-clusterrolebinding.yaml
