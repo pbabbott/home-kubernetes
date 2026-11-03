@@ -4,7 +4,7 @@ metadata:
   name: backup-pvc
   namespace: home-hud
 spec:
-  storageClassName: ""
+  storageClassName: manual
   volumeName: home-hud-backup-pv
   accessModes:
     - ReadWriteMany
