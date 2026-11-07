@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# No HTTPRoutes yet: gen3 has no Gateway / Gateway API CRDs / external-dns.
+resources:
+  - ../../base/podinfo/namespace.yaml
+  - ../../base/podinfo/helmrepository.yaml
+  - ../../base/podinfo/helmrelease.yaml
