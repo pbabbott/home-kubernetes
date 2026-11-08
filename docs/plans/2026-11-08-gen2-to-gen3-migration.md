@@ -119,6 +119,8 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - `archiveOnDelete: 'true'`: deleting the test PVC left `/volume1/ClusterStorage/prod-gen3/archived-nas-storage-test-t` on the NAS. User deleted it by hand (verified).
 - Longhorn gate: prod copy `longhorn-prod.pre-gen3-copy` 47,999 files/66.9 GB vs live 46,853/65.0 GB (copy larger, consistent with live pruning); nonprod copy identical (17,833 files). Two gen2 volumes have stale backups (see gate bullet).
 
+- Longhorn only gets a disk on nodes labeled `node.longhorn.io/create-default-disk=true` (manual; controllers are untainted and have no `/mnt/ssd`). Documented in `docs/ai-reference-gen3-manual-steps.md`.
+
 ### Phase 3b plan — Longhorn (next session, not executed)
 1. ~~User: create `/volume1/Backups/longhorn-prod-gen3` on the NAS~~ done 2026-11-08 (verified empty over SSH).
 2. `infra/prod-gen3/longhorn`: base dir `../../base/longhorn`, `$patch: delete` the base HTTPRoute (no istio yet), `backupTarget: nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3` from day one (gen2's value lives only in its overlay, so never inherit it), `defaultReplicaCount: 2`, `defaultDataPath: /mnt/ssd`, amd64 nodeSelector, NO RecurringJob yet.

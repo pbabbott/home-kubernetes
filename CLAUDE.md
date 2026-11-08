@@ -52,6 +52,7 @@ Docs prefixed `ai-reference-` in `docs/` are written for AI assistant use — st
 
 - `docs/ai-reference-infra.md` — cluster SSH targets, DNS patterns, Flux layering order, Longhorn backup targets
 - `docs/ai-reference-op-connect-api-access.md` — query the op-connect vault API via port-forward; list vaults/items; known vault IDs
+- `docs/ai-reference-gen3-manual-steps.md` — **read before adding a gen3 node or rebuilding gen3**: manual steps outside GitOps (Longhorn `node.longhorn.io/create-default-disk=true` node label, `/mnt/ssd` disk, NAS dirs, 1Password)
 - `docs/ai-reference-secrets.md` — **start here for secrets (gen3)**: sealed-secrets only bootstraps 1Password; how to add a secret, key backup/rebuild, re-seal `op-credentials`, dev-shell `op` limits
 - `docs/ai-reference-onepassword-operator.md` — force-reconcile `OnePasswordItem` CRDs; debug secret key mismatches; common operator errors
 - `docs/ai-reference-pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access

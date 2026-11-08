@@ -74,6 +74,7 @@ NFS host: `192.168.4.124`, base export: `/volume1/Backups/`
 | --- | --- |
 | Non-prod gen 2 | `nfs://192.168.4.124:/volume1/Backups/longhorn-nonprod` |
 | Prod gen 2 | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod` |
+| Prod gen 3 | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3` (own store; never write to gen2's). Worker nodes need a manual label, see `ai-reference-gen3-manual-steps.md` |
 
 ## Cluster Notes
 
