@@ -48,10 +48,10 @@ Commit per-repo inside `home-kubernetes` only (never the outer repo).
 - [x] (2026-11-08: `kubectl top nodes` shows all 6) metrics-server from Flux (k3s one disabled) → `kubectl top nodes` works.
 
 ### Phase 3 — Storage (session 3 = nas-storage, session 4 = Longhorn)
-- [ ] **nas-storage** (NFS provisioner → `192.168.4.124:/volume1/ClusterStorage`): deploy; test PVC bound; confirm gen3 pod CIDR/nodes (192.168.6.x) allowed by NAS NFS export rules.
+- [x] (2026-11-08, session 3: main@71bd3da; HR nas-storage Ready, SC `nas-storage`; RWX test PVC Bound, write on worker-1 read on worker-2 OK; export `/volume1/ClusterStorage` allows 192.168.0.0/16 rw no_root_squash) **nas-storage** (NFS provisioner → `192.168.4.124:/volume1/ClusterStorage/prod-gen3`): deploy; test PVC bound; confirm gen3 nodes (192.168.6.x) allowed by NAS NFS export rules.
 - [ ] **Longhorn safety gate (before any gen3 Longhorn install):**
   - [x] (done in Phase 0) Copy `/volume1/Backups/longhorn-prod` (and nonprod) to a second NAS location (`cp -a`/rsync or Asustor snapshot). Verify size/file count.
-  - [ ] Confirm every gen2 volume has a recent successful backup (Longhorn UI → Backup); take a fresh manual backup of each important volume right before cutover.
+  - [ ] (2026-11-08 check: 12 BackupVolumes; 10 backed up 2026-11-08 03:00; STALE: `coder-workspaces` home volume (2026-07-23) and `arc-runners/arc-pnpm-store` (2026-07-25), likely not in the `default` recurring group or disposable; decide) Confirm every gen2 volume has a recent successful backup (Longhorn UI → Backup); take a fresh manual backup of each important volume right before cutover.
 - [ ] Deploy Longhorn on gen3 with: `defaultDataPath: /mnt/ssd`, **no recurring jobs, no volumes, and backup target pointed at the existing `longhorn-prod` path read-only in practice** (nothing runs that would write). Alternative if comfortable: leave `backupTarget` empty initially and set it later just before restore. Verify prerequisites on workers (open-iscsi, `/mnt/ssd` ext4 present on .42/.43/.46) — Longhorn node check.
 - [ ] Verify gen3 Longhorn lists gen2 backups (BackupVolumes) without modifying them.
 - [ ] Restore rehearsal with ONE low-value volume (e.g. `turbo-cache` or `prowlarr-config`): Longhorn UI "Restore" from backup → new volume → PVC/PV (storageClass `longhorn`) → mount in a test pod → inspect data.
@@ -110,6 +110,22 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - `1password-credentials-prod.json` / `.env` are not on disk, and no "Prod Gen2 Credentials File" item exists in the vault. `gen3` `op-credentials` was instead re-sealed straight from the live gen2 secret (`kubectl --context prod-gen2 ... | kubeseal --context prod-gen3 --scope namespace-wide --namespace op-connect`), so gen2 and gen3 share one Connect server identity (own Connect server per cluster is the alternative).
 - `kubectl kustomize` forbids resource *files* outside the overlay dir; reference the base *directory* and use `$patch: delete` to drop pieces (op-connect HTTPRoute, `cloudflare-ddns`, `letsencrypt-prod`).
 - home-kubernetes has no `.pre-commit-config.yaml`; gen2 context is added with `scripts/get-kubeconfig.sh prod-gen2`.
+
+
+### Phase 3 learnings — nas-storage (2026-11-08)
+- Gen3 uses its own NFS subdir `/volume1/ClusterStorage/prod-gen3` (gen2 uses `.../prod-gen2`); the dir had to be created on the NAS before merge (provisioner mount fails otherwise). `ror` alias (`ssh pabbott@192.168.4.124`) works without a password and allows read-only NAS checks.
+- NAS export rules: `/etc/exports` grants `/volume1/ClusterStorage` to `192.168.0.0/16` (rw, no_root_squash, insecure), so gen3 nodes need no NAS change. NFS mounts come from node IPs, not pod IPs.
+- Probe method: throwaway pods with an `nfs:` volume (`readOnly: true`) pinned via `nodeName` to each worker proved reachability before merge.
+- `archiveOnDelete: 'true'`: deleting the test PVC left `/volume1/ClusterStorage/prod-gen3/archived-nas-storage-test-t` on the NAS. Delete it by hand (not done by Claude).
+- Longhorn gate: prod copy `longhorn-prod.pre-gen3-copy` 47,999 files/66.9 GB vs live 46,853/65.0 GB (copy larger, consistent with live pruning); nonprod copy identical (17,833 files). Two gen2 volumes have stale backups (see gate bullet).
+
+### Phase 3b plan — Longhorn (next session, not executed)
+1. User: create `/volume1/Backups/longhorn-prod-gen3` on the NAS (777).
+2. `infra/prod-gen3/longhorn`: base dir `../../base/longhorn`, `$patch: delete` the base HTTPRoute (no istio yet), `backupTarget: nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3` from day one (gen2's value lives only in its overlay, so never inherit it), `defaultReplicaCount: 2`, `defaultDataPath: /mnt/ssd`, amd64 nodeSelector, NO RecurringJob yet.
+3. Check whether `cifs-secret` is needed with `nfs://`; if so user creates/copies the 1Password item (dev-shell token is read-only).
+4. Verify prerequisites on workers .42/.43/.46 (open-iscsi, `/mnt/ssd`) before merging; after merge check Longhorn nodes Ready and a test volume backup lands only in `longhorn-prod-gen3`.
+5. Restore rehearsal from a SEPARATE temporary backup target on `longhorn-prod.pre-gen3-copy` (the copy, never live `longhorn-prod`); restore `prowlarr-config`, mount in a test pod, remove the target.
+6. Then add `daily-backups` RecurringJob (03:00, retain 7), then the per-app data move procedure.
 
 ---
 
