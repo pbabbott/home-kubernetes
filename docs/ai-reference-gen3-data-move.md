@@ -24,7 +24,8 @@ An app runs in ONE cluster at a time (shared NAS Postgres/Redis/NFS).
    ```
    then `kubectl --context prod-gen3 -n longhorn-system patch backuptarget live-restore --type merge -p '{"spec":{"syncRequestedAt":"<now UTC RFC3339>"}}'`.
 4. Re-run the NAS check after the sync and after the restore; counts and newest mtime must match (aside from the final backup you made).
-5. Restore: `scripts/longhorn-restore.sh --allow-live-store ...` (dry-run first).
+5. Restore: `scripts/longhorn-restore.sh --allow-live-store ...` (dry-run first). Leave `live-restore` idle afterwards (do not delete it). Verified 2026-11-08: sync + restore left the live store byte-for-byte unchanged apart from the one new backup.
+6. Manual gen2 backup (needs user OK): Snapshot CR (`spec: {volume: pvc-…, createSnapshot: true}`), then Backup CR with labels `backup-volume=pvc-…`, `backup-target=default`, `spec.snapshotName: <snapshot>`; wait `status.state=Completed`.
 
 ## Per-app procedure with rollback
 | # | Step | Rollback |
