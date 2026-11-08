@@ -37,11 +37,11 @@ Commit per-repo inside `home-kubernetes` only (never the outer repo).
 ### Phase 1 — CRDs (session 1) ← this session
 - [x] `crds/prod-gen3/kustomization.yaml` + `clusters/prod-gen3/00-crds-ks.yaml`; wire into cluster kustomization.
 - [x] flux-operator CRDs already exist on gen3 (installed by operator, 4 `fluxcd.controlplane.io` CRDs). Same situation as gen2 (Ansible-installed operator), where `crds-ks` adopts them; kept in overlay. If `crds-ks` reports an apply conflict, drop `../base/flux-operator` from the gen3 overlay.
-- [x] `kustomize build` passes for `crds/prod-gen3` and `clusters/prod-gen3`; [ ] pre-commit; merge; `crds-ks` Ready on gen3; CRDs present.
-- [ ] Record learnings in doc.
+- [x] `kustomize build` passes for `crds/prod-gen3` and `clusters/prod-gen3`; [x] (2026-11-08: home-kubernetes has NO `.pre-commit-config.yaml`; `pre-commit run` errors with InvalidConfigError, so nothing to run. Verified with `kubectl kustomize` instead) pre-commit; [x] merge; [x] (2026-11-08: crds-ks Ready at main@8d9226c1, 66 CRDs) `crds-ks` Ready on gen3; CRDs present.
+- [x] Record learnings in doc (above).
 
 ### Phase 2 — Foundation infra (session 2) — `infra/prod-gen3/` + `clusters/prod-gen3/01-infra-ks.yaml` (dependsOn crds-ks); apps-ks gets `dependsOn: infra-ks`
-- [ ] Create `infra/prod-gen3/kustomization.yaml` (start with: priorityclass, sealed-secrets, metrics-server).
+- [ ] Create `infra/prod-gen3/kustomization.yaml` + `01-infra-ks.yaml` (dependsOn crds-ks), apps-ks dependsOn infra-ks. Merge A = priorityclass, sealed-secrets, metrics-server. Merge B = onepassword + cert-manager (needs the sealed `op-credentials`, which needs the gen3 controller from merge A first, hence two merges).
 - [ ] sealed-secrets: new controller key on gen3 → back up key to 1Password; re-seal anything gen3 needs.
 - [ ] onepassword (Connect + operator): re-seal `op-credentials` for gen3; verify a `OnePasswordItem` syncs.
 - [ ] cert-manager with **staging** issuer first; DNS-01 via Cloudflare token (OnePasswordItem); issue a test cert.

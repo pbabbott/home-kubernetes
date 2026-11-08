@@ -4,6 +4,8 @@ metadata:
   name: apps-ks
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: infra-ks
   interval: 1h
   retryInterval: 1m
   timeout: 5m
