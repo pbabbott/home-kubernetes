@@ -7,3 +7,4 @@ resources:
   - ./onepassword
   - ./cert-manager
   - ../base/metrics-server
+  - ./nas-storage
