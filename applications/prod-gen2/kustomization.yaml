@@ -7,7 +7,6 @@ resources:
   - ./dashy
   - ./diagram-maker
   - ./fui-components
-  - ./haproxy
   - ./home-assistant
   - ./harbor
   - ./harbor-cleanup

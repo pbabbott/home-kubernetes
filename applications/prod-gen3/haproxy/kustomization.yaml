@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 6a staging: same hostname as gen2 but NO pihole-dns-enabled label, so gen3 external-dns writes no record.
-# Flip = delete the label/annotation removal patch below AND remove ./haproxy from applications/prod-gen2 (one merge).
+# Flipped from gen2 in Phase 6a: route carries pihole-dns-enabled, gen3 external-dns owns haproxy.local.
+# EndpointSlice (base) stays on 192.168.6.28:8404 until .28 retires (Phase 9).
 resources:
   - ../../base/haproxy
 
@@ -15,10 +15,6 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: haproxy.local.abbottland.io
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   - target:
       kind: HTTPRoute
       name: haproxy-http-to-https
