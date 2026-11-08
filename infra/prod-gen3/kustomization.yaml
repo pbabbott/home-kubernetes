@@ -10,3 +10,4 @@ resources:
   - ./nas-storage
   - ./longhorn
   - ./istio
+  - ./kube-prometheus-stack

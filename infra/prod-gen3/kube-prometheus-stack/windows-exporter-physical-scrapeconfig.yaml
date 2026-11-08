@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: windows-exporter-physical
+  namespace: kube-prometheus-stack
+  labels:
+    release: kube-prometheus-stack
+spec:
+  jobName: windows-exporter-physical
+  metricsPath: /metrics
+  scrapeInterval: 30s
+  staticConfigs:
+    - targets: ["192.168.5.142:9182"]
+      labels:
+        nickname: elderwand
+        host_type: physical

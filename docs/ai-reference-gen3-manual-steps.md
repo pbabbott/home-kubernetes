@@ -29,3 +29,6 @@ Things below live outside Git, so Flux will not recreate them.
 ## Ingress testing (no DNS yet)
 Phase 4 added istio; no manual cluster step. Gen3 has no DNS records, so test with `curl --resolve <host>:443:192.168.6.29 https://<host>/` (`-k`: staging cert is untrusted). Do not add `pihole-dns-enabled` / `external-dns-enabled` labels to gen3 routes before Phase 5.
 Rebuild notes: gen3 uses Calico, so istio-cni needs the chart-default CNI paths, and ztunnel needs `IPV6_ENABLED=false` (nodes without IPv6); both are already in `infra/prod-gen3/istio`.
+
+## Monitoring (kube-prometheus-stack on gen3)
+No manual cluster step. Grafana admin password is the base default (`admin`); it is only reachable on the LAN via `curl --resolve grafana-gen3.local.abbottland.io:443:192.168.6.29`, no DNS record yet. Move it to a OnePasswordItem (item created by hand in the UI) before the DNS phase. k3s control-plane metrics (etcd/scheduler/controller-manager) are intentionally not scraped: k3s runs them in one process and would need `kube-*-arg bind-address` flags in `home-playbooks/playbooks/kubernetes-gen3`.

@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Gen3 monitoring: fresh Prometheus (no restore). Routes have no DNS labels/annotations until
+# Phase 5; test with curl --resolve <host>:443:192.168.6.29.
+# Control-plane scrapes (etcd/scheduler/controller-manager/proxy) stay disabled in base, which also
+# drops their rule groups; scraping k3s's single-process control plane needs k3s playbook changes.
+resources:
+  - ../../base/kube-prometheus-stack
+  - node-exporter-physical-scrapeconfig.yaml
+  - windows-exporter-physical-scrapeconfig.yaml
+
+patches:
+  - path: kube-prometheus-stack-helm-release-patch.yaml
+  - target:
+      kind: HTTPRoute
+      name: prometheus-ui
+      namespace: kube-prometheus-stack
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: prometheus-gen3.local.abbottland.io
+      - op: remove
+        path: /metadata/labels/pihole-dns-enabled
+      - op: remove
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
+  - target:
+      kind: HTTPRoute
+      name: grafana-ui
+      namespace: kube-prometheus-stack
+    patch: |-
+      - op: replace
+        path: /spec/hostnames/0
+        value: grafana-gen3.local.abbottland.io
+      - op: remove
+        path: /metadata/labels/pihole-dns-enabled
+      - op: remove
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
