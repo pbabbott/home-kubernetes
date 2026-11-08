@@ -1,9 +1,10 @@
-# Staged unlabelled (gen2 has the same record, labelled). Flip: add label pihole-dns-enabled: "true".
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
   name: nas
   namespace: asustor
+  labels:
+    pihole-dns-enabled: "true"
 spec:
   endpoints:
     - dnsName: nas.local.abbottland.io

@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - ./arc
-  - ./asustor
   - ./blog
   - ./dashy
   - ./diagram-maker
