@@ -90,3 +90,13 @@ Result in Cloudflare: `myapp.non-prod.abbottland.io CNAME abbottland.io` (proxie
 | prod-gen2 | `*.local.abbottland.io` | `*.abbottland.io` |
 
 Cluster-specific hostnames are usually patched via kustomize overlay (base uses placeholder, overlay patches the actual hostname).
+
+## Gen3 staging patterns (Phase 6, gen2 -> gen3 moves)
+
+Moving an app with a hostname identical to gen2's: stage it on gen3 UNLABELLED, test with `curl --resolve <host>:443:192.168.6.29`, then flip in one merge (remove from gen2 + add the label on gen3). Never label a gen3 route whose hostname gen2 still serves.
+
+- Kustomize apps: gen3 overlay references the base DIRECTORY and strips the label and `.28` annotation with JSON patches.
+- Helm charts that hardcode the label (e.g. `applications/base/dashy`): add a HelmRelease `postRenderers` kustomize JSON patch removing `/metadata/labels/pihole-dns-enabled`; delete it in the flip commit.
+- Charts that add the label via a postRenderer (flux-operator-mcp): remove `/spec/postRenderers` while staging, restore on the flip.
+- Gen3's flux-operator is Ansible-installed (no HelmRelease), so its UI route is a standalone HTTPRoute in `clusters/prod-gen3/flux-gitops/` (backend `flux-operator:9080`); a base HelmRelease `dependsOn: flux-operator` must be patched out.
+- The record target comes from the Gateway annotation (gen3 = 192.168.6.29), not the route's `.28` annotation. Gen3 external-dns is `upsert-only`: if the record stays `.28` after ~2 cycles, delete it via the Pi-hole API and gen3 recreates it (see `ai-reference-pihole-api.md`).
