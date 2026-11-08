@@ -6,7 +6,7 @@ resources:
   - longhorn-recurring-job.yaml
 
 patches:
-  # No istio on gen3 yet (Phase 4); the UI route comes back with it.
+  # UI route deleted: needs a Pi-hole record (hostname collides with gen2); comes back in Phase 5 (DNS).
   - patch: |-
       apiVersion: gateway.networking.k8s.io/v1
       kind: HTTPRoute

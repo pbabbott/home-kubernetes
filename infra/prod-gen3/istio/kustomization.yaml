@@ -1,0 +1,58 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Gen3 istio (ambient, 1.30.*). Differences from base/gen2:
+# - istio-cni uses k3s CNI paths
+# - Gateways use letsencrypt-staging until the public cutover (Phase 8)
+# - internal Gateway external-dns target = gen3 HAProxy 192.168.6.29 (not .28)
+# - apex listener on the public Gateway (same as gen2)
+# internal-apps-ip-allowlist (base) checked for gen3: 192.168.0.0/16 covers HAProxy .29 and LAN,
+# 10.244.0.0/16 = pod CIDR, 10.0.0.0/8 covers service CIDR 10.43.0.0/16. No change needed.
+resources:
+  - ../../base/istio
+
+patches:
+  - target:
+      kind: HelmRelease
+      name: istio-cni
+    patch: |-
+      - op: add
+        path: /spec/values/cniConfDir
+        value: /var/lib/rancher/k3s/agent/etc/cni/net.d
+      - op: add
+        path: /spec/values/cniBinDir
+        value: /var/lib/rancher/k3s/data/current/bin
+  - target:
+      kind: Gateway
+      name: istio-ingress
+      namespace: istio-system
+    patch: |-
+      - op: replace
+        path: /metadata/annotations/cert-manager.io~1cluster-issuer
+        value: letsencrypt-staging
+      - op: replace
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
+        value: 192.168.6.29
+  - target:
+      kind: Gateway
+      name: istio-ingress-public
+      namespace: istio-system
+    patch: |-
+      - op: replace
+        path: /metadata/annotations/cert-manager.io~1cluster-issuer
+        value: letsencrypt-staging
+      - op: add
+        path: /spec/listeners/-
+        value:
+          name: https-public-apex
+          port: 443
+          protocol: HTTPS
+          hostname: "abbottland.io"
+          tls:
+            mode: Terminate
+            certificateRefs:
+              - kind: Secret
+                name: apex-public-tls
+          allowedRoutes:
+            namespaces:
+              from: All
