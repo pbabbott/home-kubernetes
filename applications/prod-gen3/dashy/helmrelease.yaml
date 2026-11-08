@@ -13,20 +13,6 @@ spec:
         name: flux-system
         namespace: flux-system
   interval: 30m
-  # STAGING ONLY (Phase 6b): the chart hardcodes the pihole-dns-enabled label and the .28 target
-  # annotation. Remove both so gen3 external-dns creates no record. The flip commit deletes this block.
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              group: gateway.networking.k8s.io
-              kind: HTTPRoute
-              name: dashy
-            patch: |-
-              - op: remove
-                path: /metadata/labels/pihole-dns-enabled
-              - op: remove
-                path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   values:
     hostname: dashy.local.abbottland.io
     pageTitle: "Homelab"

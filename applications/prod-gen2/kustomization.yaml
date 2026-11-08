@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - ./arc
   - ./blog
-  - ./dashy
   - ./diagram-maker
   - ./fui-components
   - ./home-assistant
