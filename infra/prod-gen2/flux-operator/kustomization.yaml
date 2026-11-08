@@ -13,3 +13,7 @@ patches:
       - op: replace
         path: /spec/values/web/httpRoute/hostnames/0
         value: flux.local.abbottland.io
+      # Phase 6b: the flux UI/MCP routes moved to gen3 (standalone route there).
+      - op: replace
+        path: /spec/values/web/httpRoute/enabled
+        value: false

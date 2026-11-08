@@ -18,9 +18,6 @@ patches:
       # flux-operator is Ansible-installed on gen3 (no HelmRelease): drop that dependency.
       - op: remove
         path: /spec/dependsOn/0
-      # STAGING ONLY: drops the postRenderer that adds pihole-dns-enabled. The flip commit deletes this op.
-      - op: remove
-        path: /spec/postRenderers
   - target:
       kind: HTTPRoute
       name: flux-web-http-to-https
