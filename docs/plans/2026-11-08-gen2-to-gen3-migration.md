@@ -34,7 +34,7 @@ Commit per-repo inside `home-kubernetes` only (never the outer repo).
 - [x] (Appendix A) Inventory sheet in the doc: per workload → namespace, storage (Longhorn/NFS/none), external deps (Postgres/Redis DB index), public vs LAN, secrets.
 - [x] Longhorn backup-store safety copy: 2026-11-08 copied via NAS web UI to `/volume1/Backups/longhorn-prod.pre-gen3-copy` and `longhorn-nonprod.pre-gen3-copy` (user-reported; file counts verified 2026-11-08 over SSH (`ror`): nonprod identical, prod copy 47,999 vs live 46,853 files). Phase 3 gate item 1 satisfied.
 
-### Phase 1 — CRDs (session 1) ← this session
+### Phase 1 — CRDs (session 1) — DONE
 - [x] `crds/prod-gen3/kustomization.yaml` + `clusters/prod-gen3/00-crds-ks.yaml`; wire into cluster kustomization.
 - [x] flux-operator CRDs already exist on gen3 (installed by operator, 4 `fluxcd.controlplane.io` CRDs). Same situation as gen2 (Ansible-installed operator), where `crds-ks` adopts them; kept in overlay. If `crds-ks` reports an apply conflict, drop `../base/flux-operator` from the gen3 overlay.
 - [x] `kustomize build` passes for `crds/prod-gen3` and `clusters/prod-gen3`; [x] (2026-11-08: home-kubernetes has NO `.pre-commit-config.yaml`; `pre-commit run` errors with InvalidConfigError, so nothing to run. Verified with `kubectl kustomize` instead) pre-commit; [x] merge; [x] (2026-11-08: crds-ks Ready at main@8d9226c1, 66 CRDs) `crds-ks` Ready on gen3; CRDs present.
@@ -122,12 +122,12 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - Longhorn only gets a disk on nodes labeled `node.longhorn.io/create-default-disk=true` (manual; controllers are untainted and have no `/mnt/ssd`). Documented in `docs/ai-reference-gen3-manual-steps.md`.
 
 - Longhorn installed 2026-11-08 (same session, user-approved): test PVC (1Gi, 2 replicas on worker-1/-3) wrote data, snapshot + backup Completed in `longhorn-prod-gen3`, then deleted (BackupVolume CR removed by hand; store back to 0 files). Chart gotchas: backup target lives under `defaultBackupStore`, not `defaultSettings`; StorageClass replicas come from `persistence.defaultClassReplicaCount` (default 3), not the default setting. Longhorn `Backup` CR needs the `backup-volume` label when created by hand.
-- Remaining in Phase 3b: per-app data move procedure doc (future session). Temporary BackupTarget `rehearsal-copy` (safety copy) intentionally left in place, idle.
+- Per-app data move procedure: done later the same day (see Data move learnings). Temporary BackupTarget `rehearsal-copy` (safety copy) intentionally left in place, idle.
 
 - Restore recipe (works in Longhorn 1.9.2, no UI needed): (1) `BackupTarget` CR in `longhorn-system` with `backupTargetURL` of the store and `pollInterval: 0s`, patch `spec.syncRequestedAt` to force a sync; BackupVolumes then appear with `KubernetesStatus` labels (ns/pvc names). (2) `Volume` CR: `size` (bytes, string), `numberOfReplicas: 2`, `frontend: blockdev`, `fromBackup: nfs://<server>:<path>?backup=<backup-name>&volume=<original pvc-... volume name>`; wait for `status.restoreRequired=false`. (3) static PV: `csi.driver: driver.longhorn.io`, `volumeHandle: <Volume name>`, `fsType: ext4`, `storageClassName: longhorn-static`, `claimRef` to the target PVC; PVC with `volumeName` set. This is also the per-app data move procedure (restore from the LIVE gen2 store only via a fresh final backup, using a read-only-in-practice temporary target; never add recurring jobs to it).
 - Deleting a `BackupTarget` CR may delete backups in the remote store (unverified); do not delete one that points at a store you want to keep.
 
-### Phase 3b plan — Longhorn (DONE 2026-11-08 except the per-app move procedure)
+### Phase 3b plan — Longhorn (DONE 2026-11-08, incl. per-app move procedure; see `docs/ai-reference-gen3-data-move.md`)
 1. ~~User: create `/volume1/Backups/longhorn-prod-gen3` on the NAS~~ done 2026-11-08 (verified empty over SSH).
 2. `infra/prod-gen3/longhorn`: base dir `../../base/longhorn`, `$patch: delete` the base HTTPRoute (no istio yet), `backupTarget: nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3` from day one (gen2's value lives only in its overlay, so never inherit it), `defaultReplicaCount: 2`, `defaultDataPath: /mnt/ssd`, amd64 nodeSelector, NO RecurringJob yet.
 3. Check whether `cifs-secret` is needed with `nfs://`; if so user creates/copies the 1Password item (dev-shell token is read-only).
@@ -225,3 +225,4 @@ LH = Longhorn (gen2 reclaim `Delete`, 3 replicas on gen2, 2 on gen3). Restore = 
 - Leftovers by design: gen3 target `live-restore` (idle, same as `rehearsal-copy`), gen2 Snapshot `data-move-final-1711` + Backup `data-move-final-prowlarr` (test backup of prowlarr-config; deleting the Backup CR would delete it from the store, so removal is the user's call). `live-restore` also mirrored the live store's Backup CRs onto gen3.
 - A manual gen2 backup = Snapshot CR (`spec.volume`, `createSnapshot: true`) then Backup CR with labels `backup-volume=<pvc-…>`, `backup-target=default` and `spec.snapshotName`; the backup name you choose becomes the name in the store URL (`backup=<name>`).
 - zsh: pass script args as an array (`A=(...); cmd "${A[@]}"`); an unquoted `$A` is not word-split.
+- Loose ends and untested parts (chart-created PVCs, Harbor rsync, app start-up on restored data, sync-before-restore, retention of manual backups) are listed in `docs/ai-reference-gen3-data-move.md` under "Known gaps / loose ends". Read it first if data looks wrong during Phase 7.
