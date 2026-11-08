@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Phase 7 media move. STAGED: HTTPRoutes keep their real hostnames but the pihole-dns-enabled
+# label and the .28 target annotation are removed, so gen3 external-dns creates no records.
+# The flip merge deletes the two patches below (and gen2 deletes its routes).
+# The 5 *-config PVCs are pre-created from Longhorn backups (scripts/longhorn-restore.sh).
+resources:
+  - ../../base/media
+
+patches:
+  - target:
+      kind: HTTPRoute
+      labelSelector: pihole-dns-enabled=true
+    patch: |-
+      - op: remove
+        path: /metadata/labels/pihole-dns-enabled
+  - target:
+      kind: HTTPRoute
+      annotationSelector: external-dns.alpha.kubernetes.io/target
+    patch: |-
+      - op: remove
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
