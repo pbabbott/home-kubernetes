@@ -41,11 +41,11 @@ Commit per-repo inside `home-kubernetes` only (never the outer repo).
 - [x] Record learnings in doc (above).
 
 ### Phase 2 — Foundation infra (session 2) — `infra/prod-gen3/` + `clusters/prod-gen3/01-infra-ks.yaml` (dependsOn crds-ks); apps-ks gets `dependsOn: infra-ks`
-- [ ] Create `infra/prod-gen3/kustomization.yaml` + `01-infra-ks.yaml` (dependsOn crds-ks), apps-ks dependsOn infra-ks. Merge A = priorityclass, sealed-secrets, metrics-server. Merge B = onepassword + cert-manager (needs the sealed `op-credentials`, which needs the gen3 controller from merge A first, hence two merges).
-- [ ] sealed-secrets: new controller key on gen3 → back up key to 1Password; re-seal anything gen3 needs.
+- [x] (merge A done 2026-11-08, fb21950a; merge B on branch `gen3-phase2-onepassword-certmanager`) Create `infra/prod-gen3/kustomization.yaml` + `01-infra-ks.yaml` (dependsOn crds-ks), apps-ks dependsOn infra-ks. Merge A = priorityclass, sealed-secrets, metrics-server. Merge B = onepassword + cert-manager (needs the sealed `op-credentials`, which needs the gen3 controller from merge A first, hence two merges).
+- [x] (2026-11-08: controller Running; key saved by user in 1Password as a Secure Note, `sealed-secrets-key-prod-gen3`) sealed-secrets: new controller key on gen3 → back up key to 1Password; re-seal anything gen3 needs.
 - [ ] onepassword (Connect + operator): re-seal `op-credentials` for gen3; verify a `OnePasswordItem` syncs.
 - [ ] cert-manager with **staging** issuer first; DNS-01 via Cloudflare token (OnePasswordItem); issue a test cert.
-- [ ] metrics-server from Flux (k3s one disabled) → `kubectl top nodes` works.
+- [x] (2026-11-08: `kubectl top nodes` shows all 6) metrics-server from Flux (k3s one disabled) → `kubectl top nodes` works.
 
 ### Phase 3 — Storage (session 3 = nas-storage, session 4 = Longhorn)
 - [ ] **nas-storage** (NFS provisioner → `192.168.4.124:/volume1/ClusterStorage`): deploy; test PVC bound; confirm gen3 pod CIDR/nodes (192.168.6.x) allowed by NAS NFS export rules.
@@ -103,6 +103,13 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - [ ] Retire `.28` HAProxy LXC and Terraform (`home-playbooks/terraform/chimaera`), update `docs/HOSTS.md`, `NETWORK.md`, dns-expert agent.
 - [ ] Optional: non-prod-gen2 handling (powered off), off-host etcd snapshot to NAS, dumbledore joining as controller (etcd quorum off hogwarts), Longhorn replicas rebalance.
 - [ ] Delete `*-gen2` overlays / update CLAUDE.md and READMEs.
+
+### Phase 2 learnings (2026-11-08)
+- Two merges were needed: `op-credentials` can only be sealed once the gen3 sealed-secrets controller runs (merge A). For future rebuilds, restore the backed-up controller key *before* Flux installs the controller and no re-seal is needed.
+- The Connect token in the dev shell (`OP_CONNECT_*`) is read-only: `op item create/list` fail in Connect mode and the REST API returns 403 on create. Writing to 1Password needs a real `op signin` or the UI.
+- `1password-credentials-prod.json` / `.env` are not on disk, and no "Prod Gen2 Credentials File" item exists in the vault. `gen3` `op-credentials` was instead re-sealed straight from the live gen2 secret (`kubectl --context prod-gen2 ... | kubeseal --context prod-gen3 --scope namespace-wide --namespace op-connect`), so gen2 and gen3 share one Connect server identity (own Connect server per cluster is the alternative).
+- `kubectl kustomize` forbids resource *files* outside the overlay dir; reference the base *directory* and use `$patch: delete` to drop pieces (op-connect HTTPRoute, `cloudflare-ddns`, `letsencrypt-prod`).
+- home-kubernetes has no `.pre-commit-config.yaml`; gen2 context is added with `scripts/get-kubeconfig.sh prod-gen2`.
 
 ---
 

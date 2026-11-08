@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
   - ../base/priorityclass
   - ../base/sealed-secrets
+  - ./onepassword
+  - ./cert-manager
   - ../base/metrics-server
