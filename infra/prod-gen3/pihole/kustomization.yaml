@@ -1,9 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Namespace + Service/EndpointSlice proxy to Pi-hole (bananapi) that external-dns needs, plus the
-# HTTPRoutes for pihole.local.abbottland.io.
-# STAGING (Phase 6c): routes are unlabelled (no DNS record) until gen2's routes are removed in the flip merge.
+# Namespace + Service/EndpointSlice proxy to Pi-hole (bananapi) plus the HTTPRoutes for
+# pihole.local.abbottland.io (labelled: gen3 owns the record, target from the Gateway annotation).
 resources:
   - ../../base/pihole
 
@@ -16,8 +15,6 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: pihole.local.abbottland.io
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
       - op: remove
         path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   - target:
