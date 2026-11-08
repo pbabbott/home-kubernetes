@@ -1,5 +1,7 @@
 # Reference - 1Password - Integration Overview
 
+> **Gen3:** see [ai-reference-secrets.md](./ai-reference-secrets.md). The setup steps and 1Password item names below are gen2-era and partly out of date.
+
 The purpose of this document is to explain how 1Password is setup within this repository.
 
 ## Overview

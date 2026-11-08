@@ -1,5 +1,7 @@
 # Reference - Secret Management Strategy
 
+> **Gen3:** see [ai-reference-secrets.md](./ai-reference-secrets.md) for the current, gen3-focused summary. This doc is gen2-era background.
+
 The purpose of this document is to explain how SealedSecrets are used within this repository.
 
 ## Strategic Overview
