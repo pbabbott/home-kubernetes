@@ -39,9 +39,11 @@ git ──► SealedSecret `op-credentials` ──(sealed-secrets controller, ku
 
 ## Current gen3 state / caveats
 - Gen3's `op-credentials` was **copied from gen2's live secret** and re-sealed for gen3's key, so gen3 uses the same Connect credentials/token as gen2 (each cluster runs its own Connect pod). **When decommissioning gen2, do not revoke that Connect server/token in 1Password**; gen3 depends on it. If a separate gen3 identity is wanted later, create a new Secrets Automation workflow and re-seal.
-- Re-seal / rotate `op-credentials` on gen3 (context `prod-gen3`, controller must be running): get the credentials JSON + token for the Connect server, then run
-  `OP_CONNECT_CREDENTIALS_FILE=./1password-credentials-prod.json OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/prod-gen3/onepassword/op-credentials.yaml scripts/op-connect-secret.sh`
-  (token from `.env`: `OP_CONNECT_TOKEN_PROD`). Neither file is kept on disk, and the 1Password item names in `reference-1password-integration-overview.md` don't match the vault (only "Kubernetes Production Credentials File" exists; unverified which server it belongs to). The alternative used on 2026-11-08: pipe the existing Secret from another cluster into `kubeseal --context prod-gen3 --scope namespace-wide --namespace op-connect`. Delete credential files afterwards; never print values.
+- Re-seal / rotate `op-credentials` on gen3 (context `prod-gen3`, controller must be running):
+  1. Download `1password-credentials.json` from the Homelab vault Document **"Kubernetes Production Credentials File"** (created when gen2 was set up; this is the Connect server both gen2 and gen3 use, despite the "Prod Gen2" names in older docs) and save it as `./1password-credentials-prod.json`. The matching token goes in `.env` as `OP_CONNECT_TOKEN_PROD`.
+  2. Run `OP_CONNECT_CREDENTIALS_FILE=./1password-credentials-prod.json OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/prod-gen3/onepassword/op-credentials.yaml scripts/op-connect-secret.sh`, commit, merge.
+  3. Delete the credentials file and `./temp` afterwards; never print values.
+  (On 2026-11-08 neither file was on disk, so the secret was instead piped from gen2's live Secret into `kubeseal --context prod-gen3 --scope namespace-wide --namespace op-connect`.)
 - **Claude/dev-shell access:** `OP_CONNECT_HOST`/`OP_CONNECT_TOKEN` are set and **read-only**. `op item get <title> --vault Homelab --format json` works; `op item list/create`, `op whoami`, and REST creates (403) do not. Writing to 1Password needs the UI or a real `op signin`.
 - Never commit plaintext Secrets or credential files (`1password-credentials*.json`, `.env`, `temp/` are gitignored).
 
