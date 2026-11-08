@@ -7,11 +7,19 @@ kind: Kustomization
 # drops their rule groups; scraping k3s's single-process control plane needs k3s playbook changes.
 resources:
   - ../../base/kube-prometheus-stack
+  - grafana-admin-onepassword.yaml
   - node-exporter-physical-scrapeconfig.yaml
   - windows-exporter-physical-scrapeconfig.yaml
 
 patches:
   - path: kube-prometheus-stack-helm-release-patch.yaml
+  # Admin credentials come from the 1Password item grafana-gen3-admin (fields username/password).
+  - target:
+      kind: HelmRelease
+      name: kube-prometheus-stack
+    patch: |-
+      - op: remove
+        path: /spec/values/grafana/adminPassword
   - target:
       kind: HTTPRoute
       name: prometheus-ui

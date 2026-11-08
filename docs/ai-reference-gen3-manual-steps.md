@@ -24,6 +24,7 @@ Things below live outside Git, so Flux will not recreate them.
 ## Secrets / 1Password (see `ai-reference-secrets.md`)
 - `op-credentials` is the only SealedSecret; sealed with the gen3 controller key (backup: 1Password Secure Note `sealed-secrets-key-prod-gen3`). On rebuild restore the key BEFORE Flux installs the controller.
 - Anything written to 1Password is done by hand in the UI (dev-shell Connect token is read-only).
+- Grafana admin login: Homelab item `grafana-gen3-admin` (created by hand; fields `username`, `password`) -> OnePasswordItem `grafana-admin` in ns `kube-prometheus-stack` -> chart `grafana.admin.existingSecret`. Missing item = Grafana pod stuck on a missing Secret.
 - Longhorn `cifs-secret` OnePasswordItem is the same Homelab item as gen2; it is probably unused for `nfs://` targets.
 
 ## Ingress testing (no DNS yet)
@@ -31,4 +32,4 @@ Phase 4 added istio; no manual cluster step. Gen3 has no DNS records, so test wi
 Rebuild notes: gen3 uses Calico, so istio-cni needs the chart-default CNI paths, and ztunnel needs `IPV6_ENABLED=false` (nodes without IPv6); both are already in `infra/prod-gen3/istio`.
 
 ## Monitoring (kube-prometheus-stack on gen3)
-No manual cluster step. Grafana admin password is the base default (`admin`); it is only reachable on the LAN via `curl --resolve grafana-gen3.local.abbottland.io:443:192.168.6.29`, no DNS record yet. Move it to a OnePasswordItem (item created by hand in the UI) before the DNS phase. k3s control-plane metrics (etcd/scheduler/controller-manager) are intentionally not scraped: k3s runs them in one process and would need `kube-*-arg bind-address` flags in `home-playbooks/playbooks/kubernetes-gen3`.
+No manual cluster step. Grafana admin credentials come from the 1Password item `grafana-gen3-admin` (see above); Grafana and Prometheus routes: Prometheus has a Pi-hole record once the Phase 5 `prometheus-gen3.local` merge is in, Grafana has none (reach it with `curl --resolve grafana-gen3.local.abbottland.io:443:192.168.6.29`). k3s control-plane metrics (etcd/scheduler/controller-manager) are intentionally not scraped: k3s runs them in one process and would need `kube-*-arg bind-address` flags in `home-playbooks/playbooks/kubernetes-gen3`.

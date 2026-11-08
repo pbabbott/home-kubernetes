@@ -7,6 +7,10 @@ metadata:
 spec:
   values:
     grafana:
+      admin:
+        existingSecret: grafana-admin
+        userKey: username
+        passwordKey: password
       affinity: &workersOnly
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
