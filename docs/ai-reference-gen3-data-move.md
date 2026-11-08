@@ -51,3 +51,34 @@ An app runs in ONE cluster at a time (shared NAS Postgres/Redis/NFS).
 
 ## Start-empty volumes
 arc-runners caches (`turbo-cache-storage`, `actions-cache-server-data`, `arc-pnpm-store`), Prometheus, coder workspace home: let the app create them; do not restore.
+
+## Known gaps / loose ends (2026-11-08) — read if data looks wrong in a later phase
+Status legend: TESTED = done in a scratch run; UNTESTED = reasoned only.
+
+### What was never exercised
+- UNTESTED: chart/controller-created PVCs (`data-harbor-trivy-0` from the StatefulSet template, `harbor-jobservice`, actions-cache). Only a Flux-managed PVC (`prowlarr-config`) was tested. Assumption: a StatefulSet/chart adopts an existing PVC with the exact name; verify `kubectl describe pvc`/pod events right after enabling. Note a StatefulSet PVC keeps the label/selector of its template; mismatched `storageClassName`/size in the chart values vs the pre-created PVC will block the pod.
+- UNTESTED: `harbor-registry-nas` rsync (264 GB), its provisioner dir name (`prod-gen3/harbor-harbor-registry-nas`, assumed `<ns>-<pvc>` like gen2), and the static-NFS-PV fallback.
+- UNTESTED: RWX Longhorn volumes (none exist); only RWO restores were done. Media/home-hud NFS PVs were not re-created on gen3.
+- UNTESTED: volumes bigger than 2Gi (largest to restore is 10Gi `openclaw-pvc`); restore of a backup taken from a volume in use by the app (final backups are taken with the app at 0 in a real move; the dry-run backup was taken from a RUNNING prowlarr, so it is crash-consistent only).
+- UNTESTED: whether the restored app actually STARTS and is happy with the data (file ownership/permissions, config DB version, app-level schema). The dry-run only listed files with a busybox pod running as root. If an app can't write its config dir, check `fsGroup`/`runAsUser` in the deployment and `ls -ln` of the mount.
+
+### Traps that can look like "missing/old data"
+- gen3 only learns about new gen2 backups on a BackupTarget **sync** (`pollInterval: 0s`). After the final gen2 backup, patch `spec.syncRequestedAt` on the target (`live-restore`) and confirm the Backup CR exists and is `Completed` BEFORE running the script. The script fails if the CR is missing, but a stale-but-present older backup will happily restore: check `--backup` is the final one (compare `status.snapshotCreatedAt` to the scale-to-0 time).
+- Retention: gen2 `daily-backups` keeps 7. A manual backup with a custom name (like `data-move-final-prowlarr`) was not observed being pruned, but that is UNVERIFIED. Record the final backup name and restore soon; do not rely on it existing in a week.
+- Backups of the same volume keep running on gen2 at 03:00 UTC while the app is at 0 (detached volume), producing unchanged-data backups. Harmless, but "latest backup" may then be a recurring one, not your final one; both contain the same data if the app was at 0 before the final backup.
+- Stale backups to ignore: `coder-workspaces` home (last 2026-07-23) and the old Longhorn `arc-pnpm-store` BackupVolume (last 2026-07-25). Neither volume is restored (start empty).
+- A restored `Volume` has a different name from the gen2 PV (`restored-<ns>-<pvc>`); the original `pvc-<uuid>` is only used in the `volume=` part of `fromBackup`. Searching for the gen2 name on gen3 finds nothing.
+- PV is `Retain`: deleting the gen3 PVC leaves PV `Released` with a stale claimRef uid; it cannot rebind. Use `longhorn-restore.sh --cleanup --apply` (labels), then restore again; do not delete the Volume CR by hand unless you mean it.
+- gen2 volumes are reclaim `Delete`: once the gen2 PVC is deleted the live volume is gone. Until then gen2 is the rollback.
+- Flux and the pre-created PVC: if Flux's apply fails with "spec is immutable", `kustomize-controller` has probably taken ownership of `volumeName` (PVC was created by plain `kubectl apply`/Helm). Fix: delete the PVC (and PV claimRef) and recreate with the script (own field manager). Mismatch in `storageClassName`, `accessModes` or a smaller size is also rejected.
+- Scratch/test remnants: none left on gen3. Intentional leftovers: gen3 BackupTargets `rehearsal-copy` and `live-restore` (idle), gen2 Snapshot `data-move-final-1711` and Backup `data-move-final-prowlarr`. Deleting a Backup/BackupTarget CR may delete remote data (unverified), so do not clean up leftovers casually.
+
+### Shared-state hazards (not Longhorn) when apps come online
+- NAS Postgres/Redis/NFS are shared by gen2 and gen3. If an app's data looks odd, first confirm the gen2 copy is really at 0 (`kubectl --context prod-gen2 get pods -A | grep <app>`) and its Flux object is suspended/removed, or gen2 will keep writing.
+- Harbor: registry blobs (NAS dir) must match the Postgres metadata. Copying the dir while gen2 Harbor ran can leave dangling blobs or missing layers; redo the rsync at scale-0 and run Harbor garbage collection only after verifying pushes/pulls.
+- Media: `media-pv` and `home-hud-media-pv` both point at `/volume1/Media`; two apps on two clusters writing the same tree is the main way to corrupt media state.
+- Sonarr/radarr/qbit configs restored from the final backup embed gen2-era paths/URLs/API keys. Prowlarr→sonarr/radarr links and the qbit download client use in-cluster service names; they should be unchanged but confirm after start. gluetun needs working VPN from the gen3 node network (not tested).
+
+### Evidence to compare against (live store, 2026-11-08 17:16 UTC)
+`longhorn-prod` 46,872 files / 43,552 dirs (after the one test backup; before 46,853 / 43,531), `longhorn-prod.pre-gen3-copy` 47,999 / 44,425, `longhorn-prod-gen3` 0 files. prowlarr-config restore = 692 files, 90.1M. Counts will legitimately grow after gen2's daily 03:00 UTC job.
+
