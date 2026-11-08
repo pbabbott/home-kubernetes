@@ -25,6 +25,7 @@ Things below live outside Git, so Flux will not recreate them.
 - `op-credentials` is the only SealedSecret; sealed with the gen3 controller key (backup: 1Password Secure Note `sealed-secrets-key-prod-gen3`). On rebuild restore the key BEFORE Flux installs the controller.
 - Anything written to 1Password is done by hand in the UI (dev-shell Connect token is read-only).
 - Grafana admin login: Homelab item `grafana-gen3-admin` (created by hand; fields `username`, `password`) -> OnePasswordItem `grafana-admin` in ns `kube-prometheus-stack` -> chart `grafana.admin.existingSecret`. Missing item = Grafana pod stuck on a missing Secret.
+- mcp-grafana token: Homelab item `mcp-grafana-gen3` with ONE concealed field `GRAFANA_SERVICE_ACCOUNT_TOKEN` (created by hand) -> OnePasswordItem `mcp-grafana-secrets` in ns `mcp-grafana` (gen3 overlay patches itemPath). Token = Viewer service account `mcp-grafana` in gen3 Grafana (token `mcp-grafana-gen3`, no expiry). A rebuilt gen3 Grafana loses the account: recreate it and update the item.
 - Longhorn `cifs-secret` OnePasswordItem is the same Homelab item as gen2; it is probably unused for `nfs://` targets.
 
 ## Ingress testing (no DNS yet)
