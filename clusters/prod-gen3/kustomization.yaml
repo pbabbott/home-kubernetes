@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
   - flux-system
+  - 00-crds-ks.yaml
   - 02-apps-ks.yaml
