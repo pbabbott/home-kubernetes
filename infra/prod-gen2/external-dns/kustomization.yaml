@@ -22,6 +22,10 @@ patches:
       - op: add
         path: /spec/values/txtOwnerId
         value: prod-gen2-pihole
+      # upsert-only: gen3's pihole external-dns shares the domain; sync + noop registry would delete its records.
+      - op: replace
+        path: /spec/values/policy
+        value: upsert-only
       - op: replace
         path: /spec/values/domainFilters
         value: ["local.abbottland.io"]
