@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 6b staging: same hostname as gen2 but NO pihole-dns-enabled label, so gen3 external-dns writes no record.
-# Flip = delete the HTTPRoute label/annotation removal patch below AND remove ./mcp-grafana from applications/prod-gen2 (one merge).
+# Flipped from gen2 in Phase 6b: base route keeps pihole-dns-enabled, so gen3 external-dns owns
+# mcp-grafana.local -> .29 (target comes from the Gateway annotation).
 # Gen3 has its own Homelab item (token from gen3 Grafana).
 resources:
   - ../../base/mcp-grafana
@@ -16,12 +16,3 @@ patches:
       - op: replace
         path: /spec/itemPath
         value: vaults/Homelab/items/mcp-grafana-gen3
-  - target:
-      kind: HTTPRoute
-      name: mcp-grafana
-      namespace: mcp-grafana
-    patch: |-
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
