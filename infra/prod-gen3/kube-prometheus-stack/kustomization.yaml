@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Gen3 monitoring: fresh Prometheus (no restore). Routes have no DNS labels/annotations until
-# Phase 5; test with curl --resolve <host>:443:192.168.6.29.
+# Gen3 monitoring: fresh Prometheus (no restore). Prometheus has a Pi-hole record (Phase 5); Grafana has none,
+# test it with curl --resolve <host>:443:192.168.6.29.
 # Control-plane scrapes (etcd/scheduler/controller-manager/proxy) stay disabled in base, which also
 # drops their rule groups; scraping k3s's single-process control plane needs k3s playbook changes.
 resources:
@@ -28,8 +28,7 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: prometheus-gen3.local.abbottland.io
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
+      # pihole-dns-enabled label kept: Phase 5 record prometheus-gen3.local -> 192.168.6.29 (Gateway annotation).
       - op: remove
         path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   - target:
