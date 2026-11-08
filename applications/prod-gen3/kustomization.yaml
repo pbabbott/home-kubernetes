@@ -8,3 +8,4 @@ resources:
   - ./haproxy
   - ./plex
   - ./mcp-grafana
+  - ./dashy
