@@ -7,3 +7,4 @@ resources:
   - ./asustor
   - ./haproxy
   - ./plex
+  - ./mcp-grafana
