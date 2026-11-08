@@ -58,3 +58,4 @@ Docs prefixed `ai-reference-` in `docs/` are written for AI assistant use — st
 - `docs/ai-reference-pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access
 - `docs/ai-reference-external-dns-pihole.md` — external-dns pihole config; why `registry: noop` is required; gateway annotation controls target (not HTTPRoute annotations); troubleshooting commands
 - `docs/ai-reference-httproute-dns.md` — how HTTPRoutes wire to DNS; Cloudflare (public `*.non-prod.abbottland.io`) vs Pihole (local `*.local.non-prod.abbottland.io`); correct labels, annotations, and gateway sectionName per provider
+- `docs/ai-reference-gen3-data-move.md` — **read before moving an app's data gen2 → gen3**: Longhorn restore via `scripts/longhorn-restore.sh`, PVC binding rules, live-store safety, per-step rollback

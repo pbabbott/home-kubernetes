@@ -58,8 +58,8 @@ Commit per-repo inside `home-kubernetes` only (never the outer repo).
 - [x] (2026-11-08: done up front, gen3 never pointed at longhorn-prod; test volume+backup+delete wrote only to longhorn-prod-gen3, live longhorn-prod still 46,853 files; cifs-secret OnePasswordItem comes from base (same Homelab item)) **Before any gen3 backup is written**, switch gen3 `backupTarget` to a NEW path `nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3` (create dir on NAS) so gen3 never writes into gen2's store. Re-do the `cifs-secret` OnePasswordItem on gen3.
 - [x] (2026-11-08, main@aedcad8: RecurringJob `daily-backups` on gen3, group `default`, cron `0 2 * * *` UTC = 02:00 (gen2 is 03:00), retain 7, concurrency 1; replicas 2. The gen2 Prometheus opt-out label is not needed until Prometheus is restored on gen3 (Phase 4, fresh start)) Port gen2 prod Longhorn overlay (`daily-backups` RecurringJob group `default`, 03:00, retain 7; Prometheus PVC opts out via label). Gen2 sets no `defaultReplicaCount` (chart default 3) — gen3 has exactly 3 workers, so 3 replicas = every volume on every worker; decide on 2.
 - [x] (2026-11-08: replica count 2 set in default setting + StorageClass; recurring job added at 02:00) Set recurring backup job + replica count to suit 3 workers (2 on hogwarts NVMe, 1 on chimaera); document that 2 of 3 replicas share host hogwarts.
-- [ ] Per-app data move procedure (documented in doc): scale app to 0 on gen2 → final Longhorn backup → restore on gen3 → create PVC bound to restored volume → enable app in gen3 overlay → verify → delete from gen2.
-- [ ] Decision note: apps whose Longhorn data is disposable (turbo-cache, arc caches, Prometheus) → start empty instead of restoring.
+- [x] (2026-11-08, branch phase3-data-move: runbook + rollback per step in `docs/ai-reference-gen3-data-move.md`, helper `scripts/longhorn-restore.sh` (dry-run default, refuses live store without `--allow-live-store`), volume table in Appendix B; dry-run of `media/prowlarr-config` from the safety copy into scratch ns passed (692 files, PVC bound, Flux SSA over it OK), scratch cleaned. NOT yet exercised: restore from the LIVE store (needs approved gen2 backup + temp target, see runbook)) Per-app data move procedure: scale app to 0 on gen2 → final Longhorn backup → restore on gen3 → create PVC bound to restored volume → enable app in gen3 overlay → verify → delete from gen2.
+- [x] (Appendix B) Decision note: start EMPTY for arc-runners caches (turbo-cache-storage, actions-cache-server-data, arc-pnpm-store), Prometheus, coder workspace home. RESTORE: openclaw, media configs, harbor trivy + jobservice.
 
 ### Phase 4 — Ingress + observability (sessions 5–6)
 - [ ] **istio** (`infra/prod-gen3/istio` copying gen2 patches; ambient profile 1.30.*, chain istiod → istio-cni → ztunnel → istio-ingress DaemonSet NodePort 30080/30443, `externalTrafficPolicy: Local`, PROXY protocol): istio-cni with **k3s paths**; both Gateways (`istio-ingress`, `istio-ingress-public` incl. apex listener); `internal-apps-ip-allowlist` AuthorizationPolicy (check it admits `.29`/HAProxy source and gen3 pod CIDR — gen2 allowlist has 10.244/16; gen3 Calico pod CIDR is also 10.244.0.0/16 (service CIDR 10.43/16), so it should carry over - verify); Gateway annotation `cert-manager.io/cluster-issuer: letsencrypt-staging` and external-dns target → `192.168.6.29` via overlay patch.
@@ -82,10 +82,10 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - [ ] Note: `home-assistant` is a proxy to `192.168.4.24` but public (`homeassistant.abbottland.io`, Cloudflare) → belongs to the public cutover (Phase 8), not here.
 
 ### Phase 7 — Wave 2 apps: stateful (sessions 10–13, one logical group per session)
-- [ ] **media** stack (sonarr, radarr, prowlarr, qbittorrent, gluetun): config PVCs Longhorn restore; media NFS PV (`manual`, RWX); NAS Postgres shared — gen2 scaled to 0 first. Verify VPN (gluetun) works from gen3 node network.
-- [ ] **home-hud** (backup/media NFS PVs, NAS Postgres), **coder** (NAS Postgres), **openclaw** (Longhorn PVC restore).
-- [ ] **harbor** + **harbor-cleanup** (registry on NFS PVC `nas-storage`, DB/Redis on NAS indexes 3,4,5,6,11,12 — only one cluster at a time; in-cluster Longhorn piece per helmrelease l.61/63). Check CI/ARC and other clusters pull from Harbor during outage; regcred secret.
-- [ ] **arc** runners + cache server (needs Harbor, 1Password GH PAT; Longhorn/NFS caches start empty); check memory limits on 16GB workers.
+- [ ] **media** stack (sonarr, radarr, prowlarr, qbittorrent, gluetun): 5 config PVCs restore via `longhorn-restore.sh` (sonarr/radarr/qbit 5Gi, prowlarr 2Gi, gluetun 1Gi; pre-create PVC before enabling app); `media-pv`/`media-pvc` (`manual`, RWX 10Ti, `/volume1/Media`) re-created from base manifests, no data move; NAS Postgres shared — gen2 scaled to 0 first. Verify VPN (gluetun) works from gen3 node network. Runbook: `docs/ai-reference-gen3-data-move.md`.
+- [ ] **home-hud** (backup/media NFS PVs `/volume1/Dump` + `/volume1/Media` re-created from base manifests, no data move; NAS Postgres), **coder** (NAS Postgres; workspace home volume starts empty), **openclaw** (restore `openclaw-pvc` 10Gi via script).
+- [ ] **harbor** + **harbor-cleanup** (registry on NFS PVC `nas-storage`, DB/Redis on NAS indexes 3,4,5,6,11,12 — only one cluster at a time; in-cluster Longhorn piece per helmrelease l.61/63). Data: restore `data-harbor-trivy-0` (5Gi) and `harbor-jobservice` (1Gi) with pre-created PVCs; registry dir (264 GB, 50Gi PVC) is rsynced on the NAS from `ClusterStorage/prod-gen2/harbor-harbor-registry-nas` into the gen3 provisioner dir with Harbor at 0 on gen2 (never a static PV at the gen2 path, see Appendix B). Check CI/ARC and other clusters pull from Harbor during outage; regcred secret.
+- [ ] **arc** runners + cache server (needs Harbor, 1Password GH PAT; turbo-cache, actions-cache-server and arc-pnpm-store (nas-storage, not Longhorn) all start empty, no restore); check memory limits on 16GB workers.
 - [ ] **plex** (hardware transcode? check GPU/devices; media NFS) — likely stays last/maybe needs `nodeSelector`.
 - [ ] **public apps** (staged on gen3, not yet DNS-live): blog (apex `https-public-apex` listener), fui-components, diagram-maker, umami (+NAS Postgres; analytics host also LAN), home-assistant proxy, podinfo public host — all need regcred from Harbor and image-automation on gen2 only until Phase 9.
 
@@ -184,3 +184,41 @@ Storage: LH = Longhorn PVC, NFS = NAS PV/`nas-storage`, ext = NAS Postgres/Redis
 | Infra: cloudflare-ddns | none | pub | P8 (prod only) |
 
 Secrets: 1Password Connect (`OnePasswordItem`, vault Homelab) everywhere; only `op-credentials` is a SealedSecret (per-cluster key, re-seal for gen3).
+
+---
+
+## Appendix B — Volume inventory (prod-gen2, verified 2026-11-08 via kubectl)
+
+LH = Longhorn (gen2 reclaim `Delete`, 3 replicas on gen2, 2 on gen3). Restore = `scripts/longhorn-restore.sh`; full steps in `docs/ai-reference-gen3-data-move.md`.
+
+| gen2 ns/PVC | App | Class, mode, size | gen3 decision | Method |
+|---|---|---|---|---|
+| arc-runners/turbo-cache-storage | arc turbo cache | LH RWO 20Gi | EMPTY | app manifest provisions fresh |
+| arc-runners/actions-cache-server-data | arc | LH RWO 30Gi | EMPTY | HelmRelease provisions fresh |
+| arc-runners/arc-pnpm-store | arc | nas-storage RWX 20Gi | EMPTY | fresh PVC (`prod-gen3` dir). Stale Longhorn backup from July is ignored |
+| kube-prometheus-stack/prometheus-…-0 | Prometheus | LH RWO 20Gi | EMPTY | chart template (Phase 4) |
+| coder-workspaces/coder-…-home | coder workspace | LH RWO 20Gi (detached, backup 2026-07-23) | EMPTY | terraform recreates |
+| openclaw/openclaw-pvc | openclaw | LH RWO 10Gi | RESTORE | script; PVC name `openclaw-pvc`, class `longhorn` |
+| media/sonarr-config, radarr-config, qbit-config | media | LH RWO 5Gi each | RESTORE | script |
+| media/prowlarr-config | media | LH RWO 2Gi | RESTORE | script (dry-run subject, done) |
+| media/gluetun-config | media | LH RWO 1Gi | RESTORE | script |
+| harbor/data-harbor-trivy-0 | harbor trivy (StatefulSet) | LH RWO 5Gi | RESTORE | script; pre-create PVC with the exact template name before enabling |
+| harbor/harbor-jobservice | harbor | LH RWO 1Gi | RESTORE | script; pre-create before enabling |
+| harbor/harbor-registry-nas | harbor registry | nas-storage RWX 50Gi (264 GB actually used; NFS has no quota) | COPY DATA | NAS-side rsync, see below |
+| media/media-pvc, home-hud/media-pvc | media, home-hud | `manual` RWX 10Ti, NFS `/volume1/Media`, PV Retain | no data | re-create PV+PVC from base manifests on gen3 (media PV has no claimRef/volumeName, binds by class+size; home-hud uses claimRef + volumeName) |
+| home-hud/backup-pvc | home-hud | `manual` RWX 10Ti, NFS `/volume1/Dump` | no data | same |
+
+**harbor-registry-nas method: rsync on the NAS into the gen3 dir (recommended).**
+- Static PV at the gen2 path rejected: gen2's PVC is reclaim `Delete` with `archiveOnDelete: 'true'`, so the final "delete from gen2" step renames the directory under gen3's feet, and gen3 would write into the only copy (no rollback). It also breaks the one-subdir-per-cluster convention.
+- Procedure: Harbor scaled to 0 on gen2 (Postgres metadata must match blobs), let the gen3 PVC be provisioned (app suspended/at 0) so the provisioner creates `/volume1/ClusterStorage/prod-gen3/harbor-harbor-registry-nas`, then on the NAS: `rsync -a --info=progress2 /volume1/ClusterStorage/prod-gen2/harbor-harbor-registry-nas/ /volume1/ClusterStorage/prod-gen3/harbor-harbor-registry-nas/` (user runs it or approves it). 17 TB free on /volume1; a warm pre-copy while Harbor runs is fine, then a final delta at scale-0. Verify with `rsync -an --stats` (no changes) and matching `du`/file count. Rollback: delete the gen3 dir (by hand), gen2 untouched.
+- Fallback if the dir name differs: static NFS PV at the gen3 path with a claimRef to `harbor/harbor-registry-nas`.
+
+**10Ti `manual` PVs** (media, home-hud): no data move; the same NAS paths are mounted by both clusters, so the only rule is "one cluster at a time" (gen2 scaled to 0 first).
+
+## Data move learnings (2026-11-08)
+- The gen3 `rehearsal-copy` target already mirrors all 12 gen2 BackupVolumes/Backups (92 Backup CRs). The `volume=` part of `fromBackup` is the ORIGINAL gen2 `pvc-<uuid>` name, not the gen3 BackupVolume CR name (which has a different suffix).
+- Dry-run `media/prowlarr-config` (2Gi, backup-3fbc8790785843ae from the copy) into scratch ns `data-move-test`: restore finished in about 30 s, PV/PVC Bound, read-only pod saw 692 files/90.1M (`config.xml` present). NAS check before/after on `longhorn-prod` (46,853 files, 43,531 dirs, newest mtime 1794107070), `.pre-gen3-copy` (47,999 / 44,425) and `longhorn-prod-gen3` (0 files): identical, 0 files modified in the last 30 min. Cleanup via `--cleanup` removed only PVC/PV/Volume; `rehearsal-copy` and all Backup CRs untouched.
+- Binding: pre-bound PV `storageClassName` must equal the app manifest's (`longhorn`), otherwise Flux's apply fails (spec immutable on a bound PVC). Pre-create with its OWN server-side-apply field manager: a PVC created by client-side `kubectl apply` then adopted by `kustomize-controller` makes Flux own `volumeName`, and its next apply (manifest has no `volumeName`) fails with "spec is immutable". With a separate manager, Flux's SSA is idempotent and `volumeName` stays. Larger size accepted (would expand), smaller/other accessModes rejected.
+- BusyBox `find` on the NAS has no `-printf`; use `stat -c '%Y %n'`. NAS TZ is US Central (CST), mtimes there are UTC-6 in `date` output.
+- gen2 LH volumes are all `Delete` reclaim: deleting the gen2 PVC at the end deletes the volume, so keep the final backup and soak before deleting.
+- Open: restore from the LIVE store is designed (runbook) but not exercised; needs approval for a gen2 backup and the `live-restore` BackupTarget, plus before/after NAS checks outside 03:00-03:10 UTC.
