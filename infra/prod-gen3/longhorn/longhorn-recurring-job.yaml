@@ -1,0 +1,13 @@
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: daily-backups
+  namespace: longhorn-system
+spec:
+  # 02:00 (Longhorn cron runs in the manager's timezone, UTC here; gen2 uses 03:00).
+  cron: "0 2 * * *"
+  task: backup
+  groups:
+    - default
+  retain: 7
+  concurrency: 1

@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - ../../base/longhorn
+  - longhorn-recurring-job.yaml
 
 patches:
   # No istio on gen3 yet (Phase 4); the UI route comes back with it.
