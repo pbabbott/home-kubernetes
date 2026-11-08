@@ -25,3 +25,7 @@ Things below live outside Git, so Flux will not recreate them.
 - `op-credentials` is the only SealedSecret; sealed with the gen3 controller key (backup: 1Password Secure Note `sealed-secrets-key-prod-gen3`). On rebuild restore the key BEFORE Flux installs the controller.
 - Anything written to 1Password is done by hand in the UI (dev-shell Connect token is read-only).
 - Longhorn `cifs-secret` OnePasswordItem is the same Homelab item as gen2; it is probably unused for `nfs://` targets.
+
+## Ingress testing (no DNS yet)
+Phase 4 added istio; no manual cluster step. Gen3 has no DNS records, so test with `curl --resolve <host>:443:192.168.6.29 https://<host>/` (`-k`: staging cert is untrusted). Do not add `pihole-dns-enabled` / `external-dns-enabled` labels to gen3 routes before Phase 5.
+Rebuild notes: gen3 uses Calico, so istio-cni needs the chart-default CNI paths, and ztunnel needs `IPV6_ENABLED=false` (nodes without IPv6); both are already in `infra/prod-gen3/istio`.
