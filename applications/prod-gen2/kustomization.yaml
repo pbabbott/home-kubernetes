@@ -16,7 +16,6 @@ resources:
   - ./plex
   - ./coder
   - ./podinfo
-  - ./proxmox
   - ./umami
   - ./openclaw
   - ./mcp-grafana

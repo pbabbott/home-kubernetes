@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 6a staging: same hostname as gen2 but NO pihole-dns-enabled label, so gen3 external-dns writes no record.
-# Flip = delete the label/annotation removal patch below AND remove ./proxmox from applications/prod-gen2 (one merge).
+# Flipped from gen2 in Phase 6a: base route keeps pihole-dns-enabled, so gen3 external-dns owns proxmox.local -> .29
+# (target comes from the Gateway annotation).
 resources:
   - ../../base/proxmox
 
@@ -15,10 +15,6 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: proxmox.local.abbottland.io
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   - target:
       kind: HTTPRoute
       name: proxmox-http-to-https
