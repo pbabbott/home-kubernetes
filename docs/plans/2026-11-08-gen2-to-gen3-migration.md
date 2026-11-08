@@ -68,6 +68,7 @@ Commit per-repo inside `home-kubernetes` only (never the outer repo).
 - [x] (2026-11-08: decided NO federation/remote scraping; gen3 Prometheus starts fresh, gen2 Prometheus stays until retirement) Decide Prometheus remote scraping of gen2 during overlap (optional): keep gen2 Prometheus until retirement.
 
 ### Phase 5 — DNS prep (session 7) — no user-visible change
+_Prerequisites and open items: see "Loose ends and handoff after Phase 4" below the checklist (incl. Longhorn UI route, Grafana password, upsert-only before gen3 external-dns)._
 - [ ] gen2 PR: Pi-hole external-dns `policy: sync` → `upsert-only` (both pihole + verify cloudflare instance policy); confirm gen2 records unaffected.
 - [ ] Deploy **pihole external-dns on gen3** with `upsert-only`, `registry: noop`, label `pihole-dns-enabled`, Pi-hole creds from 1Password. Initially no labelled routes on gen3 other than a test host (e.g. `podinfo-gen3.local.abbottland.io`).
 - [ ] Deploy **Cloudflare external-dns on gen3** but with `--dry-run`/no `external-dns-enabled` routes (or zero replicas) until public cutover.
@@ -103,6 +104,33 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - [ ] Retire `.28` HAProxy LXC and Terraform (`home-playbooks/terraform/chimaera`), update `docs/HOSTS.md`, `NETWORK.md`, dns-expert agent.
 - [ ] Optional: non-prod-gen2 handling (powered off), off-host etcd snapshot to NAS, dumbledore joining as controller (etcd quorum off hogwarts), Longhorn replicas rebalance.
 - [ ] Delete `*-gen2` overlays / update CLAUDE.md and READMEs.
+
+### Loose ends and handoff after Phase 4 (2026-11-08) — READ FIRST in the next session
+State: gen3 = 6 nodes Ready, 14 HelmReleases + crds/infra/apps-ks Ready, main@1f61de4. Running: Flux, sealed-secrets, 1Password Connect+operator, cert-manager (staging issuer only), metrics-server, nas-storage, Longhorn, istio ambient (istiod, cni, ztunnel, ingress DaemonSet 6/6), 2 Gateways + 3 staging certs, kube-prometheus-stack (fresh), podinfo. No DNS exists for gen3; test with `curl --resolve <host>:443:192.168.6.29`. Test hostnames: `podinfo-gen3.local.abbottland.io`, `podinfo-gen3.abbottland.io`, `grafana-gen3.local.abbottland.io`, `prometheus-gen3.local.abbottland.io` (none carry DNS labels).
+
+**Open items, by when they bite**
+- Phase 5 (DNS):
+  - Gen2 Pi-hole external-dns is `policy: sync` + `registry: noop`; switch to `upsert-only` BEFORE gen3's runs, or the two delete each other's records.
+  - Longhorn UI HTTPRoute is deleted in `infra/prod-gen3/longhorn/kustomization.yaml` (needs a record, and `longhorn.local.abbottland.io` collides with gen2): re-add with a gen3 hostname and a DNS label.
+  - Base HTTPRoutes (grafana, prometheus, podinfo) carry `pihole-dns-enabled` + `.28` annotation. Gen3 overlays strip both; when DNS goes live, add the label back per route on purpose, one at a time.
+  - Gen3 internal Gateway target is already `192.168.6.29` (annotation in `infra/prod-gen3/istio`). Public Gateway target stays `abbottland.io` (CNAME); no cloudflare external-dns on gen3 until Phase 8.
+  - Test hosts `*-gen3` should get records only for the Phase 5 verification (`podinfo-gen3.local`), then decide whether to keep them.
+- Before DNS goes live: Grafana admin password is still base `admin` (move to OnePasswordItem; item must be created by hand in the UI, dev token is read-only).
+- Phase 8 (public cutover): the `letsencrypt-prod` ClusterIssuer is deleted on gen3 (overlay `$patch: delete`); re-add it and flip the Gateway `cert-manager.io/cluster-issuer` annotations from staging. Certs are all staging now (browsers warn). Both clusters issuing identical names hits the 5/week duplicate limit.
+- Not scraped: k3s control plane (etcd/scheduler/controller-manager) and kube-proxy; would need `kube-*-arg bind-address` in `home-playbooks/playbooks/kubernetes-gen3`. Alertmanager is disabled (like gen2): there is no alert routing at all.
+- Dead scrape targets (down on gen2 too): homeassistant 192.168.4.37, dumbledore .4.157, marauders-map 192.168.5.91, elderwand 192.168.5.142. Fix or drop at gen2 retirement.
+- Dashboards for harbor, arc, home-hud, etc. exist but are empty until those apps move.
+- HAProxy .29: HTTP backends k3sw1/k3sw2 only (not worker-3 .46); HTTPS is tcp mode with no health check, so it shows UP regardless. Source ACL = LAN 192.168.4.0/22 + Cloudflare ranges (verify refresh at Phase 8).
+- Capacity: controller-3 has ~3 GB allocatable (64% used) and controllers are untainted; Prometheus/Grafana are pinned to workers by nodeAffinity. Worker-3 is 6 GB. Watch Harbor/ARC/Prometheus memory in Phase 7.
+- Shared Connect identity: gen3 `op-credentials` was re-sealed from the live gen2 secret, so gen2 and gen3 share one Connect server identity (own server per cluster is the alternative). Sealed-secrets controller key backup lives in 1Password (`sealed-secrets-key-prod-gen3`).
+- Intentional leftovers: Longhorn BackupTargets `rehearsal-copy` (safety copy) and `live-restore` (live gen2 store, read-only in practice), both idle; gen2 Snapshot `data-move-final-1711` and Backup `data-move-final-prowlarr` (deleting the Backup CR deletes it from the store: user's call). Never point gen3 at `longhorn-prod` for writes. Data-move gaps: `docs/ai-reference-gen3-data-move.md` "Known gaps / loose ends".
+- Git hygiene: stale remote branches (e.g. `phase4-istio`, `phase3-*`, `gen3-phase2-*`) remain on origin; deleted so far: `phase4b-prometheus`.
+
+**Gotchas that cost time in Phase 4 (keep in mind)**
+- gen3 CNI is Calico: istio-cni uses chart-default paths; k3s flannel paths do not apply. ztunnel needs `IPV6_ENABLED=false` (nodes have no IPv6).
+- A HelmRelease stuck in `install` blocks until its 5m timeout, then retries as upgrade with new values; `flux reconcile ks` may hit the CLI timeout (harmless). infra-ks has `wait: true`.
+- `kubectl kustomize applications/prod-gen3` needs `--load-restrictor LoadRestrictionsNone`; infra and clusters render without it.
+- Process: work on a branch, every merge/push to main needs the user's explicit approval each time (the auto-mode classifier blocks pushes to main otherwise). home-kubernetes has no pre-commit config; verify with `kubectl kustomize` and yamllint (style warnings only) and say so.
 
 ### Phase 2 learnings (2026-11-08)
 - Two merges were needed: `op-credentials` can only be sealed once the gen3 sealed-secrets controller runs (merge A). For future rebuilds, restore the backed-up controller key *before* Flux installs the controller and no re-seal is needed.
