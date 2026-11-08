@@ -3,7 +3,9 @@ kind: HTTPRoute
 metadata:
   name: podinfo
   namespace: podinfo
-  # No pihole-dns-enabled / external-dns-enabled labels: no DNS records until Phase 5.
+  # Phase 5 test record: podinfo-gen3.local -> 192.168.6.29 (target from the istio-ingress Gateway annotation).
+  labels:
+    pihole-dns-enabled: "true"
 spec:
   parentRefs:
     - name: istio-ingress

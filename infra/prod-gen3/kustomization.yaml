@@ -11,3 +11,5 @@ resources:
   - ./longhorn
   - ./istio
   - ./kube-prometheus-stack
+  - ./pihole
+  - ./external-dns
