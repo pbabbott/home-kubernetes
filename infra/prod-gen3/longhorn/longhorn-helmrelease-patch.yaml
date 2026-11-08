@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: flux-system
+spec:
+  values:
+    defaultBackupStore:
+      # Gen3 has its OWN backup store. Never point this at gen2's
+      # longhorn-prod (nor longhorn-prod.pre-gen3-copy).
+      backupTarget: nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3
+      backupTargetCredentialSecret: cifs-secret
+    defaultSettings:
+      # Controllers are schedulable but have no /mnt/ssd; only nodes labeled
+      # node.longhorn.io/create-default-disk=true (the 3 workers) get a disk.
+      createDefaultDiskLabeledNodes: true
+      defaultReplicaCount: 2
+    persistence:
+      defaultClassReplicaCount: 2
