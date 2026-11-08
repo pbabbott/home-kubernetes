@@ -40,11 +40,11 @@ Commit per-repo inside `home-kubernetes` only (never the outer repo).
 - [x] `kustomize build` passes for `crds/prod-gen3` and `clusters/prod-gen3`; [x] (2026-11-08: home-kubernetes has NO `.pre-commit-config.yaml`; `pre-commit run` errors with InvalidConfigError, so nothing to run. Verified with `kubectl kustomize` instead) pre-commit; [x] merge; [x] (2026-11-08: crds-ks Ready at main@8d9226c1, 66 CRDs) `crds-ks` Ready on gen3; CRDs present.
 - [x] Record learnings in doc (above).
 
-### Phase 2 — Foundation infra (session 2) — `infra/prod-gen3/` + `clusters/prod-gen3/01-infra-ks.yaml` (dependsOn crds-ks); apps-ks gets `dependsOn: infra-ks`
-- [x] (merge A done 2026-11-08, fb21950a; merge B on branch `gen3-phase2-onepassword-certmanager`) Create `infra/prod-gen3/kustomization.yaml` + `01-infra-ks.yaml` (dependsOn crds-ks), apps-ks dependsOn infra-ks. Merge A = priorityclass, sealed-secrets, metrics-server. Merge B = onepassword + cert-manager (needs the sealed `op-credentials`, which needs the gen3 controller from merge A first, hence two merges).
+### Phase 2 — Foundation infra (session 2) — DONE 2026-11-08 — `infra/prod-gen3/` + `clusters/prod-gen3/01-infra-ks.yaml` (dependsOn crds-ks); apps-ks gets `dependsOn: infra-ks`
+- [x] (merge A fb21950a + merge B 3b0e23a, 2026-11-08; infra-ks and apps-ks Ready) Create `infra/prod-gen3/kustomization.yaml` + `01-infra-ks.yaml` (dependsOn crds-ks), apps-ks dependsOn infra-ks. Merge A = priorityclass, sealed-secrets, metrics-server. Merge B = onepassword + cert-manager (needs the sealed `op-credentials`, which needs the gen3 controller from merge A first, hence two merges).
 - [x] (2026-11-08: controller Running; key saved by user in 1Password as a Secure Note, `sealed-secrets-key-prod-gen3`) sealed-secrets: new controller key on gen3 → back up key to 1Password; re-seal anything gen3 needs.
-- [ ] onepassword (Connect + operator): re-seal `op-credentials` for gen3; verify a `OnePasswordItem` syncs.
-- [ ] cert-manager with **staging** issuer first; DNS-01 via Cloudflare token (OnePasswordItem); issue a test cert.
+- [x] (2026-11-08: op-connect + operator Running; test OnePasswordItem produced a Secret) onepassword (Connect + operator): re-seal `op-credentials` for gen3; verify a `OnePasswordItem` syncs.
+- [x] (2026-11-08: only `letsencrypt-staging` exists; test cert `gen3-phase2-test.abbottland.io` issued via Cloudflare DNS-01, then deleted) cert-manager with **staging** issuer first; DNS-01 via Cloudflare token (OnePasswordItem); issue a test cert.
 - [x] (2026-11-08: `kubectl top nodes` shows all 6) metrics-server from Flux (k3s one disabled) → `kubectl top nodes` works.
 
 ### Phase 3 — Storage (session 3 = nas-storage, session 4 = Longhorn)
