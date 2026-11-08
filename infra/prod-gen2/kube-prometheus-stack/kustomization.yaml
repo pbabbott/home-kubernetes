@@ -6,6 +6,7 @@ resources:
   - node-exporter-physical-scrapeconfig.yaml
   - windows-exporter-physical-scrapeconfig.yaml
 
+# Phase 6b: prometheus.local / grafana.local moved to gen3; gen2's UIs keep running under *-gen2 names.
 patches:
   - path: kube-prometheus-stack-helm-release-patch.yaml
   - target:
@@ -15,7 +16,7 @@ patches:
     patch: |-
       - op: replace
         path: /spec/hostnames/0
-        value: prometheus.local.abbottland.io
+        value: prometheus-gen2.local.abbottland.io
   - target:
       kind: HTTPRoute
       name: grafana-ui
@@ -23,5 +24,5 @@ patches:
     patch: |-
       - op: replace
         path: /spec/hostnames/0
-        value: grafana.local.abbottland.io
+        value: grafana-gen2.local.abbottland.io
 

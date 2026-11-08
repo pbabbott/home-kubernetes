@@ -1,0 +1,18 @@
+# Test hostname kept until Phase 9. Unlabelled: no new records. The existing prometheus-gen3.local
+# record (Phase 5) stays because external-dns is upsert-only.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: prometheus-gen3-ui
+  namespace: kube-prometheus-stack
+spec:
+  parentRefs:
+    - name: istio-ingress
+      namespace: istio-system
+      sectionName: https
+  hostnames:
+    - prometheus-gen3.local.abbottland.io
+  rules:
+    - backendRefs:
+        - name: kube-prometheus-stack-prometheus
+          port: 9090
