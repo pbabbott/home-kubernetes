@@ -69,11 +69,11 @@ Commit per-repo inside `home-kubernetes` only (never the outer repo).
 
 ### Phase 5 — DNS prep (session 7) — no user-visible change
 _Prerequisites and open items: see "Loose ends and handoff after Phase 4" below the checklist (incl. Longhorn UI route, Grafana password, upsert-only before gen3 external-dns)._
-- [ ] gen2 PR: Pi-hole external-dns `policy: sync` → `upsert-only` (both pihole + verify cloudflare instance policy); confirm gen2 records unaffected.
-- [ ] Deploy **pihole external-dns on gen3** with `upsert-only`, `registry: noop`, label `pihole-dns-enabled`, Pi-hole creds from 1Password. Initially no labelled routes on gen3 other than a test host (e.g. `podinfo-gen3.local.abbottland.io`).
-- [ ] Deploy **Cloudflare external-dns on gen3** but with `--dry-run`/no `external-dns-enabled` routes (or zero replicas) until public cutover.
-- [ ] Confirm Pi-hole (bananapi) itself stays out of k8s cutover: the in-cluster `pihole` app in `infra/base/pihole` (EndpointSlice proxy to bananapi) — move with ingress, no data.
-- [ ] Verify `podinfo-gen3` resolves to `.29` from LAN and Tailscale; gen2 records unchanged.
+- [x] (2026-11-08, main@0f7c5c3: pihole instance now `--policy=upsert-only`; Cloudflare instance left `sync` on purpose, it uses `registry: txt` owner `prod-gen2` so it only deletes its own records; Pi-hole A list 45 records identical to the pre-change baseline, pod 0 restarts, no errors) gen2 PR: Pi-hole external-dns `policy: sync` → `upsert-only` (both pihole + verify cloudflare instance policy); confirm gen2 records unaffected.
+- [x] (2026-11-08, main@d1857a2: HR external-dns-pihole Ready, upsert-only/noop, owner `prod-gen3-pihole`, creds = existing Homelab item `pihole.local.abbottland.io (bananapi)` via base OnePasswordItem, nothing new in 1Password; one labelled route, `podinfo-gen3.local`; log "add podinfo-gen3.local.abbottland.io IN A -> 192.168.6.29"; Pi-hole list 45 -> 46, nothing removed, gen2 records unchanged) Deploy **pihole external-dns on gen3** with `upsert-only`, `registry: noop`, label `pihole-dns-enabled`, Pi-hole creds from 1Password. Initially no labelled routes on gen3 other than a test host (e.g. `podinfo-gen3.local.abbottland.io`).
+- [x] (2026-11-08, main@d1857a2: HR Ready, deployment 0/0 via postRenderer (chart 1.15.0 hardcodes replicas: 1) plus `--dry-run`, owner `prod-gen3`, token Secret present, no `external-dns-enabled` routes) Deploy **Cloudflare external-dns on gen3** but with `--dry-run`/no `external-dns-enabled` routes (or zero replicas) until public cutover.
+- [x] (2026-11-08: gen3 `infra/prod-gen3/pihole` = namespace + Service + EndpointSlice only; HTTPRoutes deleted until Phase 6) Confirm Pi-hole (bananapi) itself stays out of k8s cutover: the in-cluster `pihole` app in `infra/base/pihole` (EndpointSlice proxy to bananapi) — move with ingress, no data.
+- [ ] (LAN done 2026-11-08: `getent`, `dig @192.168.4.144` -> 192.168.6.29, https 200; gen2 records unchanged. PENDING: Tailscale check by user from a device off the LAN) Verify `podinfo-gen3` resolves to `.29` from LAN and Tailscale; gen2 records unchanged.
 
 ### Phase 6 — Wave 1 apps: stateless / LAN-only (sessions 8–9)
 Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `applications/prod-gen3/kustomization.yaml`, reconcile, verify, check DNS flipped.
@@ -110,11 +110,13 @@ State: gen3 = 6 nodes Ready, 14 HelmReleases + crds/infra/apps-ks Ready, main@1f
 
 **Open items, by when they bite**
 - Phase 5 (DNS):
-  - Gen2 Pi-hole external-dns is `policy: sync` + `registry: noop`; switch to `upsert-only` BEFORE gen3's runs, or the two delete each other's records.
-  - Longhorn UI HTTPRoute is deleted in `infra/prod-gen3/longhorn/kustomization.yaml` (needs a record, and `longhorn.local.abbottland.io` collides with gen2): re-add with a gen3 hostname and a DNS label.
+  - DONE in Phase 5: gen2 and gen3 Pi-hole external-dns are both `upsert-only`. Consequence: deleting a route/app on gen2 no longer removes its A record. Per-app flip = remove from gen2, enable on gen3 (gen3 upsert overwrites the IP, not yet exercised on a real record: verify on the first Phase 6 app); stale records need manual cleanup (`ai-reference-pihole-api.md`). Flip both back to `sync` only at Phase 9.
+  - Longhorn UI HTTPRoute is still deleted on gen3 (decided Phase 5: no record wanted yet). Re-add as `longhorn-gen3.local...` with a label if the UI is needed, or at Phase 9 with the real hostname.
   - Base HTTPRoutes (grafana, prometheus, podinfo) carry `pihole-dns-enabled` + `.28` annotation. Gen3 overlays strip both; when DNS goes live, add the label back per route on purpose, one at a time.
   - Gen3 internal Gateway target is already `192.168.6.29` (annotation in `infra/prod-gen3/istio`). Public Gateway target stays `abbottland.io` (CNAME); no cloudflare external-dns on gen3 until Phase 8.
-  - Test hosts `*-gen3` should get records only for the Phase 5 verification (`podinfo-gen3.local`), then decide whether to keep them.
+  - Records now: `podinfo-gen3.local` (live). `prometheus-gen3.local` is wanted (planned as a separate small merge). `grafana-gen3` and `longhorn-gen3`: no record. Decide whether to keep `*-gen3` records at Phase 9.
+  - Phase 6 must re-add the pihole HTTPRoutes (deleted in `infra/prod-gen3/pihole`) when `pihole.local` moves; the Service/EndpointSlice already exist.
+  - Phase 8: gen2 owns its Cloudflare CNAMEs via txt owner `prod-gen2`; gen3's Cloudflare instance uses owner `prod-gen3` and will NOT adopt them. Set gen3's `txtOwnerId` to `prod-gen2` (after stopping gen2's) or recreate the records. Then drop `--dry-run` and the 0-replica postRenderer in `infra/prod-gen3/external-dns`.
 - Before DNS goes live: Grafana admin password is still base `admin` (move to OnePasswordItem; item must be created by hand in the UI, dev token is read-only).
 - Phase 8 (public cutover): the `letsencrypt-prod` ClusterIssuer is deleted on gen3 (overlay `$patch: delete`); re-add it and flip the Gateway `cert-manager.io/cluster-issuer` annotations from staging. Certs are all staging now (browsers warn). Both clusters issuing identical names hits the 5/week duplicate limit.
 - Not scraped: k3s control plane (etcd/scheduler/controller-manager) and kube-proxy; would need `kube-*-arg bind-address` in `home-playbooks/playbooks/kubernetes-gen3`. Alertmanager is disabled (like gen2): there is no alert routing at all.
@@ -131,6 +133,14 @@ State: gen3 = 6 nodes Ready, 14 HelmReleases + crds/infra/apps-ks Ready, main@1f
 - A HelmRelease stuck in `install` blocks until its 5m timeout, then retries as upgrade with new values; `flux reconcile ks` may hit the CLI timeout (harmless). infra-ks has `wait: true`.
 - `kubectl kustomize applications/prod-gen3` needs `--load-restrictor LoadRestrictionsNone`; infra and clusters render without it.
 - Process: work on a branch, every merge/push to main needs the user's explicit approval each time (the auto-mode classifier blocks pushes to main otherwise). home-kubernetes has no pre-commit config; verify with `kubectl kustomize` and yamllint (style warnings only) and say so.
+
+### Phase 5 learnings — DNS prep (2026-11-08)
+- Order mattered: gen2 `upsert-only` merged and verified (args, logs, record list identical to a saved baseline) before gen3's instance existed. Two merges: gen2 (0f7c5c3), gen3 (d1857a2).
+- Baseline method (read-only): Pi-hole v5 auth = sha256(sha256(pw)); from the dev shell Pi-hole `192.168.4.144:8081` is reachable directly, no debug pod needed. The password comes from `op item get "pihole.local.abbottland.io (bananapi)" --vault Homelab --format json` (Connect mode requires `--format json`). Diff the `customdns` list before/after.
+- Gen3 reused the existing Homelab items (Pi-hole, Cloudflare token) through the base OnePasswordItems: no manual 1Password work for external-dns.
+- external-dns chart 1.15.0 has no `replicaCount` (Deployment hardcodes `replicas: 1`), so the dormant Cloudflare instance is scaled to 0 with a HelmRelease `postRenderers` kustomize patch, plus `--dry-run` so a later scale-up cannot write.
+- The base pihole HelmRelease talks to `pihole.pihole.svc:8081`, so gen3 needs the pihole Service/EndpointSlice even without the proxy routes.
+- Record appeared ~1 min after the route was synced (one interval). Target came from the Gateway annotation (`192.168.6.29`).
 
 ### Phase 2 learnings (2026-11-08)
 - Two merges were needed: `op-credentials` can only be sealed once the gen3 sealed-secrets controller runs (merge A). For future rebuilds, restore the backed-up controller key *before* Flux installs the controller and no re-seal is needed.

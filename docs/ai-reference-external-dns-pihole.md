@@ -38,6 +38,9 @@ With `registry: noop`:
 - `policy: sync` deletes all records in the domain filter that shouldn't exist, adds what should
 - Works correctly with pihole
 
+## Policy during the gen2 -> gen3 migration (since 2026-11-08)
+Both prod-gen2 and prod-gen3 pihole external-dns instances run `policy: upsert-only` + `registry: noop` on the same domain (`local.abbottland.io`). Never run `sync` on one while the other exists, it deletes the other's records. Consequence: deleting a route does not delete its A record; remove stale records via the Pi-hole API (`ai-reference-pihole-api.md`). Gen3 config: `infra/prod-gen3/external-dns/`; gen2: `infra/prod-gen2/external-dns/`. The Cloudflare instances use `registry: txt` with distinct owner ids, so `sync` there is safe; gen3's Cloudflare instance is dormant (0 replicas, `--dry-run`).
+
 ## Adding a New Service to Pihole DNS
 
 Label the HTTPRoute with `pihole-dns-enabled=true` and add the target annotation:
