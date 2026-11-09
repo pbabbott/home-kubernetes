@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Pi-hole instance: upsert-only + registry noop so it never deletes gen2's records (same domain);
-# flip to sync after the gen2 grafana/prometheus routes are gone (Phase 9 step 6).
+# Pi-hole instance: `sync` (base default) since the gen2 external-dns is gone. registry noop = no ownership check, so it
+# deletes ANY record in local.abbottland.io without a labelled route/DNSEndpoint: add manual records via a DNSEndpoint.
 # Cloudflare instance: live since the Phase 8 ownership swap (gen2's instance is scaled to 0), `sync` (base default) since Phase 9 step 4;
 # the txt registry means it only deletes records it owns.
 # Owner id prod-gen2 = gen2's, so gen3 takes over the existing Cloudflare records.
@@ -31,6 +31,3 @@ patches:
       - op: add
         path: /spec/values/domainFilters
         value: ["local.abbottland.io"]
-      - op: replace
-        path: /spec/values/policy
-        value: upsert-only
