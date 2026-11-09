@@ -15,6 +15,20 @@ patches:
       - op: add
         path: /spec/values/domainFilters
         value: ["abbottland.io"]
+      # Phase 8: Cloudflare ownership moved to gen3 (same txtOwnerId prod-gen2). Chart 1.15.0 hardcodes replicas: 1,
+      # so scale to 0 via a post-renderer. Revert this to roll back. The pihole instance below keeps running.
+      - op: add
+        path: /spec/postRenderers
+        value:
+          - kustomize:
+              patches:
+                - target:
+                    kind: Deployment
+                    name: external-dns
+                  patch: |-
+                    - op: replace
+                      path: /spec/replicas
+                      value: 0
   - target:
       kind: HelmRelease
       name: external-dns-pihole

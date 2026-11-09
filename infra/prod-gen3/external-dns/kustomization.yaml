@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # Pi-hole instance: upsert-only + registry noop so it never deletes gen2's records (same domain).
-# Cloudflare instance: observer (--dry-run) until gen2's instance is stopped (Phase 8 merge 3).
+# Cloudflare instance: live since the Phase 8 ownership swap (gen2's instance is scaled to 0), upsert-only.
 # Owner id prod-gen2 = gen2's, so gen3 takes over the existing Cloudflare records.
 resources:
   - ../../base/external-dns
@@ -19,9 +19,11 @@ patches:
       - op: add
         path: /spec/values/domainFilters
         value: ["abbottland.io"]
-      - op: add
-        path: /spec/values/extraArgs/-
-        value: --dry-run
+      # upsert-only until Phase 9: a cold start before routes are labelled once proposed deleting every
+      # record (seen in dry-run); upsert-only can never delete a live public record.
+      - op: replace
+        path: /spec/values/policy
+        value: upsert-only
   - target:
       kind: HelmRelease
       name: external-dns-pihole

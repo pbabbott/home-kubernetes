@@ -1,17 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# letsencrypt-prod serves both gateways (public since Phase 8). cloudflare-ddns (apex A record updater)
+# runs here since the Phase 8 DNS ownership swap; it was removed from the gen2 overlay.
 resources:
   - ../../base/cert-manager
-
-patches:
-  # letsencrypt-prod is enabled on gen3 for the INTERNAL gateway only (*.local.abbottland.io,
-  # Phase 8 early step); the public gateway followed (letsencrypt-prod) in the public cutover.
-  # cloudflare-ddns is not ported yet (Phase 8).
-  - patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: cloudflare-ddns
-        namespace: cert-manager
-      $patch: delete
