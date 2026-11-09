@@ -99,7 +99,7 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - [x] (2026-11-09, f6c7ac0 observer, 1b47e90 swap) Cloudflare external-dns ownership gen2 → gen3 (owner `prod-gen2` inherited, gen3 `upsert-only`, gen2 scaled to 0 via postRenderer); `cloudflare-ddns` moved to gen3 (gen2 overlay `infra/prod-gen2/cert-manager` deletes it). Cloudflare record set identical to the baseline before/after; Pi-hole stayed 50.
 - [x] (2026-11-09, by the user in the eero app) eero 80/443 forward `.28` → `.29`. New connections landed on `.29` (+22) and none on `.28`; all public hosts 200 via Cloudflare; podinfo answered by a gen3 pod; the user logged into Home Assistant and used it. Rollback = flip eero back to `.28`.
 - [x] (2026-11-09) HAProxy `.29` source ACL = LAN + the 15 Cloudflare IPv4 ranges, identical to `cloudflare.com/ips-v4` (repo `terraform/hogwarts/haproxy.cfg`; deployed file not read on the LXC). Traffic through it works.
-- [ ] Confirm Tailscale/remote access paths (bananapi subnet router) still reach gen3 LAN names; check whether eero hands out Pi-hole DNS. PARTIAL 2026-11-09: LAN resolver is Pi-hole `192.168.4.144` (eero hands it out); Tailscale not tested yet.
+- [x] (2026-11-09) Tailscale/remote access: the user tested off the LAN and can reach `*.local` services (bananapi subnet router). eero does NOT hand out Pi-hole DNS by default (opt-in per device, per `HOSTS.md`); only the dev shell was seen using Pi-hole `192.168.4.144`.
 
 ### Phase 9 — Retire gen2 (session 15)
 - [ ] Flip both external-dns on gen3 back to `sync`; remove gen2 external-dns.
