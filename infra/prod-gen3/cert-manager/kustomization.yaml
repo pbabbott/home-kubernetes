@@ -6,7 +6,7 @@ resources:
 
 patches:
   # letsencrypt-prod is enabled on gen3 for the INTERNAL gateway only (*.local.abbottland.io,
-  # Phase 8 early step); the public gateway still uses staging until the public cutover.
+  # Phase 8 early step); the public gateway followed (letsencrypt-prod) in the public cutover.
   # cloudflare-ddns is not ported yet (Phase 8).
   - patch: |-
       apiVersion: apps/v1

@@ -4,7 +4,7 @@ kind: Kustomization
 # Gen3 istio (ambient, 1.30.*). Differences from base/gen2:
 # - istio-cni keeps the chart default paths (/etc/cni/net.d, /opt/cni/bin): gen3 runs Calico,
 #   which writes there; the k3s agent dirs (flannel layout) are empty, so k3s paths break chaining
-# - Internal gateway uses letsencrypt-prod (*.local); public gateway uses letsencrypt-staging until the public cutover (Phase 8)
+# - Both gateways use letsencrypt-prod (public gateway switched in Phase 8, before the eero flip)
 # - ztunnel: IPV6_ENABLED=false (gen3 nodes have no IPv6 in the kernel; ztunnel crashes with
 #   "Address family not supported" binding its readiness server)
 # - internal Gateway external-dns target = gen3 HAProxy 192.168.6.29 (not .28)
@@ -41,7 +41,7 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/annotations/cert-manager.io~1cluster-issuer
-        value: letsencrypt-staging
+        value: letsencrypt-prod
       - op: add
         path: /spec/listeners/-
         value:
