@@ -8,7 +8,58 @@ resources:
   - turbo-cache-token-onepassworditem.yaml
   - turborepo-cache-httproute.yaml
 
+# Phase 7 group 4 STOP: CI moved to the gen3 prod-gen3-* runners (home-web-apps 1f59f117). Scale sets
+# and cache servers go to 0 (patch, NOT a prune: PVs are reclaim Delete). The controller stays up
+# so it can tear the runner pods and listeners down; the cleanup merge removes everything.
 patches:
+  - patch: |-
+      - op: replace
+        path: /spec/values/minRunners
+        value: 0
+      - op: replace
+        path: /spec/values/maxRunners
+        value: 0
+    target:
+      kind: HelmRelease
+      name: arc-runner-amd64
+  - patch: |-
+      - op: replace
+        path: /spec/values/minRunners
+        value: 0
+      - op: replace
+        path: /spec/values/maxRunners
+        value: 0
+    target:
+      kind: HelmRelease
+      name: arc-runner-dind-amd64
+  - patch: |-
+      - op: add
+        path: /spec/postRenderers/0/kustomize/patches/-
+        value:
+          target:
+            kind: Deployment
+            name: actions-cache-server
+          patch: |
+            - op: replace
+              path: /spec/replicas
+              value: 0
+    target:
+      kind: HelmRelease
+      name: actions-cache-server
+  - patch: |-
+      - op: add
+        path: /spec/postRenderers/0/kustomize/patches/-
+        value:
+          target:
+            kind: Deployment
+            name: turborepo-remote-cache
+          patch: |
+            - op: replace
+              path: /spec/replicas
+              value: 0
+    target:
+      kind: HelmRelease
+      name: turborepo-remote-cache
   - patch: |-
       - op: replace
         path: /spec/releaseName
