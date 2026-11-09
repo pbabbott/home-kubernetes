@@ -1,0 +1,32 @@
+# Harbor on gen3: loose ends for future investigation (2026-11-09)
+
+Context: Harbor + harbor-cleanup moved gen2 -> gen3 on 2026-11-09 (Phase 7 group 3; details in "Phase 7 harbor learnings" in `2026-11-08-gen2-to-gen3-migration.md`). Everything here was found or left open during that move. Status legend: VERIFIED = observed; INFERRED = reasoned from logs/config, not tested; NOT CHECKED.
+
+## A. Likely to bite (fix soon)
+
+1. **gen2 image automation for blog, diagram-maker, fui-components is broken (VERIFIED, not caused by Harbor).**
+   - Symptom: gen2 `ImageRepository` blog/diagram-maker/fui-components `Ready=False`, "failed to configure authentication options: secrets "regcred-flux" not found". Last good scan 2026-11-09T00:28Z. `ImagePolicy` objects still show the old latest tag (`20261103-85-b1a362b`), so nothing is deployed wrong, but NEW image builds will not roll out on gen2.
+   - Cause: the `regcred-flux` OnePasswordItem (secret used by every Harbor `ImageRepository` in `flux-system`) is defined ONLY in `applications/base/media/regcred-flux-onepassworditem.yaml`. Removing media from gen2 (70c7aa6) deleted that secret. On gen3 the same item exists only because media runs there.
+   - Options (undecided): move `regcred-flux` out of the media base into a shared place (e.g. `infra/` per cluster or its own `applications/base/regcred-flux`) for both clusters, or accept it until the public apps move to gen3 (Phase 7 public apps / 8). Note the dependency trap: if media ever leaves gen3, gen3 image scanning breaks the same way.
+2. **harbor-cleanup decides "deployed in cluster" from the cluster it runs in (INFERRED).**
+   - Its first gen3 run logged "Found 2 distinct image tag(s) currently deployed" (gen3 only). blog/diagram-maker/fui-components still run on gen2. Their current tags (`20261103-85-b1a362b`, `20261102-84-f638247`) coincide with gen3's home-hud/homelab-api tags, so nothing was deleted (first run: Deleted 0, errors 0).
+   - Risk: once those tags diverge, the daily 03:00 America/Chicago run could delete a tag gen2 still runs (keeps only 5 prod tags + open-PR/sha rules). Investigate before the next deploy of a public app on gen2, or move the public apps first. Check the service's source (home-web-apps) for how it lists deployed images.
+3. **Image auto-update is OFF on gen3 for all Harbor-sourced images (VERIFIED; known).** `ImageRepository`/`ImagePolicy` for harbor-cleanup, gluetun-sync, home-hud, homelab-api, video-api, video-worker, backup-worker scan fine on gen3 (11-108 tags each), but there is no `ImageUpdateAutomation` on gen3 until Phase 9, so tags stay pinned. See the existing register items.
+
+## B. Not verified after the move (NOT CHECKED unless stated)
+
+4. **Harbor proxy-cache projects** (`proxy-dockerhub`, `proxy-ghcr`, used by ARC dind registry mirror, see `2026-06-01-arc-dind-registry-mirror.md` and the proxy-mirror incident): the routes answer 401 on gen3 (VERIFIED, expected unauthenticated), but an actual proxied pull (cache hit and cache miss) was not tested. Do this when ARC moves.
+5. **Trivy scanning**: component reports healthy and the restored `data-harbor-trivy-0` is mounted; an actual vulnerability scan (and the Trivy DB update from the gen3 network) was not run. Trigger a scan on a test image in the UI.
+6. **Jobservice schedules / replication / webhooks / robot accounts** live in `harbor_prod` (Postgres) and should be unchanged; not inspected. Confirm in the UI that GC/scan schedules exist and the next run is sane. Harbor GC itself was NOT run (by plan: only after push/pull verified). A GC run is still pending; the one test push left a 2-byte config blob that GC will collect.
+7. **Metrics and dashboards**: Prometheus `up` is 1 for `harbor` (4 targets) and `harbor-cleanup`; the gitops dashboards `harbor.json` and `harbor-cleanup.json` were not opened to confirm data shows up.
+8. **Consumer pulls after a pod restart on gen3**: harbor-cleanup pulled by the real name (VERIFIED) and blobs download with the gen3 `regcred` (VERIFIED), but `qbittorrent-vpn` (gluetun-sync) and home-hud pods were not restarted to prove a fresh pull; running pods kept their cached images through the outage.
+9. **Other consumers**: CI/ARC on gen2 and any other cluster pulling/pushing `harbor.local` were not exercised (ARC is the next group; it also needs the `github-pat` item shared with harbor-cleanup). `non-prod-gen2` has its own Harbor overlay on a different hostname (`harbor.local.non-prod`), not touched and not checked.
+10. **Memory/placement**: all 7 components requested soft affinity to workers 1/2 and run there (usage tiny: registry 20Mi, core 53Mi right after start). Re-check under real push load; a single worker hosting most of Harbor is a single point of failure (Longhorn replicas are 2).
+
+## C. Safety nets and cleanup
+
+11. **Rollback artifacts (keep until Harbor has soaked):** Longhorn Backups `p7-final-harbor-trivy-0257` and `p7-final-harbor-jobservice-0257` in the live store `longhorn-prod` (do not delete the CRs casually; gen2 PVs are gone). The gen2 registry blobs now exist only in `/volume1/ClusterStorage/prod-gen2/archived-harbor-harbor-registry-nas` (264.2 GB, from `archiveOnDelete`), user deletes by hand when satisfied. Rollback = restore backups + rsync the dir back (as root, then chown 10000:10000) + revert gen3 / re-add gen2 (never both running: shared `harbor_prod` and Redis indexes 3,4,5,6,11,12).
+12. **Retention of the manual `p7-final-*` Backups** is still unverified (data-move doc "Known gaps").
+13. **File ownership trap** (documented): registry files must be `10000:10000`; any future NAS-side copy as a non-root user needs a chown Job. Not automated.
+14. **Cosmetic**: the gen3 harbor route still carries the base `.28` `external-dns.alpha.kubernetes.io/target` annotation (record is correctly `.29`, the Gateway sets the target). Gen3 `apps-ks` showed a transient Failed health on the flip revision while harbor-cleanup was in ImagePullBackOff: a first deploy that depends on its own Harbor image will do this after any rebuild; recycle the pod once Harbor serves.
+15. **gen2 `apps-ks` stuck on 70c7aa65 / Unknown** (existing register item). Harbor is no longer a suspect (it was removed from gen2 and the state is unchanged), but the unready resource is still unidentified. Item 1 above may be related: failing `ImageRepository` objects do not usually block a Kustomization, so do not assume.

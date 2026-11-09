@@ -129,6 +129,8 @@ One consolidated list. Details live in the handoff/learnings sections below; tic
 - [ ] Longhorn Backups `p7-final-harbor-trivy-0257` and `p7-final-harbor-jobservice-0257` (live store) are the rollback for the Harbor PVCs; keep. Gen2 registry dir is archived on the NAS as `/volume1/ClusterStorage/prod-gen2/archived-harbor-harbor-registry-nas` (264.2 GB, `archiveOnDelete`): the ONLY rollback for the registry blobs; user deletes it by hand when satisfied.
 - [ ] gen2 `apps-ks` is still stuck on `70c7aa65` with health checks `Unknown` (see the existing item); not caused by Harbor, not resolved.
 
+- [ ] **gen2 image automation for blog/diagram-maker/fui-components is failing**: `regcred-flux` secret vanished from gen2 when media was removed (it is defined only in `applications/base/media`). New builds will not roll out on gen2. Full list of Harbor follow-ups: [`2026-11-09-harbor-gen3-loose-ends.md`](2026-11-09-harbor-gen3-loose-ends.md).
+
 **Safety nets to remove only deliberately**
 - [ ] Longhorn Backup CRs `p7-final-{qbit,gluetun,radarr,sonarr,prowlarr}-2354` in the live store (`longhorn-prod`) are the ONLY rollback for the media configs now that gen2 media is gone. Keep until media has run on gen3 long enough (and gen3 has its own backups in `longhorn-prod-gen3`: check `kubectl --context prod-gen3 -n longhorn-system get backups`).
 - [ ] Other intentional leftovers: BackupTargets `rehearsal-copy` and `live-restore` (idle; keep while data moves remain), gen2 Snapshot `data-move-final-1711` + Backup `data-move-final-prowlarr`, safety copy `longhorn-prod.pre-gen3-copy` on the NAS. Never delete a Backup/BackupTarget CR casually (may delete remote data).
