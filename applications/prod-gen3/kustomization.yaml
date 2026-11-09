@@ -10,3 +10,6 @@ resources:
   - ./mcp-grafana
   - ./dashy
   - ./media
+  - ./home-hud
+  - ./coder
+  - ./openclaw
