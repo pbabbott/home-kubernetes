@@ -108,6 +108,36 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - [ ] Optional: non-prod-gen2 handling (powered off), off-host etcd snapshot to NAS, dumbledore joining as controller (etcd quorum off hogwarts), Longhorn replicas rebalance.
 - [ ] Delete `*-gen2` overlays / update CLAUDE.md and READMEs.
 
+### Loose ends register — revisit after ALL phases are done (kept current; started 2026-11-09, after Phase 7 media)
+One consolidated list. Details live in the handoff/learnings sections below; tick items here as they close. `[ ]` open, `[x]` closed.
+
+**Needs a decision or manual action**
+- [ ] openclaw MCP servers (gen2, UI-configured, not in git) point at dead gen2 in-cluster names: `grafana-prod`, `flux-prod`, `arr` -> `https://{mcp-grafana,flux-mcp,mcp-arr}.local.abbottland.io/mcp`; `qbittorrent` -> `https://mcp-qbittorrent.local.abbottland.io/sse` (sse transport). Probe with `openclaw mcp probe <name>`. Gateway allowlist unverified. Natural time: when openclaw moves (Phase 7 home-hud/coder/openclaw group); `homelab-api` joins when home-hud moves.
+- [ ] Public gateway certs (`apex-public-tls`, `wildcard-public-tls`) still `letsencrypt-staging` (patch in `infra/prod-gen3/istio`); `*.local` is prod since 9180268. Finish in Phase 8 with Cloudflare external-dns ownership (txtOwnerId `prod-gen2`), eero 80/443 forward .28 -> .29, then drop the dry-run/0-replica postRenderer.
+- [ ] gluetun-sync image auto-update is OFF (gen2 image automation removed with media; gen3 has none until Phase 9). Pinned `20261102-84-f638247`. Enable `clusters/prod-gen3/image-update-automation.yaml` in Phase 9, check the `gluetun-sync` ImageRepository/Policy in gen3 `flux-system`, and confirm third-party images (`:latest`) still behave.
+- [ ] Harbor move: gen3 `qbittorrent-vpn` pulls `harbor.local.abbottland.io/library/gluetun-sync` (gen2 Harbor). After Harbor moves, confirm pulls on gen3 (regcred, prod `*.local` cert) and that the `regcred` OnePasswordItem still works.
+- [ ] gen2 `PROMETHEUS_URL` patch in `applications/prod-gen2/home-hud` (-> `prometheus-gen2.local`): drop it when home-hud moves.
+- [ ] `.mcp.json` hygiene: `flux-prod` (workspace) is disabled in `.claude/settings.local.json` (optional to enable now that certs are trusted); drop stale `flux-mcp-prod`/`flux-mcp-nonprod` from `home-kubernetes/.mcp.json`.
+- [ ] Re-verify after Phase 8: flux-operator-mcp beyond `initialize` (done 2026-11-09 for gen3: OK), `homelab-api` on gen3 Prometheus.
+
+**Safety nets to remove only deliberately**
+- [ ] Longhorn Backup CRs `p7-final-{qbit,gluetun,radarr,sonarr,prowlarr}-2354` in the live store (`longhorn-prod`) are the ONLY rollback for the media configs now that gen2 media is gone. Keep until media has run on gen3 long enough (and gen3 has its own backups in `longhorn-prod-gen3`: check `kubectl --context prod-gen3 -n longhorn-system get backups`).
+- [ ] Other intentional leftovers: BackupTargets `rehearsal-copy` and `live-restore` (idle; keep while data moves remain), gen2 Snapshot `data-move-final-1711` + Backup `data-move-final-prowlarr`, safety copy `longhorn-prod.pre-gen3-copy` on the NAS. Never delete a Backup/BackupTarget CR casually (may delete remote data).
+- [ ] Gen2 VMs: power off after Phase 9 but keep 2-4 weeks as rollback; the gen2 Pi-hole/HAProxy `.28` stays until then.
+
+**Cleanup in Phase 9**
+- [ ] Both Pi-hole external-dns instances back to `sync` (currently `upsert-only`: stale records do not delete themselves). Remove stale records via the Pi-hole API: `*-gen2`/`*-gen3` test names (`prometheus-gen2`, `grafana-gen2`, `prometheus-gen3`, `podinfo-gen3`), 13 stale `.local.non-prod.abbottland.io` records.
+- [ ] Delete `*-gen2` overlays, test routes (`*-gen3-ui`), update CLAUDE.md/READMEs/`HOSTS.md`/`NETWORK.md`/dns-expert agent; retire `.28` HAProxy LXC + Terraform.
+- [ ] Longhorn UI + op-connect routes still on gen2 by choice (re-add on gen3 with real hostname at Phase 9).
+- [ ] Not scraped: k3s control plane (etcd/scheduler/controller-manager) and kube-proxy; Alertmanager disabled on both clusters (no alert routing at all); dead scrape targets (homeassistant .4.37, dumbledore .4.157, marauders-map .5.91, elderwand .5.142).
+- [ ] gen2 external-dns restarts often (pre-existing, `docs/incidents/2026-11-08-prod-gen2-external-dns-restarts.md`); gen3 Cloudflare instance may share the exposure.
+- [ ] Optional: off-host etcd snapshots to NAS, dumbledore as controller, Longhorn replica rebalance, Dashy hardcoded `.28` target annotation, shared Connect identity between gen2/gen3 (own server per cluster is the alternative), shared Pi-hole admin password (restart external-dns pods after rotating).
+
+**Known quirks (not bugs)**
+- `upsert-only` .28 -> .29 overwrite fails about 1 in 5 flips (proxmox, mcp-grafana): check each record, delete the old one via the Pi-hole API if it is not .29 after ~2 cycles. Pi-hole DNS blips 5-10 s after record writes.
+- Prowlarr logs "access denied" on read-only `limetorrents.yml` and sonarr/radarr show dead-indexer warnings (both pre-existing). `gluetun*`/`mcp-*` return 404 on `/`; `mcp-qbittorrent` has no http->https twin.
+- Resource headroom: controller-3 ~3 GB allocatable, worker-3 6 GB; watch Harbor/ARC/Prometheus memory in later groups. Media pods landed on controllers and worker-2 (no pinning).
+
 ### Loose ends and handoff after Phase 6a (2026-11-08) — READ FIRST in the next session
 State (updated after the prometheus/grafana flip): gen3 = 6 nodes Ready, 18 HelmReleases + crds/infra/apps/flux-gitops-ks Ready, main@aefa906 (plus doc commits). Phases 6a and 6b so far moved proxmox, asustor, haproxy, plex, mcp-grafana, dashy, flux UI + flux-operator-mcp to gen3 (gen2 namespaces/routes pruned). Gen3 Pi-hole external-dns is live (`upsert-only`, owner `prod-gen3-pihole`); the Cloudflare instance is dormant (0 replicas + `--dry-run`). Pi-hole has 49 A records (47 + `prometheus-gen2`, `grafana-gen2`): `proxmox`, `asustor`, `haproxy`, `podinfo-gen3`, `prometheus-gen3` at 192.168.6.29, `mcp-grafana`, `dashy`, `flux`, `flux-mcp` also at .29, the rest of gen2's at .28 (`nas.local` at 192.168.4.124). Phase 6 is CLOSED (6c moved `pihole.local` to gen3 at 84c93bb, record .29). Next: Phase 7. Gen2 Prometheus/Grafana keep running as `prometheus-gen2.local` / `grafana-gen2.local` (records at .28); gen3 owns `prometheus`, `grafana`, `prometheus-gen3` (.29); `grafana-gen3` is recordless. No DNS for `grafana-gen3.local` or `podinfo-gen3.abbottland.io`: use `curl --resolve`.
 
