@@ -13,3 +13,5 @@ resources:
   - ./home-hud
   - ./coder
   - ./openclaw
+  - ./harbor
+  - ./harbor-cleanup
