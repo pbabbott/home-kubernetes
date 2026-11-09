@@ -27,7 +27,9 @@ patches:
     patch: |-
       - op: remove
         path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
-  # runner scale sets: gen3 names + placement (workers only, prefer workers 1/2)
+  # runner scale sets: gen3 names. Placement is a HARD rule to workers 1/2 (16 GB each): worker-3 is a
+  # 6 GB VM on chimaera (shared host, IO-bound) and a preferred-only rule let three dind pods land there
+  # and exhaust it (2026-11-09 CI run). maxRunners and requests are sized for 2 x ~11 GB free.
   - target:
       kind: HelmRelease
       name: arc-runner-amd64
@@ -50,15 +52,12 @@ patches:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: DoesNotExist
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              preference:
-                matchExpressions:
                   - key: kubernetes.io/hostname
                     operator: In
                     values: [tf-prod-k3s-worker-1, tf-prod-k3s-worker-2]
+      - op: replace
+        path: /spec/values/maxRunners
+        value: 6
   - target:
       kind: HelmRelease
       name: arc-runner-dind-amd64
@@ -81,15 +80,18 @@ patches:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: DoesNotExist
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              preference:
-                matchExpressions:
                   - key: kubernetes.io/hostname
                     operator: In
                     values: [tf-prod-k3s-worker-1, tf-prod-k3s-worker-2]
+      - op: replace
+        path: /spec/values/maxRunners
+        value: 6
+      - op: replace
+        path: /spec/values/template/spec/containers/0/resources/requests/memory
+        value: 1Gi
+      - op: replace
+        path: /spec/values/template/spec/initContainers/1/resources/requests/memory
+        value: 1536Mi
   # controller placement
   - target:
       kind: HelmRelease
