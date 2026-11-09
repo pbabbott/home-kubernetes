@@ -4,10 +4,7 @@ metadata:
   name: apps
   namespace: flux-system
 spec:
-  # Suspended 2026-11-09 (gen2 -> gen3 migration): the Harbor image scans on gen2 are broken
-  # (regcred-flux went away with media) and gen3 will own image automation from Phase 9, so the
-  # two clusters must never both push to main. Remove this file at Phase 9.
-  suspend: true
+  # Single writer: gen2's copy was removed in the same change (Phase 9). Never run two of these, they push to main.
   interval: 30m
   sourceRef:
     kind: GitRepository
