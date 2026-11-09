@@ -37,3 +37,7 @@ No manual cluster step. Grafana admin credentials come from the 1Password item `
 
 ## Media (Phase 7)
 No cluster step beyond the data restore: create ns `media` by hand, then restore the 5 config PVCs (`sonarr-config`, `radarr-config`, `qbit-config`, `prowlarr-config`, `gluetun-config`) with `scripts/longhorn-restore.sh` BEFORE the app is in the gen3 overlay (see `ai-reference-gen3-data-move.md`). gluetun needs `/dev/net/tun` on the node (present on Ubuntu 24.04 workers) and PIA credentials from the existing Homelab item (`pia-credentials` OnePasswordItem); the NFS PV `media-pv` comes from the base manifest (`/volume1/Media`, no data move). Gen2's `media` PVCs must stay until the soak is over (reclaim Delete).
+
+## home-hud, coder, openclaw (Phase 7 group 2)
+Only `openclaw` needs a restore: create ns `openclaw` by hand, then `scripts/longhorn-restore.sh` for `openclaw-pvc` (10Gi, `longhorn`) from the final gen2 backup BEFORE the app is in the gen3 overlay; run it in the background (long restores outlive a short shell timeout, see the learnings). home-hud NFS PVs (`/volume1/Media`, `/volume1/Dump`) come from the base manifests; coder and home-hud use NAS Postgres (shared: run in one cluster only). openclaw's MCP servers are configured in the openclaw UI (not in git): `grafana-prod`, `flux-prod`, `arr`, `qbittorrent` (sse), `homelab-api`, URLs in the migration plan's loose ends register; repoint after any rebuild/restore of `openclaw-pvc`.
+
