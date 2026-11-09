@@ -7,11 +7,11 @@ resources:
   - op-credentials.yaml
 
 patches:
-  # No Gateway on gen3 until istio (Phase 4).
-  - patch: |-
-      apiVersion: gateway.networking.k8s.io/v1
+  # The base route pins the gen2 HAProxy (.28) as external-dns target; the gen3 Gateway sets .29.
+  - target:
       kind: HTTPRoute
-      metadata:
-        name: op-connect
-        namespace: op-connect
-      $patch: delete
+      name: op-connect
+      namespace: op-connect
+    patch: |-
+      - op: remove
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
