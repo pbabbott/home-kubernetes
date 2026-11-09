@@ -7,7 +7,5 @@ resources:
   - ./diagram-maker
   - ./fui-components
   - ./home-assistant
-  - ./harbor
-  - ./harbor-cleanup
   - ./podinfo
   - ./umami
