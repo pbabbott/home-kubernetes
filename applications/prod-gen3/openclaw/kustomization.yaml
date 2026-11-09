@@ -1,23 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 7 group 2 (openclaw move). STAGED: HTTPRoutes keep their real hostnames but the
-# pihole-dns-enabled label and the .28 target annotation are removed, so gen3 external-dns creates
-# no records. The flip merge deletes the two strip patches below (and gen2 deletes its routes).
+# Phase 7 group 2 (openclaw move). Flipped from gen2: base routes carry pihole-dns-enabled, so gen3
+# external-dns owns the openclaw *.local records -> .29 (target comes from the Gateway annotation).
 # openclaw-pvc is pre-created from the gen2 final Longhorn backup (scripts/longhorn-restore.sh).
 resources:
   - ../../base/openclaw
-
-patches:
-  - target:
-      kind: HTTPRoute
-      labelSelector: pihole-dns-enabled=true
-    patch: |-
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
-  - target:
-      kind: HTTPRoute
-      annotationSelector: external-dns.alpha.kubernetes.io/target
-    patch: |-
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
