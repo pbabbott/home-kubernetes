@@ -34,3 +34,6 @@ Rebuild notes: gen3 uses Calico, so istio-cni needs the chart-default CNI paths,
 
 ## Monitoring (kube-prometheus-stack on gen3)
 No manual cluster step. Grafana admin credentials come from the 1Password item `grafana-gen3-admin` (see above); Grafana and Prometheus routes: Prometheus has a Pi-hole record once the Phase 5 `prometheus-gen3.local` merge is in, Grafana has none (reach it with `curl --resolve grafana-gen3.local.abbottland.io:443:192.168.6.29`). k3s control-plane metrics (etcd/scheduler/controller-manager) are intentionally not scraped: k3s runs them in one process and would need `kube-*-arg bind-address` flags in `home-playbooks/playbooks/kubernetes-gen3`.
+
+## Media (Phase 7)
+No cluster step beyond the data restore: create ns `media` by hand, then restore the 5 config PVCs (`sonarr-config`, `radarr-config`, `qbit-config`, `prowlarr-config`, `gluetun-config`) with `scripts/longhorn-restore.sh` BEFORE the app is in the gen3 overlay (see `ai-reference-gen3-data-move.md`). gluetun needs `/dev/net/tun` on the node (present on Ubuntu 24.04 workers) and PIA credentials from the existing Homelab item (`pia-credentials` OnePasswordItem); the NFS PV `media-pv` comes from the base manifest (`/volume1/Media`, no data move). Gen2's `media` PVCs must stay until the soak is over (reclaim Delete).
