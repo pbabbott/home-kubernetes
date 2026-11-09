@@ -9,7 +9,6 @@ resources:
   - ./home-assistant
   - ./harbor
   - ./harbor-cleanup
-  - ./media
   - ./coder
   - ./podinfo
   - ./umami
