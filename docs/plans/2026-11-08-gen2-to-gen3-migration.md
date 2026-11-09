@@ -102,7 +102,7 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 
 ### Phase 9 — Retire gen2 (session 15)
 - [ ] Flip both external-dns on gen3 back to `sync`; remove gen2 external-dns.
-- [ ] Enable image-update-automation on gen3 (`clusters/prod-gen3/image-update-automation.yaml`), remove from gen2.
+- [ ] Enable image-update-automation on gen3 (`clusters/prod-gen3/image-update-automation.yaml`), remove from gen2. (Gen2's `ImageUpdateAutomation` `apps` has been SUSPENDED since 2026-11-09, 09fa68e: delete `clusters/prod-gen2/image-update-automation.yaml` and its line in `clusters/prod-gen2/kustomization.yaml`; never run both un-suspended, they push to `main`.)
 - [ ] Final Longhorn backups of anything left; scale gen2 apps to 0; keep gen2 VMs powered off 2–4 weeks as rollback.
 - [ ] Retire `.28` HAProxy LXC and Terraform (`home-playbooks/terraform/chimaera`), update `docs/HOSTS.md`, `NETWORK.md`, dns-expert agent.
 - [ ] Optional: non-prod-gen2 handling (powered off), off-host etcd snapshot to NAS, dumbledore joining as controller (etcd quorum off hogwarts), Longhorn replicas rebalance.
@@ -129,7 +129,7 @@ One consolidated list. Details live in the handoff/learnings sections below; tic
 - [ ] Longhorn Backups `p7-final-harbor-trivy-0257` and `p7-final-harbor-jobservice-0257` (live store) are the rollback for the Harbor PVCs; keep. Gen2 registry dir is archived on the NAS as `/volume1/ClusterStorage/prod-gen2/archived-harbor-harbor-registry-nas` (264.2 GB, `archiveOnDelete`): the ONLY rollback for the registry blobs; user deletes it by hand when satisfied.
 - [ ] gen2 `apps-ks` is still stuck on `70c7aa65` with health checks `Unknown` (see the existing item); not caused by Harbor, not resolved.
 
-- [ ] **gen2 image automation for blog/diagram-maker/fui-components is failing**: `regcred-flux` secret vanished from gen2 when media was removed (it is defined only in `applications/base/media`). New builds will not roll out on gen2. Full list of Harbor follow-ups: [`2026-11-09-harbor-gen3-loose-ends.md`](2026-11-09-harbor-gen3-loose-ends.md).
+- [ ] **gen2 image automation for blog/diagram-maker/fui-components is failing** (gen2 `ImageUpdateAutomation` suspended 2026-11-09, 09fa68e, so tags are pinned and nothing is pushed to `main`; undo = revert that commit or delete the file at Phase 9): `regcred-flux` secret vanished from gen2 when media was removed (it is defined only in `applications/base/media`). New builds will not roll out on gen2. Full list of Harbor follow-ups: [`2026-11-09-harbor-gen3-loose-ends.md`](2026-11-09-harbor-gen3-loose-ends.md).
 
 **Safety nets to remove only deliberately**
 - [ ] Longhorn Backup CRs `p7-final-{qbit,gluetun,radarr,sonarr,prowlarr}-2354` in the live store (`longhorn-prod`) are the ONLY rollback for the media configs now that gen2 media is gone. Keep until media has run on gen3 long enough (and gen3 has its own backups in `longhorn-prod-gen3`: check `kubectl --context prod-gen3 -n longhorn-system get backups`).
