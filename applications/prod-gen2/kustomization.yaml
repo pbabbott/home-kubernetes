@@ -9,8 +9,5 @@ resources:
   - ./home-assistant
   - ./harbor
   - ./harbor-cleanup
-  - ./coder
   - ./podinfo
   - ./umami
-  - ./openclaw
-  - ./home-hud
