@@ -15,5 +15,10 @@ spec:
       # node.longhorn.io/create-default-disk=true (the 3 workers) get a disk.
       createDefaultDiskLabeledNodes: true
       defaultReplicaCount: 2
+      # Volumes are thin-provisioned and mostly empty; the default 100% left no
+      # room to reschedule replicas (e.g. when a worker is down).
+      # NOTE: Longhorn only reads defaultSettings at install, so the live
+      # setting was also patched (settings.longhorn.io).
+      storageOverProvisioningPercentage: 150
     persistence:
       defaultClassReplicaCount: 2
