@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 7 group 4 (ARC move). STAGED: the turborepo-cache HTTPRoute keeps its real hostname but the
-# pihole-dns-enabled label and the .28 target annotation are removed (flip merge deletes those two patches).
+# Phase 7 group 4 (ARC move). FLIPPED: the turborepo-cache route carries pihole-dns-enabled, so gen3
+# external-dns owns turborepo-cache.local -> .29 (target comes from the Gateway annotation).
 # Runner scale sets are renamed prod-gen3-* (the name is the `runs-on` label), so they register next to the
 # gen2 ones without colliding. Caches (turbo, actions-cache, pnpm store) start EMPTY. Nothing here needs
 # regcred or github-pat: ARC uses arc-gh-secret + turbo-cache-token (1Password), images are public,
@@ -15,18 +15,6 @@ resources:
   - turborepo-cache-httproute.yaml
 
 patches:
-  - target:
-      kind: HTTPRoute
-      labelSelector: pihole-dns-enabled=true
-    patch: |-
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
-  - target:
-      kind: HTTPRoute
-      annotationSelector: external-dns.alpha.kubernetes.io/target
-    patch: |-
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   # runner scale sets: gen3 names. Placement is a HARD rule to workers 1/2 (16 GB each): worker-3 is a
   # 6 GB VM on chimaera (shared host, IO-bound) and a preferred-only rule let three dind pods land there
   # and exhaust it (2026-11-09 CI run). maxRunners and requests are sized for 2 x ~11 GB free.
