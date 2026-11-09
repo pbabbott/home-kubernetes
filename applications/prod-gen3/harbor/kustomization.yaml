@@ -1,9 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 7 group 3 (harbor move). STAGED: the harbor HTTPRoute keeps its real hostname but the
-# pihole-dns-enabled label and the .28 target annotation are removed, so gen3 external-dns creates
-# no record. The flip merge deletes the two strip patches below (and gen2 deletes its route).
+# Phase 7 group 3 (harbor move). FLIPPED: the base route carries pihole-dns-enabled, so gen3
+# external-dns owns harbor.local -> .29 (target comes from the Gateway annotation).
 # Data: registry dir rsynced on the NAS into prod-gen3/harbor-harbor-registry-nas; trivy + jobservice
 # PVCs pre-created by longhorn-restore.sh; DB/Redis on the NAS are shared (one cluster at a time).
 # Soft nodeAffinity keeps Harbor off the small controller-3/worker-3 nodes.
@@ -134,15 +133,3 @@ patches:
                         - key: kubernetes.io/hostname
                           operator: In
                           values: [tf-prod-k3s-worker-1, tf-prod-k3s-worker-2]
-  - target:
-      kind: HTTPRoute
-      labelSelector: pihole-dns-enabled=true
-    patch: |-
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
-  - target:
-      kind: HTTPRoute
-      annotationSelector: external-dns.alpha.kubernetes.io/target
-    patch: |-
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target

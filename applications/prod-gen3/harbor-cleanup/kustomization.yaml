@@ -1,20 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 7 group 3 (harbor-cleanup move). STAGED: routes keep their hostname but lose the
-# pihole-dns-enabled label, so gen3 creates no record. The flip merge deletes the strip patch.
+# Phase 7 group 3 (harbor-cleanup move). FLIPPED: gen3 external-dns owns harbor-cleanup.local -> .29.
 # Stateless (Harbor API + GitHub PAT). Its image lives in Harbor: it stays ImagePullBackOff until
 # harbor.local resolves to gen3 (flip), then starts by itself.
 resources:
   - ../../base/harbor-cleanup
 
 patches:
-  - target:
-      kind: HTTPRoute
-      labelSelector: pihole-dns-enabled=true
-    patch: |-
-      - op: remove
-        path: /metadata/labels/pihole-dns-enabled
   - target:
       kind: Deployment
       name: harbor-cleanup
