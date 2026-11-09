@@ -8,7 +8,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - "192.168.6.28:8404"
+        - "192.168.6.29:8404"
       labels:
         job: haproxy
   metricsPath: /metrics

@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # Flipped from gen2 in Phase 6a: route carries pihole-dns-enabled, gen3 external-dns owns haproxy.local.
-# EndpointSlice (base) stays on 192.168.6.28:8404 until .28 retires (Phase 9).
+# EndpointSlice and scrape target (base) point at the gen3 HAProxy 192.168.6.29:8404 (.28 retired, Phase 9).
 resources:
   - ../../base/haproxy
 
