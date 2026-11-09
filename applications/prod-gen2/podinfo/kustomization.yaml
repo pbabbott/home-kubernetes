@@ -37,3 +37,11 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: podinfo.abbottland.io
+  # Phase 8: public traffic is served by gen3; stopped, prune follows in a later merge.
+  - target:
+      kind: HelmRelease
+      name: podinfo
+    patch: |-
+      - op: replace
+        path: /spec/values/replicaCount
+        value: 0
