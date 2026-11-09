@@ -2,8 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # Gen3 monitoring: fresh Prometheus (no restore). Phase 6b flip: prometheus-ui/grafana-ui carry the real names
-# (labelled, gen3 external-dns owns the records); *-gen3-ui are unlabelled test routes kept until Phase 9
-# (grafana-gen3 has no record: curl --resolve <host>:443:192.168.6.29).
+# (labelled, gen3 external-dns owns the records); the unlabelled *-gen3-ui test routes were removed in Phase 9.
 # Control-plane scrapes (etcd/scheduler/controller-manager/proxy) stay disabled in base, which also
 # drops their rule groups; scraping k3s's single-process control plane needs k3s playbook changes.
 resources:
@@ -11,8 +10,6 @@ resources:
   - grafana-admin-onepassword.yaml
   - node-exporter-physical-scrapeconfig.yaml
   - windows-exporter-physical-scrapeconfig.yaml
-  - prometheus-gen3-httproute.yaml
-  - grafana-gen3-httproute.yaml
 
 patches:
   - path: kube-prometheus-stack-helm-release-patch.yaml
