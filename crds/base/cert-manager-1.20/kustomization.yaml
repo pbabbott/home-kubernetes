@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# cert-manager v1.20.5 CRDs (release asset cert-manager.crds.yaml). Gen3 only; gen2 stays on ../cert-manager (1.15.1).
+resources:
+  - cert-manager.crds.yaml
