@@ -6,10 +6,3 @@ resources:
 
 patches:
   - path: blog-deployment-patch.yaml
-  # Phase 8: public traffic is served by gen3 (eero forward -> .29). Stopped, prune follows in a later merge. Revert to roll back.
-  - target:
-      kind: Deployment
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 0
