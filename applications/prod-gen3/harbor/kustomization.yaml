@@ -60,6 +60,10 @@ patches:
         namespace: flux-system
       spec:
         values:
+          # gen3 nodes have no IPv6 (nginx/portal fail on listen [::]:8080)
+          ipFamily:
+            ipv6:
+              enabled: false
           portal:
             affinity:
               nodeAffinity:
