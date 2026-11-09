@@ -31,9 +31,7 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: prometheus.local.abbottland.io
-      # pihole-dns-enabled label kept: record target comes from the Gateway annotation (192.168.6.29).
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
+      # record target comes from the Gateway annotation (192.168.6.29).
   - target:
       kind: HTTPRoute
       name: grafana-ui
@@ -42,5 +40,3 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: grafana.local.abbottland.io
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target

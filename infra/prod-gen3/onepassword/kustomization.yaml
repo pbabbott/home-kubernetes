@@ -5,13 +5,3 @@ kind: Kustomization
 resources:
   - ../../base/onepassword
   - op-credentials.yaml
-
-patches:
-  # The base route pins the gen2 HAProxy (.28) as external-dns target; the gen3 Gateway sets .29.
-  - target:
-      kind: HTTPRoute
-      name: op-connect
-      namespace: op-connect
-    patch: |-
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target

@@ -15,8 +15,6 @@ patches:
       - op: replace
         path: /spec/hostnames/0
         value: pihole.local.abbottland.io
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   - target:
       kind: HTTPRoute
       name: pihole-http-to-https

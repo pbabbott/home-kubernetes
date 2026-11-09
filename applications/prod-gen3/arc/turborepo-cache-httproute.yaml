@@ -5,8 +5,6 @@ metadata:
   namespace: arc-runners
   labels:
     pihole-dns-enabled: "true"
-  annotations:
-    external-dns.alpha.kubernetes.io/target: "192.168.6.28"
 spec:
   parentRefs:
     - name: istio-ingress
