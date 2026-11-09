@@ -1,19 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 7 public apps: staged on gen3 next to gen2, routes carry no DNS labels until Phase 8 (umami-admin: until its LAN flip).
+# Phase 7 public apps: staged on gen3 next to gen2, public routes carry external-dns-enabled since Phase 8.
 resources:
   - ../../base/home-assistant
-
-patches:
-  # Staged, not DNS-live: no Cloudflare record until the Phase 8 cutover (remove this patch then).
-  - target:
-      kind: HTTPRoute
-      labelSelector: external-dns-enabled=true
-    patch: |-
-      - op: remove
-        path: /metadata/labels/external-dns-enabled
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
-      - op: remove
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1cloudflare-proxied

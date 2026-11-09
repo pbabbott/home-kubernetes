@@ -3,14 +3,19 @@ kind: HTTPRoute
 metadata:
   name: podinfo-public
   namespace: podinfo
-  # No pihole-dns-enabled / external-dns-enabled labels: no DNS records until Phase 5.
+  # Phase 8: live public name (same host gen2 serves); Cloudflare external-dns ownership moves to gen3.
+  labels:
+    external-dns-enabled: "true"
+  annotations:
+    external-dns.alpha.kubernetes.io/target: abbottland.io
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 spec:
   parentRefs:
     - name: istio-ingress-public
       namespace: istio-system
       sectionName: https-public
   hostnames:
-    - "podinfo-gen3.abbottland.io"
+    - "podinfo.abbottland.io"
   rules:
     - matches:
         - path:

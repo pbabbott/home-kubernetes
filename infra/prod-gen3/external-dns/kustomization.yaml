@@ -2,9 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # Pi-hole instance: upsert-only + registry noop so it never deletes gen2's records (same domain).
-# Cloudflare instance: dormant (0 replicas + --dry-run) until the public cutover (Phase 8).
-# Phase 8 note: gen2 owns its Cloudflare CNAMEs via the txt registry (owner prod-gen2); gen3 must
-# use the same owner id (or the records must be recreated) to take them over.
+# Cloudflare instance: observer (--dry-run) until gen2's instance is stopped (Phase 8 merge 3).
+# Owner id prod-gen2 = gen2's, so gen3 takes over the existing Cloudflare records.
 resources:
   - ../../base/external-dns
 
@@ -15,23 +14,11 @@ patches:
     patch: |-
       - op: add
         path: /spec/values/txtOwnerId
-        value: prod-gen3
+        # Inherits gen2's ownership of the existing Cloudflare records (txt registry owner).
+        value: prod-gen2
       - op: add
         path: /spec/values/domainFilters
         value: ["abbottland.io"]
-      # chart 1.15.0 hardcodes replicas: 1 (no replicaCount value), so scale to 0 via a post-renderer.
-      - op: add
-        path: /spec/postRenderers
-        value:
-          - kustomize:
-              patches:
-                - target:
-                    kind: Deployment
-                    name: external-dns
-                  patch: |-
-                    - op: replace
-                      path: /spec/replicas
-                      value: 0
       - op: add
         path: /spec/values/extraArgs/-
         value: --dry-run
