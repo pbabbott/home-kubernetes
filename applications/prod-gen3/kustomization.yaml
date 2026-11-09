@@ -17,3 +17,8 @@ resources:
   - ./harbor
   - ./harbor-cleanup
   - ./arc
+  - ./blog
+  - ./fui-components
+  - ./diagram-maker
+  - ./umami
+  - ./home-assistant
