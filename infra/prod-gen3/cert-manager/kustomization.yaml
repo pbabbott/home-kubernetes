@@ -5,13 +5,8 @@ resources:
   - ../../base/cert-manager
 
 patches:
-  # Staging issuer only: gen2 owns the prod certs (duplicate-certificate rate limit).
-  - patch: |-
-      apiVersion: cert-manager.io/v1
-      kind: ClusterIssuer
-      metadata:
-        name: letsencrypt-prod
-      $patch: delete
+  # letsencrypt-prod is enabled on gen3 for the INTERNAL gateway only (*.local.abbottland.io,
+  # Phase 8 early step); the public gateway still uses staging until the public cutover.
   # cloudflare-ddns is not ported yet (Phase 8).
   - patch: |-
       apiVersion: apps/v1
