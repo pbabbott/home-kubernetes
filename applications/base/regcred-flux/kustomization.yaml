@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Shared Harbor pull secret for Flux ImageRepositories (flux-system). Used by every cluster that runs ImageRepositories on harbor.local.
+resources:
+  - regcred-flux-onepassworditem.yaml

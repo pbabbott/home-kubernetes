@@ -23,7 +23,6 @@ resources:
   - postgres-credentials-onepassworditem.yaml
   - qbittorrent-credentials-onepassworditem.yaml
   - regcred-onepassworditem.yaml
-  - regcred-flux-onepassworditem.yaml
   # Services
   - gluetun-service.yaml
   - gluetun-service-http-proxy.yaml

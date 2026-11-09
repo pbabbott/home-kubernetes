@@ -7,4 +7,5 @@ resources:
   - ./fui-components
   - ./home-assistant
   - ./podinfo
+  - ./regcred-flux
   - ./umami

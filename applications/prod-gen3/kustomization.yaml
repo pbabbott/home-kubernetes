@@ -7,6 +7,7 @@ resources:
   - ./asustor
   - ./haproxy
   - ./plex
+  - ./regcred-flux
   - ./mcp-grafana
   - ./dashy
   - ./media
