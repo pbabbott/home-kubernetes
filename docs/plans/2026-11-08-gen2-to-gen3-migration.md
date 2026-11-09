@@ -82,7 +82,7 @@ Move each = remove from `applications/prod-gen2/kustomization.yaml`, add to `app
 - [x] (2026-11-08, aefa906) 6b: flip `prometheus.local` / `grafana.local` to gen3 (separate unlabelled `*-gen3` routes; gen2 UI routes renamed `prometheus-gen2.local` / `grafana-gen2.local`, show the gen2 diff first)
 - [x] (6c, 2026-11-08: staged unlabelled in abb35d2, `--resolve` test matched gen2; flipped in 84c93bb; record .28 -> .29 unaided; Pi-hole 49 records, diff vs baseline = only this record) pihole proxy route (`infra/base/pihole` HTTPRoute -> bananapi `.144:8081`) -> gen3 (6c, last)
 - [x] (2026-11-08, staged 0beddf8, flipped 462b586) flux-operator web UI HTTPRoute + `flux-gitops` (flux-operator-mcp) -> gen3 (`03-flux-gitops-ks`, no `fluxinstance.yaml`). Gen2's `flux.local` route comes from the flux-operator HelmRelease (`infra/prod-gen2/flux-operator`, `web.httpRoute`), gen3's flux-operator is Ansible Helm without a route, so gen3 needs a standalone HTTPRoute to svc `flux-operator:9080`; the MCP HelmRelease `dependsOn: flux-operator` must be patched out on gen3 (no such HR there).
-- [ ] Note: `home-assistant` is a proxy to `192.168.4.24` but public (`homeassistant.abbottland.io`, Cloudflare) → belongs to the public cutover (Phase 8), not here.
+- [ ] Note: `home-assistant` is a proxy to `192.168.4.37` (was wrongly .24 until 2026-11-09) but public (`homeassistant.abbottland.io`, Cloudflare) → belongs to the public cutover (Phase 8), not here.
 
 ### Phase 7 — Wave 2 apps: stateful (sessions 10–13, one logical group per session)
 - [x] (2026-11-09: all 7 deployments moved; gen2 stop 3c0fb12, gen3 up 2284cc3, flip 8d52cf5; gen2 namespace/PVCs pruned 2026-11-09 in 70c7aa6 after the user's smoke test (no soak by choice); see "Phase 7 media learnings") **media** stack (sonarr, radarr, prowlarr, qbittorrent, gluetun): 5 config PVCs restore via `longhorn-restore.sh` (sonarr/radarr/qbit 5Gi, prowlarr 2Gi, gluetun 1Gi; pre-create PVC before enabling app); `media-pv`/`media-pvc` (`manual`, RWX 10Ti, `/volume1/Media`) re-created from base manifests, no data move; NAS Postgres shared — gen2 scaled to 0 first. Verify VPN (gluetun) works from gen3 node network. Runbook: `docs/ai-reference-gen3-data-move.md`.
@@ -389,7 +389,7 @@ Storage: LH = Longhorn PVC, NFS = NAS PV/`nas-storage`, ext = NAS Postgres/Redis
 | asustor | none | lan (+`nas.local` DNSEndpoint) | P6; needs external-dns `crd` source |
 | plex | none (proxy to NAS) | none | P6 |
 | pihole proxy, flux UI, flux-mcp | none | lan | P6 |
-| home-assistant | none (proxy to 192.168.4.24) | pub | P7/P8 |
+| home-assistant | none (proxy to 192.168.4.37) | pub | P7/P8 |
 | blog, fui-components, diagram-maker | none | pub | P7/P8; NetworkPolicy + image automation (gen2 only until P9) |
 | umami | ext Postgres | pub+lan | P7/P8 |
 | coder | ext Postgres | lan | P7 |
