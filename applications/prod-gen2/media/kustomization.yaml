@@ -1,9 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Phase 7 (media move to gen3): all workloads stopped on gen2 so the app only ever runs in ONE
-# cluster (shared NAS Postgres + NFS). Namespace, PVCs and routes stay: gen2 PVs are reclaim
-# `Delete`, so do NOT remove media from this overlay until the gen3 soak is over.
+# Phase 7 (media move to gen3): workloads stopped on gen2 so the app only ever runs in ONE
+# cluster (shared NAS Postgres + NFS), and the routes are deleted (flipped to gen3).
+# Namespace and PVCs stay: gen2 PVs are reclaim `Delete`, so do NOT remove media from this
+# overlay until the gen3 soak is over.
 resources:
   - ../../base/media
 
@@ -14,3 +15,11 @@ patches:
       - op: replace
         path: /spec/replicas
         value: 0
+  - target:
+      kind: HTTPRoute
+    patch: |-
+      $patch: delete
+      apiVersion: gateway.networking.k8s.io/v1
+      kind: HTTPRoute
+      metadata:
+        name: ignored
