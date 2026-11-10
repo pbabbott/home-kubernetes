@@ -15,9 +15,10 @@ resources:
   - turborepo-cache-httproute.yaml
 
 patches:
-  # runner scale sets: gen3 names. Placement is a HARD rule to workers 1/2 (16 GB each): worker-3 is a
-  # 6 GB VM on chimaera (shared host, IO-bound) and a preferred-only rule let three dind pods land there
-  # and exhaust it (2026-11-09 CI run). maxRunners and requests are sized for 2 x ~11 GB free.
+  # runner scale sets: gen3 names. Placement is a HARD rule to the worker nodes (not the controllers).
+  # Worker-3 (chimaera, NVMe) was excluded while it was a 6 GB VM that ran out of memory under 3 dind pods
+  # (2026-11-09 CI run); it was resized to 8 cores / 32 GB on 2026-11-10 (#41), so it is allowed again.
+  # maxRunners and requests are sized for 2 x ~11 GB free on workers 1/2 plus ~28 GB on worker-3.
   - target:
       kind: HelmRelease
       name: arc-runner-amd64
@@ -42,10 +43,10 @@ patches:
               - matchExpressions:
                   - key: kubernetes.io/hostname
                     operator: In
-                    values: [tf-prod-k3s-worker-1, tf-prod-k3s-worker-2]
+                    values: [tf-prod-k3s-worker-1, tf-prod-k3s-worker-2, tf-prod-k3s-worker-3]
       - op: replace
         path: /spec/values/maxRunners
-        value: 6
+        value: 9
   - target:
       kind: HelmRelease
       name: arc-runner-dind-amd64
@@ -70,10 +71,10 @@ patches:
               - matchExpressions:
                   - key: kubernetes.io/hostname
                     operator: In
-                    values: [tf-prod-k3s-worker-1, tf-prod-k3s-worker-2]
+                    values: [tf-prod-k3s-worker-1, tf-prod-k3s-worker-2, tf-prod-k3s-worker-3]
       - op: replace
         path: /spec/values/maxRunners
-        value: 6
+        value: 9
       - op: replace
         path: /spec/values/template/spec/containers/0/resources/requests/memory
         value: 1Gi
