@@ -21,7 +21,7 @@ HTTPRoute-level `external-dns.alpha.kubernetes.io/target` annotations are **igno
 **Consequence:** The two external-dns instances reference different Gateways. Public/Cloudflare routes use `istio-ingress-public` (annotation `abbottland.io`); internal/pihole routes use `istio-ingress` (annotation `192.168.6.29`). This is the only way to give each instance a different target — HTTPRoute annotations cannot override Gateway annotations.
 
 **Gateway annotations:**
-- `istio-ingress`: `external-dns.alpha.kubernetes.io/target: 192.168.6.29` — base file `infra/base/istio/istio-ingress-gateway-api.yaml` (still says `.28`), replaced by the patch in `infra/prod-gen3/istio/kustomization.yaml`
+- `istio-ingress`: `external-dns.alpha.kubernetes.io/target: 192.168.6.29` — file `infra/base/istio/istio-ingress-gateway-api.yaml`
 - `istio-ingress-public`: `external-dns.alpha.kubernetes.io/target: abbottland.io` — file `infra/base/istio/istio-ingress-public-gateway-api.yaml`
 
 ## Registry Setting

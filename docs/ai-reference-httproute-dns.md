@@ -15,7 +15,7 @@ The `local.` subdomain prefix distinguishes internal from public. Internal route
 
 Two Gateways in `istio-system`, both backed by the same `istio-system-istio-ingress` Service:
 
-**`istio-ingress`** — internal traffic, annotation `192.168.6.29` (the base Gateway still says `.28`; the gen3 overlay `infra/prod-gen3/istio/` replaces it)
+**`istio-ingress`** — internal traffic, annotation `192.168.6.29`
 ```
 http         → port 80, no hostname filter
 https        → *.local.abbottland.io    (internal TLS, wildcard-local-tls cert)
@@ -89,4 +89,4 @@ Internal: `<app>.local.abbottland.io`. Public: `<app>.abbottland.io`. Overlays p
 - Helm charts that hardcode the label (e.g. `applications/base/dashy`): use a HelmRelease `postRenderers` kustomize JSON patch removing `/metadata/labels/pihole-dns-enabled` while staging.
 - Gen3's flux-operator is Ansible-installed (no HelmRelease), so its UI route is a standalone HTTPRoute in `clusters/prod-gen3/flux-gitops/` (backend `flux-operator:9080`).
 - Gen3 Pi-hole external-dns is `sync` + `registry: noop` (see `ai-reference-external-dns-pihole.md`): a record with no labelled route or `DNSEndpoint` is deleted. If a record stays wrong after ~2 cycles, delete it via the Pi-hole API (see `ai-reference-pihole-api.md`) and external-dns recreates it.
-- Base routes may still carry a leftover `.28` `target` annotation (cosmetic, ignored). Do not copy it into new routes.
+- Routes carry no `target` annotation (it is ignored); do not add one.
