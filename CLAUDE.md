@@ -12,10 +12,12 @@ This repository contains two sets of top-level directories, each tied to a diffe
 - `infrastructure/` — infrastructure components (controllers, operators, etc.) for the gen 1 cluster
 - Note: Gen1 cluster is dead. Only its code remains in this repository.
 
-### Gen 2 (prod gen 2 & non-prod gen 2)
-- `crds/` — CRD installs and CRD-layer Helm/releases per cluster path (e.g. `crds/non-prod-gen2/`)
-- `applications/` — application workloads deployed to gen 2 clusters
-- `infra/` — infrastructure components for gen 2 clusters (after CRDs are present)
+### Gen 2 (retired) and Gen 3 (live: `prod-gen3`)
+- `crds/` — CRD installs and CRD-layer Helm/releases per cluster path (e.g. `crds/prod-gen3/`)
+- `applications/` — application workloads; `base/` plus one overlay per cluster
+- `infra/` — infrastructure components (after CRDs are present); `base/` plus one overlay per cluster
+- `clusters/` — per-cluster Flux entry points
+- Gen 3 (`prod-gen3`) is the only live cluster. Gen 2 (`prod-gen2`, `non-prod-gen2`) is retired and powered off; its overlays stay until the rollback window ends (~2026-12-07), see issue #35. Do not add anything to them.
 
 ## Working with the clusters
 
@@ -50,12 +52,12 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 
 Docs prefixed `ai-reference-` in `docs/` are written for AI assistant use — step-by-step procedures, known gotchas, and copy-paste commands.
 
-- `docs/ai-reference-infra.md` — cluster SSH targets, DNS patterns, Flux layering order, Longhorn backup targets
+- `docs/ai-reference-infra.md` — clusters and hosts (details in `home-playbooks/docs/HOSTS.md`), DNS patterns, Flux layering order, Longhorn backup targets
 - `docs/ai-reference-op-connect-api-access.md` — query the op-connect vault API via port-forward; list vaults/items; known vault IDs
 - `docs/ai-reference-gen3-manual-steps.md` — **read before adding a gen3 node or rebuilding gen3**: manual steps outside GitOps (Longhorn `node.longhorn.io/create-default-disk=true` node label, `/mnt/ssd` disk, NAS dirs, 1Password)
 - `docs/ai-reference-secrets.md` — **start here for secrets (gen3)**: sealed-secrets only bootstraps 1Password; how to add a secret, key backup/rebuild, re-seal `op-credentials`, dev-shell `op` limits
 - `docs/ai-reference-onepassword-operator.md` — force-reconcile `OnePasswordItem` CRDs; debug secret key mismatches; common operator errors
 - `docs/ai-reference-pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access
 - `docs/ai-reference-external-dns-pihole.md` — external-dns pihole config; why `registry: noop` is required; gateway annotation controls target (not HTTPRoute annotations); troubleshooting commands
-- `docs/ai-reference-httproute-dns.md` — how HTTPRoutes wire to DNS; Cloudflare (public `*.non-prod.abbottland.io`) vs Pihole (local `*.local.non-prod.abbottland.io`); correct labels, annotations, and gateway sectionName per provider
+- `docs/ai-reference-httproute-dns.md` — how HTTPRoutes wire to DNS; Cloudflare (public `*.abbottland.io`) vs Pihole (local `*.local.abbottland.io`); correct labels, annotations, and gateway sectionName per provider
 - `docs/ai-reference-gen3-data-move.md` — **read before moving an app's data gen2 → gen3**: Longhorn restore via `scripts/longhorn-restore.sh`, PVC binding rules, live-store safety, per-step rollback

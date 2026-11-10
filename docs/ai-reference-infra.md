@@ -2,59 +2,28 @@
 
 ## Clusters
 
-Three Kubernetes clusters:
+- **Prod gen 3** (`prod-gen3`) — the only live cluster (k3s on `hogwarts`, plus controller-3 + worker-3 on `chimaera`)
+- **Prod gen 2** (`prod-gen2`) and **Non-prod gen 2** (`non-prod-gen2`) — retired 2026-11-09. Flux suspended, VMs powered off, kept as rollback until ~2026-12-07, then destroyed (issue #40). Their overlays stay in this repo until then (issue #35)
+- **Prod gen 1** — dead; only its code remains
 
-- **Prod gen 1** — being shut down
-- **Prod gen 2** — active (WIP)
-- **Non-prod gen 2** — active (WIP)
+Hosts, IPs, SSH users and VM IDs live in `home-playbooks/docs/HOSTS.md` (not repeated here, it goes stale). Kubeconfig contexts: `scripts/get-kubeconfig.sh` in the workspace repo (`prod-gen3`).
 
-### Prod gen 2 SSH targets
-```
-tfpc1  → ssh firebolt@192.168.6.24
-tfpw1  → ssh firebolt@192.168.6.25
-tfpw2  → ssh firebolt@192.168.6.26
-tfpw3  → ssh firebolt@192.168.6.27
-```
+### Ingress (HAProxy)
 
-### Non-prod gen 2 SSH targets
-```
-tfnpc1 → ssh firebolt@192.168.6.31
-tfnpw1 → ssh firebolt@192.168.6.32
-tfnpw2 → ssh firebolt@192.168.6.33
-tfnpw3 → ssh firebolt@192.168.6.34
-```
-
-### Prod gen 1 SSH targets
-```
-controller → ssh firebolt@192.168.4.193
-worker1    → ssh firebolt@192.168.4.194
-worker2    → ssh firebolt@192.168.4.195
-worker3    → ssh firebolt@192.168.5.81
-dumbledore → ssh albus@192.168.4.157
-```
-
-### Proxmox host
-
-All gen 2 hosts are VMs on this host: `ssh root@192.168.4.192`
-
-### HAProxy (gen 2 load balancer)
-
-Sits in front of prod gen 2 and non-prod gen 2. Stats page: [http://192.168.6.28:8404/](http://192.168.6.28:8404/)
+HAProxy LXC `192.168.6.29` (on `hogwarts`) fronts the gen3 workers (NodePorts 30080/30443, PROXY v2). It serves both LAN and public traffic (eero forwards WAN 80/443 to it). Stats: [http://192.168.6.29:8404/](http://192.168.6.29:8404/). The gen2 HAProxy `.28` was destroyed.
 
 ## DNS and Ingress Hostnames
 
-Wildcard patterns for gen 2 clusters (HTTPRoute `hostnames`, TLS certs, split-horizon DNS):
+Wildcard patterns (HTTPRoute `hostnames`, TLS certs, split-horizon DNS):
 
-| Pattern | Cluster | Visibility |
-| --- | --- | --- |
-| `*.abbottland.io` | Prod gen 2 | Public |
-| `*.local.abbottland.io` | Prod gen 2 | Internal |
-| `*.non-prod.abbottland.io` | Non-prod gen 2 | Public |
-| `*.local.non-prod.abbottland.io` | Non-prod gen 2 | Internal |
+| Pattern | Visibility |
+| --- | --- |
+| `*.abbottland.io` (and the apex) | Public (Cloudflare) |
+| `*.local.abbottland.io` | Internal (Pi-hole) |
 
-`*.local.*` = internal. Without `local` = public.
+`*.local.*` = internal. Without `local` = public. The `*.non-prod.*` patterns belonged to non-prod gen2 and are unused.
 
-## Flux Layering (Gen 2)
+## Flux Layering
 
 Numbered `Kustomization` files under `clusters/<cluster>/`:
 
@@ -72,11 +41,12 @@ NFS host: `192.168.4.124`, base export: `/volume1/Backups/`
 
 | Cluster | Backup target |
 | --- | --- |
-| Non-prod gen 2 | `nfs://192.168.4.124:/volume1/Backups/longhorn-nonprod` |
-| Prod gen 2 | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod` |
-| Prod gen 3 | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3` (own store; never write to gen2's). Worker nodes need a manual label, see `ai-reference-gen3-manual-steps.md` |
+| Prod gen 3 | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3`. Worker nodes need a manual label, see `ai-reference-gen3-manual-steps.md` |
+| Prod gen 2 (retired) | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod`. Holds the final gen2 backups (`p7-final-*`, rollback for moved volumes); gen3 must never write to it. Delete only deliberately (issue #40) |
+| Non-prod gen 2 (retired) | `nfs://192.168.4.124:/volume1/Backups/longhorn-nonprod` |
 
 ## Cluster Notes
 
 - Workers run containerd
 - SSH key auth only (no passwords)
+- gen3 nodes have no IPv6

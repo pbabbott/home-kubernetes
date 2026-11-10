@@ -39,10 +39,10 @@ curl -s "http://192.168.4.144:8081/admin/api.php?customdns&action=get&auth=$AUTH
 # Response: {"data":[["hostname","ip"],...]}
 
 # Add
-curl -s "http://192.168.4.144:8081/admin/api.php?customdns&action=add&ip=192.168.6.28&domain=foo.example.com&auth=$AUTH"
+curl -s "http://192.168.4.144:8081/admin/api.php?customdns&action=add&ip=192.168.6.29&domain=foo.example.com&auth=$AUTH"
 
 # Delete
-curl -s "http://192.168.4.144:8081/admin/api.php?customdns&action=delete&ip=192.168.6.28&domain=foo.example.com&auth=$AUTH"
+curl -s "http://192.168.4.144:8081/admin/api.php?customdns&action=delete&ip=192.168.6.29&domain=foo.example.com&auth=$AUTH"
 ```
 
 ### CNAME Records
@@ -64,5 +64,5 @@ curl -s "http://192.168.4.144:8081/admin/api.php?customcname&action=delete&domai
 - `customdns` = A/AAAA records stored in `/etc/pihole/custom.list`
 - `customcname` = CNAME records stored in `/etc/dnsmasq.d/05-pihole-custom-cname.conf`
 - Delete errors: `{"success":false,"message":"This domain/ip association does not exist"}` — record already gone or wrong ip/target value
-- External-dns manages records in `local.non-prod.abbottland.io` domain
+- External-dns (gen3, `sync` + `registry: noop`) manages records in `local.abbottland.io`: it deletes any record without a labelled route or `DNSEndpoint`, so add manual records via a `DNSEndpoint`, not this API
 - Static host records (`elderwand`, `bananapi`, `nas`, etc.) are in `local.abbottland.io` — do not delete
