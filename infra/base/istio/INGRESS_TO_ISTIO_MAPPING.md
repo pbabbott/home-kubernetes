@@ -1,6 +1,6 @@
-# Ingress-Nginx → Istio mapping (gen2 clusters)
+# Ingress-Nginx → Istio mapping (gen1 → gen2 translation, kept for reference)
 
-Source: `[infrastructure/controllers/ingress-nginx/ingress-nginx-helm-release.yaml](../../../infrastructure/controllers/ingress-nginx/ingress-nginx-helm-release.yaml)`  
+Source: `infrastructure/controllers/ingress-nginx/ingress-nginx-helm-release.yaml` (removed; at git tag `archive-gen1-homelab`, see `docs/archive/gen1-homelab.md`)  
 Istio install: `[istio-ingress-helm-release.yaml](istio-ingress-helm-release.yaml)` and related HelmReleases in this directory.
 
 This is a **best-effort** translation. Items without a 1:1 Helm value are called out below.

@@ -5,19 +5,17 @@ Be brief.
 
 ## Repository Folder Structure
 
-This repository contains two sets of top-level directories, each tied to a different cluster generation:
-
-### Gen 1 (homelab / "prod gen 1")
-- `apps/` — application workloads deployed to the gen 1 cluster
-- `infrastructure/` — infrastructure components (controllers, operators, etc.) for the gen 1 cluster
-- Note: Gen1 cluster is dead. Only its code remains in this repository.
-
-### Gen 2 (retired) and Gen 3 (live: `prod-gen3`)
-- `crds/` — CRD installs and CRD-layer Helm/releases per cluster path (e.g. `crds/prod-gen3/`)
+Only the gen 3 cluster (`prod-gen3`) is live. Top-level directories:
+- `crds/` — CRD installs per cluster path (`base/` plus `prod-gen3/`)
 - `applications/` — application workloads; `base/` plus one overlay per cluster
 - `infra/` — infrastructure components (after CRDs are present); `base/` plus one overlay per cluster
-- `clusters/` — per-cluster Flux entry points
-- Gen 3 (`prod-gen3`) is the only live cluster. Gen 2 (`prod-gen2`, `non-prod-gen2`) is retired and powered off; its overlays stay until the rollback window ends (~2026-12-07), see issue #35. Do not add anything to them.
+- `clusters/` — per-cluster Flux entry points (`clusters/prod-gen3/`)
+
+## Archived clusters
+
+Gen 1 (`homelab`) and gen 2 (`prod-gen2`, `non-prod-gen2`) existed; their code was removed from this repo. Do not look for it
+or restore it unless asked. Overview and how to browse the old code: `docs/archive/README.md`
+(git tags `archive-gen1-homelab`, `archive-gen2-prod`, `archive-gen2-nonprod`).
 
 ## Working with the clusters
 

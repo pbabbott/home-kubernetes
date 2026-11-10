@@ -1,4 +1,4 @@
-# ASUSTOR web UI (see apps/homelab/asustor). Override per cluster if needed.
+# ASUSTOR web UI. Override per cluster if needed.
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:

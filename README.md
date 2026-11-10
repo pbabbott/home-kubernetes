@@ -8,6 +8,7 @@ A gitops-based approach for all my kubernetes charts, manifests, and helm deploy
   - [Secret Rotations](#secret-rotations)
   - [Reference](#reference)
     - [External Docs](#external-docs)
+- [Archive](#archive)
 
 # Contribution 
 
@@ -47,3 +48,12 @@ Secrets should be rotated and it can become a bit tedious to do so. These docume
 ### External Docs
 - [Grafana Operator Documentation](https://grafana.github.io/grafana-operator/docs/)
 - [Kustomize Documentation Reference](https://kubectl.docs.kubernetes.io/references/kustomize/)
+
+# Archive
+
+Only the gen 3 cluster (`prod-gen3`) lives in this repo. The earlier clusters' code was removed and is preserved at git tags (all at `c32de0e`). Each overview page lists the apps and infrastructure the cluster ran, its Flux layout and technology choices, and how to browse the old code.
+
+- [Archive index and how to browse the tags](./docs/archive/README.md)
+- [Gen 1 `homelab`](./docs/archive/gen1-homelab.md) - tag `archive-gen1-homelab`
+- [Gen 2 `prod-gen2`](./docs/archive/gen2-prod.md) - tag `archive-gen2-prod`
+- [Gen 2 `non-prod-gen2`](./docs/archive/gen2-nonprod.md) - tag `archive-gen2-nonprod`

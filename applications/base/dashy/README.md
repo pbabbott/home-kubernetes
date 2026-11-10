@@ -1,28 +1,27 @@
 # Dashy Helm Chart
 
-Local Helm chart wrapping the [Dashy](https://dashy.to) dashboard, deployed to prod-gen2 and non-prod-gen2.
+Local Helm chart wrapping the [Dashy](https://dashy.to) dashboard, deployed to prod-gen3.
 
 ## Structure
 
 | Path | Purpose |
 |------|---------|
 | `templates/configmap.yaml` | Dashboard config rendered via Helm values |
-| `values.yaml` | Base defaults (non-prod-safe) |
-| `../../prod-gen2/dashy/helmrelease.yaml` | Prod overrides |
-| `../../non-prod-gen2/dashy/helmrelease.yaml` | Non-prod overrides |
+| `values.yaml` | Base defaults |
+| `../../prod-gen3/dashy/helmrelease.yaml` | Gen3 overrides |
 
 ## Conventions
 
-**URLs are always Helm template vars** — never hardcode service URLs in `configmap.yaml`. Add new URLs to `values.yaml` and both `helmrelease.yaml` files. Prod and non-prod use different subdomains (`*.local.abbottland.io` vs `*.local.non-prod.abbottland.io`).
+**URLs are always Helm template vars** — never hardcode service URLs in `configmap.yaml`. Add new URLs to `values.yaml` and the gen3 `helmrelease.yaml`. Hostnames are `*.local.abbottland.io`.
 
 **Optional sections use conditionals** — sections that should not appear on every cluster are wrapped with `{{- if .Values.sections.<flag> }}` / `{{- end }}`. The base `values.yaml` defaults to `false`; enable per cluster in the relevant `helmrelease.yaml`.
 
 ## Section flags
 
-| Flag | prod-gen2 | non-prod-gen2 | Notes |
-|------|-----------|---------------|-------|
-| `sections.mediaEnabled` | `true` | `false` | qBittorrent, Plex, Servarr stack |
-| `sections.appsEnabled` | `true` | `false` | Personal apps (blog, diagram maker, etc.) |
+| Flag | prod-gen3 | Notes |
+|------|-----------|-------|
+| `sections.mediaEnabled` | `true` | qBittorrent, Plex, Servarr stack |
+| `sections.appsEnabled` | `true` | Personal apps (blog, diagram maker, etc.) |
 
 ## Versioning
 

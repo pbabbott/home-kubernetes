@@ -17,12 +17,12 @@ BASE=https://coder.local.abbottland.io
 ## Step 1: Check Coder HelmRelease
 
 ```bash
-kubectl get helmrelease coder -n flux-system --context prod-gen2 -o jsonpath='{.status.conditions}' | python3 -m json.tool
+kubectl get helmrelease coder -n flux-system --context prod-gen3 -o jsonpath='{.status.conditions}' | python3 -m json.tool
 ```
 
 If `RetriesExceeded`: Flux gave up. Run:
 ```bash
-flux reconcile helmrelease coder -n flux-system --reset --context prod-gen2 &
+flux reconcile helmrelease coder -n flux-system --reset --context prod-gen3 &
 ```
 
 ## Step 2: Check workspace + build status
@@ -51,14 +51,14 @@ curl -s -H "Coder-Session-Token: $TOKEN" "$BASE/api/v2/workspacebuilds/$BUILD_ID
 ## Step 4: Check pod logs
 
 ```bash
-kubectl get pods -n coder-workspaces --context prod-gen2
-kubectl logs -n coder-workspaces <pod> --context prod-gen2 2>&1 | head -60
+kubectl get pods -n coder-workspaces --context prod-gen3
+kubectl logs -n coder-workspaces <pod> --context prod-gen3 2>&1 | head -60
 ```
 
 Also check `coder` namespace for the server pod:
 ```bash
-kubectl get pods -n coder --context prod-gen2
-kubectl logs -n coder <coder-pod> --context prod-gen2 2>&1 | tail -30
+kubectl get pods -n coder --context prod-gen3
+kubectl logs -n coder <coder-pod> --context prod-gen3 2>&1 | tail -30
 ```
 
 ## Common failures and fixes
@@ -69,7 +69,7 @@ kubectl logs -n coder <coder-pod> --context prod-gen2 2>&1 | tail -30
 | `database "coderdb" does not exist` | DB not created on NAS postgres | `CREATE DATABASE coderdb;` on NAS |
 | `exec: "git": executable file not found` | envbuilder got `owner/repo` not full URL | Pass `https://github.com/owner/repo` — or fix template `repo_url` local |
 | `Falling back to the default image` | devcontainer.json not found or build failed | Check `/workspaces/<repo>/.devcontainer/` exists in pod |
-| `RetriesExceeded` | Helm install timed out (pod never Ready) | `flux reconcile helmrelease coder -n flux-system --reset --context prod-gen2` |
+| `RetriesExceeded` | Helm install timed out (pod never Ready) | `flux reconcile helmrelease coder -n flux-system --reset --context prod-gen3` |
 | `CrashLoopBackOff` | Coder server crashing | Check coder pod logs for DB connection errors |
 | `code-server app unhealthy, port 13337 refused` | code-server not installed/running | See section below |
 

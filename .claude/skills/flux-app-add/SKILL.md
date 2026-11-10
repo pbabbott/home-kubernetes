@@ -3,7 +3,7 @@ name: flux-app-add
 description: Add a new Helm-based application to prod-gen3 via Flux — namespace, HelmRepository, HelmRelease, HTTPRoute, kustomization overlay
 ---
 
-Use when installing a new application into the gen3 cluster (`prod-gen3`) via GitOps. Gen2 is retired: never add to `*-gen2` overlays.
+Use when installing a new application into the gen3 cluster (`prod-gen3`) via GitOps. Gen1/gen2 are archived (`docs/archive/`).
 
 ## Directory layout
 

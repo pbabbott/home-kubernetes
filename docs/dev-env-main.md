@@ -73,9 +73,9 @@ $ controller
 $ logout 
 ```
 
-Now, back here in the devcontainer, Get the kubeconfig file
+Now, back here in the devcontainer, get the kubeconfig file with the workspace script (run from the workspace root, outside this repo):
 ```sh
-./scripts/get-kube-config-file.sh
+scripts/get-kubeconfig.sh prod-gen3
 ```
 
 ### 7. Celebrate ✨

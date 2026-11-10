@@ -1,4 +1,4 @@
-# Stats UI (see apps/homelab/haproxy). Override per cluster if needed.
+# Stats UI. Override per cluster if needed.
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
