@@ -1,58 +1,26 @@
 # Secrets - Registry Credentials
 
-The purpose of this document is to explain how registry credentials can be updated and rotated across the cluster.
+How the container registry credentials (Harbor, https://harbor.local.abbottland.io) are delivered to the cluster and rotated.
 
 ## Overview
 
-There is a container registry located at https://harbor.local.abbottland.io.  There are several services set up that require interaction with this private container registry:
+Workloads that pull from or push to the private registry get a `kubernetes.io/dockerconfigjson` Secret named `regcred`
+(and `regcred-flux` in `flux-system`, used by Flux image automation). They are all `OnePasswordItem` resources pointing at the
+same 1Password item, so there are no sealed secrets to regenerate:
 
-- `gluetun-sync`
-- `flux-system`
+- `applications/base/regcred-flux/regcred-flux-onepassworditem.yaml` (Flux)
+- `applications/base/<app>/regcred-onepassworditem.yaml` (blog, diagram-maker, fui-components, harbor-cleanup, home-hud, media)
 
-## Update Procedure
+Item: `vaults/Homelab/items/harbor.local.abbottland.io - admin`.
 
-The username and password for the registry exist in 1Password and can be updated via the harbor UI.  Once the credentials have been updated, and extra step is required to update the various registry credentials across the cluster since the username/password pair needs to be transformed into a special secret format.
+## Rotate
 
-### Step 1 - Update Secret Value
+1. Change the credentials in the Harbor UI and in the 1Password item.
+2. The 1Password operator picks up the change and updates every `regcred` Secret; `operator.1password.io/auto-restart` restarts the pods.
+   To force it, see `docs/ai-reference-onepassword-operator.md`.
 
-Go to harbor website and update the secret value in the UI
+## Add `regcred` to a new app
 
-### Step 2 - Update Sealed Secrets
+Copy `applications/base/media/regcred-onepassworditem.yaml` into the app, change `namespace`, and list it in the app's `kustomization.yaml`.
 
-Next, we need to run a script to take this username/password combo, transform them into a docker registry secret.  This script will then update various SealedSecrets throughout the cluster.
-
-```sh
-./scripts/update-regcred-secret.sh
-```
-
-### Step 3 - Commit and Push
-
-Commit and push the changes to remote.
-
-## Create Procedure
-
-In order to set up a new instance of `regcred` in the cluster, there are a few steps that need to be followed:
-
-### Step 1 - Create a new file
-
-The first step is to create a new file where the secret should live. For example..
-
-```sh
-touch ./apps/homelab/development/harbor-regcred.yaml
-```
-
-### Step 2 - Update the update script
-
-Next, we want to update the script called `update-regcred-secret.sh` that way we'll get updates whenever the update procedure is run
-
-```sh
-create_reg_cred_secret brandon-dev ./apps/homelab/development/harbor-regcred.yaml
-```
-
-### Step 3 - Run the update script
-
-Finally, it makes sense to run the update script so that the newly created file gets actual content
-
-### Step 4 - Commit, Push, Reconcile
-
-The last step is to commit the sealed secret to git, push it to remote, and reconile changes into the cluster
+The earlier sealed-secret approach (a script that regenerated `harbor-regcred.yaml` files) belonged to gen1 and is archived, see `docs/archive/gen1-homelab.md`.

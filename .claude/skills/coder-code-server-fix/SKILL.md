@@ -16,8 +16,8 @@ TEMPLATE_ID=06e4058e-58f5-4534-894a-9181c7b9d945  # kubernetes-ubuntu
 Run this in the pod to get code-server up without a restart:
 
 ```bash
-POD=$(kubectl get pods -n coder-workspaces --context prod-gen2 -o jsonpath='{.items[0].metadata.name}')
-kubectl exec -n coder-workspaces $POD --context prod-gen2 -- bash -c "
+POD=$(kubectl get pods -n coder-workspaces --context prod-gen3 -o jsonpath='{.items[0].metadata.name}')
+kubectl exec -n coder-workspaces $POD --context prod-gen3 -- bash -c "
   if [ ! -f /tmp/code-server/bin/code-server ]; then
     curl -fsSL https://code-server.dev/install.sh | sh -s -- --method=standalone --prefix=/tmp/code-server
   fi
@@ -129,25 +129,25 @@ curl -s -X PATCH -H "Coder-Session-Token: $TOKEN" -H "Content-Type: application/
 ## Diagnosing why code-server isn't running
 
 ```bash
-POD=$(kubectl get pods -n coder-workspaces --context prod-gen2 -o jsonpath='{.items[0].metadata.name}')
+POD=$(kubectl get pods -n coder-workspaces --context prod-gen3 -o jsonpath='{.items[0].metadata.name}')
 
 # What script actually ran?
-kubectl exec -n coder-workspaces $POD --context prod-gen2 -- bash -c "
+kubectl exec -n coder-workspaces $POD --context prod-gen3 -- bash -c "
   grep -A 25 'running agent script' /tmp/coder-agent.log | head -30
 "
 
 # Did it complete fast (< 200ms)? Install was skipped or failed silently.
-kubectl exec -n coder-workspaces $POD --context prod-gen2 -- bash -c "
+kubectl exec -n coder-workspaces $POD --context prod-gen3 -- bash -c "
   grep 'script completed' /tmp/coder-agent.log
 "
 
 # Is the binary there?
-kubectl exec -n coder-workspaces $POD --context prod-gen2 -- bash -c "
+kubectl exec -n coder-workspaces $POD --context prod-gen3 -- bash -c "
   ls -la /tmp/code-server/bin/ 2>/dev/null || echo 'NOT INSTALLED'
 "
 
 # Is code-server running?
-kubectl exec -n coder-workspaces $POD --context prod-gen2 -- bash -c "
+kubectl exec -n coder-workspaces $POD --context prod-gen3 -- bash -c "
   ps aux | grep code-server | grep -v grep
   cat /tmp/code-server.log 2>/dev/null | tail -10
 "

@@ -4,13 +4,12 @@ description: Recover Flux GitOps from failures — GitRepository fetch errors, K
 tools: Bash, Read, Edit, Glob, Grep
 ---
 
-You are a Flux GitOps recovery specialist for a homelab multi-cluster setup (prod-gen2, non-prod-gen2).
+You are a Flux GitOps recovery specialist for a homelab gen3 cluster (`prod-gen3`).
 
 ## Cluster Contexts
 
 ```bash
-kubectx prod-gen2      # production cluster
-kubectx non-prod-gen2  # non-production cluster
+kubectx prod-gen3      # the only live cluster
 ```
 
 Flux MCP server also available — prefer `flux` CLI or MCP over annotating resources.
@@ -123,7 +122,7 @@ flux reconcile imagepolicy myapp -n flux-system
 
 ## File Locations
 
-- `crds/prod-gen2/` and `crds/non-prod-gen2/` — CRD layer
-- `infra/prod-gen2/` and `infra/non-prod-gen2/` — infra layer
-- `applications/prod-gen2/` and `applications/non-prod-gen2/` — app overlays
+- `crds/prod-gen3/` — CRD layer
+- `infra/prod-gen3/` — infra layer
+- `applications/prod-gen3/` — app overlays
 - `applications/base/` — shared base configs

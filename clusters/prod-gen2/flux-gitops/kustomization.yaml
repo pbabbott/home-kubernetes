@@ -1,7 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-# Phase 6b: flux-operator-mcp and flux-web-http-to-https moved to gen3
-# (clusters/prod-gen3/flux-gitops); only the FluxInstance stays here.
-resources:
-  - fluxinstance.yaml

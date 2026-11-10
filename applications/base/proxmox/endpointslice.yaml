@@ -1,4 +1,4 @@
-# External Proxmox UI (see apps/homelab/proxmox). Override per cluster if needed.
+# External Proxmox UI. Override per cluster if needed.
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:

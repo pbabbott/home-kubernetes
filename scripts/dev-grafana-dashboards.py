@@ -4,18 +4,18 @@ Hot-push Grafana dashboard JSON files to a cluster on save.
 stdlib only — no pip packages required.
 
 Usage:
-  ./scripts/dev-grafana-dashboards.py           # targets nonprod
-  ./scripts/dev-grafana-dashboards.py --prod    # targets prod (no -dev suffix)
+  ./scripts/dev-grafana-dashboards.py           # pushes copies with a -dev UID suffix to gen3 Grafana
+  ./scripts/dev-grafana-dashboards.py --prod    # pushes to the canonical UIDs (no -dev suffix)
 
   Fetches a Grafana API token automatically via get-grafana-api-key.sh
   (requires kubectl access to the target cluster context).
 
-  Defaults target nonprod. Override via env vars:
-    GRAFANA_URL         (default: https://grafana.local.non-prod.abbottland.io)
-    DASHBOARDS_DIR      (default: infra/non-prod-gen2/kube-prometheus-stack/dashboards)
+  Override via env vars:
+    GRAFANA_URL         (default: https://grafana.local.abbottland.io)
+    DASHBOARDS_DIR      (default: infra/base/kube-prometheus-stack/dashboards)
     GRAFANA_FOLDER_UID  (optional: push into a specific folder)
     POLL_INTERVAL       (default: 1.0 seconds)
-    DEV_UID_SUFFIX      (default: -dev for nonprod, empty for prod)
+    DEV_UID_SUFFIX      (default: -dev, empty with --prod)
 """
 
 import argparse
@@ -34,7 +34,7 @@ from pathlib import Path
 SCRIPTS_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = SCRIPTS_DIR.parent
 
-# Resolved in main() after arg parsing; module-level defaults are nonprod.
+# Resolved in main() after arg parsing; module-level defaults are placeholders.
 GRAFANA_URL: str = ""
 DASHBOARDS_DIR: Path = Path()
 GRAFANA_FOLDER_UID: str = ""
@@ -63,7 +63,7 @@ def ts() -> str:
 # ── token ──────────────────────────────────────────────────────────────────────
 
 def fetch_token() -> str:
-    env_var = "GRAFANA_TOKEN_PROD" if KUBE_CONTEXT == "prod-gen2" else "GRAFANA_TOKEN_NON_PROD"
+    env_var = "GRAFANA_TOKEN_PROD"
     token = os.environ.get(env_var, "").strip()
     if token:
         print(f"Using token from ${env_var}")
@@ -212,18 +212,18 @@ def main() -> None:
     global GRAFANA_URL, DASHBOARDS_DIR, GRAFANA_FOLDER_UID, POLL_INTERVAL, DEV_UID_SUFFIX, KUBE_CONTEXT
 
     parser = argparse.ArgumentParser(description="Hot-push Grafana dashboards on save.")
-    parser.add_argument("--prod", action="store_true", help="Target prod cluster instead of nonprod")
+    parser.add_argument("--prod", action="store_true", help="Push to the canonical dashboard UIDs instead of -dev copies")
     args = parser.parse_args()
 
     if args.prod:
         GRAFANA_URL = os.environ.get("GRAFANA_URL", "https://grafana.local.abbottland.io").rstrip("/")
         DASHBOARDS_DIR = Path(os.environ.get("DASHBOARDS_DIR", str(REPO_ROOT / "infra/base/kube-prometheus-stack/dashboards")))
-        KUBE_CONTEXT = os.environ.get("KUBE_CONTEXT", "prod-gen2")
+        KUBE_CONTEXT = os.environ.get("KUBE_CONTEXT", "prod-gen3")
         DEV_UID_SUFFIX = os.environ.get("DEV_UID_SUFFIX", "")
     else:
-        GRAFANA_URL = os.environ.get("GRAFANA_URL", "https://grafana.local.non-prod.abbottland.io").rstrip("/")
-        DASHBOARDS_DIR = Path(os.environ.get("DASHBOARDS_DIR", str(REPO_ROOT / "infra/non-prod-gen2/kube-prometheus-stack/dashboards")))
-        KUBE_CONTEXT = os.environ.get("KUBE_CONTEXT", "nonprod-gen2")
+        GRAFANA_URL = os.environ.get("GRAFANA_URL", "https://grafana.local.abbottland.io").rstrip("/")
+        DASHBOARDS_DIR = Path(os.environ.get("DASHBOARDS_DIR", str(REPO_ROOT / "infra/base/kube-prometheus-stack/dashboards")))
+        KUBE_CONTEXT = os.environ.get("KUBE_CONTEXT", "prod-gen3")
         DEV_UID_SUFFIX = os.environ.get("DEV_UID_SUFFIX", "-dev")
 
     GRAFANA_FOLDER_UID = os.environ.get("GRAFANA_FOLDER_UID", "")

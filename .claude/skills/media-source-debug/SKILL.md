@@ -230,7 +230,7 @@ If you see `No Results in configured categories`, the definition is failing to e
 
 ```bash
 # For LimeTorrents
-kubectl exec -n media deployment/prowlarr --context prod-gen2 -- sh -c "
+kubectl exec -n media deployment/prowlarr --context prod-gen3 -- sh -c "
 sed -i 's/default: \"{{ if .Result.category_is_tv_show }}TV shows{{ else }}Other{{ end }}\"/default: \"{{ if .Result.category_is_tv_show }}TV shows{{ else }}Movies{{ end }}\"/' /config/Definitions/limetorrents.yml
 chmod 444 /config/Definitions/limetorrents.yml
 grep -n 'Movies' /config/Definitions/limetorrents.yml | grep -v '^27:\|^31:\|^72:'

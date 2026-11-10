@@ -7,7 +7,6 @@ kind: Kustomization
 # - Both gateways use letsencrypt-prod (public gateway switched in Phase 8, before the eero flip)
 # - ztunnel: IPV6_ENABLED=false (gen3 nodes have no IPv6 in the kernel; ztunnel crashes with
 #   "Address family not supported" binding its readiness server)
-# - internal Gateway external-dns target = gen3 HAProxy 192.168.6.29 (not .28)
 # - apex listener on the public Gateway (same as gen2)
 # internal-apps-ip-allowlist (base) checked for gen3: 192.168.0.0/16 covers HAProxy .29 and LAN,
 # 10.244.0.0/16 = pod CIDR, 10.0.0.0/8 covers service CIDR 10.43.0.0/16. No change needed.
@@ -31,9 +30,6 @@ patches:
       - op: replace
         path: /metadata/annotations/cert-manager.io~1cluster-issuer
         value: letsencrypt-prod
-      - op: replace
-        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
-        value: 192.168.6.29
   - target:
       kind: Gateway
       name: istio-ingress-public

@@ -1,9 +1,9 @@
 ---
 name: flux-app-add
-description: Add a new Helm-based application to prod-gen2 (or non-prod-gen2) via Flux — namespace, HelmRepository, HelmRelease, HTTPRoute, kustomization overlay
+description: Add a new Helm-based application to prod-gen3 via Flux — namespace, HelmRepository, HelmRelease, HTTPRoute, kustomization overlay
 ---
 
-Use when installing a new application into a gen2 cluster via GitOps.
+Use when installing a new application into the gen3 cluster (`prod-gen3`) via GitOps. Gen1/gen2 are archived (`docs/archive/`).
 
 ## Directory layout
 
@@ -16,11 +16,11 @@ applications/
     <app>-httproute.yaml           # internal (pihole DNS)
     <app>-http-to-https-httproute.yaml
     kustomization.yaml
-  prod-gen2/<app>/
+  prod-gen3/<app>/
     kustomization.yaml             # references ../../base/<app>, patches hostname
 ```
 
-Add `- ./<app>` to `applications/prod-gen2/kustomization.yaml`.
+Add `- ./<app>` to `applications/prod-gen3/kustomization.yaml`.
 
 ## Namespace
 
@@ -83,6 +83,8 @@ Use `dependsOn` if the app needs another HelmRelease first (e.g. a database).
 
 ## HTTPRoute — internal only (pihole DNS, LAN)
 
+No per-route `external-dns.alpha.kubernetes.io/target` annotation: external-dns ignores it, the target comes from the Gateway (`istio-ingress` = 192.168.6.29).
+
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -91,16 +93,13 @@ metadata:
   namespace: <app>
   labels:
     pihole-dns-enabled: "true"
-  annotations:
-    external-dns.alpha.kubernetes.io/target: "192.168.6.28"
 spec:
   parentRefs:
     - name: istio-ingress
       namespace: istio-system
       sectionName: https
   hostnames:
-    - "<app>.local.abbottland.io"    # prod-gen2
-    # - "<app>.local.non-prod.abbottland.io"  # non-prod-gen2
+    - "<app>.local.abbottland.io"
   rules:
     - matches:
         - path:
@@ -172,19 +171,19 @@ env:
     value: "postgresql://$(PG_USER):$(PG_PASSWORD)@nas.local.abbottland.io/<dbname>?sslmode=disable"
 ```
 
-## prod-gen2 overlay kustomization
+## prod-gen3 overlay kustomization
 
-Base hostname uses prod domain. If app is prod-only, put the real hostname directly in base — no patch needed:
+Put the real hostname directly in base — no patch needed:
 
 ```yaml
-# applications/prod-gen2/<app>/kustomization.yaml
+# applications/prod-gen3/<app>/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base/<app>
 ```
 
-If deploying to both clusters, use a placeholder in base and patch per overlay:
+If the app needs a gen3-specific hostname or settings, patch it in the overlay (JSON 6902):
 ```yaml
 patches:
   - target:
@@ -198,10 +197,11 @@ patches:
 
 ## Hostname conventions
 
-| Cluster | Internal (pihole) | Public (cloudflare) |
-|---------|-------------------|---------------------|
-| prod-gen2 | `*.local.abbottland.io` | `*.abbottland.io` |
-| non-prod-gen2 | `*.local.non-prod.abbottland.io` | `*.non-prod.abbottland.io` |
+| Internal (pihole) | Public (cloudflare) |
+|-------------------|---------------------|
+| `<app>.local.abbottland.io` | `<app>.abbottland.io` |
+
+Public routes need only the label and `external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"` (the target comes from the Gateway). Public apps also need a NetworkPolicy and image update automation, see CLAUDE.md.
 
 Internal routes → `istio-ingress` / `sectionName: https`
 Public routes → `istio-ingress-public` / `sectionName: https-public` + label `external-dns-enabled: "true"`
@@ -209,7 +209,7 @@ Public routes → `istio-ingress-public` / `sectionName: https-public` + label `
 ## Validate before committing
 
 ```bash
-kubectl kustomize applications/prod-gen2/<app> 2>&1
+kubectl kustomize applications/prod-gen3/<app> 2>&1
 ```
 
 ## Storage classes

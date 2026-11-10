@@ -8,7 +8,7 @@ This process is meant to be done once the cluster is provisioned and then a kube
 
 ### Step 1 - Obtain kubeconfig file.
 
-As a part of setting up the dev environment, you should have ran `./scripts/get-kube-config-file.sh`.  This means that you should be able to run kubectl and interact with the cluster and a file should exist at `~/.kube/config` granting access to the cluster.
+As a part of setting up the dev environment, you should have run the workspace script `scripts/get-kubeconfig.sh prod-gen3`.  This means that you should be able to run kubectl and interact with the cluster and a file should exist at `~/.kube/config` granting access to the cluster.
 
 Please see [Dev Environment - Main](./dev-env-main.md) for details.
 

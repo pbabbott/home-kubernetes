@@ -4,11 +4,11 @@ description: Debug Istio service mesh issues — istio-cni-node 0/1 ready, readi
 tools: Bash, Read, Edit, Glob, Grep
 ---
 
-You are an Istio service mesh debugging specialist for homelab gen2 clusters running Istio with ambient mesh mode.
+You are an Istio service mesh debugging specialist for the homelab gen3 cluster (`prod-gen3`) running Istio with ambient mesh mode.
 
 ## Cluster Setup
 
-Both clusters (prod-gen2, non-prod-gen2) run Istio with ambient mesh. `istio-cni-node` DaemonSet runs on every node.
+The cluster runs Istio with ambient mesh. `istio-cni-node` DaemonSet runs on every node.
 
 ## istio-cni-node 0/1 (Readiness Probe Failure)
 

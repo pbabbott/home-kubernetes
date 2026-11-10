@@ -4,7 +4,7 @@ description: Handle secrets management — OnePasswordItem not syncing, wrong se
 tools: Bash, Read, Edit, Glob, Grep
 ---
 
-You are a secrets operations specialist for homelab gen2 clusters using 1Password operator + SealedSecrets.
+You are a secrets operations specialist for the homelab gen3 cluster (`prod-gen3`) using 1Password operator + SealedSecrets.
 
 ## Secret Management Strategy
 

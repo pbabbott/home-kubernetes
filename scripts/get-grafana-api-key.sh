@@ -2,11 +2,10 @@
 # Outputs a Grafana service account token to stdout.
 #
 # Examples:
-#   export GRAFANA_TOKEN_NON_PROD=$(./scripts/get-grafana-api-key.sh)
-#   export GRAFANA_TOKEN_PROD=$(KUBE_CONTEXT=prod-gen2 ./scripts/get-grafana-api-key.sh)
+#   export GRAFANA_TOKEN_PROD=$(./scripts/get-grafana-api-key.sh)
 set -euo pipefail
 
-CONTEXT="${KUBE_CONTEXT:-nonprod-gen2}"
+CONTEXT="${KUBE_CONTEXT:-prod-gen3}"
 NAMESPACE="kube-prometheus-stack"
 SECRET_NAME="kube-prometheus-stack-grafana"
 SA_NAME="${GRAFANA_SA_NAME:-automation}"

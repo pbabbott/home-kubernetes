@@ -109,10 +109,10 @@ git push
 
 ## Notes
 
-- Prometheus datasource UID is `prometheus` on both grafana-prod and grafana-nonprod
+- Prometheus datasource UID is `prometheus` on grafana-prod
 - ARC dashboard UID: `arc-runner-scale-set`
 - Compute resources namespace dashboard UID: `85a562078cdf77779eaa1add43ccec1e`
 - dind runner pods carry two containers: `runner` (the GHA runner) and `dind` (docker daemon as init container with `restartPolicy: Always`)
 - Startup latency metric is NaN when no jobs run — gaps are normal
 - OOM kills show as pods with very high memory at last data point before series ends abruptly
-- Both HelmReleases are in `applications/base/arc/` — changes apply to both prod-gen2 and non-prod-gen2 clusters via kustomize overlays
+- Both HelmReleases are in `applications/base/arc/` — changes reach the cluster through the `applications/prod-gen3/arc` overlay

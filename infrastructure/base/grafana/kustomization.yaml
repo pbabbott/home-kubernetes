@@ -1,5 +1,0 @@
-resources:
-- ./grafana-namespace.yaml
-- ./grafana-helm-repo.yaml
-- ./grafana-helm-release.yaml
-

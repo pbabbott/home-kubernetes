@@ -6,8 +6,8 @@ Two external-dns instances in `external-dns` namespace:
 
 | Instance | Provider | Label Filter | Domain | Target |
 |----------|----------|-------------|--------|--------|
-| `external-dns` | cloudflare | `external-dns-enabled=true` | `non-prod.abbottland.io` | `abbottland.io` (CNAME) |
-| `external-dns-pihole` | pihole | `pihole-dns-enabled=true` | `local.non-prod.abbottland.io` | `192.168.6.28` (A) |
+| `external-dns` | cloudflare | `external-dns-enabled=true` | `abbottland.io` | `abbottland.io` (CNAME) |
+| `external-dns-pihole` | pihole | `pihole-dns-enabled=true` | `local.abbottland.io` | `192.168.6.29` (A) |
 
 ## Target Resolution Behavior (gateway-httproute source)
 
@@ -18,10 +18,10 @@ Two external-dns instances in `external-dns` namespace:
 
 HTTPRoute-level `external-dns.alpha.kubernetes.io/target` annotations are **ignored** for target resolution. They are only relevant when no Gateway annotation exists AND the Gateway uses a hostname address (in which case the HTTPRoute annotation won't help either).
 
-**Consequence:** The two external-dns instances reference different Gateways. Public/Cloudflare routes use `istio-ingress-public` (annotation `abbottland.io`); internal/pihole routes use `istio-ingress` (annotation `192.168.6.28`). This is the only way to give each instance a different target — HTTPRoute annotations cannot override Gateway annotations.
+**Consequence:** The two external-dns instances reference different Gateways. Public/Cloudflare routes use `istio-ingress-public` (annotation `abbottland.io`); internal/pihole routes use `istio-ingress` (annotation `192.168.6.29`). This is the only way to give each instance a different target — HTTPRoute annotations cannot override Gateway annotations.
 
 **Gateway annotations:**
-- `istio-ingress`: `external-dns.alpha.kubernetes.io/target: 192.168.6.28` — file `infra/base/istio/istio-ingress-gateway-api.yaml`
+- `istio-ingress`: `external-dns.alpha.kubernetes.io/target: 192.168.6.29` — file `infra/base/istio/istio-ingress-gateway-api.yaml`
 - `istio-ingress-public`: `external-dns.alpha.kubernetes.io/target: abbottland.io` — file `infra/base/istio/istio-ingress-public-gateway-api.yaml`
 
 ## Registry Setting
@@ -38,22 +38,20 @@ With `registry: noop`:
 - `policy: sync` deletes all records in the domain filter that shouldn't exist, adds what should
 - Works correctly with pihole
 
-## Policy during the gen2 -> gen3 migration (since 2026-11-08)
-Since 2026-11-09 gen2 external-dns is gone and the gen3 Pi-hole instance runs `policy: sync` + `registry: noop` on `local.abbottland.io`. With no ownership check it deletes ANY record in the domain that has no labelled route or DNSEndpoint: never add records by hand in the Pi-hole UI/API, use a `DNSEndpoint` (see `applications/prod-gen3/asustor/nas-dnsendpoint.yaml`). Config: `infra/prod-gen3/external-dns/`. The Cloudflare instance (live on gen3, `sync`) uses `registry: txt` with owner id `prod-gen2` (inherited), so it only deletes records it owns.
+## Policy on gen3
+Gen2 external-dns is gone and the gen3 Pi-hole instance runs `policy: sync` + `registry: noop` on `local.abbottland.io`. With no ownership check it deletes ANY record in the domain that has no labelled route or DNSEndpoint: never add records by hand in the Pi-hole UI/API, use a `DNSEndpoint` (see `applications/prod-gen3/asustor/nas-dnsendpoint.yaml`). Config: `infra/prod-gen3/external-dns/`. The Cloudflare instance (live on gen3, `sync`) uses `registry: txt` with owner id `prod-gen2` (inherited), so it only deletes records it owns.
 
 ## Adding a New Service to Pihole DNS
 
-Label the HTTPRoute with `pihole-dns-enabled=true` and add the target annotation:
+Label the HTTPRoute with `pihole-dns-enabled=true` (no target annotation needed):
 
 ```yaml
 metadata:
   labels:
     pihole-dns-enabled: "true"
-  annotations:
-    external-dns.alpha.kubernetes.io/target: 192.168.6.28
 ```
 
-Note: the `target` annotation on the HTTPRoute is currently **not used** by external-dns (the Gateway annotation is used instead). Include it for documentation/future compatibility but the actual target comes from the Gateway annotation.
+Note: a `target` annotation on the HTTPRoute is **ignored** by external-dns; the target always comes from the Gateway annotation.
 
 External-dns reconciles every 1 minute. New HTTPRoutes are picked up automatically.
 
@@ -87,6 +85,6 @@ sleep 10 && kubectl logs pihole-check -n default && kubectl delete pod pihole-ch
 ## Key Files
 
 - `infra/base/external-dns/external-dns-pihole-helmrelease.yaml` — HelmRelease base config
-- `infra/non-prod-gen2/external-dns/kustomization.yaml` — overlay: domainFilters
+- `infra/prod-gen3/external-dns/kustomization.yaml` — overlay: domainFilters, txtOwnerId
 - `infra/base/external-dns/pihole-admin-onepassword.yaml` — OnePasswordItem for pihole secret
 - `infra/base/istio/istio-ingress-gateway-api.yaml` — Gateway with target annotation

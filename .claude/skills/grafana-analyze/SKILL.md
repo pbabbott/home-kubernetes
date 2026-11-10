@@ -25,7 +25,6 @@ NOW=$(date +%s)
 | URL pattern | Instance | Base URL |
 |-------------|----------|----------|
 | `grafana.local.abbottland.io` | prod | `https://grafana.local.abbottland.io` |
-| `grafana.local.non-prod.abbottland.io` | non-prod | `https://grafana.local.non-prod.abbottland.io` |
 
 Auth: basic auth, credentials from the 1Password "Grafana" item (Homelab vault) — do NOT hardcode
 `admin:admin`, it rotates (confirmed stale as of 2026-07-25; k8s secret
@@ -58,7 +57,7 @@ POD="<pod>"
 NS="<namespace>"
 NOW=$(date +%s)
 START=$((NOW - 3600))  # adjust per time range
-BASE="https://grafana.local.abbottland.io"  # or non-prod
+BASE="https://grafana.local.abbottland.io"
 
 qrange() {
   local label="$1" query="$2" divisor="${3:-1}" unit="${4:-}"
