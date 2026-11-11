@@ -85,6 +85,12 @@
       "Bash(gh issue *)"
     ]
   },
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Commenting on and closing GitHub issues in pbabbott/home-kubernetes with `gh issue comment` / `gh issue close` is allowed when the user has asked for the issue to be updated or closed."
+    ]
+  },
   "enabledMcpjsonServers": [
     "flux-mcp-prod",
     "grafana-prod",
