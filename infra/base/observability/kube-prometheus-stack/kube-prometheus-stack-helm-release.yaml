@@ -84,13 +84,14 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         podMonitorSelector: {}
         podMonitorNamespaceSelector: {}
+        # 1500Mi OOM-looped on 2026-11-11: the un-truncated WAL (~3.6 GB) needs more memory to replay on each restart.
         resources:
           requests:
             cpu: 200m
-            memory: 512Mi
+            memory: 1536Mi
           limits:
-            cpu: 500m
-            memory: 1500Mi
+            cpu: "1"
+            memory: 3Gi
         storageSpec:
           volumeClaimTemplate:
             metadata:
