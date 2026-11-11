@@ -27,7 +27,9 @@ spec:
   values:
     crds:
       enabled: false
-    # Alertmanager is skipped on purpose (decision 2026-11-11, issue #53): no alert routing wanted yet.
+    # No alerting at all (decision 2026-11-11): no Alertmanager, no alert rules, no Grafana alerting. Nothing is routed
+    # anywhere, so firing alerts were only noise. Recording rules stay: dashboards depend on them. To turn alerting back on,
+    # set alertmanager.enabled, remove the defaultRules.rules overrides below and the grafana alerting settings.
     alertmanager:
       enabled: false
     grafana:
@@ -36,6 +38,10 @@ spec:
       grafana.ini:
         date_formats:
           default_timezone: America/Chicago
+        unified_alerting:
+          enabled: false
+        alerting:
+          enabled: false
       readinessProbe:
         timeoutSeconds: 10
       livenessProbe:
@@ -46,8 +52,25 @@ spec:
           label: grafana_dashboard
           labelValue: "1"
           searchNamespace: ALL
+        datasources:
+          alertmanager:
+            enabled: false # no Alertmanager to point at
     defaultRules:
       enabled: true
+      rules: # alert-only groups off; every group that holds recording rules stays on (dashboards use them)
+        alertmanager: false
+        configReloaders: false
+        general: false
+        kubeApiserverSlos: false
+        kubernetesApps: false
+        kubernetesResources: false
+        kubernetesStorage: false
+        kubernetesSystem: false
+        kubeStateMetrics: false
+        network: false
+        nodeExporterAlerting: false
+        prometheus: false
+        prometheusOperator: false
     kubeStateMetrics:
       enabled: true
     kube-state-metrics:
