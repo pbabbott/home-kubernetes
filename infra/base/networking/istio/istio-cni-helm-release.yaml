@@ -18,3 +18,8 @@ spec:
         name: istio
   values:
     profile: ambient
+    # Chart default is 100Mi with no limit; the agent runs at 37-82Mi (2026-11-11), so it showed ~80% of its request.
+    # Raise only the request (cosmetic + honest scheduling). Do not add a limit: an OOM-killed CNI agent breaks pod networking.
+    resources:
+      requests:
+        memory: 128Mi
