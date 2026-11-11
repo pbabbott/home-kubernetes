@@ -40,7 +40,7 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 
 ## Reference
 
-- `docs/bootstrap-flux-operator.md` — how to bootstrap Flux Operator on a fresh cluster (Ansible handoff)
+- `docs/dev-guide-flux-bootstrap.md` — how to bootstrap Flux on a fresh cluster
 - `docs/` — common operational processes: rotating secrets, maintenance tasks, etc.
 - `docs/plans/` — implementation plans for migrations, features, or architectural changes — put new plans here
 - `docs/claude-sessions/` — session summaries dumped by the `/dump` skill — put new session dumps here
