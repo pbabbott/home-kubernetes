@@ -1,7 +1,8 @@
 # Gen 2 non-prod: `non-prod-gen2`
 
 Tag `archive-gen2-nonprod` -> commit `c32de0ea63f537c4fcaa0be758e28f31e2924691`.
-Removed paths: `clusters/non-prod-gen2/`, `crds/non-prod-gen2/`, `infra/non-prod-gen2/`, `apps/non-prod-gen2/`.
+Note: at the tag the apps directory was named `applications/` (renamed to `apps/` on main later).
+Removed paths: `clusters/non-prod-gen2/`, `crds/non-prod-gen2/`, `infra/non-prod-gen2/`, `applications/non-prod-gen2/`.
 Last changed 2026-07-25 (`75b6609`, ARC base alignment).
 
 ## What it was
@@ -13,7 +14,7 @@ Hosts: `home-playbooks/docs/HOSTS.md`.
 
 ## Flux layout
 Same pattern as prod: Flux Operator `FluxInstance`, then `00-crds-ks` -> `01-infra-ks` -> `02-apps-ks` -> `03-flux-gitops-ks`,
-with thin overlays over `crds/base`, `infra/base` and `apps/base`. Rebuild gotchas are in
+with thin overlays over `crds/base`, `infra/base` and `applications/base`. Rebuild gotchas are in
 `docs/plans/2026-05-21-nonprod-gen2-cluster-rebuild-op-connect.md` and `docs/claude-sessions/2026-05-22-nonprod-gen2-rebuild-flux-recovery.md`.
 
 ## Infrastructure
@@ -37,8 +38,8 @@ with thin overlays over `crds/base`, `infra/base` and `apps/base`. Rebuild gotch
 | plex | Proxy to Plex on the NAS. |
 | podinfo | Test app for routing/cert checks. |
 | proxmox | Proxy route to the Proxmox UI. |
-| arc | Overlay existed but was disabled in `apps/non-prod-gen2/kustomization.yaml` (cluster not running ARC runners). |
+| arc | Overlay existed but was disabled in `applications/non-prod-gen2/kustomization.yaml` (cluster not running ARC runners). |
 
 ## Restoring it
-`git checkout archive-gen2-nonprod -- clusters/non-prod-gen2 crds/non-prod-gen2 infra/non-prod-gen2 apps/non-prod-gen2`;
+`git checkout archive-gen2-nonprod -- clusters/non-prod-gen2 crds/non-prod-gen2 infra/non-prod-gen2 applications/non-prod-gen2`;
 the VMs also need to be powered on (Terraform in `home-playbooks/terraform/chimaera`) and the cluster bootstrapped from `home-playbooks`.

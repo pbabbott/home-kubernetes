@@ -1,7 +1,8 @@
 # Gen 2 prod: `prod-gen2`
 
 Tag `archive-gen2-prod` -> commit `c32de0ea63f537c4fcaa0be758e28f31e2924691` (2026-11-08, last commit where prod-gen2 was complete).
-Removed paths: `clusters/prod-gen2/`, `crds/prod-gen2/`, `infra/prod-gen2/`, `apps/prod-gen2/`.
+Note: at the tag the apps directory was named `applications/` (renamed to `apps/` on main later).
+Removed paths: `clusters/prod-gen2/`, `crds/prod-gen2/`, `infra/prod-gen2/`, `applications/prod-gen2/`.
 Apps were pruned from gen2 as they moved to gen3 (2026-11-08 to 2026-11-09); at later commits the overlay is nearly empty.
 
 ## What it was
@@ -14,8 +15,8 @@ Hosts: `home-playbooks/docs/HOSTS.md`. Migration story and per-app learnings: `d
 ## Flux layout
 Flux Operator (`FluxInstance` in `clusters/prod-gen2/flux-system`, later `flux-gitops`) syncing four numbered
 Kustomizations that each depended on the previous one: `00-crds-ks` (`crds/prod-gen2`), `01-infra-ks` (`infra/prod-gen2`),
-`02-apps-ks` (`apps/prod-gen2`) and `03-flux-gitops-ks` (the FluxInstance itself). Overlays were thin: each
-`apps/prod-gen2/<app>/kustomization.yaml` referenced `apps/base/<app>` and patched hostnames,
+`02-apps-ks` (`applications/prod-gen2`) and `03-flux-gitops-ks` (the FluxInstance itself). Overlays were thin: each
+`applications/prod-gen2/<app>/kustomization.yaml` referenced `applications/base/<app>` and patched hostnames,
 labels or sizing. Ingress: Istio ambient + Gateway API (`istio-ingress` internal, `istio-ingress-public` public) behind the HAProxy LXC `192.168.6.28`.
 DNS: two external-dns instances (Cloudflare for `*.abbottland.io`, Pi-hole for `*.local.abbottland.io`).
 Secrets: 1Password Connect operator (`OnePasswordItem`), with SealedSecrets only to bootstrap it.
@@ -64,6 +65,6 @@ Replaced by gen3 (k3s on `hogwarts`, the new primary Proxmox host; `chimaera` wa
 and the same layering with `prod-gen3` overlays.
 
 ## Restoring it
-`git checkout archive-gen2-prod -- clusters/prod-gen2 crds/prod-gen2 infra/prod-gen2 apps/prod-gen2` (then check
-`apps/base` for gen3-era changes; the tag's `base` is the one these overlays were written against). The VMs would also need
+`git checkout archive-gen2-prod -- clusters/prod-gen2 crds/prod-gen2 infra/prod-gen2 applications/prod-gen2` (then check
+`applications/base` for gen3-era changes; the tag's `base` is the one these overlays were written against). The VMs would also need
 to be powered on and Flux unsuspended; see the migration plan's rollback notes.

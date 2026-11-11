@@ -31,6 +31,7 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 
 ## Conventions
 
+- **Workload manifest:** `README.md` "Workloads" lists every app (`apps/prod-gen3`) and infra component (`infra/prod-gen3`, plus `crds/`) with a Category and Summary. Whenever you add, remove or rename a workload, update those tables in the same change (rows sorted by Category, then name; reuse an existing Category where one fits).
 - Grafana dashboard JSON files must include `"gitops-managed"` in their `tags` array.
 - When working with resource files, use the convention `<name>-<kind>.yaml` 
   -  For example `haproxy-httproute.yaml` or `arc-ns.yaml` are acceptable. 

@@ -20,7 +20,7 @@ apps/
     kustomization.yaml             # references ../../base/<app>, patches hostname
 ```
 
-Add `- ./<app>` to `apps/prod-gen3/kustomization.yaml`.
+Add `- ./<app>` to `apps/prod-gen3/kustomization.yaml`, and add a row (Category, App, Summary) to the Apps table under "Workloads" in `README.md`.
 
 ## Namespace
 

@@ -2,6 +2,10 @@
 A gitops-based approach for all my kubernetes charts, manifests, and helm deployments. Flux for Gitops, 1password for secrets, and a variety of shell scripts to support a myriad of operators and applications.
 
 - [home-kubernetes](#home-kubernetes)
+- [Workloads](#workloads)
+  - [Flux layout](#flux-layout)
+  - [Infrastructure](#infrastructure)
+  - [Apps](#apps)
 - [Contribution](#contribution)
   - [Getting Started](#getting-started)
   - [Developer Guides](#developer-guides)
@@ -9,6 +13,59 @@ A gitops-based approach for all my kubernetes charts, manifests, and helm deploy
   - [Reference](#reference)
     - [External Docs](#external-docs)
 - [Archive](#archive)
+
+# Workloads
+
+What runs on the live cluster, `prod-gen3` (k3s on `hogwarts`, plus controller-3 and worker-3 on `chimaera`). Hosts: `home-playbooks/docs/HOSTS.md`.
+
+## Flux layout
+Four numbered Kustomizations in `clusters/prod-gen3/`, each depending on the previous one: `00-crds-ks` (`crds/prod-gen3`), `01-infra-ks` (`infra/prod-gen3`), `02-apps-ks` (`apps/prod-gen3`) and `03-flux-gitops-ks` (the Flux web UI and MCP server). Overlays are thin: each `apps/prod-gen3/<app>/kustomization.yaml` references `apps/base/<app>` and patches hostnames, labels or sizing. Ingress is Istio ambient + Gateway API behind the HAProxy LXC. DNS is two external-dns instances (Cloudflare for `*.abbottland.io`, Pi-hole for `*.local.abbottland.io`). Secrets come from the 1Password Connect operator (`OnePasswordItem`), with SealedSecrets only to bootstrap it.
+
+## Infrastructure
+Lives in `infra/` (base in `infra/base`, cluster overlay in `infra/prod-gen3`).
+
+| Category | Component | Summary |
+| --- | --- | --- |
+| Core | crds | Everything with CRDs is installed first from `crds/base/*`: Istio, Gateway API, cert-manager, flux-operator, sealed-secrets, onepassword, kube-prometheus-stack, external-dns, longhorn. |
+| Core | metrics-server, priorityclass | Shared base: resource metrics API and cluster PriorityClasses. |
+| Networking | cert-manager | Let's Encrypt issuers (Cloudflare DNS-01) issuing the wildcard gateway certs. |
+| Networking | external-dns | Cloudflare and Pi-hole external-dns instances reading HTTPRoutes by label. |
+| Networking | istio | Istio ambient mesh (istiod, cni, ztunnel) plus the internal and public Gateways. |
+| Networking | pihole | Proxy route to the Pi-hole admin UI on `bananapi`. Kept in infra because external-dns depends on it. |
+| Observability | kube-prometheus-stack | Prometheus, Grafana and Alertmanager with gitops-managed dashboards, plus scrape configs for physical hosts. |
+| Secrets | onepassword | 1Password Connect + operator; `op-credentials` sealed per cluster. |
+| Secrets | sealed-secrets | Controller used to bootstrap the 1Password Connect credentials. |
+| Storage | longhorn | Replicated block storage with recurring backups to the NAS NFS target. |
+| Storage | nas-storage | NFS subdir provisioner StorageClass (`nas-storage`) on the Asustor NAS. |
+
+## Apps
+Lives in `apps/` (base in `apps/base`, cluster overlay in `apps/prod-gen3`).
+
+| Category | App | Summary |
+| --- | --- | --- |
+| CI & registry | arc | Actions Runner Controller scale sets (amd64 and dind) for home-web-apps CI, plus actions-cache and turborepo remote cache servers. |
+| CI & registry | harbor | Harbor registry (Helm) with NAS-backed registry storage; Docker Hub proxy mirror for CI. |
+| CI & registry | harbor-cleanup | Custom service that cleans up Harbor; see `docs/plans/2026-06-01-harbor-cleanup.md`. |
+| CI & registry | regcred-flux | OnePasswordItem providing the registry pull credential Flux uses for image automation. |
+| Dev & AI | coder | Coder dev-workspace platform (Helm) with NAS Postgres and a workspaces namespace. |
+| Dev & AI | mcp-grafana | Grafana MCP server exposed internally for AI agents. |
+| Dev & AI | openclaw | OpenClaw agent platform with config map, PVC and NetworkPolicy. |
+| Host proxies | asustor | Service + EndpointSlice + routes proxying the NAS admin UI; DNSEndpoint for the NAS. |
+| Host proxies | haproxy | Proxy to the HAProxy stats page plus a Prometheus scrape config. |
+| Host proxies | home-assistant | Public route (via Cloudflare) to the Home Assistant host. |
+| Host proxies | proxmox | Proxy route to the Proxmox UI with an Istio DestinationRule. |
+| Media | media | sonarr, radarr, prowlarr, qBittorrent and gluetun (VPN), with config PVCs on Longhorn and media on NFS. |
+| Media | plex | Service + EndpointSlice proxying Plex on the NAS. |
+| Platform | dashy | Dashy dashboard as a local Helm chart with per-cluster values. |
+| Platform | flux-gitops | Flux web UI route and Flux Operator MCP server, applied by `03-flux-gitops-ks`. |
+| Platform | podinfo | Test app used to prove public/internal routing and certs. |
+| Public sites | blog | Public blog (apex `abbottland.io`), image automation, NetworkPolicy. |
+| Public sites | diagram-maker | Public diagram-maker app with NetworkPolicy and image automation. |
+| Public sites | fui-components | Public component-library site with NetworkPolicy and image automation. |
+| Public sites | home-hud | home-hud dashboard with video-api/-worker, backup worker, and `homelab-api`, all with image automation and ServiceMonitors. |
+| Public sites | umami | Self-hosted analytics (public script, internal admin) on NAS Postgres. |
+
+> **Keep this section current.** Add, remove or rename a row here whenever a workload is added to, removed from or renamed in `apps/prod-gen3` or `infra/prod-gen3` (or the `crds/prod-gen3` list). Rows are sorted by Category, then name.
 
 # Contribution 
 
