@@ -25,6 +25,16 @@ spec:
     # HPA is for Deployments; disable for DaemonSet gateways
     autoscaling:
       enabled: false
+    # Workers only: HAProxy's backends are the workers and externalTrafficPolicy is Local, so an ingress pod on a
+    # control-plane node serves no traffic. A NoSchedule taint alone does not evict a running DaemonSet pod, and
+    # controller-1 is deliberately untainted, so use affinity (same rule as Grafana/Prometheus).
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
     # HAProxy (and similar) hits NodePort with send-proxy-v2 — Envoy must expect PROXY.
     # Plain in-cluster curls to :30080 without PROXY will fail unless you hop via the LB or use svc ClusterIP.
     # See temp/haproxy.cfg and INGRESS_TO_ISTIO_MAPPING.md.
