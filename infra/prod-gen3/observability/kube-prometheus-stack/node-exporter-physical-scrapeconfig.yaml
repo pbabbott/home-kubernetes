@@ -5,6 +5,7 @@ metadata:
   namespace: kube-prometheus-stack
   labels:
     release: kube-prometheus-stack
+# dumbledore, homeassistant (no exporter on HA), marauders-map are expected to be down at times; kept on purpose (issue #53).
 spec:
   jobName: node-exporter-physical
   metricsPath: /metrics

@@ -18,6 +18,45 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
+    # k3s runs the control plane inside the k3s process, so the chart finds no pods to select:
+    # point the ServiceMonitors at the node IPs. Needs the bind-address / etcd-expose-metrics /
+    # kube-proxy-arg settings from home-playbooks playbooks/kubernetes-gen3 (rolled out to the nodes first).
+    kubeEtcd:
+      enabled: true
+      endpoints: &controllers [192.168.6.41, 192.168.6.44, 192.168.6.45]
+      service:
+        enabled: true
+        port: 2381
+        targetPort: 2381
+    kubeControllerManager:
+      enabled: true
+      endpoints: *controllers
+      service:
+        enabled: true
+        port: 10257
+        targetPort: 10257
+      serviceMonitor:
+        enabled: true
+        https: true
+        insecureSkipVerify: true
+    kubeScheduler:
+      enabled: true
+      endpoints: *controllers
+      service:
+        enabled: true
+        port: 10259
+        targetPort: 10259
+      serviceMonitor:
+        enabled: true
+        https: true
+        insecureSkipVerify: true
+    kubeProxy:
+      enabled: true
+      endpoints: [192.168.6.41, 192.168.6.42, 192.168.6.43, 192.168.6.44, 192.168.6.45, 192.168.6.46]
+      service:
+        enabled: true
+        port: 10249
+        targetPort: 10249
     prometheus:
       prometheusSpec:
         externalLabels:
