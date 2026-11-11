@@ -10,7 +10,7 @@ Things below live outside Git, so Flux will not recreate them.
    ```
    kubectl --context prod-gen3 label node <node> node.longhorn.io/create-default-disk=true
    ```
-   Why: `infra/prod-gen3/storage/longhorn/longhorn-helmrelease-patch.yaml` sets `createDefaultDiskLabeledNodes: true`. Controllers are untainted and have no `/mnt/ssd`; without this setting Longhorn would put a disk on their root filesystem. Unlabeled node = Longhorn manager runs but has NO disk and holds no replicas (this is intended for controllers).
+   Why: `infra/prod-gen3/storage/longhorn/longhorn-helmrelease-patch.yaml` sets `createDefaultDiskLabeledNodes: true`. Controller-2/3 are tainted `node-role.kubernetes.io/control-plane:NoSchedule` (2026-11-11; controller-1 is deliberately untainted) and controllers have no `/mnt/ssd`; without this setting Longhorn would put a disk on their root filesystem. Unlabeled node = Longhorn manager runs but has NO disk and holds no replicas (this is intended for controllers).
    Current labeled nodes: `tf-prod-k3s-worker-1`, `-2`, `-3` (labeled 2026-11-08). A re-created node loses the label and must be re-labeled.
 4. Verify: `kubectl --context prod-gen3 -n longhorn-system get nodes.longhorn.io` (node Ready, schedulable, disk at `/mnt/ssd`).
 5. Replica count is 2 (default setting and StorageClass); revisit if worker count changes.
