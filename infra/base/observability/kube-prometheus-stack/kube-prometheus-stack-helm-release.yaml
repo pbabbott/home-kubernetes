@@ -84,14 +84,16 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         podMonitorSelector: {}
         podMonitorNamespaceSelector: {}
-        # 1500Mi OOM-looped on 2026-11-11: the un-truncated WAL (~3.6 GB) needs more memory to replay on each restart.
+        # Sized from measurement (2026-11-11): ~145k series = ~490Mi (~3.3 KB/series), limit ~3x for head growth, compaction
+        # and queries. It OOM-looped at 1500Mi when it held ~950k series (k3s duplicate scrapes, since removed): if the
+        # series count grows again, check prometheus_tsdb_head_series before raising this.
         resources:
           requests:
             cpu: 200m
-            memory: 1536Mi
+            memory: 768Mi
           limits:
             cpu: "1"
-            memory: 4Gi
+            memory: 1536Mi
         storageSpec:
           volumeClaimTemplate:
             metadata:
