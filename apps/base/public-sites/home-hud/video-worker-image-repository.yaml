@@ -18,7 +18,7 @@ spec:
   imageRepositoryRef:
     name: video-worker
   filterTags:
-    pattern: '^\d{8}-\d+-[a-f0-9]{7}$'
+    pattern: '^\d{8}-\d{5}-\d{5}-[a-f0-9]{7}$'
   policy:
     alphabetical:
       order: asc

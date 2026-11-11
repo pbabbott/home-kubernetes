@@ -33,11 +33,19 @@ See `apps/base/public-sites/blog/blog-netpol.yaml` and `apps/base/public-sites/u
 
 - App-owned images (built in-house, mirrored to Harbor): `ImageRepository` + `ImagePolicy` + a
   `# {"$imagepolicy": "flux-system:<name>"}` marker on the deployment image field.
+- Production tags from `home-web-apps` look like `YYYYMMDD-<RUN:5>-<PR:5>-<sha7>` (e.g. `20261111-00095-00253-1540400`).
+  The policy is `filterTags.pattern: '^\d{8}-\d{5}-\d{5}-[a-f0-9]{7}$'` with `alphabetical: asc`; the zero-padded run
+  number is what makes the alphabetical sort correct. PR builds only get `sha-<sha7>` and `pr-<n>`, so they can never
+  match. See `home-web-apps/docs/dev-guide-publication.md`.
+- Apps that show or log their running version also get an `IMAGE_TAG` env var kept in step with the image by a second
+  setter on the value line: `value: <tag> # {"$imagepolicy": "flux-system:<name>:tag"}`. Both lines change in the same
+  automation commit. The app reads it at runtime (`GET /api/version` or `/version`); never bake it into the build. Not
+  needed for images that never read it (`fui-components` is static nginx).
 - Third-party images pulled directly from a public registry (e.g. ghcr.io): same pattern but omit `secretRef` on the
   `ImageRepository`.
 - Helm-based apps: use a semver range in the `HelmRelease` `chart.spec.version` field (e.g. `>=6.0.0`).
 - Examples: `apps/base/public-sites/umami/` (third-party) and `apps/base/public-sites/blog/` (in-house).
 
 The global `ImageUpdateAutomation` lives at `clusters/prod-gen3/image-update-automation.yaml` and watches `./apps`. It is
-SUSPENDED in the cluster (not in git) until PR builds can no longer reach prod via the ImagePolicies (see the loose ends
-register in `docs/plans/2026-11-08-gen2-to-gen3-migration.md`). Do not unsuspend it.
+SUSPENDED in the cluster (not in git) while the new tag shape is rolled out (see home-kubernetes#39 and the loose ends
+register in `docs/plans/2026-11-08-gen2-to-gen3-migration.md`). Do not unsuspend it until the checks in that issue pass.

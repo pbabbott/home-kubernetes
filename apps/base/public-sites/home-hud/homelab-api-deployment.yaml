@@ -20,11 +20,13 @@ spec:
         - name: regcred
       containers:
         - name: homelab-api
-          image: harbor.local.abbottland.io/library/homelab-api:20261109-88-53a872d # {"$imagepolicy": "flux-system:homelab-api"}
+          image: harbor.local.abbottland.io/library/homelab-api:20261111-00095-00253-1540400 # {"$imagepolicy": "flux-system:homelab-api"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4003
           env:
+            - name: IMAGE_TAG
+              value: 20261111-00095-00253-1540400 # {"$imagepolicy": "flux-system:homelab-api:tag"}
             - name: PORT
               value: "4003"
             - name: PROMETHEUS_URL
