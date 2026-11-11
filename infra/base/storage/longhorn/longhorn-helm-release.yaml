@@ -60,3 +60,7 @@ spec:
     metrics:
       serviceMonitor:
         enabled: true
+        metricRelabelings: # client-go internals (~23k series); volume/node/disk metrics are kept
+          - action: drop
+            sourceLabels: [__name__]
+            regex: longhorn_(rest_client|workqueue)_.*
