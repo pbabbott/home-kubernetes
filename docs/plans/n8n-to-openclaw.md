@@ -4,15 +4,15 @@ Status: manifests written in working tree, **uncommitted, not applied**. Pick up
 
 ## Done (working tree only)
 
-- Removed `applications/base/n8n/`, `applications/prod-gen2/n8n/`, `./n8n` entry in `applications/prod-gen2/kustomization.yaml`.
+- Removed `apps/base/n8n/`, `apps/prod-gen2/n8n/`, `./n8n` entry in `apps/prod-gen2/kustomization.yaml`.
 - Removed `scripts/get-n8n-api-key.sh`, `n8n` server in `.mcp.json`, n8n section in `docs/ai-reference-infra.md`.
-- Added `applications/base/openclaw/` + `applications/prod-gen2/openclaw/`, wired into `applications/prod-gen2/kustomization.yaml`.
+- Added `apps/base/openclaw/` + `apps/prod-gen2/openclaw/`, wired into `apps/prod-gen2/kustomization.yaml`.
   - Image `ghcr.io/openclaw/openclaw:2026.7.1-2-slim`, port 18789, Recreate strategy, 10Gi Longhorn PVC.
   - Init container seeds `openclaw.json` + `AGENTS.md` from ConfigMap only if missing on PVC (PVC copy is source of truth after first run).
   - Local HTTPRoute only: `openclaw.local.abbottland.io` (pihole DNS). No public route.
   - NetworkPolicy: ingress from `istio-system` only; egress DNS + 443.
   - Secrets via `OnePasswordItem` -> `openclaw-secrets` (envFrom).
-- `kubectl kustomize applications/prod-gen2/openclaw` builds OK.
+- `kubectl kustomize apps/prod-gen2/openclaw` builds OK.
 - Reference: https://docs.openclaw.ai/install/kubernetes.md
 
 ## Remaining steps

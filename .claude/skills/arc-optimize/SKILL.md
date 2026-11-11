@@ -41,8 +41,8 @@ Look for: pods with high memory that disappear (OOM kill), consistently maxed CP
 ## Step 3: Read HelmReleases
 
 Read both runner HelmReleases:
-- `applications/base/arc/arc-runner-amd64-helmrelease.yaml`
-- `applications/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
+- `apps/base/arc/arc-runner-amd64-helmrelease.yaml`
+- `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
 
 Note: `minRunners`, `maxRunners`, resource requests/limits for both `runner` and `dind` containers, anti-affinity rules.
 
@@ -96,8 +96,8 @@ Write `docs/arc-optimization/<YYYY-MM-DD>-changes.md` documenting:
 ## Step 8: Commit and push
 
 ```bash
-git add applications/base/arc/arc-runner-amd64-helmrelease.yaml \
-        applications/base/arc/arc-runner-dind-amd64-helmrelease.yaml \
+git add apps/base/arc/arc-runner-amd64-helmrelease.yaml \
+        apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml \
         docs/arc-optimization/
 git commit -m "perf(arc): optimize runner scale set config
 
@@ -115,4 +115,4 @@ git push
 - dind runner pods carry two containers: `runner` (the GHA runner) and `dind` (docker daemon as init container with `restartPolicy: Always`)
 - Startup latency metric is NaN when no jobs run — gaps are normal
 - OOM kills show as pods with very high memory at last data point before series ends abruptly
-- Both HelmReleases are in `applications/base/arc/` — changes reach the cluster through the `applications/prod-gen3/arc` overlay
+- Both HelmReleases are in `apps/base/arc/` — changes reach the cluster through the `apps/prod-gen3/arc` overlay

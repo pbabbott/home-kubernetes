@@ -5,7 +5,7 @@ Coder at `https://coder.local.abbottland.io` (LAN only, pihole DNS).
 ## Files
 
 ```
-applications/base/coder/
+apps/base/coder/
   coder-ns.yaml
   coder-helmrepository.yaml       # helm.coder.com/v2
   coder-db-helmrepository.yaml    # bitnami
@@ -15,11 +15,11 @@ applications/base/coder/
   coder-http-to-https-httproute.yaml
   kustomization.yaml
 
-applications/prod-gen2/coder/
+apps/prod-gen2/coder/
   kustomization.yaml              # references base/coder
 ```
 
-`./coder` added to `applications/prod-gen2/kustomization.yaml`.
+`./coder` added to `apps/prod-gen2/kustomization.yaml`.
 
 ## Scaling knobs
 
@@ -36,8 +36,8 @@ applications/prod-gen2/coder/
 
 **Remove from GitOps first, then clean up cluster.**
 
-1. Remove `- ./coder` from `applications/prod-gen2/kustomization.yaml`
-2. Delete `applications/prod-gen2/coder/` and `applications/base/coder/`
+1. Remove `- ./coder` from `apps/prod-gen2/kustomization.yaml`
+2. Delete `apps/prod-gen2/coder/` and `apps/base/coder/`
 3. Commit + push — Flux will delete HelmReleases, which triggers Helm uninstall
 4. Flux does NOT delete the namespace automatically; clean up manually:
    ```

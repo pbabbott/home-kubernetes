@@ -15,7 +15,7 @@
       "Bash(kubectx)",
       "Bash(kubectl get:*)",
       "Bash(kubectl --context=nonprod-gen2 get servicemonitors -A --no-headers)",
-      "Bash(grep -l \"hostname\\\\|HTTPRoute\" /workspaces/home-kubernetes/applications/non-prod-gen2/*/kustomization.yaml)",
+      "Bash(grep -l \"hostname\\\\|HTTPRoute\" /workspaces/home-kubernetes/apps/non-prod-gen2/*/kustomization.yaml)",
       "mcp__flux-mcp-prod__get_kubernetes_resources",
       "Bash(kubectl describe:*)",
       "Bash(kubectl delete:*)",

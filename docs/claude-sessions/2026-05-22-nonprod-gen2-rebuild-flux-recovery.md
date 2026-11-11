@@ -41,18 +41,18 @@ Reference plan created: `docs/plans/nonprod-gen2-cluster-rebuild-op-connect.md`
 ### 3. Pihole Circular Dependency Breaking infra-ks (both clusters)
 
 `external-dns-pihole` in infra-ks needed the `pihole` Service to connect to the physical pihole device.
-Pihole Service/EndpointSlice lived in `applications/`, gated by `apps-ks`, which `dependsOn: infra-ks`.
+Pihole Service/EndpointSlice lived in `apps/`, gated by `apps-ks`, which `dependsOn: infra-ks`.
 Result: infra-ks blocked on external-dns-pihole → external-dns-pihole blocked on pihole → pihole blocked on infra-ks.
 
-**Fix:** Moved pihole from `applications/` to `infra/`. Pihole is just a Namespace + Service +
+**Fix:** Moved pihole from `apps/` to `infra/`. Pihole is just a Namespace + Service +
 EndpointSlice pointing to a physical device at `192.168.4.144` — semantically infra, not an app.
 
 Files moved:
-- `applications/base/pihole/` → `infra/base/pihole/`
-- `applications/non-prod-gen2/pihole/` → `infra/non-prod-gen2/pihole/`
-- `applications/prod-gen2/pihole/` → `infra/prod-gen2/pihole/`
+- `apps/base/pihole/` → `infra/base/pihole/`
+- `apps/non-prod-gen2/pihole/` → `infra/non-prod-gen2/pihole/`
+- `apps/prod-gen2/pihole/` → `infra/prod-gen2/pihole/`
 - Updated `infra/non-prod-gen2/kustomization.yaml` and `infra/prod-gen2/kustomization.yaml`
-- Removed pihole from `applications/non-prod-gen2/kustomization.yaml` and `applications/prod-gen2/kustomization.yaml`
+- Removed pihole from `apps/non-prod-gen2/kustomization.yaml` and `apps/prod-gen2/kustomization.yaml`
 
 ### 4. Longhorn PDB Not Applied (both clusters)
 

@@ -8,7 +8,7 @@ Use when installing a new application into the gen3 cluster (`prod-gen3`) via Gi
 ## Directory layout
 
 ```
-applications/
+apps/
   base/<app>/
     <app>-ns.yaml
     <app>-helmrepository.yaml      # if chart not already in flux-system
@@ -20,7 +20,7 @@ applications/
     kustomization.yaml             # references ../../base/<app>, patches hostname
 ```
 
-Add `- ./<app>` to `applications/prod-gen3/kustomization.yaml`.
+Add `- ./<app>` to `apps/prod-gen3/kustomization.yaml`.
 
 ## Namespace
 
@@ -176,7 +176,7 @@ env:
 Put the real hostname directly in base — no patch needed:
 
 ```yaml
-# applications/prod-gen3/<app>/kustomization.yaml
+# apps/prod-gen3/<app>/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -209,7 +209,7 @@ Public routes → `istio-ingress-public` / `sectionName: https-public` + label `
 ## Validate before committing
 
 ```bash
-kubectl kustomize applications/prod-gen3/<app> 2>&1
+kubectl kustomize apps/prod-gen3/<app> 2>&1
 ```
 
 ## Storage classes

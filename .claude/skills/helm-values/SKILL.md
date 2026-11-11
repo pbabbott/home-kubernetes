@@ -13,7 +13,7 @@ Fetch `helm show values` for the chart, write to `/tmp/helm-values-<chart>.yaml`
 
 ### 1. Identify the chart
 
-From user args or conversation context, determine which HelmRelease to inspect. If a file path is given, read it. If only an app name is given, look for it at `applications/base/<name>/<name>-helmrelease.yaml`.
+From user args or conversation context, determine which HelmRelease to inspect. If a file path is given, read it. If only an app name is given, look for it at `apps/base/<name>/<name>-helmrelease.yaml`.
 
 Extract from the HelmRelease:
 - `spec.chart.spec.chart` → chart name
@@ -29,7 +29,7 @@ kubectl get helmrepository -n flux-system <sourceRef-name> -o jsonpath='{.spec.u
 
 If kubectl fails, grep the repo files:
 ```bash
-grep -r "name: <sourceRef-name>" applications/ infra/ --include="*.yaml" -l
+grep -r "name: <sourceRef-name>" apps/ infra/ --include="*.yaml" -l
 ```
 then read the matching HelmRepository file for `spec.url`.
 

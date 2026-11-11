@@ -37,7 +37,7 @@ Harbor registry pod (`harbor` namespace, prod-gen2) had `/storage` volume (Longh
 - `feat(harbor): migrate registry storage to NAS-backed NFS PVC`
 
 ## Key Files Changed
-- `applications/base/harbor/helmrelease.yaml` — registry now uses `existingClaim: harbor-registry-nas`
+- `apps/base/harbor/helmrelease.yaml` — registry now uses `existingClaim: harbor-registry-nas`
 - `infra/base/nas-storage/` — new base for NFS provisioner
 - `infra/prod-gen2/nas-storage/kustomization.yaml`
 - `infra/non-prod-gen2/nas-storage/kustomization.yaml`

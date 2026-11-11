@@ -44,8 +44,8 @@ Remove the entire public surface from non-prod-gen2. Non-prod is LAN-only going 
 - `infra/non-prod-gen2/cert-manager/kustomization.yaml` — explicit file list, omits `cloudflare-ddns-deployment.yaml`
 - `infra/non-prod-gen2/external-dns/kustomization.yaml` — explicit file list, omits cloudflare HR and OPI; keeps pihole HR + domainFilter patch
 - `infra/non-prod-gen2/istio/kustomization.yaml` — explicit file list, omits `istio-ingress-public-gateway-api.yaml`; keeps LAN listener patches
-- `applications/non-prod-gen2/podinfo/kustomization.yaml` — explicit file list, omits public HTTPRoute files; keeps LAN hostname patches
-- `applications/non-prod-gen2/dashy/helmrelease.yaml` — removed `podinfoPublic` URL
+- `apps/non-prod-gen2/podinfo/kustomization.yaml` — explicit file list, omits public HTTPRoute files; keeps LAN hostname patches
+- `apps/non-prod-gen2/dashy/helmrelease.yaml` — removed `podinfoPublic` URL
 
 ## Key Finding: `$patch: delete` broken in kustomize v5.8.1
 

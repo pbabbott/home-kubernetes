@@ -49,7 +49,7 @@ If dind sidecar CPU limit is raised (see change #2), headroom shrinks further.
 
 ### Change 1 — ResourceQuota raised
 
-**File:** `applications/base/arc/arc-runners-resourcequota.yaml`
+**File:** `apps/base/arc/arc-runners-resourcequota.yaml`
 
 | Field | Before | After |
 |-------|--------|-------|
@@ -62,7 +62,7 @@ Removes zero-headroom pod ceiling and accommodates dind CPU increase.
 
 ### Change 2 — dind sidecar CPU raised via LimitRange
 
-**File:** `applications/base/arc/arc-runners-limitrange.yaml`
+**File:** `apps/base/arc/arc-runners-limitrange.yaml`
 
 | Field | Before | After |
 |-------|--------|-------|
@@ -70,11 +70,11 @@ Removes zero-headroom pod ceiling and accommodates dind CPU increase.
 
 The dind sidecar gets no explicit resources from the chart — it inherits LimitRange namespace defaults. Raising default CPU from 500m to 1000m gives the Docker daemon 2× more CPU headroom. Memory default unchanged (2Gi is sufficient for the daemon; image layers use ephemeral storage).
 
-Also removed a dead patch from `applications/prod-gen2/arc/kustomization.yaml` that was targeting `containers/1/resources/limits/memory: 5Gi` on the dind HelmRelease. That path (`spec.containers[1]`) does not exist on dind pods — the patch was a no-op.
+Also removed a dead patch from `apps/prod-gen2/arc/kustomization.yaml` that was targeting `containers/1/resources/limits/memory: 5Gi` on the dind HelmRelease. That path (`spec.containers[1]`) does not exist on dind pods — the patch was a no-op.
 
 ### Change 3 — Controller resource limits added
 
-**File:** `applications/base/arc/arc-controller-helmrelease.yaml`
+**File:** `apps/base/arc/arc-controller-helmrelease.yaml`
 
 Added under `values:`:
 ```yaml
@@ -97,7 +97,7 @@ System was **working well** before these changes. To revert each change independ
 
 ### Rollback Change 1 — ResourceQuota
 
-`applications/base/arc/arc-runners-resourcequota.yaml`:
+`apps/base/arc/arc-runners-resourcequota.yaml`:
 ```yaml
 spec:
   hard:
@@ -111,7 +111,7 @@ No pod impact — quota changes take effect immediately.
 
 ### Rollback Change 2 — LimitRange + restore dead patch
 
-`applications/base/arc/arc-runners-limitrange.yaml` — revert `default.cpu` to `500m`:
+`apps/base/arc/arc-runners-limitrange.yaml` — revert `default.cpu` to `500m`:
 ```yaml
       default:
         cpu: 500m
@@ -121,7 +121,7 @@ No pod impact — quota changes take effect immediately.
 
 LimitRange only affects **new** pods. Existing dind runner pods keep their current resources until they are replaced (ephemeral runners recycle per job, so rollback takes effect within one job cycle).
 
-Optionally restore the dead patch to `applications/prod-gen2/arc/kustomization.yaml` (it was already a no-op, so omitting is safe):
+Optionally restore the dead patch to `apps/prod-gen2/arc/kustomization.yaml` (it was already a no-op, so omitting is safe):
 ```yaml
       - op: replace
         path: /spec/values/template/spec/containers/1/resources/limits/memory
@@ -130,7 +130,7 @@ Optionally restore the dead patch to `applications/prod-gen2/arc/kustomization.y
 
 ### Rollback Change 3 — Controller limits
 
-`applications/base/arc/arc-controller-helmrelease.yaml` — remove the `resources:` block entirely:
+`apps/base/arc/arc-controller-helmrelease.yaml` — remove the `resources:` block entirely:
 ```yaml
   values:
     metrics:

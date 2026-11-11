@@ -5,7 +5,7 @@
 
 ## What we did
 
-Planned and implemented porting the full gen1 media stack (`apps/media/`) to prod-gen2 (`applications/base/media/` + `applications/prod-gen2/media/`).
+Planned and implemented porting the full gen1 media stack (`apps/media/`) to prod-gen2 (`apps/base/media/` + `apps/prod-gen2/media/`).
 
 ## Apps ported
 
@@ -27,7 +27,7 @@ Planned and implemented porting the full gen1 media stack (`apps/media/`) to pro
 
 ## Files created
 
-**`applications/base/media/`** — 41 files total:
+**`apps/base/media/`** — 41 files total:
 - `namespace.yaml`, `media-pv.yaml`, `media-pvc.yaml`
 - 5 Longhorn PVCs: `gluetun-config-pvc.yaml`, `qbittorrent-config-pvc.yaml`, `prowlarr-config-pvc.yaml`, `radarr-config-pvc.yaml`, `sonarr-config-pvc.yaml`
 - 4 ConfigMaps: `gluetun-configmap.yaml`, `gluetun-sync-configmap.yaml`, `qbittorrent-configmap.yaml`, `servarr-env-configmap.yaml`
@@ -37,12 +37,12 @@ Planned and implemented porting the full gen1 media stack (`apps/media/`) to pro
 - 2 Flux image automation: `gluetun-sync-image-repository.yaml`, `gluetun-sync-image-policy.yaml`
 - `kustomization.yaml`
 
-**`applications/prod-gen2/media/kustomization.yaml`** — overlay pointing at base.
+**`apps/prod-gen2/media/kustomization.yaml`** — overlay pointing at base.
 
 ## Files modified
 
-- `applications/prod-gen2/kustomization.yaml` — added `./media`
-- `applications/prod-gen2/flux-gitops/fluxinstance.yaml` — added `image-reflector-controller` + `image-automation-controller`
+- `apps/prod-gen2/kustomization.yaml` — added `./media`
+- `apps/prod-gen2/flux-gitops/fluxinstance.yaml` — added `image-reflector-controller` + `image-automation-controller`
 
 ## Cleanups applied during port
 

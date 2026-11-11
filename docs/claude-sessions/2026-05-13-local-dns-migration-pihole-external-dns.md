@@ -41,17 +41,17 @@ letting the DNS search chain fall through to correct public addresses.
   - Patch: `txtOwnerId: non-prod-gen2-pihole`, `domainFilters: ["local.non-prod.abbottland.io"]`
 
 **HTTPRoutes — label + annotation added to all HTTPS routes:**
-- `applications/base/haproxy/httproute.yaml`
-- `applications/base/asustor/httproute.yaml`
-- `applications/base/proxmox/httproute.yaml`
-- `applications/base/harbor/httproute.yaml`
-- `applications/base/pihole/httproute.yaml`
-- `applications/base/podinfo/podinfo-httproute.yaml`
+- `apps/base/haproxy/httproute.yaml`
+- `apps/base/asustor/httproute.yaml`
+- `apps/base/proxmox/httproute.yaml`
+- `apps/base/harbor/httproute.yaml`
+- `apps/base/pihole/httproute.yaml`
+- `apps/base/podinfo/podinfo-httproute.yaml`
 - `infra/base/kube-prometheus-stack/grafana-httproute.yaml`
 - `infra/base/kube-prometheus-stack/prometheus-httproute.yaml`
 - `infra/base/onepassword/op-connect-httproute.yaml`
 - `infra/prod-gen2/longhorn/longhorn-httproute.yaml`
-- `applications/base/dashy/templates/httproute.yaml` (Helm chart template — HTTPS route only)
+- `apps/base/dashy/templates/httproute.yaml` (Helm chart template — HTTPS route only)
 
 Each got:
 ```yaml
@@ -67,7 +67,7 @@ annotations:
   and non-prod-gen2; no separate non-prod IP needed.
 - **flux-web HTTP→HTTPS redirect route skipped** — not an HTTPS backend, no DNS record needed.
 - **Dashy via chart template** — since dashy HTTPRoute is Helm-generated, label/annotation
-  added directly to `applications/base/dashy/templates/httproute.yaml` (HTTPS route only;
+  added directly to `apps/base/dashy/templates/httproute.yaml` (HTTPS route only;
   HTTP→HTTPS redirect route left clean).
 
 ## Remaining Manual Steps

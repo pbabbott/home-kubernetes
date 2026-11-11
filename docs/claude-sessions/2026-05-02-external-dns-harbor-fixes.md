@@ -56,7 +56,7 @@ With RollingUpdate:
 - If new pod scheduled to different node, RWO PVC (Longhorn) can't attach (still held by old pod on original node)
 - Classic cross-node deadlock: new pod never ready → old pod never terminates → stuck forever
 
-**Fix:** `applications/base/harbor/helmrelease.yaml` — moved `updateStrategy.type: Recreate` to root level, removed nested per-component keys.
+**Fix:** `apps/base/harbor/helmrelease.yaml` — moved `updateStrategy.type: Recreate` to root level, removed nested per-component keys.
 
 **Recovery steps needed** (rollback cycle had reintroduced `rollingUpdate` fields on live deployments):
 1. `kubectl patch deployment harbor-{jobservice,registry}` to remove `spec.strategy.rollingUpdate` field (`type: Recreate` alone is rejected if `rollingUpdate` sub-fields still present)

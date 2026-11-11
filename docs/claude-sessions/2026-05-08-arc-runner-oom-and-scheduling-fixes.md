@@ -16,7 +16,7 @@ Confirmed kube-reserved applied to all 3 workers:
 
 **Problem:** Turborepo pnpm builds saturate both `runner` and `dind` containers simultaneously. Previous 2-core limit per container was too restrictive — builds were getting throttled and not finishing.
 
-**Fix:** `applications/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
+**Fix:** `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
 - `runner` CPU limit: `2` → `3`
 - `dind` CPU limit: `2` → `3`
 

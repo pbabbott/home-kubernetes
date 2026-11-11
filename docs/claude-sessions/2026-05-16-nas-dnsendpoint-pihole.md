@@ -22,8 +22,8 @@ Used external-dns `DNSEndpoint` CRD source rather than an HTTPRoute. Reasons:
 | `crds/prod-gen2/kustomization.yaml` | Added `../base/external-dns` |
 | `crds/non-prod-gen2/kustomization.yaml` | Added `../base/external-dns` |
 | `infra/base/external-dns/external-dns-pihole-helmrelease.yaml` | Added `crd` to sources, `crds.create: false` |
-| `applications/prod-gen2/asustor/nas-dnsendpoint.yaml` | New `DNSEndpoint` → `nas.local.abbottland.io A 192.168.4.124` |
-| `applications/prod-gen2/asustor/kustomization.yaml` | Added DNSEndpoint resource |
+| `apps/prod-gen2/asustor/nas-dnsendpoint.yaml` | New `DNSEndpoint` → `nas.local.abbottland.io A 192.168.4.124` |
+| `apps/prod-gen2/asustor/kustomization.yaml` | Added DNSEndpoint resource |
 
 ## Key decisions
 

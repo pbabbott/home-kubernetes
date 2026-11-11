@@ -129,6 +129,6 @@ kubectl get events -n media --sort-by='.lastTimestamp' | tail -20
 
 ## File Locations
 
-- `applications/base/media/` — all media stack manifests
-- `applications/prod-gen3/media/` — gen3 overlay
+- `apps/base/media/` — all media stack manifests
+- `apps/prod-gen3/media/` — gen3 overlay
 - OnePasswordItem secrets: qbittorrent credentials, PIA VPN credentials (`secrets-pia-credentials.md`, `secrets-qbittorrent.md`)

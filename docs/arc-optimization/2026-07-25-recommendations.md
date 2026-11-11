@@ -4,7 +4,7 @@ Date: 2026-07-25
 ## Data Sources
 - Grafana prod: `arc-runner-scale-set` dashboard (24h range)
 - Grafana prod: `Kubernetes / Compute Resources / Namespace (Pods)` — namespace `arc-runners` (24h range)
-- HelmReleases: `applications/base/arc/arc-runner-amd64-helmrelease.yaml`, `arc-runner-dind-amd64-helmrelease.yaml`
+- HelmReleases: `apps/base/arc/arc-runner-amd64-helmrelease.yaml`, `arc-runner-dind-amd64-helmrelease.yaml`
 
 ## Current Config
 
@@ -33,7 +33,7 @@ Both scale sets have `requiredDuringSchedulingIgnoredDuringExecution` anti-affin
 ## Recommendations
 
 ### Priority 1 — Fix OOM kills (amd64 memory limit)
-**File:** `applications/base/arc/arc-runner-amd64-helmrelease.yaml`
+**File:** `apps/base/arc/arc-runner-amd64-helmrelease.yaml`
 ```yaml
 resources:
   limits:
@@ -41,21 +41,21 @@ resources:
 ```
 
 ### Priority 2 — Reduce cold-start latency (dind minRunners)
-**File:** `applications/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
+**File:** `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
 ```yaml
 minRunners: 2   # was 1
 ```
 Tradeoff: ~4.5Gi RAM always reserved for warm dind runner.
 
 ### Priority 3 — Increase dind throughput ceiling (maxRunners)
-**File:** `applications/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
+**File:** `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
 ```yaml
 maxRunners: 5   # was 3
 ```
 Cluster handled 4 concurrent dind runners comfortably in observed data.
 
 ### Priority 4 — Increase dind memory limits
-**File:** `applications/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
+**File:** `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
 ```yaml
 # runner container
 resources:

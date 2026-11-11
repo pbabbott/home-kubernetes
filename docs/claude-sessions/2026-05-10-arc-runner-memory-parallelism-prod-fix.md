@@ -30,7 +30,7 @@ but did not patch the affinity/spread selectors. On prod, the anti-affinity was 
 co-locate on the same prod node. Topology spread was similarly ineffective (spread not scoped
 per-scale-set on prod).
 
-**Fix:** Added JSON 6902 patches to `applications/prod-gen2/arc/kustomization.yaml`:
+**Fix:** Added JSON 6902 patches to `apps/prod-gen2/arc/kustomization.yaml`:
 - Anti-affinity selectors: `non-prod-gen2-*` → `prod-gen2-*`
 - Topology spread selectors: `non-prod-gen2-*` → `prod-gen2-*`
 
@@ -40,12 +40,12 @@ per-scale-set on prod).
 
 **Base changes (nonprod-safe, 3.28 GiB nodes):**
 
-`applications/base/arc/arc-runner-amd64-helmrelease.yaml`:
+`apps/base/arc/arc-runner-amd64-helmrelease.yaml`:
 - runner memory request: `512Mi` → `1Gi`
 - runner memory limit: `2Gi` → `2.5Gi`
 - maxRunners: `2` → `3`
 
-`applications/base/arc/arc-runner-dind-amd64-helmrelease.yaml`:
+`apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`:
 - runner container memory request: `512Mi` → `1Gi`
 - runner container memory limit: `2Gi` → `2.5Gi`
 - maxRunners: `2` → `3`

@@ -86,7 +86,7 @@ Internal: `<app>.local.abbottland.io`. Public: `<app>.abbottland.io`. Overlays p
 ## Gen3 route patterns
 
 - A new route is only given DNS by adding the label on purpose. If a hostname is served by another cluster/backend, stage unlabelled and test with `curl --resolve <host>:443:192.168.6.29`, then flip.
-- Helm charts that hardcode the label (e.g. `applications/base/dashy`): use a HelmRelease `postRenderers` kustomize JSON patch removing `/metadata/labels/pihole-dns-enabled` while staging.
+- Helm charts that hardcode the label (e.g. `apps/base/dashy`): use a HelmRelease `postRenderers` kustomize JSON patch removing `/metadata/labels/pihole-dns-enabled` while staging.
 - Gen3's flux-operator is Ansible-installed (no HelmRelease), so its UI route is a standalone HTTPRoute in `clusters/prod-gen3/flux-gitops/` (backend `flux-operator:9080`).
 - Gen3 Pi-hole external-dns is `sync` + `registry: noop` (see `ai-reference-external-dns-pihole.md`): a record with no labelled route or `DNSEndpoint` is deleted. If a record stays wrong after ~2 cycles, delete it via the Pi-hole API (see `ai-reference-pihole-api.md`) and external-dns recreates it.
 - Routes carry no `target` annotation (it is ignored); do not add one.

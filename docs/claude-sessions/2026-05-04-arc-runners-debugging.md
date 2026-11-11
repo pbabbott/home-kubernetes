@@ -28,8 +28,8 @@ Get GitHub Actions self-hosted runners working on non-prod gen2 cluster. Jobs we
 - Fix: add `ndots: 2` to runner pod `dnsConfig` so 3-dot names resolve absolutely, bypassing search domains
 
 ## Files Changed
-- `applications/base/arc/arc-runner-amd64-helmrelease.yaml` — added `dnsConfig.options[ndots=2]`
-- `applications/base/arc/arc-runner-dind-amd64-helmrelease.yaml` — same
+- `apps/base/arc/arc-runner-amd64-helmrelease.yaml` — added `dnsConfig.options[ndots=2]`
+- `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml` — same
 
 ## Commit
 `c74787b` — fix(arc): set ndots=2 on runner pods to avoid wildcard DNS trap

@@ -30,7 +30,7 @@ Memory is now abundant (33.4 GiB total). CPU is the binding constraint.
 
 ## Changes Made
 
-**File:** `applications/prod-gen2/arc/kustomization.yaml`
+**File:** `apps/prod-gen2/arc/kustomization.yaml`
 
 - `arc-runner-amd64` maxRunners: 5 → **8** (leaves ~1 CPU/node headroom)
 - `arc-runner-dind-amd64` maxRunners: 5 → **6** (CPU-ceiling: 2/node × 3 nodes)

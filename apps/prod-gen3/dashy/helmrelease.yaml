@@ -7,7 +7,7 @@ spec:
   targetNamespace: dashy
   chart:
     spec:
-      chart: ./applications/base/dashy
+      chart: ./apps/base/dashy
       sourceRef:
         kind: GitRepository
         name: flux-system

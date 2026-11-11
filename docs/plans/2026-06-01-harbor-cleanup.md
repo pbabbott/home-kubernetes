@@ -6,7 +6,7 @@ DEPLOY-HANDOFF.md
 
 ## Flux Deployment — What Was Created
 
-Files added to this repo under `applications/base/harbor-cleanup/` and wired into `applications/prod-gen2/`:
+Files added to this repo under `apps/base/harbor-cleanup/` and wired into `apps/prod-gen2/`:
 
 | File | Purpose |
 |------|---------|
@@ -27,7 +27,7 @@ Files added to this repo under `applications/base/harbor-cleanup/` and wired int
 | `harbor-cleanup-servicemonitor.yaml` | Prometheus scrape at `/metrics` every 60s |
 | `prod-gen2/harbor-cleanup/kustomization.yaml` | Overlay referencing base |
 
-`applications/prod-gen2/kustomization.yaml` updated to include `./harbor-cleanup`.
+`apps/prod-gen2/kustomization.yaml` updated to include `./harbor-cleanup`.
 
 **Note on secrets:** Two separate OnePasswordItems feed into the Deployment via explicit `env.valueFrom.secretKeyRef` entries (not `envFrom`) because the 1Password field labels (`username`, `password`, `github_pat`) differ from the required env var names (`HARBOR_USERNAME`, `HARBOR_PASSWORD`, `GITHUB_TOKEN`).
 

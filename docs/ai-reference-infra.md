@@ -31,7 +31,7 @@ Numbered `Kustomization` files under `clusters/<cluster>/`:
 | --- | --- | --- |
 | `00-crds-ks.yaml` | `./crds/<cluster>/` | — |
 | `01-infra-ks.yaml` | `./infra/<cluster>/` | crds-ks |
-| `02-apps-ks.yaml` | `./applications/<cluster>/` | infra-ks |
+| `02-apps-ks.yaml` | `./apps/<cluster>/` | infra-ks |
 
 Add CRD-related material under `crds/<cluster>/` so it applies before infra and apps. Don't rely on app charts to own CRDs when this repo's layering should own the cluster API surface.
 

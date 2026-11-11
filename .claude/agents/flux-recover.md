@@ -93,13 +93,13 @@ Workaround: use explicit resource lists in kustomization.yaml instead of strateg
    ```
 2. Apply `crds/` kustomization first — wait for CRDs to exist
 3. Apply `infra/` — wait for Longhorn, cert-manager, op-connect ready
-4. Apply `applications/` — check image pull secrets (regcred) via OnePasswordItem
+4. Apply `apps/` — check image pull secrets (regcred) via OnePasswordItem
 5. Verify external-dns pihole is creating A records
 6. Check CloudFlare token hasn't expired (was expired 2026-05-18, causes DDNS/cert failures)
 
 ## Pihole Circular Dependency
 
-Pihole must be in `infra/` kustomization (not `applications/`) because external-dns-pihole in infra depends on it. If pihole is in apps, external-dns reconciles before pihole is ready.
+Pihole must be in `infra/` kustomization (not `apps/`) because external-dns-pihole in infra depends on it. If pihole is in apps, external-dns reconciles before pihole is ready.
 
 ## Useful Flux Commands
 
@@ -124,5 +124,5 @@ flux reconcile imagepolicy myapp -n flux-system
 
 - `crds/prod-gen3/` — CRD layer
 - `infra/prod-gen3/` — infra layer
-- `applications/prod-gen3/` — app overlays
-- `applications/base/` — shared base configs
+- `apps/prod-gen3/` — app overlays
+- `apps/base/` — shared base configs

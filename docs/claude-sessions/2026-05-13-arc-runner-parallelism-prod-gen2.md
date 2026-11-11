@@ -6,7 +6,7 @@
 
 Relaxed scheduling constraints on prod-gen2 ARC runners to increase parallelism.
 
-**File changed:** `applications/prod-gen2/arc/kustomization.yaml`
+**File changed:** `apps/prod-gen2/arc/kustomization.yaml`
 
 ### Changes (applied to both `arc-runner-amd64` and `arc-runner-dind-amd64` patches)
 

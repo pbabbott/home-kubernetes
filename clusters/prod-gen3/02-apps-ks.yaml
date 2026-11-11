@@ -9,7 +9,7 @@ spec:
   interval: 1h
   retryInterval: 1m
   timeout: 5m
-  path: ./applications/prod-gen3/
+  path: ./apps/prod-gen3/
   prune: true
   wait: true
   sourceRef:

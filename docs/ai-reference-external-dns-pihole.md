@@ -39,7 +39,7 @@ With `registry: noop`:
 - Works correctly with pihole
 
 ## Policy on gen3
-Gen2 external-dns is gone and the gen3 Pi-hole instance runs `policy: sync` + `registry: noop` on `local.abbottland.io`. With no ownership check it deletes ANY record in the domain that has no labelled route or DNSEndpoint: never add records by hand in the Pi-hole UI/API, use a `DNSEndpoint` (see `applications/prod-gen3/asustor/nas-dnsendpoint.yaml`). Config: `infra/prod-gen3/external-dns/`. The Cloudflare instance (live on gen3, `sync`) uses `registry: txt` with owner id `prod-gen2` (inherited), so it only deletes records it owns.
+Gen2 external-dns is gone and the gen3 Pi-hole instance runs `policy: sync` + `registry: noop` on `local.abbottland.io`. With no ownership check it deletes ANY record in the domain that has no labelled route or DNSEndpoint: never add records by hand in the Pi-hole UI/API, use a `DNSEndpoint` (see `apps/prod-gen3/asustor/nas-dnsendpoint.yaml`). Config: `infra/prod-gen3/external-dns/`. The Cloudflare instance (live on gen3, `sync`) uses `registry: txt` with owner id `prod-gen2` (inherited), so it only deletes records it owns.
 
 ## Adding a New Service to Pihole DNS
 

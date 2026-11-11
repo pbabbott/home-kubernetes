@@ -17,12 +17,12 @@ Ported GitHub Actions Runner Controller (ARC) from gen1 (`apps/homelab/arc/`) to
   - `gen2-dind-runner` — dind mode, min 1 / max 2
 - **Labels**: Distinct `gen2-*` prefix so gen1 and gen2 coexist without job collisions during bake period
 - **Auth**: 1Password `OnePasswordItem` → `arc-gh-secret` in `arc-runners` ns; item must have field `github_token`
-- **Layout**: base/overlay pattern (`applications/base/arc/` + `applications/non-prod-gen2/arc/`)
+- **Layout**: base/overlay pattern (`apps/base/arc/` + `apps/non-prod-gen2/arc/`)
 
 ## Files created
 
 ```
-applications/base/arc/
+apps/base/arc/
   arc-systems-ns.yaml
   arc-runners-ns.yaml
   gha-runner-scale-set-charts-helmrepository.yaml
@@ -31,7 +31,7 @@ applications/base/arc/
   arc-runner-dind-amd64-helmrelease.yaml
   kustomization.yaml
 
-applications/non-prod-gen2/arc/
+apps/non-prod-gen2/arc/
   arc-gh-secret.yaml
   arc-controller-servicemonitor.yaml
   kustomization.yaml
@@ -39,7 +39,7 @@ applications/non-prod-gen2/arc/
 
 ## Files modified
 
-- `applications/non-prod-gen2/kustomization.yaml` — added `- ./arc`
+- `apps/non-prod-gen2/kustomization.yaml` — added `- ./arc`
 
 ## Pending before apply
 

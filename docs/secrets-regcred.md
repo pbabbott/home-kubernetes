@@ -8,8 +8,8 @@ Workloads that pull from or push to the private registry get a `kubernetes.io/do
 (and `regcred-flux` in `flux-system`, used by Flux image automation). They are all `OnePasswordItem` resources pointing at the
 same 1Password item, so there are no sealed secrets to regenerate:
 
-- `applications/base/regcred-flux/regcred-flux-onepassworditem.yaml` (Flux)
-- `applications/base/<app>/regcred-onepassworditem.yaml` (blog, diagram-maker, fui-components, harbor-cleanup, home-hud, media)
+- `apps/base/regcred-flux/regcred-flux-onepassworditem.yaml` (Flux)
+- `apps/base/<app>/regcred-onepassworditem.yaml` (blog, diagram-maker, fui-components, harbor-cleanup, home-hud, media)
 
 Item: `vaults/Homelab/items/harbor.local.abbottland.io - admin`.
 
@@ -21,6 +21,6 @@ Item: `vaults/Homelab/items/harbor.local.abbottland.io - admin`.
 
 ## Add `regcred` to a new app
 
-Copy `applications/base/media/regcred-onepassworditem.yaml` into the app, change `namespace`, and list it in the app's `kustomization.yaml`.
+Copy `apps/base/media/regcred-onepassworditem.yaml` into the app, change `namespace`, and list it in the app's `kustomization.yaml`.
 
 The earlier sealed-secret approach (a script that regenerated `harbor-regcred.yaml` files) belonged to gen1 and is archived, see `docs/archive/gen1-homelab.md`.

@@ -8,7 +8,7 @@ pattern is expensive on NFS under concurrent load. Node disk IO spiked to 8.75 r
 (~275 MB/s throughput) during CI bursts.
 
 ## What Changed
-`applications/base/arc/arc-pnpm-store-persistentvolumeclaim.yaml`
+`apps/base/arc/arc-pnpm-store-persistentvolumeclaim.yaml`
 - `storageClassName: longhorn` → `storageClassName: nas-storage`
 
 NAS storage class: `nfs-subdir-external-provisioner` → `192.168.4.124:/volume1/ClusterStorage`

@@ -40,7 +40,7 @@ Before any k8s or workflow changes, create proxy cache projects in Harbor:
 
 ### 1. Create `daemon.json` ConfigMap
 
-New file: `applications/base/arc/arc-dind-daemon-configmap.yaml`
+New file: `apps/base/arc/arc-dind-daemon-configmap.yaml`
 
 ```yaml
 ---
@@ -172,7 +172,7 @@ template:
 
 ### 3. Add ConfigMap to kustomization
 
-`applications/base/arc/kustomization.yaml` — add `arc-dind-daemon-configmap.yaml` to
+`apps/base/arc/kustomization.yaml` — add `arc-dind-daemon-configmap.yaml` to
 resources.
 
 ### 4. Remove dead `containers[1]` dind block from base HelmRelease
