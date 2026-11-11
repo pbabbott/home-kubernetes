@@ -10,5 +10,7 @@ data:
   CLEANUP_REPOSITORIES: "blog,diagram-maker,fui-components,gluetun-sync,harbor-cleanup"
   CLEANUP_CRON_EXPRESSION: "0 3 * * *"
   TZ: "America/Chicago"
+  # Log what would be deleted, delete nothing. Remove once dry-run logs look right (home-kubernetes#39)
+  CLEANUP_DRY_RUN: "true"
   PROD_KEEP_COUNT: "5"
   PORT: "4030"

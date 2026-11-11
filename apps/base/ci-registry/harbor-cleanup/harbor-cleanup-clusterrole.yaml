@@ -6,3 +6,10 @@ rules:
   - apiGroups: ['']
     resources: ['pods']
     verbs: ['list']
+  # Images referenced by workload templates (scaled to zero, CronJobs between runs) are protected too
+  - apiGroups: ['apps']
+    resources: ['deployments', 'statefulsets', 'daemonsets']
+    verbs: ['list']
+  - apiGroups: ['batch']
+    resources: ['jobs', 'cronjobs']
+    verbs: ['list']
