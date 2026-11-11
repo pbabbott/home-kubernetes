@@ -273,7 +273,7 @@ spec:
 
 ## Image Updates (Flux ImagePolicy)
 
-Superseded: the image is published to `harbor.local.abbottland.io/library/harbor-cleanup` and tracked like every in-house app, by a date-based `ImagePolicy` (`^\d{8}-\d{5}-\d{5}-[a-f0-9]{7}$`, alphabetical) plus the two setters described in `docs/developer-guides/workload-conventions.md`. `CLEANUP_DRY_RUN` (env, default false) logs deletions without performing them.
+Superseded: the image is published to `harbor.local.abbottland.io/library/harbor-cleanup` and tracked like every in-house app, by a date-based `ImagePolicy` (`^\d{8}-\d{5}-\d{5}-[a-f0-9]{7}$`, alphabetical) plus the two setters described in `docs/developer-guides/workload-conventions.md`. `CLEANUP_DRY_RUN` logs deletions without performing them: it is ON when the variable is set to any non-empty value (the config parser uses `Boolean(string)`, so `"false"` also enables it); leave it unset to delete for real.
 
 ---
 
