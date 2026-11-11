@@ -1,0 +1,22 @@
+# Single-replica class for regenerable data (CI caches, Prometheus). Same parameters
+# as the chart's `longhorn` class except numberOfReplicas. Issue #59.
+# StorageClass parameters are immutable and PVC storageClassName is immutable, so
+# moving an existing PVC here means deleting and recreating it.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: longhorn-single
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+parameters:
+  numberOfReplicas: "1"
+  staleReplicaTimeout: "30"
+  fromBackup: ""
+  fsType: ext4
+  dataLocality: disabled
+  unmapMarkSnapChainRemoved: ignored
+  disableRevisionCounter: "true"
+  dataEngine: v1
+  backupTargetName: default

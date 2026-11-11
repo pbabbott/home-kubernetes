@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ../../../base/storage/longhorn
   - longhorn-recurring-job.yaml
+  - longhorn-single-storageclass.yaml
 
 patches:
   - path: longhorn-helmrelease-patch.yaml
