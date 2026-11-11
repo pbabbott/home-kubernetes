@@ -45,6 +45,18 @@ NFS host: `192.168.4.124`, base export: `/volume1/Backups/`
 | Prod gen 2 (retired) | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod`. Deleted 2026-11-11 (with `longhorn-prod.pre-gen3-copy`, the `live-restore`/`rehearsal-copy` BackupTargets and the `p7-final-*` Backups). The 8 restored gen3 volumes were switched to the `default` target first. Issue #40 |
 | Non-prod gen 2 (retired) | `nfs://192.168.4.124:/volume1/Backups/longhorn-nonprod` |
 
+## Longhorn replica policy (gen3, issue #59)
+
+Three worker disks (~97 GiB each), over-provisioning 150%. Default class `longhorn` = 2 replicas; `longhorn-single` = 1 replica (defined in `infra/prod-gen3/storage/longhorn/`).
+
+| Volume | Class | Why |
+| --- | --- | --- |
+| `arc-runners/actions-cache-server-data`, `turbo-cache-storage` | `longhorn-single` | CI caches, rebuild themselves |
+| `kube-prometheus-stack` Prometheus | `longhorn-single` | Metrics, 3d retention, `retentionSize` 17GB; excluded from `daily-backups` |
+| harbor trivy + jobservice, media `*-config`, openclaw | `longhorn` (2) | Small, not regenerable (trivy is tiny; its StatefulSet claim is immutable) |
+
+PVC `storageClassName` is immutable: moving an existing PVC to another class means deleting and recreating it. Replica count of an existing volume can also be patched live (`volumes.longhorn.io` `spec.numberOfReplicas`), but git only controls new PVCs.
+
 ## Cluster Notes
 
 - Workers run containerd

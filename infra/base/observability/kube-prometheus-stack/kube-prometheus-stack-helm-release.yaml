@@ -97,10 +97,11 @@ spec:
               labels:
                 recurring-job-group.longhorn.io/default: disabled
             spec:
-              storageClassName: longhorn
+              storageClassName: longhorn-single # regenerable metrics, 1 replica (#59)
               accessModes:
                 - ReadWriteOnce
               resources:
                 requests:
                   storage: 20Gi
         retention: 3d
+        retentionSize: 17GB # stay under the 20Gi PVC (was 22.5 GiB used)
