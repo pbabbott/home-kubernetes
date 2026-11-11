@@ -5,7 +5,7 @@ Helper: `scripts/longhorn-restore.sh` (dry-run by default). Contexts: `kubectl -
 An app runs in ONE cluster at a time (shared NAS Postgres/Redis/NFS).
 
 ## Ground rules
-- Never write to `longhorn-prod` (live), `longhorn-prod.pre-gen3-copy`, `longhorn-nonprod*`. Gen3 backs up only to `longhorn-prod-gen3`.
+- Never write to `longhorn-prod` (live), `longhorn-prod.pre-gen3-copy`, `longhorn-nonprod*`. Gen3 backs up only to `longhorn-prod-gen3`. TRAP: a restored Volume inherits `spec.backupTargetName: live-restore`, so its recurring backups go to `longhorn-prod` until you patch it to `default` (done for all 8 on 2026-11-11, first backups verified `Completed` in `longhorn-prod-gen3`).
 - Never delete a `BackupTarget`, `BackupVolume` or `Backup` CR that points at a store you want to keep (may delete remote data, unverified). Leave temp targets idle (`pollInterval: 0s`), like `rehearsal-copy`.
 - **Ask the user** before: any gen2 backup, creating a BackupTarget on the live path, any NAS change, any merge.
 - Longhorn `Backup` CRs made by hand need the `backup-volume` label.
@@ -71,7 +71,7 @@ Status legend: TESTED = done in a scratch run; UNTESTED = reasoned only.
 - PV is `Retain`: deleting the gen3 PVC leaves PV `Released` with a stale claimRef uid; it cannot rebind. Use `longhorn-restore.sh --cleanup --apply` (labels), then restore again; do not delete the Volume CR by hand unless you mean it.
 - gen2 volumes are reclaim `Delete`: once the gen2 PVC is deleted the live volume is gone. Until then gen2 is the rollback.
 - Flux and the pre-created PVC: if Flux's apply fails with "spec is immutable", `kustomize-controller` has probably taken ownership of `volumeName` (PVC was created by plain `kubectl apply`/Helm). Fix: delete the PVC (and PV claimRef) and recreate with the script (own field manager). Mismatch in `storageClassName`, `accessModes` or a smaller size is also rejected.
-- Scratch/test remnants: none left on gen3. Intentional leftovers: gen3 BackupTargets `rehearsal-copy` and `live-restore` (idle), gen2 Snapshot `data-move-final-1711` and Backup `data-move-final-prowlarr`. Deleting a Backup/BackupTarget CR may delete remote data (unverified), so do not clean up leftovers casually.
+- Scratch/test remnants: none left on gen3. All leftovers were deleted 2026-11-11 (issue #40): BackupTargets `rehearsal-copy`/`live-restore`, Backups `data-move-final-prowlarr`/`p7-final-*`, and the NAS dirs `longhorn-prod` and `longhorn-prod.pre-gen3-copy`. This runbook is now history. Deleting a Backup/BackupTarget CR may delete remote data (unverified), so do not clean up leftovers casually.
 
 ### Shared-state hazards (not Longhorn) when apps come online
 - NAS Postgres/Redis/NFS are shared by gen2 and gen3. If an app's data looks odd, first confirm the gen2 copy is really at 0 (`kubectl --context prod-gen2 get pods -A | grep <app>`) and its Flux object is suspended/removed, or gen2 will keep writing.
