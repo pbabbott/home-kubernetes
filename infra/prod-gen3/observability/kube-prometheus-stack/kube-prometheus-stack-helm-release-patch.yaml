@@ -18,9 +18,12 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-    # Cardinality: Prometheus held ~950k series (2026-11-11). These apiserver histograms were ~300k of them and
-    # feed no stock alert or recording rule. Setting metricRelabelings REPLACES the chart default, so the
-    # default drop rule is repeated first. Keep apiserver_request_duration / _sli_duration (SLO burn-rate rules).
+    # Cardinality (Prometheus held ~950k series on 2026-11-11). k3s runs apiserver, scheduler, controller-manager,
+    # kube-proxy and kubelet in ONE process with ONE shared metrics registry, so every one of those endpoints serves the
+    # same ~108k apiserver/etcd series. Keep that family only on the `apiserver` job and drop it from the other four
+    # (anchor dropSharedK3sRegistry). On the apiserver job also drop six histograms no stock rule or alert uses.
+    # Setting metricRelabelings REPLACES the chart default, so each default rule is repeated first.
+    # Keep apiserver_request_duration / _sli_duration (SLO burn-rate rules).
     kubeApiServer:
       serviceMonitor:
         metricRelabelings:
@@ -29,7 +32,7 @@ spec:
             regex: (etcd_request|apiserver_request_slo|apiserver_request_sli|apiserver_request)_duration_seconds_bucket;(0\.15|0\.2|0\.3|0\.35|0\.4|0\.45|0\.6|0\.7|0\.8|0\.9|1\.25|1\.5|1\.75|2|3|3\.5|4|4\.5|6|7|8|9|15|20|40|45|50)(\.0)?
           - action: drop
             sourceLabels: [__name__]
-            regex: (etcd_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_watch_list_duration_seconds_bucket|apiserver_watch_cache_read_wait_seconds_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
+            regex: (etcd_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_watch_list_duration_seconds_bucket|apiserver_watch_cache_read_wait_seconds_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|workqueue_.*_bucket)
     # k3s runs the control plane inside the k3s process, so the chart finds no pods to select:
     # point the ServiceMonitors at the node IPs. Needs the bind-address / etcd-expose-metrics /
     # kube-proxy-arg settings from home-playbooks playbooks/kubernetes-gen3 (rolled out to the nodes first).
@@ -51,6 +54,15 @@ spec:
         enabled: true
         https: true
         insecureSkipVerify: true
+        metricRelabelings:
+          - &dropSharedK3sRegistry
+            action: drop
+            sourceLabels: [__name__]
+            regex: apiserver_.*|etcd_request.*|etcd_bookmark_counts|etcd_lease_object_counts|etcd_db_total_size_in_bytes|kubernetes_feature_enabled
+          - &dropControlPlaneBuckets # latency histograms only back dashboards; _sum/_count stay
+            action: drop
+            sourceLabels: [__name__]
+            regex: .+_bucket
     kubeScheduler:
       enabled: true
       endpoints: *controllers
@@ -62,6 +74,9 @@ spec:
         enabled: true
         https: true
         insecureSkipVerify: true
+        metricRelabelings:
+          - *dropSharedK3sRegistry
+          - *dropControlPlaneBuckets
     kubeProxy:
       enabled: true
       endpoints: [192.168.6.41, 192.168.6.42, 192.168.6.43, 192.168.6.44, 192.168.6.45, 192.168.6.46]
@@ -69,6 +84,20 @@ spec:
         enabled: true
         port: 10249
         targetPort: 10249
+      serviceMonitor:
+        metricRelabelings:
+          - *dropSharedK3sRegistry
+          - *dropControlPlaneBuckets
+    kubelet:
+      serviceMonitor:
+        metricRelabelings: # /metrics only; cAdvisor and probes keep their own settings
+          - action: drop # chart default, repeated because this list replaces it
+            sourceLabels: [__name__, le]
+            regex: (csi_operations|storage_operation_duration)_seconds_bucket;(0.25|2.5|15|25|120|600)(\.0)?
+          - *dropSharedK3sRegistry
+          - action: drop # keeps kubelet_pleg_relist_duration_seconds_bucket (KubeletPlegDurationHigh alert)
+            sourceLabels: [__name__]
+            regex: (workqueue_|scheduler_|rest_client_|prober_|storage_operation_|csi_operations_|kubelet_runtime_operations_).*_bucket
     prometheus:
       prometheusSpec:
         externalLabels:
