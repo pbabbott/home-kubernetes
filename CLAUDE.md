@@ -23,7 +23,7 @@ Hosts, VMs and IPs live in `home-playbooks/docs/HOSTS.md`; the cluster itself is
 - **Storage**: Longhorn (replicated block on the worker SSDs, backups to the NAS) for app config and databases; `nas-storage` (NFS on the Asustor NAS `192.168.4.124`) for bulk data and media. Postgres and Redis also live on the NAS. `.cursor/k8s-storage-classes.md`, `docs/ai-reference/infra.md`
 - **cert-manager**: Let's Encrypt via Cloudflare DNS-01 issues the wildcard certs on the two Gateways.
 - **pihole** (in `infra/`, not `apps/`): proxy route to the Pi-hole UI; external-dns depends on it so it must reconcile first.
-- **Observability**: kube-prometheus-stack (Prometheus, Grafana; Alertmanager deliberately disabled); k3s control plane + kube-proxy scraped via node IPs (needs the k3s args in `home-playbooks`); dashboards are gitops-managed ConfigMaps.
+- **Observability**: kube-prometheus-stack (Prometheus, Grafana; Alertmanager deliberately disabled); only the apiserver and kubelet are scraped (k3s shares one metrics registry across its components, so scheduler/controller-manager/etcd/kube-proxy scrapes were duplicates and are off; steps to re-enable are in the kube-prometheus-stack patch); dashboards are gitops-managed ConfigMaps.
 - **Flux**: The `FluxInstance` is bootstrapped by Ansible (`home-playbooks`), not by this repo. `docs/developer-guides/flux-bootstrap.md`, `docs/developer-guides/flux-overview.md`
 
 ## Workload index
