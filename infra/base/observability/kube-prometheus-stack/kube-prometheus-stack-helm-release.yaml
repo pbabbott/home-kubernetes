@@ -103,6 +103,6 @@ spec:
                 - ReadWriteOnce
               resources:
                 requests:
-                  storage: 20Gi
-        retention: 3d
-        retentionSize: 17GB # stay under the 20Gi PVC (was 22.5 GiB used)
+                  storage: 5Gi # ~165k series; 20Gi was sized for the ~950k-series ingest
+        retention: 1d
+        retentionSize: 4GB # stay under the 5Gi PVC
