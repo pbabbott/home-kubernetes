@@ -52,7 +52,7 @@ Three worker disks (~97 GiB each), over-provisioning 150%. Default class `longho
 | Volume | Class | Why |
 | --- | --- | --- |
 | `arc-runners/actions-cache-server-data`, `turbo-cache-storage` | `longhorn-single` | CI caches, rebuild themselves |
-| `kube-prometheus-stack` Prometheus | `longhorn-single` | Metrics, 3d retention, `retentionSize` 17GB; excluded from `daily-backups` |
+| `kube-prometheus-stack` Prometheus | `longhorn-single` | Metrics, 3d retention, `retentionSize` 17GB; excluded from `daily-backups` by hand: the PVC-template label does not reach the Longhorn volume, so after recreating it run `kubectl -n longhorn-system label volumes.longhorn.io <vol> recurring-job-group.longhorn.io/default=disabled --overwrite` |
 | harbor trivy + jobservice, media `*-config`, openclaw | `longhorn` (2) | Small, not regenerable (trivy is tiny; its StatefulSet claim is immutable) |
 
 PVC `storageClassName` is immutable: moving an existing PVC to another class means deleting and recreating it. Replica count of an existing volume can also be patched live (`volumes.longhorn.io` `spec.numberOfReplicas`), but git only controls new PVCs.
