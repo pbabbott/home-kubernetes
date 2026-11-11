@@ -27,6 +27,7 @@ spec:
   values:
     crds:
       enabled: false
+    # Alertmanager is skipped on purpose (decision 2026-11-11, issue #53): no alert routing wanted yet.
     alertmanager:
       enabled: false
     grafana:
