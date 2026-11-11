@@ -18,7 +18,7 @@ Things below live outside Git, so Flux will not recreate them.
 
 ## NAS-side directories (created by hand on room_of_requirement, 192.168.4.124; `ssh pabbott@192.168.4.124`, alias `ror`)
 - `/volume1/ClusterStorage/prod-gen3`: nas-storage provisioner root; must exist or the provisioner pod fails to mount. Deleted PVCs leave `archived-*` dirs here (`archiveOnDelete: 'true'`); clean up by hand.
-- `/volume1/Backups/longhorn-prod-gen3`: gen3's own Longhorn backup target. NEVER point gen3 at `longhorn-prod` (gen2's live store) or `longhorn-prod.pre-gen3-copy` (safety copy).
+- `/volume1/Backups/longhorn-prod-gen3`: gen3's own Longhorn backup target. NEVER point gen3 at `longhorn-prod` (gen2's old store) or `longhorn-prod.pre-gen3-copy` (safety copy). Restored volumes keep `spec.backupTargetName` of the target they were restored from (`live-restore`), so after a restore patch it to `default` (`kubectl -n longhorn-system patch volumes.longhorn.io <vol> --type merge -p '{"spec":{"backupTargetName":"default"}}'`) and confirm a backup lands in `longhorn-prod-gen3`. Done for all 8 restored volumes on 2026-11-11.
 - NFS export rules (`/etc/exports`) already allow `192.168.0.0/16` rw no_root_squash; no per-node NAS change needed.
 
 ## Secrets / 1Password (see `secrets.md`)

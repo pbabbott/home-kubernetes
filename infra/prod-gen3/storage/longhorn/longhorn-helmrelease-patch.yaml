@@ -7,7 +7,8 @@ spec:
   values:
     defaultBackupStore:
       # Gen3 has its OWN backup store. Never point this at gen2's
-      # longhorn-prod (nor longhorn-prod.pre-gen3-copy).
+      # longhorn-prod (nor longhorn-prod.pre-gen3-copy). Volumes restored from it
+      # keep backupTargetName=live-restore until patched to `default`.
       backupTarget: nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3
       backupTargetCredentialSecret: cifs-secret
     defaultSettings:
