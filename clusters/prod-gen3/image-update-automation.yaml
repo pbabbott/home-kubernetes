@@ -17,7 +17,13 @@ spec:
       author:
         email: fluxcdbot@users.noreply.github.com
         name: fluxcdbot
-      messageTemplate: '{{range .Changed.Changes}}{{print .OldValue}} -> {{println .NewValue}}{{end}}'
+      # Short subject; the old -> new values go in the body.
+      messageTemplate: |
+        flux: update image tags
+
+        {{ range .Changed.Changes -}}
+        - {{ .OldValue }} -> {{ .NewValue }}
+        {{ end -}}
     push:
       branch: main
   update:
