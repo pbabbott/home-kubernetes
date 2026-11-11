@@ -203,7 +203,7 @@ patches:
 |-------------------|---------------------|
 | `<app>.local.abbottland.io` | `<app>.abbottland.io` |
 
-Public routes need only the label and `external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"` (the target comes from the Gateway). Public apps also need a NetworkPolicy and image update automation, see CLAUDE.md.
+Public routes need only the label and `external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"` (the target comes from the Gateway). Public apps also need a NetworkPolicy and image update automation, see CLAUDE.md. For an in-house app that shows or logs its version, also add the `IMAGE_TAG` env var with the `:tag` setter (see `workload-conventions.md`).
 
 Internal routes → `istio-ingress` / `sectionName: https`
 Public routes → `istio-ingress-public` / `sectionName: https-public` + label `external-dns-enabled: "true"`
