@@ -86,7 +86,7 @@ Lives in `infra/<category>/<component>` under `infra/base` and the `infra/prod-g
 | Networking | external-dns | Cloudflare and Pi-hole external-dns instances reading HTTPRoutes by label. |
 | Networking | istio | Istio ambient mesh (istiod, cni, ztunnel) plus the internal and public Gateways. |
 | Networking | pihole | Proxy route to the Pi-hole admin UI on `bananapi`. Kept in infra because external-dns depends on it. |
-| Observability | kube-prometheus-stack | Prometheus and Grafana (Alertmanager deliberately disabled) with gitops-managed dashboards, k3s control-plane scraping, plus scrape configs for physical hosts. |
+| Observability | kube-prometheus-stack | Prometheus and Grafana (no alerting: no Alertmanager, alert rules or Grafana alerting) with gitops-managed dashboards, apiserver and kubelet scraping, plus scrape configs for physical hosts. |
 | Secrets | onepassword | 1Password Connect + operator; `op-credentials` sealed per cluster. |
 | Secrets | sealed-secrets | Controller used to bootstrap the 1Password Connect credentials. |
 | Storage | longhorn | Replicated block storage with recurring backups to the NAS NFS target. |
