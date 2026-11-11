@@ -10,7 +10,7 @@ data:
   CLEANUP_REPOSITORIES: "blog,diagram-maker,fui-components,gluetun-sync,harbor-cleanup"
   CLEANUP_CRON_EXPRESSION: "0 3 * * *"
   TZ: "America/Chicago"
-  # Set to "true" to log what would be deleted and delete nothing (reviewed and turned off 2026-11-11, #39)
-  CLEANUP_DRY_RUN: "false"
+  # CLEANUP_DRY_RUN is deliberately NOT set. The app parses booleans with Boolean(string), so ANY non-empty value
+  # (including "false") turns dry-run ON; leave it unset to delete for real. Add it (any value) to log deletions only.
   PROD_KEEP_COUNT: "5"
   PORT: "4030"
