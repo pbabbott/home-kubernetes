@@ -91,7 +91,7 @@ spec:
             memory: 1536Mi
           limits:
             cpu: "1"
-            memory: 3Gi
+            memory: 4Gi
         storageSpec:
           volumeClaimTemplate:
             metadata:

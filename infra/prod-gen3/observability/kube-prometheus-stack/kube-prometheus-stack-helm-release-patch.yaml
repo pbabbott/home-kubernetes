@@ -18,6 +18,18 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
+    # Cardinality: Prometheus held ~950k series (2026-11-11). These apiserver histograms were ~300k of them and
+    # feed no stock alert or recording rule. Setting metricRelabelings REPLACES the chart default, so the
+    # default drop rule is repeated first. Keep apiserver_request_duration / _sli_duration (SLO burn-rate rules).
+    kubeApiServer:
+      serviceMonitor:
+        metricRelabelings:
+          - action: drop
+            sourceLabels: [__name__, le]
+            regex: (etcd_request|apiserver_request_slo|apiserver_request_sli|apiserver_request)_duration_seconds_bucket;(0\.15|0\.2|0\.3|0\.35|0\.4|0\.45|0\.6|0\.7|0\.8|0\.9|1\.25|1\.5|1\.75|2|3|3\.5|4|4\.5|6|7|8|9|15|20|40|45|50)(\.0)?
+          - action: drop
+            sourceLabels: [__name__]
+            regex: (etcd_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_watch_list_duration_seconds_bucket|apiserver_watch_cache_read_wait_seconds_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
     # k3s runs the control plane inside the k3s process, so the chart finds no pods to select:
     # point the ServiceMonitors at the node IPs. Needs the bind-address / etcd-expose-metrics /
     # kube-proxy-arg settings from home-playbooks playbooks/kubernetes-gen3 (rolled out to the nodes first).
