@@ -1,6 +1,6 @@
 # Phase 9 handoff: retire gen2 (written 2026-11-09, after Phase 8)
 
-Start in PLAN MODE. Read this file first, then the Phase 9 checklist, the "Loose ends register" and the "Phase 8 learnings" in `2026-11-08-gen2-to-gen3-migration.md`. Also read `CLAUDE.md`, `docs/ai-reference-gen3-manual-steps.md`, `ai-reference-external-dns-pihole.md`, `ai-reference-pihole-api.md`, `ai-reference-secrets.md`. Home-playbooks: `docs/HOSTS.md`, `NETWORK.md`. The dns-expert agent is available.
+Start in PLAN MODE. Read this file first, then the Phase 9 checklist, the "Loose ends register" and the "Phase 8 learnings" in `2026-11-08-gen2-to-gen3-migration.md`. Also read `CLAUDE.md`, `docs/ai-reference/gen3-manual-steps.md`, `docs/ai-reference/external-dns-pihole.md`, `docs/ai-reference/pihole-api.md`, `docs/ai-reference/secrets.md`. Home-playbooks: `docs/HOSTS.md`, `NETWORK.md`. The dns-expert agent is available.
 
 ## State (home-kubernetes main dd89b95 or later; check `git log`)
 - **Phases 0-8 DONE.** Public traffic: Cloudflare -> eero -> HAProxy `.29` (gen3) -> gen3. The six public apps (blog/apex, diagram-maker, fui-components, umami `analytics`, home-assistant proxy, podinfo) are pruned from gen2. Home Assistant is the real `192.168.4.37:8123` (the user used it through the public name).

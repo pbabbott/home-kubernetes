@@ -15,7 +15,7 @@ git ──► SealedSecret `op-credentials` ──(sealed-secrets controller, ku
 - The only SealedSecret on gen3: `infra/prod-gen3/secrets/onepassword/op-credentials.yaml` (scope `namespace-wide`, namespace `op-connect`, keys `1password-credentials.json` + `token`).
 - **Key backup:** 1Password Secure Note `sealed-secrets-key-prod-gen3` in vault Homelab (full Secret YAML, label `sealedsecrets.bitnami.com/sealed-secrets-key`).
 - **Rebuild / DR (not yet rehearsed):** before Flux installs the controller, apply that Secret into `kube-system`, then start the controller; existing SealedSecrets decrypt unchanged, no re-seal. Without the key, re-seal `op-credentials` (below).
-- Only add a new SealedSecret when 1Password can't do it (e.g. `regcred` needs a dockerconfigjson transform, see `docs/secrets-regcred.md`). Procedure: `docs/dev-guide-sealed-secrets-create-manifest.md`.
+- Only add a new SealedSecret when 1Password can't do it (e.g. `regcred` needs a dockerconfigjson transform, see `docs/secret-rotations/regcred.md`). Procedure: `docs/developer-guides/sealed-secrets-create-manifest.md`.
 
 ## Layer 2 – 1Password Connect + operator (everything else)
 - HelmRelease `op-connect` (`infra/base/secrets/onepassword`, gen3 overlay `infra/prod-gen3/secrets/onepassword`): Connect API (`svc/onepassword-connect:8080`) and the operator, namespace `op-connect`. `dependsOn` sealed-secrets. No HTTPRoute on gen3 until istio (Phase 4).
@@ -34,8 +34,8 @@ git ──► SealedSecret `op-credentials` ──(sealed-secrets controller, ku
        itemPath: "vaults/Homelab/items/<exact item title>"
      ```
   3. Anything consuming it from a HelmRelease/Kustomization should `dependsOn` `op-connect`.
-- Debugging: `docs/ai-reference-onepassword-operator.md` (status, force reconcile, key-name mismatch). Browsing the vault via the API: `docs/ai-reference-op-connect-api-access.md`.
-- Per-secret notes live in `docs/secrets-*.md`.
+- Debugging: `docs/ai-reference/onepassword-operator.md` (status, force reconcile, key-name mismatch). Browsing the vault via the API: `docs/ai-reference/op-connect-api-access.md`.
+- Per-secret notes live in `docs/secret-rotations/*.md`.
 
 ## Current gen3 state / caveats
 - Gen3's `op-credentials` was **copied from gen2's live secret** and re-sealed for gen3's key, so gen3 uses the same Connect credentials/token as gen2 (each cluster runs its own Connect pod). **When decommissioning gen2, do not revoke that Connect server/token in 1Password**; gen3 depends on it. If a separate gen3 identity is wanted later, create a new Secrets Automation workflow and re-seal.
@@ -48,4 +48,4 @@ git ──► SealedSecret `op-credentials` ──(sealed-secrets controller, ku
 - Never commit plaintext Secrets or credential files (`1password-credentials*.json`, `.env`, `temp/` are gitignored).
 
 ## Older docs
-`reference-secret-management-strategy.md` (why two layers) and `reference-1password-integration-overview.md` (original setup) are gen2-era; use this doc for gen3.
+`../reference/secret-management-strategy.md` (why two layers) and `../reference/1password-integration-overview.md` (original setup) are gen2-era; use this doc for gen3.

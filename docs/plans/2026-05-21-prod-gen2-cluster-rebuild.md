@@ -130,7 +130,7 @@ flux bootstrap git \
 When prompted `"Please give the key access to your repository?"` → answer `y`.  
 The deploy key (`ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICXAvekUOBzKDyY3uhjjP/yJvStN5Vjtm2HrLBGzRu01`) is already registered on the GitHub repo — no need to re-add.
 
-Full procedure: `docs/dev-guide-flux-bootstrap.md`
+Full procedure: `docs/developer-guides/flux-bootstrap.md`
 
 ### Step 2 — Restore kubeadm:cluster-admins binding
 

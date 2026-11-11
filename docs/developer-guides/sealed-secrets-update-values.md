@@ -4,7 +4,7 @@ The purpose of this document is to explain how one can update sealed secrets wit
 
 ## Overview
 
-`SealedSecrets` is available for use within the cluster.  To setup a SealedSecret manifest, you can follow the [Dev Guide - SealedSecrets - Create Manifest](./dev-guide-sealed-secrets-create-manifest.md).
+`SealedSecrets` is available for use within the cluster.  To setup a SealedSecret manifest, you can follow the [Dev Guide - SealedSecrets - Create Manifest](./sealed-secrets-create-manifest.md).
 
 However if the cluster ever needs to be rebuilt, then all of the secret values need to be rebuilt as well!  Moreover, sometimes SealedSecret manifests need to be updated. 
 

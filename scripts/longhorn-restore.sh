@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Restore a Longhorn backup on gen3 into a PVC with the exact name/namespace/size an app expects.
-# See docs/ai-reference-gen3-data-move.md for the full per-app runbook.
+# See docs/ai-reference/gen3-data-move.md for the full per-app runbook.
 #
 #   Volume CR (fromBackup) -> static PV (Retain, claimRef) -> pre-created PVC (volumeName)
 #
@@ -126,7 +126,7 @@ for live in "${LIVE_URLS[@]}"; do
 REFUSING: $NORM is gen2's LIVE Longhorn store.
 Restoring from it is only valid in a real data move: gen2 app scaled to 0, a fresh final backup
 verified Completed, and the user approved the temporary BackupTarget. Record NAS file count and
-newest mtime before and after (docs/ai-reference-gen3-data-move.md). Re-run with --allow-live-store.
+newest mtime before and after (docs/ai-reference/gen3-data-move.md). Re-run with --allow-live-store.
 EOF
       exit 2
     fi

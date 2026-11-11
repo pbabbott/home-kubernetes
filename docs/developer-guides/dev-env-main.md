@@ -44,7 +44,7 @@ The `.env` file you setup in the previous step will set environment variables fo
 
 Obtaining the various secrets in the next step will require access to 1Password.  Follow this guide to login to 1password, then report back here.
 
-[Dev Guide - Login to 1Password](./dev-guide-login-to-one-password.md)
+[Dev Guide - Login to 1Password](./login-to-one-password.md)
 
 
 ### 5. Get SSH Key

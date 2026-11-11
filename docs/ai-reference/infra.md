@@ -41,7 +41,7 @@ NFS host: `192.168.4.124`, base export: `/volume1/Backups/`
 
 | Cluster | Backup target |
 | --- | --- |
-| Prod gen 3 | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3`. Worker nodes need a manual label, see `ai-reference-gen3-manual-steps.md` |
+| Prod gen 3 | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod-gen3`. Worker nodes need a manual label, see `gen3-manual-steps.md` |
 | Prod gen 2 (retired) | `nfs://192.168.4.124:/volume1/Backups/longhorn-prod`. Holds the final gen2 backups (`p7-final-*`, rollback for moved volumes); gen3 must never write to it. Delete only deliberately (issue #40) |
 | Non-prod gen 2 (retired) | `nfs://192.168.4.124:/volume1/Backups/longhorn-nonprod` |
 

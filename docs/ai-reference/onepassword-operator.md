@@ -31,7 +31,7 @@ kubectl annotate onepassworditems <name> -n <namespace> \
 ## Common Errors
 
 **"No items found with identifier X"**  
-The item title in 1Password must match the `itemPath` exactly (case-sensitive). Check the title via op-connect API (see `reference-op-connect-api-access.md`).
+The item title in 1Password must match the `itemPath` exactly (case-sensitive). Check the title via op-connect API (see `docs/ai-reference/op-connect-api-access.md`).
 
 **"couldn't find key `password` in Secret"**  
 Pod referencing secret with wrong key name. Check actual secret keys:
@@ -65,4 +65,4 @@ kubectl get secret <name> -n <namespace> -o jsonpath='{.data.<key>}' | base64 -d
 
 ## Related Docs
 
-- `docs/reference-op-connect-api-access.md` — how to query the op-connect API directly to browse vault items
+- `docs/ai-reference/op-connect-api-access.md` — how to query the op-connect API directly to browse vault items

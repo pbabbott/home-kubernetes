@@ -10,7 +10,7 @@ Zero jobs running GitHub-side during this window. Confirmed via `gh run list` th
 
 This single gap accounts for ~70% of total wall clock. Biggest lever by far — fix this before anything else below.
 
-**Action:** check runner pool health / autoscaler config / node status for that window on the cluster side (see home-web-apps `docs/dev-guide-cluster-access.md` for controller access).
+**Action:** check runner pool health / autoscaler config / node status for that window on the cluster side (see home-web-apps `docs/developer-guides/cluster-access.md` for controller access).
 
 ## #2 — Runner pool serializes even when healthy
 

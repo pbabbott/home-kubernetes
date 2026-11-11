@@ -20,38 +20,38 @@ This project is meant to run in a `devcontainer` on a VM in my homelab. That is,
 
 ## Getting Started
 
-Follow this guide to make sure you're ready to start work on this project: [Dev Environment - Main](./docs/dev-env-main.md)
+Follow this guide to make sure you're ready to start work on this project: [Dev Environment - Main](./docs/developer-guides/dev-env-main.md)
 
 ## Developer Guides
 
 These are common activities one might take while working on this repository.
 
-- [Bootstrap the cluster with Flux](./docs/dev-guide-flux-bootstrap.md) - This is a one-time activity unless the cluster needs to be rebuilt or more flux features need to be added.
-- [Login to 1Password](./docs/dev-guide-login-to-one-password.md) - Depending on the state of the connect server, here are some tips for authenticating with 1Password.
-- [SealedSecrets - Create Manifest](./docs/dev-guide-sealed-secrets-create-manifest.md) - Here is how you can create a SealedSecret for use within the cluster
-- [SealedSecrets - Update Values](./docs/dev-guide-sealed-secrets-update-values.md) - This is how you can update SealedSecret manifests with the help of some scripts.
-- [Cluster Access](./docs/dev-guide-cluster-access.md) - Once the cluster has been provisioned, this is how you can can set a secret in 1Password so the home-web-apps can access.
-- [New Cluster Checklist](./docs/dev-guide-new-cluster.md) - Steps to stand up a new cluster with Flux Operator (CRDs, infra, apps overlays).
-- [Flux Overview](./docs/flux-overview.md) - Handy Flux commands and debugging tips.
-- [Dev Containers over SSH](./docs/guide-devcontainer-ssh-gitconfig.md) - Fix for `.gitconfig` / authority resolution problems when using Dev Containers on a Remote-SSH host.
+- [Bootstrap the cluster with Flux](./docs/developer-guides/flux-bootstrap.md) - This is a one-time activity unless the cluster needs to be rebuilt or more flux features need to be added.
+- [Login to 1Password](./docs/developer-guides/login-to-one-password.md) - Depending on the state of the connect server, here are some tips for authenticating with 1Password.
+- [SealedSecrets - Create Manifest](./docs/developer-guides/sealed-secrets-create-manifest.md) - Here is how you can create a SealedSecret for use within the cluster
+- [SealedSecrets - Update Values](./docs/developer-guides/sealed-secrets-update-values.md) - This is how you can update SealedSecret manifests with the help of some scripts.
+- [Cluster Access](./docs/developer-guides/cluster-access.md) - Once the cluster has been provisioned, this is how you can can set a secret in 1Password so the home-web-apps can access.
+- [New Cluster Checklist](./docs/developer-guides/new-cluster.md) - Steps to stand up a new cluster with Flux Operator (CRDs, infra, apps overlays).
+- [Flux Overview](./docs/developer-guides/flux-overview.md) - Handy Flux commands and debugging tips.
+- [Dev Containers over SSH](./docs/developer-guides/devcontainer-ssh-gitconfig.md) - Fix for `.gitconfig` / authority resolution problems when using Dev Containers on a Remote-SSH host.
 
 ## Secret Rotations
 
 Secrets should be rotated and it can become a bit tedious to do so. These documents make it easier to discern each secret's usage and how it should be rotated.
 
-- [Cloudflare Token](./docs/secrets-cloudflare-token.md)
-- [Private Internet Access Credentials](./docs/secrets-pia-credentials.md)
-- [QbitTorrent Credentials](./docs/secrets-qbittorrent.md)
-- [Registry Credentials](./docs/secrets-regcred.md)
-- [Harbor Administration](./docs/secrets-harbor-admin.md)
-- [Longhorn NAS Backup Credentials](./docs/secrets-longhorn-nas.md)
-- [GitHub PAT](./docs/secrets-gh-pat.md)
+- [Cloudflare Token](./docs/secret-rotations/cloudflare-token.md)
+- [Private Internet Access Credentials](./docs/secret-rotations/pia-credentials.md)
+- [QbitTorrent Credentials](./docs/secret-rotations/qbittorrent.md)
+- [Registry Credentials](./docs/secret-rotations/regcred.md)
+- [Harbor Administration](./docs/secret-rotations/harbor-admin.md)
+- [Longhorn NAS Backup Credentials](./docs/secret-rotations/longhorn-nas.md)
+- [GitHub PAT](./docs/secret-rotations/gh-pat.md)
 
 
 ## Reference
-- [1Password Integration Overview](./docs/reference-1password-integration-overview.md) - Here is how 1Password is setup and steps to get it working in the case of cluster rebuild.
-- [Chart Documentation](./docs/reference-chart-documentation.md) - A bunch of links to handy documentation websites and a few commands.
-- [Secret Management Strategy](./docs/reference-secret-management-strategy.md) - Here is how to choose when to use 1Password or SealedSecrets.
+- [1Password Integration Overview](./docs/reference/1password-integration-overview.md) - Here is how 1Password is setup and steps to get it working in the case of cluster rebuild.
+- [Chart Documentation](./docs/reference/chart-documentation.md) - A bunch of links to handy documentation websites and a few commands.
+- [Secret Management Strategy](./docs/reference/secret-management-strategy.md) - Here is how to choose when to use 1Password or SealedSecrets.
 
 ### External Docs
 - [Grafana Operator Documentation](https://grafana.github.io/grafana-operator/docs/)

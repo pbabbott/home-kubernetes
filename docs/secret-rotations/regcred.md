@@ -17,7 +17,7 @@ Item: `vaults/Homelab/items/harbor.local.abbottland.io - admin`.
 
 1. Change the credentials in the Harbor UI and in the 1Password item.
 2. The 1Password operator picks up the change and updates every `regcred` Secret; `operator.1password.io/auto-restart` restarts the pods.
-   To force it, see `docs/ai-reference-onepassword-operator.md`.
+   To force it, see `docs/ai-reference/onepassword-operator.md`.
 
 ## Add `regcred` to a new app
 

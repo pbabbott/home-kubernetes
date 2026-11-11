@@ -4,7 +4,7 @@ The purpose of this document is to explain how to log into 1Password, as there a
 
 ## Overview
 
-This cluster is set up with 1Password connect server located at `op-connect.local.abbottland.io` - Read more about this integration here: [Reference - 1Password Integration Overview](./reference-1password-integration-overview.md).
+This cluster is set up with 1Password connect server located at `op-connect.local.abbottland.io` - Read more about this integration here: [Reference - 1Password Integration Overview](./../reference/1password-integration-overview.md).
 
 In the case that the server is up or down, the steps might be slightly different.  That is, the server might be down if some sort of experiment is going on, or perhaps a brand-new cluster is being built on new infra.
 

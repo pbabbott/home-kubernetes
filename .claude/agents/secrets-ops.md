@@ -102,7 +102,7 @@ curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/v1/vaults/VAULT_UUI
 curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/v1/vaults/VAULT_UUID/items/ITEM_UUID | jq '.fields[] | {label, value}'
 ```
 
-See `docs/ai-reference-op-connect-api-access.md` for more detail.
+See `docs/ai-reference/op-connect-api-access.md` for more detail.
 
 ## Cloudflare Token Rotation
 
@@ -140,6 +140,6 @@ kubectl logs -n kube-system deploy/sealed-secrets-controller --tail=30
 
 ## File Locations
 
-- `docs/ai-reference-op-connect-api-access.md` — op-connect API queries
-- `docs/ai-reference-onepassword-operator.md` — operator debugging detail
-- `docs/secrets-*.md` — per-secret credential documentation
+- `docs/ai-reference/op-connect-api-access.md` — op-connect API queries
+- `docs/ai-reference/onepassword-operator.md` — operator debugging detail
+- `docs/secret-rotations/*.md` — per-secret credential documentation

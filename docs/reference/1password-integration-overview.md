@@ -1,12 +1,12 @@
 # Reference - 1Password - Integration Overview
 
-> **Gen3:** see [ai-reference-secrets.md](./ai-reference-secrets.md). The setup steps and 1Password item names below are gen2-era and partly out of date.
+> **Gen3:** see [../ai-reference/secrets.md](../ai-reference/secrets.md). The setup steps and 1Password item names below are gen2-era and partly out of date.
 
 The purpose of this document is to explain how 1Password is setup within this repository.
 
 ## Overview
 
-I'm using two methods to manage secrets in this cluster, please see [Reference - Secret Management Strategy](./reference-secret-management-strategy.md) for more information.  This document is just focused on the 1Password integration.
+I'm using two methods to manage secrets in this cluster, please see [Reference - Secret Management Strategy](./secret-management-strategy.md) for more information.  This document is just focused on the 1Password integration.
 
 I'm using a vault in my 1Password account to manage secrets for my homelab and for this flux project.  The way that 1Password works is that there's a HTTP REST API server that needs to be hosted in my infra called the [Connect Server](https://developer.1password.com/docs/connect/).  This server basically proxies requests to 1Password and can even be used in tandem with a 1password kubernetes operator.
 
@@ -91,13 +91,13 @@ This will create or overwrite the existing SealedSecret enabling the 1Password i
 
 Shared Connect manifests live under `infra/base/secrets/onepassword`. Each gen2 cluster keeps its own sealed credentials next to a small overlay `kustomization.yaml`.
 
-Ensure `op-credentials.yaml` is listed under `resources` after `../../base/onepassword`:
+Ensure `op-credentials.yaml` is listed under `resources` after `.../base/onepassword`:
 
 **Non-prod gen2** — `infra/non-prod-gen2/onepassword/kustomization.yaml` should look like:
 
 ```yaml
 resources:
-  - ../../base/onepassword
+  - .../base/onepassword
   - op-credentials.yaml
 ```
 
@@ -105,7 +105,7 @@ resources:
 
 ```yaml
 resources:
-  - ../../base/onepassword
+  - .../base/onepassword
   - op-credentials.yaml
 ```
 

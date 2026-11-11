@@ -40,8 +40,11 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 
 ## Reference
 
-- `docs/dev-guide-flux-bootstrap.md` — how to bootstrap Flux on a fresh cluster
-- `docs/` — common operational processes: rotating secrets, maintenance tasks, etc.
+- `docs/developer-guides/flux-bootstrap.md` — how to bootstrap Flux on a fresh cluster
+- `docs/developer-guides/` — how-tos for working on this repo (put new guides here)
+- `docs/secret-rotations/` — one doc per secret: usage and how to rotate it
+- `docs/reference/` — human-oriented background and strategy docs
+- `docs/ai-reference/` — procedures and gotchas written for AI assistants (see below)
 - `docs/plans/` — implementation plans for migrations, features, or architectural changes — put new plans here
 - `docs/claude-sessions/` — session summaries dumped by the `/dump` skill — put new session dumps here
 - `docs/incidents/` — incident post-mortems and notes
@@ -49,14 +52,14 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 
 ## AI Reference Docs
 
-Docs prefixed `ai-reference-` in `docs/` are written for AI assistant use — step-by-step procedures, known gotchas, and copy-paste commands.
+Docs in `docs/ai-reference/` are written for AI assistant use — step-by-step procedures, known gotchas, and copy-paste commands.
 
-- `docs/ai-reference-infra.md` — clusters and hosts (details in `home-playbooks/docs/HOSTS.md`), DNS patterns, Flux layering order, Longhorn backup targets
-- `docs/ai-reference-op-connect-api-access.md` — query the op-connect vault API via port-forward; list vaults/items; known vault IDs
-- `docs/ai-reference-gen3-manual-steps.md` — **read before adding a gen3 node or rebuilding gen3**: manual steps outside GitOps (Longhorn `node.longhorn.io/create-default-disk=true` node label, `/mnt/ssd` disk, NAS dirs, 1Password)
-- `docs/ai-reference-secrets.md` — **start here for secrets (gen3)**: sealed-secrets only bootstraps 1Password; how to add a secret, key backup/rebuild, re-seal `op-credentials`, dev-shell `op` limits
-- `docs/ai-reference-onepassword-operator.md` — force-reconcile `OnePasswordItem` CRDs; debug secret key mismatches; common operator errors
-- `docs/ai-reference-pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access
-- `docs/ai-reference-external-dns-pihole.md` — external-dns pihole config; why `registry: noop` is required; gateway annotation controls target (not HTTPRoute annotations); troubleshooting commands
-- `docs/ai-reference-httproute-dns.md` — how HTTPRoutes wire to DNS; Cloudflare (public `*.abbottland.io`) vs Pihole (local `*.local.abbottland.io`); correct labels, annotations, and gateway sectionName per provider
-- `docs/ai-reference-gen3-data-move.md` — **read before moving an app's data gen2 → gen3**: Longhorn restore via `scripts/longhorn-restore.sh`, PVC binding rules, live-store safety, per-step rollback
+- `docs/ai-reference/infra.md` — clusters and hosts (details in `home-playbooks/docs/HOSTS.md`), DNS patterns, Flux layering order, Longhorn backup targets
+- `docs/ai-reference/op-connect-api-access.md` — query the op-connect vault API via port-forward; list vaults/items; known vault IDs
+- `docs/ai-reference/gen3-manual-steps.md` — **read before adding a gen3 node or rebuilding gen3**: manual steps outside GitOps (Longhorn `node.longhorn.io/create-default-disk=true` node label, `/mnt/ssd` disk, NAS dirs, 1Password)
+- `docs/ai-reference/secrets.md` — **start here for secrets (gen3)**: sealed-secrets only bootstraps 1Password; how to add a secret, key backup/rebuild, re-seal `op-credentials`, dev-shell `op` limits
+- `docs/ai-reference/onepassword-operator.md` — force-reconcile `OnePasswordItem` CRDs; debug secret key mismatches; common operator errors
+- `docs/ai-reference/pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access
+- `docs/ai-reference/external-dns-pihole.md` — external-dns pihole config; why `registry: noop` is required; gateway annotation controls target (not HTTPRoute annotations); troubleshooting commands
+- `docs/ai-reference/httproute-dns.md` — how HTTPRoutes wire to DNS; Cloudflare (public `*.abbottland.io`) vs Pihole (local `*.local.abbottland.io`); correct labels, annotations, and gateway sectionName per provider
+- `docs/ai-reference/gen3-data-move.md` — **read before moving an app's data gen2 → gen3**: Longhorn restore via `scripts/longhorn-restore.sh`, PVC binding rules, live-store safety, per-step rollback

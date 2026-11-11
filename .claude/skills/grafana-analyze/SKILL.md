@@ -29,7 +29,7 @@ NOW=$(date +%s)
 Auth: basic auth, credentials from the 1Password "Grafana" item (Homelab vault) — do NOT hardcode
 `admin:admin`, it rotates (confirmed stale as of 2026-07-25; k8s secret
 `kube-prometheus-stack-grafana`/`admin-password` can also lag behind a UI-changed password).
-Fetch it via the op-connect API (see `docs/ai-reference-op-connect-api-access.md`):
+Fetch it via the op-connect API (see `docs/ai-reference/op-connect-api-access.md`):
 
 ```bash
 kubectl port-forward -n op-connect svc/onepassword-connect 18080:8080 &
