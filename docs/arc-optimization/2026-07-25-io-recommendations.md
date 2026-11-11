@@ -3,7 +3,7 @@
 ## Data Sources
 - Grafana prod Prometheus: 24h range, step 300s
 - Node exporter disk IO metrics (per-node, per-device)
-- HelmRelease files: `apps/base/arc/arc-runner-*-helmrelease.yaml`
+- HelmRelease files: `apps/base/ci-registry/arc/arc-runner-*-helmrelease.yaml`
 - `kubectl get pvc -n arc-runners`
 - `kubectl get configmap arc-dind-daemon-config -n arc-runners`
 
@@ -52,12 +52,12 @@ Peak amd64 pod memory: 3273Mi (limit 4Gi — fine). Peak dind pod memory: 3097Mi
 ## Changes Applied
 
 ### 1. daemon.json — max-concurrent-downloads
-**File:** `apps/base/arc/arc-dind-daemon-config.yaml` (or inline configmap)
+**File:** `apps/base/ci-registry/arc/arc-dind-daemon-config.yaml` (or inline configmap)
 **Change:** Added `"max-concurrent-downloads": 2`
 **Expected:** IO burst during startup drops ~33% (15→10 concurrent writes per burst event)
 
 ### 2. amd64 HelmRelease — minRunners 1→2
-**File:** `apps/base/arc/arc-runner-amd64-helmrelease.yaml`
+**File:** `apps/base/ci-registry/arc/arc-runner-amd64-helmrelease.yaml`
 **Change:** `minRunners: 1 → 2`
 **Expected:** Reduces cold-start queue for amd64 jobs during bursts
 

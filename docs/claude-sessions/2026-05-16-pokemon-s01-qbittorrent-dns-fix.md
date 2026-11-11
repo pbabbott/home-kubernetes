@@ -39,7 +39,7 @@ spec:
         value: "1"
 ```
 
-File: `apps/base/media/qbittorrent-deployment.yaml`
+File: `apps/base/media/media/qbittorrent-deployment.yaml`
 
 With `ndots:1`, hostnames with 1+ dot are tried as absolute names first — trackers resolve immediately without hitting search domains.
 

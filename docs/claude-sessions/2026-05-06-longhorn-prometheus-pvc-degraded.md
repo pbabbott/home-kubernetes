@@ -35,10 +35,10 @@ kubectl label volume -n longhorn-system pvc-d15fe5c2-0e82-4cb0-ac72-0e1b743264e7
 
 ## Declarative Changes (commit `13d2d43`)
 
-**`infra/base/longhorn/longhorn-helm-release.yaml`**
+**`infra/base/storage/longhorn/longhorn-helm-release.yaml`**
 - Added `engineReplicaTimeout: 30` to `defaultSettings` (was 8s)
 
-**`infra/base/kube-prometheus-stack/kube-prometheus-stack-helm-release.yaml`**
+**`infra/base/observability/kube-prometheus-stack/kube-prometheus-stack-helm-release.yaml`**
 - Added `recurring-job-group.longhorn.io/default: disabled` label to `volumeClaimTemplate.metadata.labels` — opts Prometheus PVC out of daily backup job on any future PVC recreation
 
 ## Notes

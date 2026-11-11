@@ -6,7 +6,7 @@ Status: manifests written in working tree, **uncommitted, not applied**. Pick up
 
 - Removed `apps/base/n8n/`, `apps/prod-gen2/n8n/`, `./n8n` entry in `apps/prod-gen2/kustomization.yaml`.
 - Removed `scripts/get-n8n-api-key.sh`, `n8n` server in `.mcp.json`, n8n section in `docs/ai-reference-infra.md`.
-- Added `apps/base/openclaw/` + `apps/prod-gen2/openclaw/`, wired into `apps/prod-gen2/kustomization.yaml`.
+- Added `apps/base/dev-ai/openclaw/` + `apps/prod-gen2/openclaw/`, wired into `apps/prod-gen2/kustomization.yaml`.
   - Image `ghcr.io/openclaw/openclaw:2026.7.1-2-slim`, port 18789, Recreate strategy, 10Gi Longhorn PVC.
   - Init container seeds `openclaw.json` + `AGENTS.md` from ConfigMap only if missing on PVC (PVC copy is source of truth after first run).
   - Local HTTPRoute only: `openclaw.local.abbottland.io` (pihole DNS). No public route.

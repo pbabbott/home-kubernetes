@@ -7,8 +7,8 @@ Be brief.
 
 Only the gen 3 cluster (`prod-gen3`) is live. Top-level directories:
 - `crds/` — CRD installs per cluster path (`base/` plus `prod-gen3/`)
-- `apps/` — application workloads; `base/` plus one overlay per cluster
-- `infra/` — infrastructure components (after CRDs are present); `base/` plus one overlay per cluster
+- `apps/` — application workloads; `base/` plus one overlay per cluster, each grouped as `<category>/<app>` (categories match the README "Workloads" tables)
+- `infra/` — infrastructure components (after CRDs are present); same `base/` + overlay layout, grouped as `<category>/<component>`
 - `clusters/` — per-cluster Flux entry points (`clusters/prod-gen3/`)
 
 ## Archived clusters
@@ -31,12 +31,12 @@ Additionally, `kubectx` is available to rapidly switch contexts.
 
 ## Conventions
 
-- **Workload manifest:** `README.md` "Workloads" lists every app (`apps/prod-gen3`) and infra component (`infra/prod-gen3`, plus `crds/`) with a Category and Summary. Whenever you add, remove or rename a workload, update those tables in the same change (rows sorted by Category, then name; reuse an existing Category where one fits).
+- **Workload manifest:** `README.md` "Workloads" lists every app (`apps/prod-gen3`) and infra component (`infra/prod-gen3`, plus `crds/`) with a Category and Summary. Whenever you add, remove or rename a workload, update those tables in the same change (rows sorted by Category, then name). A Category is also a directory name, so put the new workload under an existing category dir where one fits.
 - Grafana dashboard JSON files must include `"gitops-managed"` in their `tags` array.
 - When working with resource files, use the convention `<name>-<kind>.yaml` 
   -  For example `haproxy-httproute.yaml` or `arc-ns.yaml` are acceptable. 
-- Publicly-facing apps (any app with a Cloudflare/public HTTPRoute) must include a NetworkPolicy. See `apps/base/blog/blog-netpol.yaml` and `apps/base/umami/umami-netpol.yaml` for examples. Ingress: allow from `istio-system` namespace only. Egress: deny all by default; add rules only for what the app needs (e.g. DNS to `kube-system`, PostgreSQL to NAS at `192.168.4.124:5432`).
-- Publicly-facing apps must have image update automation. For app-owned images (built in-house, mirrored to Harbor): `ImageRepository` + `ImagePolicy` + `# {"$imagepolicy": "flux-system:<name>"}` marker on the deployment image field. For third-party images pulled directly from a public registry (e.g. ghcr.io): same pattern but omit `secretRef` on the `ImageRepository`. For Helm-based apps: use a semver range in the `HelmRelease` `chart.spec.version` field (e.g. `>=6.0.0`). See `apps/base/umami/` (third-party) and `apps/base/blog/` (in-house) for examples. The global `ImageUpdateAutomation` resource lives at `clusters/prod-gen3/image-update-automation.yaml` and watches `./apps`. It is SUSPENDED in the cluster (not in git) until PR builds can no longer reach prod via the ImagePolicies (see the loose ends register in `docs/plans/2026-11-08-gen2-to-gen3-migration.md`): do not unsuspend it.
+- Publicly-facing apps (any app with a Cloudflare/public HTTPRoute) must include a NetworkPolicy. See `apps/base/public-sites/blog/blog-netpol.yaml` and `apps/base/public-sites/umami/umami-netpol.yaml` for examples. Ingress: allow from `istio-system` namespace only. Egress: deny all by default; add rules only for what the app needs (e.g. DNS to `kube-system`, PostgreSQL to NAS at `192.168.4.124:5432`).
+- Publicly-facing apps must have image update automation. For app-owned images (built in-house, mirrored to Harbor): `ImageRepository` + `ImagePolicy` + `# {"$imagepolicy": "flux-system:<name>"}` marker on the deployment image field. For third-party images pulled directly from a public registry (e.g. ghcr.io): same pattern but omit `secretRef` on the `ImageRepository`. For Helm-based apps: use a semver range in the `HelmRelease` `chart.spec.version` field (e.g. `>=6.0.0`). See `apps/base/public-sites/umami/` (third-party) and `apps/base/public-sites/blog/` (in-house) for examples. The global `ImageUpdateAutomation` resource lives at `clusters/prod-gen3/image-update-automation.yaml` and watches `./apps`. It is SUSPENDED in the cluster (not in git) until PR builds can no longer reach prod via the ImagePolicies (see the loose ends register in `docs/plans/2026-11-08-gen2-to-gen3-migration.md`): do not unsuspend it.
 
 ## Reference
 

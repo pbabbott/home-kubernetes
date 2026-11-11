@@ -18,8 +18,8 @@ ARC chart v0.14.1 CRD (`AutoscalingRunnerSet`) requires `spec.listenerTemplate.s
 
 Added `containers: [{name: listener}]` to `listenerTemplate.spec` in both files:
 
-- `apps/base/arc/arc-runner-amd64-helmrelease.yaml`
-- `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
+- `apps/base/ci-registry/arc/arc-runner-amd64-helmrelease.yaml`
+- `apps/base/ci-registry/arc/arc-runner-dind-amd64-helmrelease.yaml`
 
 Chart fills in image/command from defaults; only the container name is required to satisfy CRD validation.
 

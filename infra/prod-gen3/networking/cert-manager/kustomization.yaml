@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# letsencrypt-prod serves both gateways (public since Phase 8). cloudflare-ddns (apex A record updater)
+# runs here since the Phase 8 DNS ownership swap; it was removed from the gen2 overlay.
+resources:
+  - ../../../base/networking/cert-manager
+
+patches:
+  # 1.15.1 cannot delete its Cloudflare DNS-01 TXT records (Cloudflare dropped zone_id from record objects,
+  # cert-manager#7540, fixed in >= 1.17.1). Gen3 only; keep the CRDs in crds/prod-gen3 on the same version.
+  - target:
+      kind: HelmRelease
+      name: cert-manager
+    patch: |-
+      - op: replace
+        path: /spec/chart/spec/version
+        value: "1.20.5"

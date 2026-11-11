@@ -4,7 +4,7 @@
       "mcp__flux-mcp-nonprod__get_flux_instance",
       "mcp__flux-mcp-nonprod__get_kubernetes_resources",
       "Bash(xargs ls:*)",
-      "Bash(grep -A5 \"httpRoute\" /workspaces/home-kubernetes/infra/base/flux-operator/*.yaml)",
+      "Bash(grep -A5 \"httpRoute\" /workspaces/home-kubernetes/infra/base/core/flux-operator/*.yaml)",
       "Bash(ssh-keyscan:*)",
       "mcp__flux-mcp-nonprod__get_kubernetes_logs",
       "Bash(git commit:*)",

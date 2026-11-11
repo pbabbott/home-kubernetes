@@ -7,7 +7,7 @@
 Created full app stack for a Next.js blog (`harbor.local.abbottland.io/library/blog`) on prod-gen2.
 
 **Files created:**
-- `apps/base/blog/` — base manifests (namespace, deployment, service, HTTPRoutes, image policy, regcred)
+- `apps/base/public-sites/blog/` — base manifests (namespace, deployment, service, HTTPRoutes, image policy, regcred)
 - `apps/prod-gen2/blog/kustomization.yaml` — overlay referencing base
 - `apps/prod-gen2/kustomization.yaml` — added `./blog`
 - `clusters/prod-gen2/image-update-automation.yaml` — `ImageUpdateAutomation` scanning `./apps`

@@ -8,14 +8,14 @@ Companion to `n8n-to-openclaw.md`. Steps that need a human (secrets, external sy
 2. **LM Studio** (192.168.5.142:1234):
    - Server running and listening on LAN (not just localhost).
    - `google/gemma-4-e4b` loaded; listed by `curl http://192.168.5.142:1234/v1/models`.
-   - Note loaded context length; update `contextWindow` in `apps/base/openclaw/openclaw-config-configmap.yaml` (currently guessed 32768).
+   - Note loaded context length; update `contextWindow` in `apps/base/dev-ai/openclaw/openclaw-config-configmap.yaml` (currently guessed 32768).
    - If model is text-only, drop `"image"` from `input`.
 3. ~~Config check~~ **Done** against docs (openclaw 2026.9.9): `bind: "lan"` valid (0.0.0.0; non-loopback requires auth, token supplied). LM Studio provider schema matches docs. Added `gateway.publicOrigin` for Control UI behind Istio HTTPS. Startup probe changed to `/readyz` (`/startupz` needs image >= 2026.8.1; pinned 2026.7.1-2 lacks it). Optional: bump image tag to a newer `-slim` and switch back to `/startupz`.
 4. **Export n8n workflows/credentials** (UI or API) before n8n is removed, if anything is worth keeping. Data stays in NAS Postgres but nothing reads it afterward.
 
 ## Deploy
 
-5. Review diff; commit and push. Exclude unrelated `apps/base/media/` changes.
+5. Review diff; commit and push. Exclude unrelated `apps/base/media/media/` changes.
 6. `flux reconcile` the apps kustomization; watch `kubectl -n openclaw get pods`.
 7. Open `https://openclaw.local.abbottland.io`, log in with gateway token, send a test message to confirm the model responds.
 8. Rebuild any needed n8n automations (webhooks, schedules) in OpenClaw. No migration path.

@@ -54,7 +54,7 @@ Same chart, image, args, no resource limits. Gen3 CoreDNS uses `forward . /etc/r
 
 - Find the cause of the bananapi outages (hypothesis 1).
 - Add a second CoreDNS upstream on gen2 (in `home-playbooks`, not this repo). Trade-off: a fallback such as 1.1.1.1 answers `*.local.abbottland.io` with NXDOMAIN while the Pi-hole is down.
-- Hygiene in `infra/base/external-dns` (does not stop the restarts): add `resources` (requests cpu 10m / mem 48Mi, limit mem 128Mi) to both HelmReleases so pods are no longer BestEffort; optionally `dnsConfig.options: ndots=1` on the Cloudflare release to cut search-domain lookups to the Pi-hole (unproven; `dnsConfig` was not tested against chart 1.15.0 rendering).
+- Hygiene in `infra/base/networking/external-dns` (does not stop the restarts): add `resources` (requests cpu 10m / mem 48Mi, limit mem 128Mi) to both HelmReleases so pods are no longer BestEffort; optionally `dnsConfig.options: ndots=1` on the Cloudflare release to cut search-domain lookups to the Pi-hole (unproven; `dnsConfig` was not tested against chart 1.15.0 rendering).
 - Check whether a newer external-dns release tolerates provider errors without exiting before relying on an upgrade.
 
 ## Commands used (read-only)

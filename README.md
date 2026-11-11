@@ -19,10 +19,10 @@ A gitops-based approach for all my kubernetes charts, manifests, and helm deploy
 What runs on the live cluster, `prod-gen3` (k3s on `hogwarts`, plus controller-3 and worker-3 on `chimaera`). Hosts: `home-playbooks/docs/HOSTS.md`.
 
 ## Flux layout
-Four numbered Kustomizations in `clusters/prod-gen3/`, each depending on the previous one: `00-crds-ks` (`crds/prod-gen3`), `01-infra-ks` (`infra/prod-gen3`), `02-apps-ks` (`apps/prod-gen3`) and `03-flux-gitops-ks` (the Flux web UI and MCP server). Overlays are thin: each `apps/prod-gen3/<app>/kustomization.yaml` references `apps/base/<app>` and patches hostnames, labels or sizing. Ingress is Istio ambient + Gateway API behind the HAProxy LXC. DNS is two external-dns instances (Cloudflare for `*.abbottland.io`, Pi-hole for `*.local.abbottland.io`). Secrets come from the 1Password Connect operator (`OnePasswordItem`), with SealedSecrets only to bootstrap it.
+Four numbered Kustomizations in `clusters/prod-gen3/`, each depending on the previous one: `00-crds-ks` (`crds/prod-gen3`), `01-infra-ks` (`infra/prod-gen3`), `02-apps-ks` (`apps/prod-gen3`) and `03-flux-gitops-ks` (the Flux web UI and MCP server). Overlays are thin: each `apps/prod-gen3/<category>/<app>/kustomization.yaml` references `apps/base/<category>/<app>` and patches hostnames, labels or sizing. Ingress is Istio ambient + Gateway API behind the HAProxy LXC. DNS is two external-dns instances (Cloudflare for `*.abbottland.io`, Pi-hole for `*.local.abbottland.io`). Secrets come from the 1Password Connect operator (`OnePasswordItem`), with SealedSecrets only to bootstrap it.
 
 ## Infrastructure
-Lives in `infra/` (base in `infra/base`, cluster overlay in `infra/prod-gen3`).
+Lives in `infra/<category>/<component>` under `infra/base` and the `infra/prod-gen3` overlay. The Category column maps to the directory name (e.g. `CI & registry` is `ci-registry`).
 
 | Category | Component | Summary |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ Lives in `infra/` (base in `infra/base`, cluster overlay in `infra/prod-gen3`).
 | Storage | nas-storage | NFS subdir provisioner StorageClass (`nas-storage`) on the Asustor NAS. |
 
 ## Apps
-Lives in `apps/` (base in `apps/base`, cluster overlay in `apps/prod-gen3`).
+Lives in `apps/<category>/<app>` under `apps/base` and the `apps/prod-gen3` overlay. The Category column maps to the directory name (e.g. `CI & registry` is `ci-registry`).
 
 | Category | App | Summary |
 | --- | --- | --- |

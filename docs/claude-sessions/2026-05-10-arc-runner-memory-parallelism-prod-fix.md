@@ -40,12 +40,12 @@ per-scale-set on prod).
 
 **Base changes (nonprod-safe, 3.28 GiB nodes):**
 
-`apps/base/arc/arc-runner-amd64-helmrelease.yaml`:
+`apps/base/ci-registry/arc/arc-runner-amd64-helmrelease.yaml`:
 - runner memory request: `512Mi` → `1Gi`
 - runner memory limit: `2Gi` → `2.5Gi`
 - maxRunners: `2` → `3`
 
-`apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`:
+`apps/base/ci-registry/arc/arc-runner-dind-amd64-helmrelease.yaml`:
 - runner container memory request: `512Mi` → `1Gi`
 - runner container memory limit: `2Gi` → `2.5Gi`
 - maxRunners: `2` → `3`

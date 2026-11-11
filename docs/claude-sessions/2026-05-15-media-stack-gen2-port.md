@@ -5,7 +5,7 @@
 
 ## What we did
 
-Planned and implemented porting the full gen1 media stack (`apps/media/`) to prod-gen2 (`apps/base/media/` + `apps/prod-gen2/media/`).
+Planned and implemented porting the full gen1 media stack (`apps/media/`) to prod-gen2 (`apps/base/media/media/` + `apps/prod-gen2/media/`).
 
 ## Apps ported
 
@@ -27,7 +27,7 @@ Planned and implemented porting the full gen1 media stack (`apps/media/`) to pro
 
 ## Files created
 
-**`apps/base/media/`** — 41 files total:
+**`apps/base/media/media/`** — 41 files total:
 - `namespace.yaml`, `media-pv.yaml`, `media-pvc.yaml`
 - 5 Longhorn PVCs: `gluetun-config-pvc.yaml`, `qbittorrent-config-pvc.yaml`, `prowlarr-config-pvc.yaml`, `radarr-config-pvc.yaml`, `sonarr-config-pvc.yaml`
 - 4 ConfigMaps: `gluetun-configmap.yaml`, `gluetun-sync-configmap.yaml`, `qbittorrent-configmap.yaml`, `servarr-env-configmap.yaml`

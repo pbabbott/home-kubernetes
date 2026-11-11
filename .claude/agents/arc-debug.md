@@ -76,11 +76,11 @@ affinity:
         topologyKey: kubernetes.io/hostname
 ```
 
-**Placement on gen3**: runners are hard-pinned (`nodeAffinity`) to `tf-prod-k3s-worker-1/-2` (16 GB each). Worker-3 is a 6 GB VM on `chimaera` (shared host, IO-bound) and is excluded; three dind pods once exhausted it. `maxRunners` is 6 per set. See `apps/prod-gen3/arc/kustomization.yaml`.
+**Placement on gen3**: runners are hard-pinned (`nodeAffinity`) to `tf-prod-k3s-worker-1/-2` (16 GB each). Worker-3 is a 6 GB VM on `chimaera` (shared host, IO-bound) and is excluded; three dind pods once exhausted it. `maxRunners` is 6 per set. See `apps/prod-gen3/ci-registry/arc/kustomization.yaml`.
 
 ## Resource Quotas & Sizing
 
-**ResourceQuota** (`arc-runners`, `apps/base/arc/arc-runners-resourcequota.yaml`): 25 pods, 32 CPU limits, 100Gi memory limits, 200Gi ephemeral-storage limits.
+**ResourceQuota** (`arc-runners`, `apps/base/ci-registry/arc/arc-runners-resourcequota.yaml`): 25 pods, 32 CPU limits, 100Gi memory limits, 200Gi ephemeral-storage limits.
 
 **Per-pod cost**:
 - amd64 runner: ~1.5Gi req / 2.5Gi limit
@@ -118,8 +118,8 @@ kubectl get events -n arc-runners --sort-by='.lastTimestamp' | tail -20
 
 ## Scale Set Config Files
 
-- `apps/base/arc/` — base configs
-- `apps/prod-gen3/arc/` — gen3 overlay (JSON 6902 patches: names, placement, sizing)
+- `apps/base/ci-registry/arc/` — base configs
+- `apps/prod-gen3/ci-registry/arc/` — gen3 overlay (JSON 6902 patches: names, placement, sizing)
 
 ## Common Fix Patterns
 

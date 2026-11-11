@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Phase 7 media move. Flipped from gen2: base routes carry pihole-dns-enabled, so gen3
+# external-dns owns the media *.local records -> .29 (target comes from the Gateway annotation).
+# The 5 *-config PVCs were pre-created from Longhorn backups (scripts/longhorn-restore.sh).
+resources:
+  - ../../../base/media/media

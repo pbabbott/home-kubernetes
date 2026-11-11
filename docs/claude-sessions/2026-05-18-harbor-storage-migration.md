@@ -13,7 +13,7 @@ Harbor registry pod (`harbor` namespace, prod-gen2) had `/storage` volume (Longh
 
 ### 2. NFS Provisioner Deployment (both gen2 clusters)
 - Ported gen1 `nfs-subdir-external-provisioner` pattern to gen2 infra
-- Created `infra/base/nas-storage/` with chart `nfs-subdir-external-provisioner` v4.0.18
+- Created `infra/base/storage/nas-storage/` with chart `nfs-subdir-external-provisioner` v4.0.18
 - NFS server: `192.168.4.124`, base path: `/volume1/ClusterStorage`
 - Created cluster-specific overlays patching NFS path:
   - `infra/prod-gen2/nas-storage/` → `/volume1/ClusterStorage/prod-gen2`
@@ -37,8 +37,8 @@ Harbor registry pod (`harbor` namespace, prod-gen2) had `/storage` volume (Longh
 - `feat(harbor): migrate registry storage to NAS-backed NFS PVC`
 
 ## Key Files Changed
-- `apps/base/harbor/helmrelease.yaml` — registry now uses `existingClaim: harbor-registry-nas`
-- `infra/base/nas-storage/` — new base for NFS provisioner
+- `apps/base/ci-registry/harbor/helmrelease.yaml` — registry now uses `existingClaim: harbor-registry-nas`
+- `infra/base/storage/nas-storage/` — new base for NFS provisioner
 - `infra/prod-gen2/nas-storage/kustomization.yaml`
 - `infra/non-prod-gen2/nas-storage/kustomization.yaml`
 - `infra/prod-gen2/kustomization.yaml` + `infra/non-prod-gen2/kustomization.yaml` — wired in `./nas-storage`

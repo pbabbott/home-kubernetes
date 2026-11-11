@@ -6,7 +6,7 @@ DEPLOY-HANDOFF.md
 
 ## Flux Deployment — What Was Created
 
-Files added to this repo under `apps/base/harbor-cleanup/` and wired into `apps/prod-gen2/`:
+Files added to this repo under `apps/base/ci-registry/harbor-cleanup/` and wired into `apps/prod-gen2/`:
 
 | File | Purpose |
 |------|---------|

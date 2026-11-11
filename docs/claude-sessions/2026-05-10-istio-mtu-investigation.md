@@ -47,7 +47,7 @@ When namespaces are enrolled in ambient mesh, ztunnel's HBONE tunnels run over n
 3. Add explicit TCPMSS clamping via istiod MeshConfig `proxyMetadata`
 
 ## Files Referenced
-- `infra/base/istio/istiod-helm-release.yaml` — istiod HelmRelease (ambient profile, no MTU config)
-- `infra/base/istio/ztunnel-helm-release.yaml` — ztunnel HelmRelease
-- `infra/base/istio/istio-cni-helm-release.yaml` — CNI HelmRelease
+- `infra/base/networking/istio/istiod-helm-release.yaml` — istiod HelmRelease (ambient profile, no MTU config)
+- `infra/base/networking/istio/ztunnel-helm-release.yaml` — ztunnel HelmRelease
+- `infra/base/networking/istio/istio-cni-helm-release.yaml` — CNI HelmRelease
 - `.cursor/mtu-investigation.md` — user's manual investigation notes (pod MTU 1450, Proxmox host vmbr0 1500)

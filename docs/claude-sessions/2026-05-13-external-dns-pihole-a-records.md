@@ -17,7 +17,7 @@ Get external-dns-pihole running and creating correct A records (`192.168.6.28`) 
 
 ### 2. Secret key mismatch
 - HelmRelease referenced `key: password` but 1Password field is named `pw`
-- **Fix:** `infra/base/external-dns/external-dns-pihole-helmrelease.yaml` — change `key: password` → `key: pw`
+- **Fix:** `infra/base/networking/external-dns/external-dns-pihole-helmrelease.yaml` — change `key: password` → `key: pw`
 - **Commit:** `29824b5`
 
 ### 3. Records created as CNAME → `abbottland.io` (wrong)
@@ -27,7 +27,7 @@ Get external-dns-pihole running and creating correct A records (`192.168.6.28`) 
 - Cloudflare external-dns uses HTTPRoute annotation (its routes have `abbottland.io` inline)
 - Pihole external-dns uses Gateway annotation/status (its HTTPRoute annotation was ignored)
 - **Fix:** Change Gateway annotation from `abbottland.io` to `192.168.6.28`
-- **File:** `infra/base/istio/istio-ingress-gateway-api.yaml`
+- **File:** `infra/base/networking/istio/istio-ingress-gateway-api.yaml`
 - **Commit:** `e511a8a` (after `69d3483` which incorrectly removed annotation entirely)
 
 ### 4. `registry: txt` caused no-op syncs
@@ -37,7 +37,7 @@ Get external-dns-pihole running and creating correct A records (`192.168.6.28`) 
 - After Gateway annotation set to `192.168.6.28`, external-dns still said "All records already up to date"
 - **Fix:** Switch to `registry: noop` — no ownership tracking, manages all records in `domainFilters` directly
 - Removed `txtPrefix` and `txtOwnerId` overlay patch (not needed with noop)
-- **Files:** `infra/base/external-dns/external-dns-pihole-helmrelease.yaml`, `infra/non-prod-gen2/external-dns/kustomization.yaml`
+- **Files:** `infra/base/networking/external-dns/external-dns-pihole-helmrelease.yaml`, `infra/non-prod-gen2/external-dns/kustomization.yaml`
 - **Commit:** `0ff3536`
 
 ## Final State

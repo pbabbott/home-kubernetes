@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Phase 7 public apps: staged on gen3 next to gen2, routes carry no DNS labels until Phase 8 (umami-admin: until its LAN flip).
+resources:
+  - ../../../base/public-sites/blog
+
+patches:
+  # Hard-pin to the 16 GB workers (worker-3 is a 6 GB VM, controller-3 ~3 GB).
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: add
+        path: /spec/template/spec/affinity
+        value:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values: [tf-prod-k3s-worker-1, tf-prod-k3s-worker-2]
+  - path: blog-deployment-patch.yaml

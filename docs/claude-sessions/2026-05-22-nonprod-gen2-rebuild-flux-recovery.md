@@ -48,7 +48,7 @@ Result: infra-ks blocked on external-dns-pihole → external-dns-pihole blocked 
 EndpointSlice pointing to a physical device at `192.168.4.144` — semantically infra, not an app.
 
 Files moved:
-- `apps/base/pihole/` → `infra/base/pihole/`
+- `apps/base/pihole/` → `infra/base/networking/pihole/`
 - `apps/non-prod-gen2/pihole/` → `infra/non-prod-gen2/pihole/`
 - `apps/prod-gen2/pihole/` → `infra/prod-gen2/pihole/`
 - Updated `infra/non-prod-gen2/kustomization.yaml` and `infra/prod-gen2/kustomization.yaml`
@@ -56,7 +56,7 @@ Files moved:
 
 ### 4. Longhorn PDB Not Applied (both clusters)
 
-`PodDisruptionBudget/longhorn-system/longhorn-instance-manager` defined in `infra/base/longhorn/`
+`PodDisruptionBudget/longhorn-system/longhorn-instance-manager` defined in `infra/base/storage/longhorn/`
 was never created on either cluster (prior infra-ks failures prevented apply from completing).
 Flux health check timed out waiting for it.
 

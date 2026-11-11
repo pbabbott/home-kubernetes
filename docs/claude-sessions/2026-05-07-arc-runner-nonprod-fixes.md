@@ -12,7 +12,7 @@
 ```
 When `containerMode.type: dind`, the chart auto-injects a `dind-sock` volume. The HelmRelease values also explicitly declared it, causing a duplicate key error on server-side apply.
 
-**Fix:** Removed explicit `dind-sock` volume from `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
+**Fix:** Removed explicit `dind-sock` volume from `apps/base/ci-registry/arc/arc-runner-dind-amd64-helmrelease.yaml`
 
 **Commit:** `353f1af` — `fix(arc): remove duplicate dind-sock volume from dind runner`
 
@@ -32,8 +32,8 @@ When `containerMode.type: dind`, the chart auto-injects a `dind-sock` volume. Th
 - Memory requests: `1Gi` → `512Mi` (runner + dind containers) — reduces scheduler over-allocation; limits unchanged
 
 **Files changed:**
-- `apps/base/arc/arc-runner-amd64-helmrelease.yaml`
-- `apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`
+- `apps/base/ci-registry/arc/arc-runner-amd64-helmrelease.yaml`
+- `apps/base/ci-registry/arc/arc-runner-dind-amd64-helmrelease.yaml`
 
 **Commit:** `55237b1` — `fix(arc): prevent runner node saturation in non-prod`
 

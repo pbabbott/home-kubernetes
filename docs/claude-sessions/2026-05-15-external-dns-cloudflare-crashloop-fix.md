@@ -24,7 +24,7 @@ The HelmRelease had `managedRecordTypes: [CNAME]` in values, but the chart (exte
 
 Moved `--managed-record-types=CNAME` into `extraArgs` (bypasses the broken values key), removing the `managedRecordTypes` values field entirely.
 
-**File:** `infra/base/external-dns/external-dns-helm-release.yaml`
+**File:** `infra/base/networking/external-dns/external-dns-helm-release.yaml`
 
 ```yaml
 # Before

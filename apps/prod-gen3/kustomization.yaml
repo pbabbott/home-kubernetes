@@ -2,23 +2,23 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ./podinfo
-  - ./proxmox
-  - ./asustor
-  - ./haproxy
-  - ./plex
-  - ./regcred-flux
-  - ./mcp-grafana
-  - ./dashy
-  - ./media
-  - ./home-hud
-  - ./coder
-  - ./openclaw
-  - ./harbor
-  - ./harbor-cleanup
-  - ./arc
-  - ./blog
-  - ./fui-components
-  - ./diagram-maker
-  - ./umami
-  - ./home-assistant
+  - ./platform/podinfo
+  - ./host-proxies/proxmox
+  - ./host-proxies/asustor
+  - ./host-proxies/haproxy
+  - ./media/plex
+  - ./ci-registry/regcred-flux
+  - ./dev-ai/mcp-grafana
+  - ./platform/dashy
+  - ./media/media
+  - ./public-sites/home-hud
+  - ./dev-ai/coder
+  - ./dev-ai/openclaw
+  - ./ci-registry/harbor
+  - ./ci-registry/harbor-cleanup
+  - ./ci-registry/arc
+  - ./public-sites/blog
+  - ./public-sites/fui-components
+  - ./public-sites/diagram-maker
+  - ./public-sites/umami
+  - ./host-proxies/home-assistant

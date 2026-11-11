@@ -21,8 +21,8 @@ HTTPRoute-level `external-dns.alpha.kubernetes.io/target` annotations are **igno
 **Consequence:** The two external-dns instances reference different Gateways. Public/Cloudflare routes use `istio-ingress-public` (annotation `abbottland.io`); internal/pihole routes use `istio-ingress` (annotation `192.168.6.29`). This is the only way to give each instance a different target — HTTPRoute annotations cannot override Gateway annotations.
 
 **Gateway annotations:**
-- `istio-ingress`: `external-dns.alpha.kubernetes.io/target: 192.168.6.29` — file `infra/base/istio/istio-ingress-gateway-api.yaml`
-- `istio-ingress-public`: `external-dns.alpha.kubernetes.io/target: abbottland.io` — file `infra/base/istio/istio-ingress-public-gateway-api.yaml`
+- `istio-ingress`: `external-dns.alpha.kubernetes.io/target: 192.168.6.29` — file `infra/base/networking/istio/istio-ingress-gateway-api.yaml`
+- `istio-ingress-public`: `external-dns.alpha.kubernetes.io/target: abbottland.io` — file `infra/base/networking/istio/istio-ingress-public-gateway-api.yaml`
 
 ## Registry Setting
 
@@ -39,7 +39,7 @@ With `registry: noop`:
 - Works correctly with pihole
 
 ## Policy on gen3
-Gen2 external-dns is gone and the gen3 Pi-hole instance runs `policy: sync` + `registry: noop` on `local.abbottland.io`. With no ownership check it deletes ANY record in the domain that has no labelled route or DNSEndpoint: never add records by hand in the Pi-hole UI/API, use a `DNSEndpoint` (see `apps/prod-gen3/asustor/nas-dnsendpoint.yaml`). Config: `infra/prod-gen3/external-dns/`. The Cloudflare instance (live on gen3, `sync`) uses `registry: txt` with owner id `prod-gen2` (inherited), so it only deletes records it owns.
+Gen2 external-dns is gone and the gen3 Pi-hole instance runs `policy: sync` + `registry: noop` on `local.abbottland.io`. With no ownership check it deletes ANY record in the domain that has no labelled route or DNSEndpoint: never add records by hand in the Pi-hole UI/API, use a `DNSEndpoint` (see `apps/prod-gen3/host-proxies/asustor/nas-dnsendpoint.yaml`). Config: `infra/prod-gen3/networking/external-dns/`. The Cloudflare instance (live on gen3, `sync`) uses `registry: txt` with owner id `prod-gen2` (inherited), so it only deletes records it owns.
 
 ## Adding a New Service to Pihole DNS
 
@@ -84,7 +84,7 @@ sleep 10 && kubectl logs pihole-check -n default && kubectl delete pod pihole-ch
 
 ## Key Files
 
-- `infra/base/external-dns/external-dns-pihole-helmrelease.yaml` — HelmRelease base config
-- `infra/prod-gen3/external-dns/kustomization.yaml` — overlay: domainFilters, txtOwnerId
-- `infra/base/external-dns/pihole-admin-onepassword.yaml` — OnePasswordItem for pihole secret
-- `infra/base/istio/istio-ingress-gateway-api.yaml` — Gateway with target annotation
+- `infra/base/networking/external-dns/external-dns-pihole-helmrelease.yaml` — HelmRelease base config
+- `infra/prod-gen3/networking/external-dns/kustomization.yaml` — overlay: domainFilters, txtOwnerId
+- `infra/base/networking/external-dns/pihole-admin-onepassword.yaml` — OnePasswordItem for pihole secret
+- `infra/base/networking/istio/istio-ingress-gateway-api.yaml` — Gateway with target annotation

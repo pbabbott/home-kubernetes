@@ -49,7 +49,7 @@ If dind sidecar CPU limit is raised (see change #2), headroom shrinks further.
 
 ### Change 1 — ResourceQuota raised
 
-**File:** `apps/base/arc/arc-runners-resourcequota.yaml`
+**File:** `apps/base/ci-registry/arc/arc-runners-resourcequota.yaml`
 
 | Field | Before | After |
 |-------|--------|-------|
@@ -62,7 +62,7 @@ Removes zero-headroom pod ceiling and accommodates dind CPU increase.
 
 ### Change 2 — dind sidecar CPU raised via LimitRange
 
-**File:** `apps/base/arc/arc-runners-limitrange.yaml`
+**File:** `apps/base/ci-registry/arc/arc-runners-limitrange.yaml`
 
 | Field | Before | After |
 |-------|--------|-------|
@@ -74,7 +74,7 @@ Also removed a dead patch from `apps/prod-gen2/arc/kustomization.yaml` that was 
 
 ### Change 3 — Controller resource limits added
 
-**File:** `apps/base/arc/arc-controller-helmrelease.yaml`
+**File:** `apps/base/ci-registry/arc/arc-controller-helmrelease.yaml`
 
 Added under `values:`:
 ```yaml
@@ -97,7 +97,7 @@ System was **working well** before these changes. To revert each change independ
 
 ### Rollback Change 1 — ResourceQuota
 
-`apps/base/arc/arc-runners-resourcequota.yaml`:
+`apps/base/ci-registry/arc/arc-runners-resourcequota.yaml`:
 ```yaml
 spec:
   hard:
@@ -111,7 +111,7 @@ No pod impact — quota changes take effect immediately.
 
 ### Rollback Change 2 — LimitRange + restore dead patch
 
-`apps/base/arc/arc-runners-limitrange.yaml` — revert `default.cpu` to `500m`:
+`apps/base/ci-registry/arc/arc-runners-limitrange.yaml` — revert `default.cpu` to `500m`:
 ```yaml
       default:
         cpu: 500m
@@ -130,7 +130,7 @@ Optionally restore the dead patch to `apps/prod-gen2/arc/kustomization.yaml` (it
 
 ### Rollback Change 3 — Controller limits
 
-`apps/base/arc/arc-controller-helmrelease.yaml` — remove the `resources:` block entirely:
+`apps/base/ci-registry/arc/arc-controller-helmrelease.yaml` — remove the `resources:` block entirely:
 ```yaml
   values:
     metrics:

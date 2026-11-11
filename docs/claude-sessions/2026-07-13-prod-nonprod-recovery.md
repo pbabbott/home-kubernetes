@@ -35,7 +35,7 @@ Fix: same compact + defrag. Result: **68 MB → 20 MB, 0% fragmentation**. CM st
 
 KSM v2.15.0 returns 503 on `/livez` while informer caches sync. Default `initialDelaySeconds: 5` too short after cluster reboot with many resources. Pod crash-looped (14 restarts) before informers could sync.
 
-Fix: `infra/base/kube-prometheus-stack/kube-prometheus-stack-helm-release.yaml` — added:
+Fix: `infra/base/observability/kube-prometheus-stack/kube-prometheus-stack-helm-release.yaml` — added:
 ```yaml
 kube-state-metrics:
   livenessProbe:
@@ -123,5 +123,5 @@ Same Istio CNI 1.25.5 bug. Pod delete alone (without reboot) hit fast kube-proxy
 
 | File | Change |
 |------|--------|
-| `infra/base/kube-prometheus-stack/kube-prometheus-stack-helm-release.yaml` | Added KSM probe `initialDelaySeconds: 120` |
+| `infra/base/observability/kube-prometheus-stack/kube-prometheus-stack-helm-release.yaml` | Added KSM probe `initialDelaySeconds: 120` |
 | `.claude/skills/drain-node/SKILL.md` | New skill — node drain/reboot procedure |

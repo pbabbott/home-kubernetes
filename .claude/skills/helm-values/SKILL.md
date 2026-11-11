@@ -13,7 +13,7 @@ Fetch `helm show values` for the chart, write to `/tmp/helm-values-<chart>.yaml`
 
 ### 1. Identify the chart
 
-From user args or conversation context, determine which HelmRelease to inspect. If a file path is given, read it. If only an app name is given, look for it at `apps/base/<name>/<name>-helmrelease.yaml`.
+From user args or conversation context, determine which HelmRelease to inspect. If a file path is given, read it. If only an app name is given, find it with `ls apps/base/*/<name>/<name>-helmrelease.yaml`.
 
 Extract from the HelmRelease:
 - `spec.chart.spec.chart` → chart name

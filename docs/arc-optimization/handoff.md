@@ -16,7 +16,7 @@ This single gap accounts for ~70% of total wall clock. Biggest lever by far — 
 
 14:21–14:39 window: `fui-components-ui-tests` + `unit-tests(logger)` briefly run 2-wide, then `blog-ui-tests` → `docker-build(fui-components)` → `unit-tests(abctl)` → `unit-tests(video-db)` run one-at-a-time back-to-back — durations sum almost exactly to elapsed wall time. Implies only ~1-2 concurrent `dind`-labeled runner slots exist, while the matrix fan-out is ~14 jobs (9 `docker-build` + 5 `unit-tests`) all competing for that same pool.
 
-**Done (home-kubernetes):** raised `maxRunners` 5 → 9 (`apps/base/arc/arc-runner-dind-amd64-helmrelease.yaml`); bumped ResourceQuota pods 20 → 25, CPU 28 → 32, memory 80Gi → 100Gi (`apps/base/arc/arc-runners-resourcequota.yaml`). Covers all 9 docker-build jobs in parallel. Node scheduling headroom verified (~25Gi requests vs 47Gi allocatable across 3 workers).
+**Done (home-kubernetes):** raised `maxRunners` 5 → 9 (`apps/base/ci-registry/arc/arc-runner-dind-amd64-helmrelease.yaml`); bumped ResourceQuota pods 20 → 25, CPU 28 → 32, memory 80Gi → 100Gi (`apps/base/ci-registry/arc/arc-runners-resourcequota.yaml`). Covers all 9 docker-build jobs in parallel. Node scheduling headroom verified (~25Gi requests vs 47Gi allocatable across 3 workers).
 
 ## #3 — No pnpm store cache across jobs
 

@@ -1,8 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-# Phase 7 group 2 (coder move). Flipped from gen2: base routes carry pihole-dns-enabled, so gen3
-# external-dns owns the coder *.local records -> .29 (target comes from the Gateway annotation).
-# NAS Postgres (coderdb); the coder-workspaces home volume starts empty.
-resources:
-  - ../../base/coder

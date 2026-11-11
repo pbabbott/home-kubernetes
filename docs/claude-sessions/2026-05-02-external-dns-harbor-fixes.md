@@ -7,7 +7,7 @@ Ported gen1 external-dns (bitnami/ingress) to gen2 clusters using Gateway API (H
 **Chart**: migrated to `kubernetes-sigs/external-dns` v1.15.0 (gen1 used bitnami which had a TODO to migrate).
 
 **New files:**
-- `infra/base/external-dns/` — namespace, HelmRepository, 1Password CF token secret, HelmRelease
+- `infra/base/networking/external-dns/` — namespace, HelmRepository, 1Password CF token secret, HelmRelease
 - `infra/non-prod-gen2/external-dns/kustomization.yaml` — patches `txtOwnerId: non-prod-gen2`, `domainFilters: [non-prod.abbottland.io]`
 - `infra/prod-gen2/external-dns/kustomization.yaml` — patches `txtOwnerId: prod-gen2`, `domainFilters: [abbottland.io]`
 
@@ -18,7 +18,7 @@ Ported gen1 external-dns (bitnami/ingress) to gen2 clusters using Gateway API (H
 - `txtPrefix: _extdns.` — avoids conflicts with apex TXT records
 - Per-cluster `txtOwnerId` prevents two clusters fighting over the same `abbottland.io` zone
 
-**Public Gateway listener added** (`infra/base/istio/istio-ingress-gateway-api.yaml`):
+**Public Gateway listener added** (`infra/base/networking/istio/istio-ingress-gateway-api.yaml`):
 - New `https-public` listener, base hostname `*.abbottland.io` / secret `wildcard-public-tls`
 - cert-manager gateway-shim auto-issues wildcard cert (Gateway already has `cert-manager.io/cluster-issuer` annotation)
 - non-prod overlay patches to `*.non-prod.abbottland.io` / `wildcard-public-non-prod-tls`
@@ -56,7 +56,7 @@ With RollingUpdate:
 - If new pod scheduled to different node, RWO PVC (Longhorn) can't attach (still held by old pod on original node)
 - Classic cross-node deadlock: new pod never ready → old pod never terminates → stuck forever
 
-**Fix:** `apps/base/harbor/helmrelease.yaml` — moved `updateStrategy.type: Recreate` to root level, removed nested per-component keys.
+**Fix:** `apps/base/ci-registry/harbor/helmrelease.yaml` — moved `updateStrategy.type: Recreate` to root level, removed nested per-component keys.
 
 **Recovery steps needed** (rollback cycle had reintroduced `rollingUpdate` fields on live deployments):
 1. `kubectl patch deployment harbor-{jobservice,registry}` to remove `spec.strategy.rollingUpdate` field (`type: Recreate` alone is rejected if `rollingUpdate` sub-fields still present)

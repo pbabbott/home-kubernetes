@@ -3,7 +3,7 @@ kind: Kustomization
 
 # No fluxinstance.yaml: gen3's FluxInstance is bootstrapped by Ansible.
 resources:
-  - ../../../apps/base/flux-gitops
+  - ../../../apps/base/platform/flux-gitops
   - flux-web-httproute.yaml
 
 patches:

@@ -89,7 +89,7 @@ This will create or overwrite the existing SealedSecret enabling the 1Password i
 
 ### Step 5 - Wire up the kustomization (gen2 clusters)
 
-Shared Connect manifests live under `infra/base/onepassword`. Each gen2 cluster keeps its own sealed credentials next to a small overlay `kustomization.yaml`.
+Shared Connect manifests live under `infra/base/secrets/onepassword`. Each gen2 cluster keeps its own sealed credentials next to a small overlay `kustomization.yaml`.
 
 Ensure `op-credentials.yaml` is listed under `resources` after `../../base/onepassword`:
 

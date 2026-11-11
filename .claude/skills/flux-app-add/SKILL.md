@@ -9,18 +9,20 @@ Use when installing a new application into the gen3 cluster (`prod-gen3`) via Gi
 
 ```
 apps/
-  base/<app>/
+  base/<category>/<app>/
     <app>-ns.yaml
     <app>-helmrepository.yaml      # if chart not already in flux-system
     <app>-helmrelease.yaml
     <app>-httproute.yaml           # internal (pihole DNS)
     <app>-http-to-https-httproute.yaml
     kustomization.yaml
-  prod-gen3/<app>/
-    kustomization.yaml             # references ../../base/<app>, patches hostname
+  prod-gen3/<category>/<app>/
+    kustomization.yaml             # references ../../../base/<category>/<app>, patches hostname
 ```
 
-Add `- ./<app>` to `apps/prod-gen3/kustomization.yaml`, and add a row (Category, App, Summary) to the Apps table under "Workloads" in `README.md`.
+`<category>` is one of the existing directories under `apps/base/` (ci-registry, dev-ai, host-proxies, media, platform, public-sites); add a new one only if none fits.
+
+Add `- ./<category>/<app>` to `apps/prod-gen3/kustomization.yaml`, and add a row (Category, App, Summary) to the Apps table under "Workloads" in `README.md`.
 
 ## Namespace
 
@@ -176,11 +178,11 @@ env:
 Put the real hostname directly in base — no patch needed:
 
 ```yaml
-# apps/prod-gen3/<app>/kustomization.yaml
+# apps/prod-gen3/<category>/<app>/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base/<app>
+  - ../../../base/<category>/<app>
 ```
 
 If the app needs a gen3-specific hostname or settings, patch it in the overlay (JSON 6902):
@@ -209,7 +211,7 @@ Public routes → `istio-ingress-public` / `sectionName: https-public` + label `
 ## Validate before committing
 
 ```bash
-kubectl kustomize apps/prod-gen3/<app> 2>&1
+kubectl kustomize apps/prod-gen3/<category>/<app> 2>&1
 ```
 
 ## Storage classes

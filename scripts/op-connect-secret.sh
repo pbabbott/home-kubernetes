@@ -27,8 +27,8 @@ fi
 # SealedSecrets are encrypted for the cluster whose sealed-secrets controller
 # kubeseal talks to (default: current kubectl context). Override the output
 # path when sealing for another cluster:
-#   OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/<cluster>/onepassword/op-credentials.yaml ./scripts/op-connect-secret.sh
-OUTPUT="${OP_CONNECT_SEALED_SECRET_OUTPUT:-./infra/prod-gen3/onepassword/op-credentials.yaml}"
+#   OP_CONNECT_SEALED_SECRET_OUTPUT=./infra/<cluster>/secrets/onepassword/op-credentials.yaml ./scripts/op-connect-secret.sh
+OUTPUT="${OP_CONNECT_SEALED_SECRET_OUTPUT:-./infra/prod-gen3/secrets/onepassword/op-credentials.yaml}"
 mkdir -p "$(dirname "$OUTPUT")"
 mkdir -p ./temp
 

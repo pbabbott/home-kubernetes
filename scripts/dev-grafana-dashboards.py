@@ -12,7 +12,7 @@ Usage:
 
   Override via env vars:
     GRAFANA_URL         (default: https://grafana.local.abbottland.io)
-    DASHBOARDS_DIR      (default: infra/base/kube-prometheus-stack/dashboards)
+    DASHBOARDS_DIR      (default: infra/base/observability/kube-prometheus-stack/dashboards)
     GRAFANA_FOLDER_UID  (optional: push into a specific folder)
     POLL_INTERVAL       (default: 1.0 seconds)
     DEV_UID_SUFFIX      (default: -dev, empty with --prod)
@@ -217,12 +217,12 @@ def main() -> None:
 
     if args.prod:
         GRAFANA_URL = os.environ.get("GRAFANA_URL", "https://grafana.local.abbottland.io").rstrip("/")
-        DASHBOARDS_DIR = Path(os.environ.get("DASHBOARDS_DIR", str(REPO_ROOT / "infra/base/kube-prometheus-stack/dashboards")))
+        DASHBOARDS_DIR = Path(os.environ.get("DASHBOARDS_DIR", str(REPO_ROOT / "infra/base/observability/kube-prometheus-stack/dashboards")))
         KUBE_CONTEXT = os.environ.get("KUBE_CONTEXT", "prod-gen3")
         DEV_UID_SUFFIX = os.environ.get("DEV_UID_SUFFIX", "")
     else:
         GRAFANA_URL = os.environ.get("GRAFANA_URL", "https://grafana.local.abbottland.io").rstrip("/")
-        DASHBOARDS_DIR = Path(os.environ.get("DASHBOARDS_DIR", str(REPO_ROOT / "infra/base/kube-prometheus-stack/dashboards")))
+        DASHBOARDS_DIR = Path(os.environ.get("DASHBOARDS_DIR", str(REPO_ROOT / "infra/base/observability/kube-prometheus-stack/dashboards")))
         KUBE_CONTEXT = os.environ.get("KUBE_CONTEXT", "prod-gen3")
         DEV_UID_SUFFIX = os.environ.get("DEV_UID_SUFFIX", "-dev")
 

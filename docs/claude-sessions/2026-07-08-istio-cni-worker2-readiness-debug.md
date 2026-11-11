@@ -84,6 +84,6 @@ Revert `e008a03`: remove `reconcilePodRulesOnStartup: true` from HelmRelease, re
 
 ## Files Changed This Session
 
-- `infra/base/istio/istio-cni-helm-release.yaml` — reverting `reconcilePodRulesOnStartup: true` (added by `e008a03`, now removed)
+- `infra/base/networking/istio/istio-cni-helm-release.yaml` — reverting `reconcilePodRulesOnStartup: true` (added by `e008a03`, now removed)
 - Manual cluster-side: configmap `istio-system/istio-cni-config` patched `AMBIENT_RECONCILE_POD_RULES_ON_STARTUP: true` (needs reverting via Helm reconcile)
 - Manual cluster-side: `istio-cni` HelmRelease suspended (needs resuming)

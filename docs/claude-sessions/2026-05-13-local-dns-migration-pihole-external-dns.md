@@ -16,7 +16,7 @@ letting the DNS search chain fall through to correct public addresses.
 
 ### New Files Created
 
-- `infra/base/external-dns/external-dns-pihole-helmrelease.yaml`
+- `infra/base/networking/external-dns/external-dns-pihole-helmrelease.yaml`
   - HelmRelease for `external-dns` chart v1.15.0 using webhook provider
   - Webhook: `ghcr.io/mwalbeck/external-dns-pihole-webhook:1` (pihole v5 API compatible)
   - Pihole server: `http://pihole.pihole.svc.cluster.local:8081`
@@ -25,14 +25,14 @@ letting the DNS search chain fall through to correct public addresses.
   - `txtPrefix: "_extdns-local."`, `managedRecordTypes: [A]`, `policy: sync`
   - `txtOwnerId` and `domainFilters` set per-cluster via overlay patches
 
-- `infra/base/external-dns/pihole-admin-onepassword.yaml`
+- `infra/base/networking/external-dns/pihole-admin-onepassword.yaml`
   - `OnePasswordItem` → `pihole-admin-secret` in `external-dns` namespace
   - 1Password path: `vaults/Homelab/items/pihole.local.abbottland.io (bananapi)`
 
 ### Modified Files
 
 **Kustomization — base:**
-- `infra/base/external-dns/kustomization.yaml` — added 2 new resources
+- `infra/base/networking/external-dns/kustomization.yaml` — added 2 new resources
 
 **Kustomization — cluster overlays:**
 - `infra/prod-gen2/external-dns/kustomization.yaml`
@@ -41,17 +41,17 @@ letting the DNS search chain fall through to correct public addresses.
   - Patch: `txtOwnerId: non-prod-gen2-pihole`, `domainFilters: ["local.non-prod.abbottland.io"]`
 
 **HTTPRoutes — label + annotation added to all HTTPS routes:**
-- `apps/base/haproxy/httproute.yaml`
-- `apps/base/asustor/httproute.yaml`
-- `apps/base/proxmox/httproute.yaml`
-- `apps/base/harbor/httproute.yaml`
+- `apps/base/host-proxies/haproxy/httproute.yaml`
+- `apps/base/host-proxies/asustor/httproute.yaml`
+- `apps/base/host-proxies/proxmox/httproute.yaml`
+- `apps/base/ci-registry/harbor/httproute.yaml`
 - `apps/base/pihole/httproute.yaml`
-- `apps/base/podinfo/podinfo-httproute.yaml`
-- `infra/base/kube-prometheus-stack/grafana-httproute.yaml`
-- `infra/base/kube-prometheus-stack/prometheus-httproute.yaml`
-- `infra/base/onepassword/op-connect-httproute.yaml`
+- `apps/base/platform/podinfo/podinfo-httproute.yaml`
+- `infra/base/observability/kube-prometheus-stack/grafana-httproute.yaml`
+- `infra/base/observability/kube-prometheus-stack/prometheus-httproute.yaml`
+- `infra/base/secrets/onepassword/op-connect-httproute.yaml`
 - `infra/prod-gen2/longhorn/longhorn-httproute.yaml`
-- `apps/base/dashy/templates/httproute.yaml` (Helm chart template — HTTPS route only)
+- `apps/base/platform/dashy/templates/httproute.yaml` (Helm chart template — HTTPS route only)
 
 Each got:
 ```yaml
@@ -67,7 +67,7 @@ annotations:
   and non-prod-gen2; no separate non-prod IP needed.
 - **flux-web HTTP→HTTPS redirect route skipped** — not an HTTPS backend, no DNS record needed.
 - **Dashy via chart template** — since dashy HTTPRoute is Helm-generated, label/annotation
-  added directly to `apps/base/dashy/templates/httproute.yaml` (HTTPS route only;
+  added directly to `apps/base/platform/dashy/templates/httproute.yaml` (HTTPS route only;
   HTTP→HTTPS redirect route left clean).
 
 ## Remaining Manual Steps
