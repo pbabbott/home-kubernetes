@@ -47,5 +47,7 @@ See `apps/base/public-sites/blog/blog-netpol.yaml` and `apps/base/public-sites/u
 - Examples: `apps/base/public-sites/umami/` (third-party) and `apps/base/public-sites/blog/` (in-house).
 
 The global `ImageUpdateAutomation` lives at `clusters/prod-gen3/image-update-automation.yaml` and watches `./apps`. It is
-SUSPENDED in the cluster (not in git) while the new tag shape is rolled out (see home-kubernetes#39 and the loose ends
-register in `docs/plans/2026-11-08-gen2-to-gen3-migration.md`). Do not unsuspend it until the checks in that issue pass.
+running (resumed 2026-11-11, home-kubernetes#39): when home-web-apps merges to `main` it commits the new tag to the
+Deployment image line and the `IMAGE_TAG` line together (author `fluxcdbot`, one commit, one file per app). PR builds only
+get `sha-<sha7>`/`pr-<n>` tags, which no policy matches. Never hand-edit those lines except to roll back or bootstrap;
+to stop it: `flux --context prod-gen3 suspend image update apps` (suspension is cluster-only, not in git).
