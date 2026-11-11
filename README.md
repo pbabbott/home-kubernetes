@@ -34,6 +34,7 @@ These are common activities one might take while working on this repository.
 - [New Cluster Checklist](./docs/developer-guides/new-cluster.md) - Steps to stand up a new cluster with Flux Operator (CRDs, infra, apps overlays).
 - [Flux Overview](./docs/developer-guides/flux-overview.md) - Handy Flux commands and debugging tips.
 - [Dev Containers over SSH](./docs/developer-guides/devcontainer-ssh-gitconfig.md) - Fix for `.gitconfig` / authority resolution problems when using Dev Containers on a Remote-SSH host.
+- [Workload Conventions](./docs/developer-guides/workload-conventions.md) - File naming, HelmRelease apiVersion, and the NetworkPolicy and image-automation rules for public apps.
 
 ## Secret Rotations
 

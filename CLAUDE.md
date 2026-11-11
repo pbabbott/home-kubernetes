@@ -1,65 +1,77 @@
+# home-kubernetes
 
-## Operational Guidelines
+Flux GitOps repo for my homelab's k3s cluster. Only `prod-gen3` is live. Overview, contribution docs and the full app/infra inventory: `README.md`.
 
-Be brief.
+## Layout
 
-## Repository Folder Structure
+| Path | Purpose |
+|---|---|
+| `clusters/prod-gen3/` | Flux entry points, applied in order: `00-crds-ks` → `01-infra-ks` → `02-apps-ks` → `03-flux-gitops-ks` (Flux web UI + MCP) |
+| `crds/` | CRD installs (`base/` + `prod-gen3/`), applied before anything that uses them |
+| `infra/` | Cluster infrastructure. `base/` + `prod-gen3/` overlay, grouped `<category>/<component>` |
+| `apps/` | Workloads. `base/` + `prod-gen3/` overlay, grouped `<category>/<app>`; overlays are thin patches (hostnames, sizing) |
+| `docs/` | Guides, references, plans, incidents; map below |
+| `scripts/` | Helpers (Longhorn restore, 1Password Connect secret, Grafana dashboards) |
 
-Only the gen 3 cluster (`prod-gen3`) is live. Top-level directories:
-- `crds/` — CRD installs per cluster path (`base/` plus `prod-gen3/`)
-- `apps/` — application workloads; `base/` plus one overlay per cluster, each grouped as `<category>/<app>` (categories match the README "Workloads" tables)
-- `infra/` — infrastructure components (after CRDs are present); same `base/` + overlay layout, grouped as `<category>/<component>`
-- `clusters/` — per-cluster Flux entry points (`clusters/prod-gen3/`)
+Hosts, VMs and IPs live in `home-playbooks/docs/HOSTS.md`; the cluster itself is built by `home-playbooks/playbooks/kubernetes-gen3/`.
 
-## Archived clusters
+## How the infra fits together
 
-Gen 1 (`homelab`) and gen 2 (`prod-gen2`, `non-prod-gen2`) existed; their code was removed from this repo. Do not look for it
-or restore it unless asked. Overview and how to browse the old code: `docs/archive/README.md`
-(git tags `archive-gen1-homelab`, `archive-gen2-prod`, `archive-gen2-nonprod`).
+- **Ingress**: eero forwards 80/443 to the HAProxy LXC `192.168.6.29`, which fronts Istio (ambient mesh + Gateway API) on the gen3 workers. Two Gateways: `istio-ingress` (internal, `*.local.abbottland.io`) and `istio-ingress-public` (`*.abbottland.io`). `docs/ai-reference/httproute-dns.md`
+- **external-dns**: two instances build all DNS from HTTPRoutes: Cloudflare for public `*.abbottland.io`, Pi-hole (on `bananapi`) for internal `*.local.abbottland.io`. The DNS target comes from the Gateway annotation. Never create records by hand (Pi-hole runs `sync`); use an HTTPRoute or a `DNSEndpoint`. `docs/ai-reference/external-dns-pihole.md`, `docs/ai-reference/pihole-api.md`; for DNS questions use the `dns-expert` agent.
+- **Secrets**: 1Password Connect operator turns `OnePasswordItem`s into Secrets; sealed-secrets exists only to bootstrap the Connect credentials. `docs/ai-reference/secrets.md` (start here), `docs/ai-reference/onepassword-operator.md`, `docs/reference/secret-management-strategy.md`
+- **Storage**: Longhorn (replicated block on the worker SSDs, backups to the NAS) for app config and databases; `nas-storage` (NFS on the Asustor NAS `192.168.4.124`) for bulk data and media. Postgres and Redis also live on the NAS. `.cursor/k8s-storage-classes.md`, `docs/ai-reference/infra.md`
+- **cert-manager**: Let's Encrypt via Cloudflare DNS-01 issues the wildcard certs on the two Gateways.
+- **pihole** (in `infra/`, not `apps/`): proxy route to the Pi-hole UI; external-dns depends on it so it must reconcile first.
+- **Observability**: kube-prometheus-stack (Prometheus, Grafana, Alertmanager); dashboards are gitops-managed ConfigMaps.
+- **Flux**: The `FluxInstance` is bootstrapped by Ansible (`home-playbooks`), not by this repo. `docs/developer-guides/flux-bootstrap.md`, `docs/developer-guides/flux-overview.md`
 
-## Working with the clusters
+## Workload index
 
-### Working with Flux
+Every workload by name, so you can map a name in a prompt to a directory: `apps/base/<category>/<name>` (overlay: `apps/prod-gen3/<category>/<name>`) and `infra/base/<category>/<name>` (overlay: `infra/prod-gen3/...`). One-line summaries are in the README "Workloads" tables.
 
-Instead of annotating resources, prefer to use `flux` on the command line - there is an mcp available for flux as well.
+**Apps**
+- `ci-registry/`: arc (CI runners for `home-web-apps`, plus build caches), harbor (private registry + Docker Hub mirror that CI and image automation depend on), harbor-cleanup, regcred-flux
+- `public-sites/`: blog, diagram-maker, fui-components, home-hud, umami (public, so NetworkPolicy + image automation required)
+- `media/`: media (sonarr, radarr, prowlarr, qbittorrent, gluetun VPN, byparr, and the arr and qbittorrent MCP servers) and plex
+- `host-proxies/`: asustor, haproxy, home-assistant, proxmox (routes/services in front of hosts that are not in k8s)
+- `dev-ai/`: coder, openclaw, mcp-grafana
+- `platform/`: dashy (dashboard/homepage), flux-gitops (Flux web UI + MCP), podinfo (routing/cert smoke test)
 
-### Working with kubernetes
+**Infra** (CRDs for these come from `crds/base/`: istio, gateway-api, cert-manager-1.20, flux-operator, sealed-secrets, onepassword, kube-prometheus-stack, external-dns, longhorn)
+- `core/`: flux-operator, metrics-server, priorityclass
+- `networking/`: istio, external-dns, cert-manager, pihole
+- `secrets/`: onepassword, sealed-secrets
+- `storage/`: longhorn, nas-storage
+- `observability/`: kube-prometheus-stack
 
-When issuing kubectl commands, you can simply using `kubectl` - there is no need for `ssh`
+## Working with the cluster
 
-Additionally, `kubectx` is available to rapidly switch contexts.
+- Use `kubectl` directly (no ssh); `kubectx` switches contexts. Prefer the `flux` CLI or the flux MCP over annotating resources.
+- MCP servers (`.mcp.json`): grafana, flux, arr, qbittorrent.
+- Kubeconfig comes from `scripts/get-kubeconfig.sh` in the workspace repo (see the workspace `CLAUDE.md`).
+- `kubectl kustomize` needs `--load-restrictor LoadRestrictionsNone` for the overlays.
 
-## Conventions
+## Agents and skills
 
-- **Workload manifest:** `README.md` "Workloads" lists every app (`apps/prod-gen3`) and infra component (`infra/prod-gen3`, plus `crds/`) with a Category and Summary. Whenever you add, remove or rename a workload, update those tables in the same change (rows sorted by Category, then name). A Category is also a directory name, so put the new workload under an existing category dir where one fits.
-- Grafana dashboard JSON files must include `"gitops-managed"` in their `tags` array.
-- When working with resource files, use the convention `<name>-<kind>.yaml` 
-  -  For example `haproxy-httproute.yaml` or `arc-ns.yaml` are acceptable. 
-- Publicly-facing apps (any app with a Cloudflare/public HTTPRoute) must include a NetworkPolicy. See `apps/base/public-sites/blog/blog-netpol.yaml` and `apps/base/public-sites/umami/umami-netpol.yaml` for examples. Ingress: allow from `istio-system` namespace only. Egress: deny all by default; add rules only for what the app needs (e.g. DNS to `kube-system`, PostgreSQL to NAS at `192.168.4.124:5432`).
-- Publicly-facing apps must have image update automation. For app-owned images (built in-house, mirrored to Harbor): `ImageRepository` + `ImagePolicy` + `# {"$imagepolicy": "flux-system:<name>"}` marker on the deployment image field. For third-party images pulled directly from a public registry (e.g. ghcr.io): same pattern but omit `secretRef` on the `ImageRepository`. For Helm-based apps: use a semver range in the `HelmRelease` `chart.spec.version` field (e.g. `>=6.0.0`). See `apps/base/public-sites/umami/` (third-party) and `apps/base/public-sites/blog/` (in-house) for examples. The global `ImageUpdateAutomation` resource lives at `clusters/prod-gen3/image-update-automation.yaml` and watches `./apps`. It is SUSPENDED in the cluster (not in git) until PR builds can no longer reach prod via the ImagePolicies (see the loose ends register in `docs/plans/2026-11-08-gen2-to-gen3-migration.md`): do not unsuspend it.
+Agents (`.claude/agents/`): `arc-debug`, `flux-recover`, `istio-debug`, `longhorn-ops`, `media-debug`, `secrets-ops`.
+Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real chart defaults), `arc-optimize`, `grafana-analyze`,
+`dump` (session summaries), and the media/Coder ones (`radarr-grab`, `sonarr-grab`, `media-source-debug`, `plex-collection`, `coder-*`).
 
-## Reference
+## Documentation map
 
-- `docs/developer-guides/flux-bootstrap.md` — how to bootstrap Flux on a fresh cluster
-- `docs/developer-guides/` — how-tos for working on this repo (put new guides here)
-- `docs/secret-rotations/` — one doc per secret: usage and how to rotate it
-- `docs/reference/` — human-oriented background and strategy docs
-- `docs/ai-reference/` — procedures and gotchas written for AI assistants (see below)
-- `docs/plans/` — implementation plans for migrations, features, or architectural changes — put new plans here
-- `docs/claude-sessions/` — session summaries dumped by the `/dump` skill — put new session dumps here
-- `docs/incidents/` — incident post-mortems and notes
-- `.cursor/k8s-namespaces.md` — namespace inventory with storage class explanations
+- `docs/developer-guides/`: how-tos for working in this repo. Conventions for apps, NetworkPolicy and image automation: `workload-conventions.md`. Adding a cluster: `new-cluster.md`.
+- `docs/secret-rotations/`: one doc per secret, covering where it is used and how to rotate it.
+- `docs/reference/`: human-oriented background (1Password setup, chart links, secret strategy).
+- `docs/ai-reference/`: procedures and gotchas for AI use. Read before acting: `gen3-manual-steps.md` (adding a node or rebuilding gen3), `gen3-data-move.md` (moving app data between clusters), `secrets.md` (anything secret-related).
+  Also `infra.md` (clusters, DNS patterns, Flux layering, Longhorn backup targets), `op-connect-api-access.md` (query the 1Password vault API).
+- `docs/plans/`: implementation plans for migrations and features (new plans go here). The gen2→gen3 migration plan holds the loose-ends register.
+- `docs/incidents/`: post-mortems. `docs/claude-sessions/`: session dumps from `/dump`.
+- `docs/archive/`: gen1/gen2 overview; the code lives only at git tags (`archive-gen1-homelab`, `archive-gen2-prod`, `archive-gen2-nonprod`). It is history: don't restore it unless asked.
+- `.cursor/k8s-namespaces.md`: namespace inventory.
 
-## AI Reference Docs
+## Rules of the road
 
-Docs in `docs/ai-reference/` are written for AI assistant use — step-by-step procedures, known gotchas, and copy-paste commands.
-
-- `docs/ai-reference/infra.md` — clusters and hosts (details in `home-playbooks/docs/HOSTS.md`), DNS patterns, Flux layering order, Longhorn backup targets
-- `docs/ai-reference/op-connect-api-access.md` — query the op-connect vault API via port-forward; list vaults/items; known vault IDs
-- `docs/ai-reference/gen3-manual-steps.md` — **read before adding a gen3 node or rebuilding gen3**: manual steps outside GitOps (Longhorn `node.longhorn.io/create-default-disk=true` node label, `/mnt/ssd` disk, NAS dirs, 1Password)
-- `docs/ai-reference/secrets.md` — **start here for secrets (gen3)**: sealed-secrets only bootstraps 1Password; how to add a secret, key backup/rebuild, re-seal `op-credentials`, dev-shell `op` limits
-- `docs/ai-reference/onepassword-operator.md` — force-reconcile `OnePasswordItem` CRDs; debug secret key mismatches; common operator errors
-- `docs/ai-reference/pihole-api.md` — pihole v5 API auth (SHA256 double-hash), A record and CNAME CRUD endpoints, debug pod pattern for cluster-internal access
-- `docs/ai-reference/external-dns-pihole.md` — external-dns pihole config; why `registry: noop` is required; gateway annotation controls target (not HTTPRoute annotations); troubleshooting commands
-- `docs/ai-reference/httproute-dns.md` — how HTTPRoutes wire to DNS; Cloudflare (public `*.abbottland.io`) vs Pihole (local `*.local.abbottland.io`); correct labels, annotations, and gateway sectionName per provider
-- `docs/ai-reference/gen3-data-move.md` — **read before moving an app's data gen2 → gen3**: Longhorn restore via `scripts/longhorn-restore.sh`, PVC binding rules, live-store safety, per-step rollback
+- Adding, removing or renaming a workload: update the README "Workloads" tables in the same change, and use an existing category directory where one fits.
+- Public apps (any Cloudflare HTTPRoute) need a NetworkPolicy and image update automation; details in `workload-conventions.md`.
+- The `ImageUpdateAutomation` is suspended in the cluster on purpose. Do not unsuspend it.
