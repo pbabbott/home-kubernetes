@@ -19,7 +19,7 @@ Files added to this repo under `apps/base/ci-registry/harbor-cleanup/` and wired
 | `harbor-cleanup-clusterrolebinding.yaml` | Binds ClusterRole to ServiceAccount |
 | `harbor-cleanup-configmap.yaml` | Non-secret env vars (host, repos, cron, TZ, etc.) |
 | `harbor-cleanup-image-repository.yaml` | Flux ImageRepository scanning `library/harbor-cleanup` |
-| `harbor-cleanup-image-policy.yaml` | Date-based tag policy (`\d{8}-\d+-[a-f0-9]{7}`, alphabetical asc) |
+| `harbor-cleanup-image-policy.yaml` | Date-based tag policy (`^\d{8}-\d{5}-\d{5}-[a-f0-9]{7}$`, alphabetical asc; was `\d{8}-\d+-[a-f0-9]{7}` until 2026-11-11) |
 | `harbor-cleanup-deployment.yaml` | Deployment — `envFrom` ConfigMap + explicit `env` for secret keys |
 | `harbor-cleanup-service.yaml` | ClusterIP Service port 80 → 4030 |
 | `harbor-cleanup-httproute.yaml` | HTTPS route: `harbor-cleanup.local.abbottland.io` (pihole DNS) |
@@ -273,7 +273,7 @@ spec:
 
 ## Image Updates (Flux ImagePolicy)
 
-If you use Flux image automation, the semver filter `0.1.x` or `>=0.1.0` will track patch releases. The image is published to `harbor.local.abbottland.io/library/harbor-cleanup`.
+Superseded: the image is published to `harbor.local.abbottland.io/library/harbor-cleanup` and tracked like every in-house app, by a date-based `ImagePolicy` (`^\d{8}-\d{5}-\d{5}-[a-f0-9]{7}$`, alphabetical) plus the two setters described in `docs/developer-guides/workload-conventions.md`. `CLEANUP_DRY_RUN` (env, default false) logs deletions without performing them.
 
 ---
 

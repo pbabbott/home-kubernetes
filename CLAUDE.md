@@ -84,4 +84,4 @@ Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real cha
 - Adding, removing or renaming a workload: update the README "Workloads" tables in the same change, and use an existing category directory where one fits.
 - Public apps (any Cloudflare HTTPRoute) need a NetworkPolicy and image update automation; details in `workload-conventions.md`.
 - Adding, changing or removing a script: update the manifest in `scripts/CLAUDE.md` in the same commit.
-- The `ImageUpdateAutomation` is suspended in the cluster on purpose. Do not unsuspend it.
+- The `ImageUpdateAutomation` is running (resumed 2026-11-11, #39): prod image tags are `YYYYMMDD-<run:5>-<pr:5>-<sha7>`, only created on merge to home-web-apps `main`, and each in-house Deployment has two setters (image and `IMAGE_TAG`, see `workload-conventions.md`). Do not hand-edit those tags. To stop it: `flux suspend image update apps`.
