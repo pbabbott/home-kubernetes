@@ -5,6 +5,7 @@ A gitops-based approach for all my kubernetes charts, manifests, and helm deploy
 - [Contribution](#contribution)
   - [Getting Started](#getting-started)
   - [Developer Guides](#developer-guides)
+  - [Scripts](#scripts)
   - [Secret Rotations](#secret-rotations)
   - [Reference](#reference)
     - [External Docs](#external-docs)
@@ -29,12 +30,21 @@ These are common activities one might take while working on this repository.
 - [Bootstrap the cluster with Flux](./docs/developer-guides/flux-bootstrap.md) - This is a one-time activity unless the cluster needs to be rebuilt or more flux features need to be added.
 - [Login to 1Password](./docs/developer-guides/login-to-one-password.md) - Depending on the state of the connect server, here are some tips for authenticating with 1Password.
 - [SealedSecrets - Create Manifest](./docs/developer-guides/sealed-secrets-create-manifest.md) - Here is how you can create a SealedSecret for use within the cluster
-- [SealedSecrets - Update Values](./docs/developer-guides/sealed-secrets-update-values.md) - This is how you can update SealedSecret manifests with the help of some scripts.
 - [Cluster Access](./docs/developer-guides/cluster-access.md) - Once the cluster has been provisioned, this is how you can can set a secret in 1Password so the home-web-apps can access.
 - [New Cluster Checklist](./docs/developer-guides/new-cluster.md) - Steps to stand up a new cluster with Flux Operator (CRDs, infra, apps overlays).
 - [Flux Overview](./docs/developer-guides/flux-overview.md) - Handy Flux commands and debugging tips.
 - [Dev Containers over SSH](./docs/developer-guides/devcontainer-ssh-gitconfig.md) - Fix for `.gitconfig` / authority resolution problems when using Dev Containers on a Remote-SSH host.
 - [Workload Conventions](./docs/developer-guides/workload-conventions.md) - File naming, HelmRelease apiVersion, and the NetworkPolicy and image-automation rules for public apps.
+
+## Scripts
+
+Helpers live in `scripts/`; run them from the repo root. What each does, with the full manifest: [scripts/CLAUDE.md](./scripts/CLAUDE.md). Common workflows:
+
+- **Re-seal 1Password Connect credentials:** `./scripts/op-connect-secret.sh` (procedure: [AI reference - Secrets](./docs/ai-reference/secrets.md)).
+- **Grafana token:** `export GRAFANA_TOKEN_PROD=$(./scripts/get-grafana-api-key.sh)`. **Iterate on dashboards:** `./scripts/dev-grafana-dashboards.py`.
+- **Restore a Longhorn backup into a PVC:** `./scripts/longhorn-restore.sh` (dry-run by default).
+
+Run `pre-commit install` once per clone; the hook fails if a script has no row in the manifest.
 
 ## Secret Rotations
 

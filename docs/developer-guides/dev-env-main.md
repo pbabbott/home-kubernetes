@@ -8,9 +8,10 @@ The purpose of this document is to explain how one can get started working on th
     - [2. Create an `.env` file](#2-create-an-env-file)
     - [3. Re-open the project in a devcontainer](#3-re-open-the-project-in-a-devcontainer)
     - [4. Ensure connectivity to 1Password](#4-ensure-connectivity-to-1password)
-    - [5. Get SSH Key](#5-get-ssh-key)
+    - [5. Check your SSH key](#5-check-your-ssh-key)
     - [6. Get KubeConfig file](#6-get-kubeconfig-file)
-    - [7. Celebrate ✨](#7-celebrate-)
+    - [7. Enable the pre-commit hook](#7-enable-the-pre-commit-hook)
+    - [8. Celebrate ✨](#8-celebrate-)
 
 
 ## Procedure
@@ -47,18 +48,9 @@ Obtaining the various secrets in the next step will require access to 1Password.
 [Dev Guide - Login to 1Password](./login-to-one-password.md)
 
 
-### 5. Get SSH Key
+### 5. Check your SSH key
 
-This command helps get the SSH `id_rsa` public/private key pair to quickly connect to remote hosts.
-
-```sh
-./scripts/get-ssh-key.sh
-```
-
-> [!NOTE]
-> This SSH key will enable password-less login to many of my VMs and cluster nodes, but is primarily used to get access to the kubeconfig file.  
-> 
-> TODO: This step should be replaced with getting the kubeconfig file from `1Password` instead, as sharing private keys is not good practice.
+The devcontainer bind-mounts the host's `~/.ssh` (read-only), so the key you use on the VM is already available here. It must be authorized on the cluster nodes, because the kubeconfig in the next step is fetched over SSH.
 
 ### 6. Get KubeConfig file
 
@@ -78,7 +70,11 @@ Now, back here in the devcontainer, get the kubeconfig file with the workspace s
 scripts/get-kubeconfig.sh prod-gen3
 ```
 
-### 7. Celebrate ✨
+### 7. Enable the pre-commit hook
+
+Run `pre-commit install` once per clone. It enforces that every file in `scripts/` has a row in `scripts/CLAUDE.md`.
+
+### 8. Celebrate ✨
 
 You can now interact with the cluster using tools like `kubectl` `kubeseal` `helm` `k9s` `kubectx` `kubens` `flux` and more!
 

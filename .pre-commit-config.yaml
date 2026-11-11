@@ -1,0 +1,10 @@
+# Run `pre-commit install` once per clone.
+repos:
+- repo: local
+  hooks:
+    - id: scripts-manifest
+      name: scripts manifest (scripts/CLAUDE.md)
+      entry: bash ./scripts/check-manifest.sh
+      language: system
+      files: ^scripts/
+      pass_filenames: false

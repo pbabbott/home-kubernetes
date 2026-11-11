@@ -11,7 +11,7 @@ Flux GitOps repo for my homelab's k3s cluster. Only `prod-gen3` is live. Overvie
 | `infra/` | Cluster infrastructure. `base/` + `prod-gen3/` overlay, grouped `<category>/<component>` |
 | `apps/` | Workloads. `base/` + `prod-gen3/` overlay, grouped `<category>/<app>`; overlays are thin patches (hostnames, sizing) |
 | `docs/` | Guides, references, plans, incidents; map below |
-| `scripts/` | Helpers (Longhorn restore, 1Password Connect secret, Grafana dashboards) |
+| `scripts/` | Helpers for secrets, Grafana and Longhorn restores. Manifest: `scripts/CLAUDE.md` |
 
 Hosts, VMs and IPs live in `home-playbooks/docs/HOSTS.md`; the cluster itself is built by `home-playbooks/playbooks/kubernetes-gen3/`.
 
@@ -52,6 +52,15 @@ Every workload by name, so you can map a name in a prompt to a directory: `apps/
 - Kubeconfig comes from `scripts/get-kubeconfig.sh` in the workspace repo (see the workspace `CLAUDE.md`).
 - `kubectl kustomize` needs `--load-restrictor LoadRestrictionsNone` for the overlays.
 
+## Scripts
+
+Prefer these over hand-rolled commands (details and the full manifest: `scripts/CLAUDE.md`, keep it updated when scripts change):
+
+- Re-seal 1Password Connect credentials: `scripts/op-connect-secret.sh` (procedure in `docs/ai-reference/secrets.md`).
+- Grafana: `export GRAFANA_TOKEN_PROD=$(./scripts/get-grafana-api-key.sh)`; `./scripts/dev-grafana-dashboards.py` to hot-push dashboards.
+- Longhorn restore into a named PVC: `scripts/longhorn-restore.sh` (dry-run by default; see `docs/ai-reference/gen3-data-move.md`).
+- When you add or change a script, update `scripts/CLAUDE.md` in the same commit; the pre-commit hook (`scripts/check-manifest.sh`) checks the manifest.
+
 ## Agents and skills
 
 Agents (`.claude/agents/`): `arc-debug`, `flux-recover`, `istio-debug`, `longhorn-ops`, `media-debug`, `secrets-ops`.
@@ -74,4 +83,5 @@ Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real cha
 
 - Adding, removing or renaming a workload: update the README "Workloads" tables in the same change, and use an existing category directory where one fits.
 - Public apps (any Cloudflare HTTPRoute) need a NetworkPolicy and image update automation; details in `workload-conventions.md`.
+- Adding, changing or removing a script: update the manifest in `scripts/CLAUDE.md` in the same commit.
 - The `ImageUpdateAutomation` is suspended in the cluster on purpose. Do not unsuspend it.

@@ -12,6 +12,7 @@ where one fits.
 
 ## Files and manifests
 
+- Adding, changing or removing a script in `scripts/`: update the manifest in `scripts/CLAUDE.md` in the same commit (a pre-commit hook enforces the rows).
 - Grafana dashboard JSON files must include `"gitops-managed"` in their `tags` array.
 - Resource files are named `<name>-<kind>.yaml`, for example `haproxy-httproute.yaml` or `arc-ns.yaml`.
 - Use `apiVersion: helm.toolkit.fluxcd.io/v2` for every `HelmRelease`. `v2beta1` and `v2beta2` were removed from the cluster.
