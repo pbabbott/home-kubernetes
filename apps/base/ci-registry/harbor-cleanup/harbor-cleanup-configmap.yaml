@@ -7,12 +7,10 @@ data:
   HARBOR_HOST: "harbor.local.abbottland.io"
   GITHUB_OWNER: "pbabbott"
   GITHUB_REPO: "home-web-apps"
-  CLEANUP_REPOSITORIES: "blog,diagram-maker,fui-components,gluetun-sync,harbor-cleanup,home-hud,homelab-api,video-api,video-worker,backup-worker"
+  CLEANUP_REPOSITORIES: "blog,diagram-maker,fui-components,gluetun-sync,harbor-cleanup,homelab-api,backup-worker"
   CLEANUP_CRON_EXPRESSION: "0 3 * * *"
   TZ: "America/Chicago"
   # CLEANUP_DRY_RUN is deliberately NOT set. The app parses booleans with Boolean(string), so ANY non-empty value
   # (including "false") turns dry-run ON; leave it unset to delete for real. Add it (any value) to log deletions only.
-  # TEMPORARY (#83): dry run for the five newly added repos. Remove in the follow-up PR after reviewing the log.
-  CLEANUP_DRY_RUN: "true"
   PROD_KEEP_COUNT: "5"
   PORT: "4030"
