@@ -59,6 +59,7 @@ Prefer these over hand-rolled commands (details and the full manifest: `scripts/
 - Re-seal 1Password Connect credentials: `scripts/op-connect-secret.sh` (procedure in `docs/ai-reference/secrets.md`).
 - Grafana: `export GRAFANA_TOKEN_PROD=$(./scripts/get-grafana-api-key.sh)`; `./scripts/dev-grafana-dashboards.py` to hot-push dashboards.
 - Longhorn restore into a named PVC: `scripts/longhorn-restore.sh` (dry-run by default; see `docs/ai-reference/gen3-data-move.md`).
+- Check that public apps are network-locked: `scripts/check-public-netpol.sh` (offline, also a pre-commit hook).
 - When you add or change a script, update `scripts/CLAUDE.md` in the same commit; the pre-commit hook (`scripts/check-manifest.sh`) checks the manifest.
 
 ## Agents and skills
@@ -82,7 +83,7 @@ Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real cha
 ## Rules of the road
 
 - Adding, removing or renaming a workload: update the README "Workloads" tables in the same change, and use an existing category directory where one fits.
-- Public apps (any Cloudflare HTTPRoute) must be locked down at the network level: a NetworkPolicy that allows ingress from `istio-system` only and the minimum egress (none unless the app needs it; scope each rule to a destination and port, never open-ended). They also need image update automation. Details in `workload-conventions.md`.
+- Public apps (any Cloudflare HTTPRoute) must be locked down at the network level: a NetworkPolicy that allows ingress from `istio-system` only and the minimum egress (none unless the app needs it; scope each rule to a destination and port, never open-ended). They also need image update automation. Details in `workload-conventions.md`; `scripts/check-public-netpol.sh` enforces the NetworkPolicy part.
 - Adding, changing or removing a script: update the manifest in `scripts/CLAUDE.md` in the same commit.
 - harbor-cleanup runs a real cleanup on every pod start and deletes tags irreversibly. Set `CLEANUP_DRY_RUN: "true"` in the same apply as any repo-list or restart-causing change, read the log, then set `"false"`. Never add `node-22-*` to its repo list. Procedure: `docs/ai-reference/harbor-cleanup.md`.
 - The `ImageUpdateAutomation` is running (resumed 2026-11-11, #39): prod image tags are `YYYYMMDD-<run:5>-<pr:5>-<sha7>`, only created on merge to home-web-apps `main`, and each in-house Deployment has two setters (image and `IMAGE_TAG`, see `workload-conventions.md`). Do not hand-edit those tags. To stop it: `flux suspend image update apps`.
