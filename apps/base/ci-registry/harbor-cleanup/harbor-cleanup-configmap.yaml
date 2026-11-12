@@ -10,8 +10,9 @@ data:
   CLEANUP_REPOSITORIES: "blog,diagram-maker,fui-components,gluetun-sync,harbor-cleanup,homelab-api,backup-worker,home-hud,video-api,video-worker,blog-base,diagram-maker-base,home-hud-base,homelab-api-base,video-api-base,video-worker-base,backup-worker-base"
   CLEANUP_CRON_EXPRESSION: "0 3 * * *"
   TZ: "America/Chicago"
-  # CLEANUP_DRY_RUN is deliberately NOT set. The app parses booleans with Boolean(string), so ANY non-empty value
-  # (including "false") turns dry-run ON; leave it unset to delete for real. Add it (any value) to log deletions only.
+  # CLEANUP_DRY_RUN is unset, so cleanup deletes for real. Set it to "true" to log deletions only (a dry run).
+  # Accepts true/1/yes/on and false/0/no/off; anything else crashes the pod at startup. The pod runs a cleanup on every
+  # start, so set it in the same apply as any change that restarts the pod, and remove it only after reading the log.
   # node-22-* is deliberately NOT in CLEANUP_REPOSITORIES: its semver tags (1.0.0) are referenced by Dockerfiles/skaffold
   # and would be classified legacy and deleted.
   PROD_KEEP_COUNT: "5"
