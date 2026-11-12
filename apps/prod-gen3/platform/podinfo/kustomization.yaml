@@ -9,3 +9,4 @@ resources:
   - podinfo-httproute.yaml
   - podinfo-http-to-https-httproute.yaml
   - podinfo-public-httproute.yaml
+  - ../../../base/platform/podinfo/podinfo-netpol.yaml

@@ -82,7 +82,7 @@ Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real cha
 ## Rules of the road
 
 - Adding, removing or renaming a workload: update the README "Workloads" tables in the same change, and use an existing category directory where one fits.
-- Public apps (any Cloudflare HTTPRoute) need a NetworkPolicy and image update automation; details in `workload-conventions.md`.
+- Public apps (any Cloudflare HTTPRoute) must be locked down at the network level: a NetworkPolicy that allows ingress from `istio-system` only and the minimum egress (none unless the app needs it; scope each rule to a destination and port, never open-ended). They also need image update automation. Details in `workload-conventions.md`.
 - Adding, changing or removing a script: update the manifest in `scripts/CLAUDE.md` in the same commit.
 - harbor-cleanup runs a real cleanup on every pod start and deletes tags irreversibly. Set `CLEANUP_DRY_RUN: "true"` in the same apply as any repo-list or restart-causing change, read the log, then set `"false"`. Never add `node-22-*` to its repo list. Procedure: `docs/ai-reference/harbor-cleanup.md`.
 - The `ImageUpdateAutomation` is running (resumed 2026-11-11, #39): prod image tags are `YYYYMMDD-<run:5>-<pr:5>-<sha7>`, only created on merge to home-web-apps `main`, and each in-house Deployment has two setters (image and `IMAGE_TAG`, see `workload-conventions.md`). Do not hand-edit those tags. To stop it: `flux suspend image update apps`.

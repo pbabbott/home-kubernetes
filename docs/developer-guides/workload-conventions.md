@@ -25,9 +25,11 @@ Any app with a Cloudflare/public HTTPRoute must have both of the following.
 
 See `apps/base/public-sites/blog/blog-netpol.yaml` and `apps/base/public-sites/umami/umami-netpol.yaml` for examples.
 
+- Required for every public app (any Cloudflare HTTPRoute), no exceptions: public workloads are locked down at the network level.
 - Ingress: allow from the `istio-system` namespace only.
 - Egress: deny all by default; add rules only for what the app needs (e.g. DNS to `kube-system`, PostgreSQL to the NAS at
   `192.168.4.124:5432`).
+  Minimal egress, if any: scope each rule to a destination and port; avoid open-ended rules such as `443` to anywhere.
 
 ### Image update automation
 
