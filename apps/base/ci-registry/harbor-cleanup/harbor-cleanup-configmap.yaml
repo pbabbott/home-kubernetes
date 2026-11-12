@@ -12,8 +12,7 @@ data:
   TZ: "America/Chicago"
   # CLEANUP_DRY_RUN is deliberately NOT set. The app parses booleans with Boolean(string), so ANY non-empty value
   # (including "false") turns dry-run ON; leave it unset to delete for real. Add it (any value) to log deletions only.
-  # TEMPORARY (#83): dry run for the -base repos. Remove after reviewing the log. node-22-* is deliberately excluded:
-  # its semver tags (1.0.0) are referenced by Dockerfiles/skaffold and would be classified legacy and deleted.
-  CLEANUP_DRY_RUN: "true"
+  # node-22-* is deliberately NOT in CLEANUP_REPOSITORIES: its semver tags (1.0.0) are referenced by Dockerfiles/skaffold
+  # and would be classified legacy and deleted.
   PROD_KEEP_COUNT: "5"
   PORT: "4030"
