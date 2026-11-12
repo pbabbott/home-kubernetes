@@ -36,7 +36,7 @@ spec:
                       - arm64
       containers:
         - name: gluetun-sync
-          image: harbor.local.abbottland.io/library/gluetun-sync:20261111-00095-00253-1540400 # {"$imagepolicy": "flux-system:gluetun-sync"}
+          image: harbor.local.abbottland.io/library/gluetun-sync:20261112-00097-00258-d8f7311 # {"$imagepolicy": "flux-system:gluetun-sync"}
           imagePullPolicy: Always
           resources: {}
           ports:
@@ -46,7 +46,7 @@ spec:
               protocol: TCP
           env:
             - name: IMAGE_TAG
-              value: 20261111-00095-00253-1540400 # {"$imagepolicy": "flux-system:gluetun-sync:tag"}
+              value: 20261112-00097-00258-d8f7311 # {"$imagepolicy": "flux-system:gluetun-sync:tag"}
             - name: QBITTORRENT_PASSWORD
               valueFrom:
                 secretKeyRef:
