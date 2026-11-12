@@ -8,3 +8,9 @@ repos:
       language: system
       files: ^scripts/
       pass_filenames: false
+    - id: public-netpol
+      name: public apps have a locked-down NetworkPolicy
+      entry: bash ./scripts/check-public-netpol.sh
+      language: system
+      files: ^(apps|scripts)/
+      pass_filenames: false

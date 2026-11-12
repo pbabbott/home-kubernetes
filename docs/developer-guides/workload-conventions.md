@@ -30,6 +30,8 @@ See `apps/base/public-sites/blog/blog-netpol.yaml` and `apps/base/public-sites/u
 - Egress: deny all by default; add rules only for what the app needs (e.g. DNS to `kube-system`, PostgreSQL to the NAS at
   `192.168.4.124:5432`).
   Minimal egress, if any: scope each rule to a destination and port; avoid open-ended rules such as `443` to anywhere.
+  `scripts/check-public-netpol.sh` (pre-commit) fails on a public route without a policy, a policy without `Egress` in
+  `policyTypes`, or an open-ended egress rule.
 
 ### Image update automation
 
