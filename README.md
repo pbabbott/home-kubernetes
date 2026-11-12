@@ -99,7 +99,7 @@ Lives in `apps/<category>/<app>` under `apps/base` and the `apps/prod-gen3` over
 | --- | --- | --- |
 | CI & registry | arc | Actions Runner Controller scale sets (amd64 and dind) for home-web-apps CI, plus actions-cache and turborepo remote cache servers. |
 | CI & registry | harbor | Harbor registry (Helm) with NAS-backed registry storage; Docker Hub proxy mirror for CI. |
-| CI & registry | harbor-cleanup | Custom service that cleans up Harbor; see `docs/plans/2026-06-01-harbor-cleanup.md`. |
+| CI & registry | harbor-cleanup | Custom service that cleans up Harbor; operating rules in `docs/ai-reference/harbor-cleanup.md` (history: `docs/plans/2026-06-01-harbor-cleanup.md`). |
 | CI & registry | regcred-flux | OnePasswordItem providing the registry pull credential Flux uses for image automation. |
 | Dev & AI | coder | Coder dev-workspace platform (Helm) with NAS Postgres and a workspaces namespace. |
 | Dev & AI | mcp-grafana | Grafana MCP server exposed internally for AI agents. |

@@ -31,7 +31,7 @@ Hosts, VMs and IPs live in `home-playbooks/docs/HOSTS.md`; the cluster itself is
 Every workload by name, so you can map a name in a prompt to a directory: `apps/base/<category>/<name>` (overlay: `apps/prod-gen3/<category>/<name>`) and `infra/base/<category>/<name>` (overlay: `infra/prod-gen3/...`). One-line summaries are in the README "Workloads" tables.
 
 **Apps**
-- `ci-registry/`: arc (CI runners for `home-web-apps`, plus build caches), harbor (private registry + Docker Hub mirror that CI and image automation depend on), harbor-cleanup, regcred-flux
+- `ci-registry/`: arc (CI runners for `home-web-apps`, plus build caches), harbor (private registry + Docker Hub mirror that CI and image automation depend on), harbor-cleanup (deletes old Harbor tags; irreversible, see Rules), regcred-flux
 - `public-sites/`: blog, diagram-maker, fui-components, home-hud, umami (public, so NetworkPolicy + image automation required)
 - `media/`: media (sonarr, radarr, prowlarr, qbittorrent, gluetun VPN, byparr, and the arr and qbittorrent MCP servers) and plex
 - `host-proxies/`: asustor, haproxy, home-assistant, proxmox (routes/services in front of hosts that are not in k8s)
@@ -72,7 +72,7 @@ Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real cha
 - `docs/developer-guides/`: how-tos for working in this repo. Conventions for apps, NetworkPolicy and image automation: `workload-conventions.md`. Adding a cluster: `new-cluster.md`.
 - `docs/secret-rotations/`: one doc per secret, covering where it is used and how to rotate it.
 - `docs/reference/`: human-oriented background (1Password setup, chart links, secret strategy).
-- `docs/ai-reference/`: procedures and gotchas for AI use. Read before acting: `gen3-manual-steps.md` (adding a node or rebuilding gen3), `gen3-data-move.md` (moving app data between clusters), `secrets.md` (anything secret-related).
+- `docs/ai-reference/`: procedures and gotchas for AI use. Read before acting: `gen3-manual-steps.md` (adding a node or rebuilding gen3), `gen3-data-move.md` (moving app data between clusters), `secrets.md` (anything secret-related), `harbor-cleanup.md` (anything touching harbor-cleanup config or its repo list).
   Also `infra.md` (clusters, DNS patterns, Flux layering, Longhorn backup targets), `op-connect-api-access.md` (query the 1Password vault API).
 - `docs/plans/`: implementation plans for migrations and features (new plans go here). The gen2→gen3 migration plan holds the loose-ends register.
 - `docs/incidents/`: post-mortems. `docs/claude-sessions/`: session dumps from `/dump`.
@@ -84,4 +84,5 @@ Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real cha
 - Adding, removing or renaming a workload: update the README "Workloads" tables in the same change, and use an existing category directory where one fits.
 - Public apps (any Cloudflare HTTPRoute) need a NetworkPolicy and image update automation; details in `workload-conventions.md`.
 - Adding, changing or removing a script: update the manifest in `scripts/CLAUDE.md` in the same commit.
+- harbor-cleanup runs a real cleanup on every pod start and deletes tags irreversibly. Set `CLEANUP_DRY_RUN: "true"` in the same apply as any repo-list or restart-causing change, read the log, then set `"false"`. Never add `node-22-*` to its repo list. Procedure: `docs/ai-reference/harbor-cleanup.md`.
 - The `ImageUpdateAutomation` is running (resumed 2026-11-11, #39): prod image tags are `YYYYMMDD-<run:5>-<pr:5>-<sha7>`, only created on merge to home-web-apps `main`, and each in-house Deployment has two setters (image and `IMAGE_TAG`, see `workload-conventions.md`). Do not hand-edit those tags. To stop it: `flux suspend image update apps`.
