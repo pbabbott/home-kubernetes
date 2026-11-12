@@ -45,6 +45,9 @@ spec:
       ports:
         - port: 1234
           protocol: TCP
-    - ports:
+    - to:
+        - ipBlock:
+            cidr: 192.168.6.29/32 # haproxy gen3, fronts sonarr.local.abbottland.io
+      ports:
         - port: 443
           protocol: TCP

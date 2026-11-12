@@ -33,6 +33,3 @@ spec:
       ports:
         - port: 5432
           protocol: TCP
-    - ports:
-        - port: 443
-          protocol: TCP
