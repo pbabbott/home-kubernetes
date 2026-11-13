@@ -34,7 +34,7 @@ Every workload by name, so you can map a name in a prompt to a directory: `apps/
 - `ci-registry/`: arc (CI runners for `home-web-apps`, plus build caches), harbor (private registry + Docker Hub mirror that CI and image automation depend on), harbor-cleanup (deletes old Harbor tags; irreversible, see Rules), regcred-flux
 - `public-sites/`: blog, diagram-maker, fui-components, home-hud, umami (public, so NetworkPolicy + image automation required)
 - `media/`: media (sonarr, radarr, prowlarr, qbittorrent, gluetun VPN, byparr, and the arr and qbittorrent MCP servers) and plex
-- `host-proxies/`: asustor, haproxy, home-assistant, proxmox (routes/services in front of hosts that are not in k8s)
+- `host-proxies/`: asustor, haproxy, home-assistant (routes/services in front of hosts that are not in k8s)
 - `dev-ai/`: coder, openclaw, mcp-grafana
 - `platform/`: dashy (dashboard/homepage), flux-gitops (Flux web UI + MCP), podinfo (routing/cert smoke test)
 

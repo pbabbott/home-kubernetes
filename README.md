@@ -107,7 +107,6 @@ Lives in `apps/<category>/<app>` under `apps/base` and the `apps/prod-gen3` over
 | Host proxies | asustor | Service + EndpointSlice + routes proxying the NAS admin UI; DNSEndpoint for the NAS. |
 | Host proxies | haproxy | Proxy to the HAProxy stats page plus a Prometheus scrape config. |
 | Host proxies | home-assistant | Public route (via Cloudflare) to the Home Assistant host. |
-| Host proxies | proxmox | Proxy route to the Proxmox UI with an Istio DestinationRule. |
 | Media | media | sonarr, radarr, prowlarr, qBittorrent and gluetun (VPN), with config PVCs on Longhorn and media on NFS. |
 | Media | plex | Service + EndpointSlice proxying Plex on the NAS. |
 | Platform | dashy | Dashy dashboard as a local Helm chart with per-cluster values. |

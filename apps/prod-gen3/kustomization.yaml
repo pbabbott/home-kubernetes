@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - ./platform/podinfo
-  - ./host-proxies/proxmox
   - ./host-proxies/asustor
   - ./host-proxies/haproxy
   - ./media/plex
