@@ -179,17 +179,23 @@ data:
             url: https://diagram-maker.local.abbottland.io
             target: newtab
             id: 1_404_diagrammaker
+          - title: Home HUD
+            description: Home dashboard
+            icon: hl-reactjs
+            url: https://home-hud.local.abbottland.io
+            target: newtab
+            id: 2_404_homehud
           - title: FUI Components
             description: Futuristic UI Component Library
             icon: hl-npm
             url: https://fui-components.abbottland.io
             target: newtab
-            id: 2_404_fuicomponents
+            id: 3_404_fuicomponents
           - title: Home Assistant
             description: Home Automation Platform
             icon: hl-home-assistant
             url: https://homeassistant.abbottland.io
             target: newtab
-            id: 3_404_homeassistant
+            id: 4_404_homeassistant
       {{- end }}
     pages: []
