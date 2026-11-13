@@ -164,7 +164,28 @@ data:
             id: 6_480_plex
       {{- end }}
       {{- if .Values.sections.appsEnabled }}
-      - name: Apps
+      - name: Internal Apps
+        icon: fas fa-cubes
+        items:
+          - title: Home HUD
+            description: Home dashboard
+            icon: hl-reactjs
+            url: https://home-hud.local.abbottland.io
+            target: newtab
+            id: 0_1265_homehud
+          - title: Home Assistant
+            description: Home Automation Platform
+            icon: hl-home-assistant
+            url: https://homeassistant.abbottland.io
+            target: newtab
+            id: 1_1265_homeassistant
+          - title: OpenClaw
+            description: AI agent platform
+            icon: hl-openclaw
+            url: https://openclaw.local.abbottland.io
+            target: newtab
+            id: 2_1265_openclaw
+      - name: Blog
         icon: fas fa-pencil
         items:
           - title: Abbottland.io
@@ -172,36 +193,24 @@ data:
             icon: hl-reactjs
             url: https://abbottland.io
             target: newtab
-            id: 0_404_abbottlandio
-          - title: Diagram Maker
-            description: Custom diagram making tool
-            icon: hl-reactjs
-            url: https://diagram-maker.local.abbottland.io
-            target: newtab
-            id: 1_404_diagrammaker
-          - title: Home HUD
-            description: Home dashboard
-            icon: hl-reactjs
-            url: https://home-hud.local.abbottland.io
-            target: newtab
-            id: 2_404_homehud
+            id: 0_388_abbottlandio
           - title: FUI Components
             description: Futuristic UI Component Library
             icon: hl-npm
             url: https://fui-components.abbottland.io
             target: newtab
-            id: 3_404_fuicomponents
-          - title: Home Assistant
-            description: Home Automation Platform
-            icon: hl-home-assistant
-            url: https://homeassistant.abbottland.io
+            id: 1_388_fuicomponents
+          - title: Diagram Maker
+            description: Custom diagram making tool
+            icon: hl-reactjs
+            url: https://diagram-maker.local.abbottland.io
             target: newtab
-            id: 4_404_homeassistant
-          - title: OpenClaw
-            description: AI agent platform
-            icon: hl-openclaw
-            url: https://openclaw.local.abbottland.io
+            id: 2_388_diagrammaker
+          - title: Umami
+            description: Website analytics
+            icon: hl-umami
+            url: https://analytics-admin.local.abbottland.io
             target: newtab
-            id: 5_404_openclaw
+            id: 3_388_umami
       {{- end }}
     pages: []
