@@ -173,18 +173,36 @@ data:
             url: https://home-hud.local.abbottland.io
             target: newtab
             id: 0_1265_homehud
+          - title: Homelab API
+            description: Homelab API (Swagger docs)
+            icon: hl-swagger
+            url: https://homelab-api.local.abbottland.io/docs
+            target: newtab
+            id: 1_1265_homelabapi
+          - title: Video API
+            description: Video API (Swagger docs)
+            icon: hl-swagger
+            url: https://video-api.local.abbottland.io/docs
+            target: newtab
+            id: 2_1265_videoapi
           - title: Home Assistant
             description: Home Automation Platform
             icon: hl-home-assistant
             url: https://homeassistant.abbottland.io
             target: newtab
-            id: 1_1265_homeassistant
+            id: 3_1265_homeassistant
           - title: OpenClaw
             description: AI agent platform
             icon: hl-openclaw
             url: https://openclaw.local.abbottland.io
             target: newtab
-            id: 2_1265_openclaw
+            id: 4_1265_openclaw
+          - title: Coder
+            description: Cloud development workspaces
+            icon: hl-coder
+            url: https://coder.local.abbottland.io
+            target: newtab
+            id: 5_1265_coder
       - name: Blog
         icon: fas fa-pencil
         items:
@@ -203,7 +221,7 @@ data:
           - title: Diagram Maker
             description: Custom diagram making tool
             icon: hl-reactjs
-            url: https://diagram-maker.local.abbottland.io
+            url: https://diagram-maker.abbottland.io
             target: newtab
             id: 2_388_diagrammaker
           - title: Umami

@@ -3,14 +3,14 @@ kind: HTTPRoute
 metadata:
   name: podinfo-http-to-https
   namespace: podinfo
-  # No pihole-dns-enabled / external-dns-enabled labels: no DNS records until Phase 5.
+  # No DNS labels: the record comes from the podinfo HTTPRoute (same hostname).
 spec:
   parentRefs:
     - name: istio-ingress
       namespace: istio-system
       sectionName: http
   hostnames:
-    - "podinfo-gen3.local.abbottland.io"
+    - "podinfo.local.abbottland.io"
   rules:
     - matches:
         - path:

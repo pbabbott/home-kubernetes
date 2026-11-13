@@ -3,7 +3,7 @@ kind: HTTPRoute
 metadata:
   name: podinfo
   namespace: podinfo
-  # Phase 5 test record: podinfo-gen3.local -> 192.168.6.29 (target from the istio-ingress Gateway annotation).
+  # Local smoke-test name: podinfo.local -> 192.168.6.29 (target from the istio-ingress Gateway annotation).
   labels:
     pihole-dns-enabled: "true"
 spec:
@@ -12,7 +12,7 @@ spec:
       namespace: istio-system
       sectionName: https
   hostnames:
-    - "podinfo-gen3.local.abbottland.io"
+    - "podinfo.local.abbottland.io"
   rules:
     - matches:
         - path:
