@@ -105,6 +105,7 @@ Lives in `apps/<category>/<app>` under `apps/base` and the `apps/prod-gen3` over
 | Dev & AI | mcp-grafana | Grafana MCP server exposed internally for AI agents. |
 | Dev & AI | openclaw | OpenClaw agent platform with config map, PVC and NetworkPolicy. |
 | Host proxies | asustor | Service + EndpointSlice + routes proxying the NAS admin UI; DNSEndpoint for the NAS. |
+| Host proxies | proxmox | DNSEndpoints (direct A records) for `pve-hogwarts` and `pve-chimaera`; no proxy. |
 | Host proxies | haproxy | Proxy to the HAProxy stats page plus a Prometheus scrape config. |
 | Host proxies | home-assistant | Public route (via Cloudflare) to the Home Assistant host. |
 | Media | media | sonarr, radarr, prowlarr, qBittorrent and gluetun (VPN), with config PVCs on Longhorn and media on NFS. |
