@@ -34,30 +34,30 @@ data:
             url: {{ .Values.urls.haproxy }}
             target: newtab
             id: 1_1234_haproxy
-          - title: Proxmox
-            description: Virtualization
+          - title: Proxmox Hogwarts
+            description: Primary Virtualization Host
             icon: hl-proxmox
-            url: {{ .Values.urls.proxmox }}
+            url: {{ .Values.urls.proxmoxHogwarts }}
             target: newtab
-            id: 2_1234_proxmox
+            id: 2_1234_proxmoxhogwarts
+          - title: Proxmox Chimaera
+            description: Secondary Virtualization Host
+            icon: hl-proxmox
+            url: {{ .Values.urls.proxmoxChimaera }}
+            target: newtab
+            id: 3_1234_proxmoxchimaera
           - title: Asustor
             description: NAS Management Portal
             icon: sh-asustor
             url: {{ .Values.urls.asustor }}
             target: newtab
-            id: 3_1234_asustor
+            id: 4_1234_asustor
           - title: Dashy (prod)
             description: Production Dashboard
             icon: sh-dashy
             url: https://dashy.local.abbottland.io
             target: sametab
-            id: 4_1234_dashyprod
-          - title: Dashy (non-prod)
-            description: Non-Prod Dashboard
-            icon: sh-dashy
-            url: https://dashy.local.non-prod.abbottland.io
-            target: sametab
-            id: 5_1234_dashynonprod
+            id: 5_1234_dashyprod
           - title: Cloudflare
             description: Abbottland.io DNS records
             icon: hl-cloudflare
@@ -93,7 +93,7 @@ data:
             target: newtab
             id: 2_1259_prometheus
           - title: Grafana
-            description: Dashboards
+            description: Metrics Visualization
             icon: hl-grafana
             url: {{ .Values.urls.grafana }}
             target: newtab

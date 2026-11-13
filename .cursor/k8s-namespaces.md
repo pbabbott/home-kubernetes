@@ -58,7 +58,6 @@ This document provides a one-sentence summary of each namespace in the Kubernete
 
 - **plex** - Plex media server service endpoint for streaming and managing media libraries, configured but currently without active pods.
 
-- **proxmox** - Proxmox virtualization platform service endpoint for managing and accessing Proxmox hypervisor, configured but currently without active pods.
 
 - **tigera-operator** - Tigera operator managing Calico network policies and advanced networking features for the cluster.
 

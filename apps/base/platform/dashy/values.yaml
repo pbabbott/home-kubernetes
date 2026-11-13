@@ -4,7 +4,8 @@ pageTitle: Homelab
 urls:
   pihole: https://pihole.local.non-prod.abbottland.io/admin/
   haproxy: https://haproxy.local.non-prod.abbottland.io
-  proxmox: https://proxmox.local.non-prod.abbottland.io
+  proxmoxHogwarts: https://pve-hogwarts.local.non-prod.abbottland.io:8006
+  proxmoxChimaera: https://pve-chimaera.local.non-prod.abbottland.io:8006
   asustor: https://asustor.local.non-prod.abbottland.io
   flux: https://flux.local.non-prod.abbottland.io
   longhorn: https://longhorn.local.non-prod.abbottland.io

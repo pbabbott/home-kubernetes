@@ -34,7 +34,7 @@ Every workload by name, so you can map a name in a prompt to a directory: `apps/
 - `ci-registry/`: arc (CI runners for `home-web-apps`, plus build caches), harbor (private registry + Docker Hub mirror that CI and image automation depend on), harbor-cleanup (deletes old Harbor tags; irreversible, see Rules), regcred-flux
 - `public-sites/`: blog, diagram-maker, fui-components, home-hud, umami (public, so NetworkPolicy + image automation required)
 - `media/`: media (sonarr, radarr, prowlarr, qbittorrent, gluetun VPN, byparr, and the arr and qbittorrent MCP servers) and plex
-- `host-proxies/`: asustor, haproxy, home-assistant, proxmox (routes/services in front of hosts that are not in k8s)
+- `host-proxies/`: asustor, haproxy, home-assistant (routes/services in front of hosts that are not in k8s), proxmox (DNS records only: pve-hogwarts, pve-chimaera)
 - `dev-ai/`: coder, openclaw, mcp-grafana
 - `platform/`: dashy (dashboard/homepage), flux-gitops (Flux web UI + MCP), podinfo (routing/cert smoke test)
 
@@ -82,6 +82,7 @@ Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real cha
 
 ## Rules of the road
 
+- **One manifest per file**: never put several `---`-separated resources in one YAML file; split them, name each `<name>-<kind>.yaml` (e.g. `pve-hogwarts-dnsendpoint.yaml`, `blog-httproute.yaml`) and list every file in the directory's `kustomization.yaml`. Applies to new and touched files; Helm chart `templates/` are exempt.
 - Adding, removing or renaming a workload: update the README "Workloads" tables in the same change, and use an existing category directory where one fits.
 - Public apps (any Cloudflare HTTPRoute) must be locked down at the network level: a NetworkPolicy that allows ingress from `istio-system` only and the minimum egress (none unless the app needs it; scope each rule to a destination and port, never open-ended). They also need image update automation. Details in `workload-conventions.md`; `scripts/check-public-netpol.sh` enforces the NetworkPolicy part.
 - Adding, changing or removing a script: update the manifest in `scripts/CLAUDE.md` in the same commit.
