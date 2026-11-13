@@ -1,0 +1,23 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: proxmox-http-to-https
+  namespace: proxmox
+spec:
+  parentRefs:
+    - name: istio-ingress
+      namespace: istio-system
+      sectionName: http
+  hostnames:
+    - pve-hogwarts.local.abbottland.io
+    - pve-chimaera.local.abbottland.io
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

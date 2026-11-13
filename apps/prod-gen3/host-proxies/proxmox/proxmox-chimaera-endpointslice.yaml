@@ -1,0 +1,17 @@
+# External Proxmox UI on chimaera.
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: proxmox-chimaera-1
+  namespace: proxmox
+  labels:
+    kubernetes.io/service-name: proxmox-chimaera
+addressType: IPv4
+ports:
+  - name: https
+    appProtocol: https
+    protocol: TCP
+    port: 8006
+endpoints:
+  - addresses:
+      - "192.168.4.192"
