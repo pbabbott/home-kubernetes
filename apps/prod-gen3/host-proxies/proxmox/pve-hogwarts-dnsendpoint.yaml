@@ -1,0 +1,13 @@
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: pve-hogwarts
+  namespace: proxmox
+  labels:
+    pihole-dns-enabled: "true"
+spec:
+  endpoints:
+    - dnsName: pve-hogwarts.local.abbottland.io
+      recordType: A
+      targets:
+        - 192.168.4.196

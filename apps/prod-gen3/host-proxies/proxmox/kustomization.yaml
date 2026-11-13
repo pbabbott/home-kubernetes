@@ -2,6 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # DNS records only; the old HTTPRoute proxy for proxmox.local.abbottland.io was removed (it only reached chimaera).
+# Direct A records (not proxied through Istio) so the UIs stay reachable when the cluster is down.
+# Pi-hole external-dns runs policy=sync + registry=noop: only labelled DNSEndpoints/HTTPRoutes persist, never custom.list.
 resources:
   - namespace.yaml
-  - pve-dnsendpoint.yaml
+  - pve-hogwarts-dnsendpoint.yaml
+  - pve-chimaera-dnsendpoint.yaml

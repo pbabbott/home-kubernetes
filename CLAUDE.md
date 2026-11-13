@@ -82,6 +82,7 @@ Skills (`.claude/skills/`): `flux-app-add` (add an app), `helm-values` (real cha
 
 ## Rules of the road
 
+- **One manifest per file**: never put several `---`-separated resources in one YAML file; split them, name each `<name>-<kind>.yaml` (e.g. `pve-hogwarts-dnsendpoint.yaml`, `blog-httproute.yaml`) and list every file in the directory's `kustomization.yaml`. Applies to new and touched files; Helm chart `templates/` are exempt.
 - Adding, removing or renaming a workload: update the README "Workloads" tables in the same change, and use an existing category directory where one fits.
 - Public apps (any Cloudflare HTTPRoute) must be locked down at the network level: a NetworkPolicy that allows ingress from `istio-system` only and the minimum egress (none unless the app needs it; scope each rule to a destination and port, never open-ended). They also need image update automation. Details in `workload-conventions.md`; `scripts/check-public-netpol.sh` enforces the NetworkPolicy part.
 - Adding, changing or removing a script: update the manifest in `scripts/CLAUDE.md` in the same commit.
