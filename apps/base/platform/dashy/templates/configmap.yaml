@@ -197,5 +197,11 @@ data:
             url: https://homeassistant.abbottland.io
             target: newtab
             id: 4_404_homeassistant
+          - title: OpenClaw
+            description: AI agent platform
+            icon: hl-openclaw
+            url: https://openclaw.local.abbottland.io
+            target: newtab
+            id: 5_404_openclaw
       {{- end }}
     pages: []
