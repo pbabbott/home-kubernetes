@@ -1,0 +1,23 @@
+# pihole-dns-enabled: external-dns creates pve-hogwarts.local.abbottland.io -> Gateway target (HAProxy .29).
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: proxmox-hogwarts
+  namespace: proxmox
+  labels:
+    pihole-dns-enabled: "true"
+spec:
+  parentRefs:
+    - name: istio-ingress
+      namespace: istio-system
+      sectionName: https
+  hostnames:
+    - pve-hogwarts.local.abbottland.io
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: proxmox-hogwarts
+          port: 8006

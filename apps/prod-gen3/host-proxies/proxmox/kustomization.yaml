@@ -1,10 +1,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# DNS records only; the old HTTPRoute proxy for proxmox.local.abbottland.io was removed (it only reached chimaera).
-# Direct A records (not proxied through Istio) so the UIs stay reachable when the cluster is down.
-# Pi-hole external-dns runs policy=sync + registry=noop: only labelled DNSEndpoints/HTTPRoutes persist, never custom.list.
+# One proxy route per Proxmox host (hogwarts, chimaera) so the browser gets the trusted wildcard cert on :443
+# (direct :8006 is self-signed and blocked by HSTS includeSubDomains on local.abbottland.io).
+# Overlay-only: prod-gen3 is the only live cluster. The proxy is down whenever hogwarts (ingress host) is down.
 resources:
   - namespace.yaml
-  - pve-hogwarts-dnsendpoint.yaml
-  - pve-chimaera-dnsendpoint.yaml
+  - proxmox-hogwarts-service.yaml
+  - proxmox-hogwarts-endpointslice.yaml
+  - proxmox-hogwarts-destinationrule.yaml
+  - proxmox-hogwarts-httproute.yaml
+  - proxmox-chimaera-service.yaml
+  - proxmox-chimaera-endpointslice.yaml
+  - proxmox-chimaera-destinationrule.yaml
+  - proxmox-chimaera-httproute.yaml
+  - proxmox-http-to-https-httproute.yaml

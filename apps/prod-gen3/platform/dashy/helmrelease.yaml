@@ -19,8 +19,8 @@ spec:
     urls:
       pihole: https://pihole.local.abbottland.io/admin/
       haproxy: https://haproxy.local.abbottland.io
-      proxmoxHogwarts: https://pve-hogwarts.local.abbottland.io:8006
-      proxmoxChimaera: https://pve-chimaera.local.abbottland.io:8006
+      proxmoxHogwarts: https://pve-hogwarts.local.abbottland.io
+      proxmoxChimaera: https://pve-chimaera.local.abbottland.io
       asustor: https://asustor.local.abbottland.io
       flux: https://flux.local.abbottland.io
       longhorn: https://longhorn.local.abbottland.io
