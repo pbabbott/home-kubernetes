@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: umami
-          image: ghcr.io/umami-software/umami:postgresql-v2.20.2 # {"$imagepolicy": "flux-system:umami"}
+          image: ghcr.io/umami-software/umami:3.5.0 # {"$imagepolicy": "flux-system:umami"}
           ports:
             - containerPort: 3000
           env:
@@ -33,11 +33,6 @@ spec:
                   key: password
             - name: DATABASE_URL
               value: "postgresql://$(PG_USER):$(PG_PASSWORD)@nas.local.abbottland.io/umamidb"
-            # Boot runs `prisma migrate deploy`, which downloads its engine from binaries.prisma.sh (Cloudflare IPs).
-            # The NetworkPolicy blocks that, so the pod crash-looped. Skip it; after an Umami upgrade that adds a
-            # migration, run it once by hand (temporarily allow egress, or migrate from a workstation).
-            - name: SKIP_DB_MIGRATION
-              value: "1"
             - name: APP_SECRET
               valueFrom:
                 secretKeyRef:
