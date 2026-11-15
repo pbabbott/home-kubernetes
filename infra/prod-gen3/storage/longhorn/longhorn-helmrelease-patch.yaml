@@ -21,5 +21,17 @@ spec:
       # NOTE: Longhorn only reads defaultSettings at install, so the live
       # setting was also patched (settings.longhorn.io).
       storageOverProvisioningPercentage: 150
+    longhornManager:
+      # Run the manager on the tainted controllers (controller-2/3) too. Longhorn
+      # creates a Node object per k8s node and marks it Ready=False
+      # (ManagerPodMissing) when no manager pod runs there, which shows as "down"
+      # in the UI. They have no disk (no create-default-disk label), so no
+      # replicas land there. Only the manager DaemonSet is changed: the
+      # taint-toleration setting (instance-manager/CSI) can't be changed while
+      # volumes are attached.
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
     persistence:
       defaultClassReplicaCount: 2
