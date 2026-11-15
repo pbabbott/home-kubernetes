@@ -57,6 +57,8 @@ spec:
               value: /backup
             - name: BACKUP_DESTINATION_MOUNT_CHECK
               value: nfs
+            - name: BACKUP_PARALLELISM
+              value: "4"
           livenessProbe:
             httpGet:
               path: /healthz
@@ -75,8 +77,8 @@ spec:
               mountPath: /backup
           resources:
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 250m
+              memory: 192Mi
             limits:
               memory: 256Mi
       volumes:
