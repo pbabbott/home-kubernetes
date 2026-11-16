@@ -6,3 +6,7 @@ rules:
   - apiGroups: ['']
     resources: ['pods', 'nodes']
     verbs: ['get', 'list']
+  # /media: read the gluetun-sync sidecar's logs
+  - apiGroups: ['']
+    resources: ['pods/log']
+    verbs: ['get']
