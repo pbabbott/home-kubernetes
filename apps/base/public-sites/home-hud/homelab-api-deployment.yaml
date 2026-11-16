@@ -54,6 +54,33 @@ spec:
                 secretKeyRef:
                   name: exodus-credential-key
                   key: EXODUS_CREDENTIAL_KEY
+            # /media: Downloads stats. Services are in the media namespace.
+            - name: SONARR_URL
+              value: http://sonarr.media.svc.cluster.local:8989
+            - name: SONARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mcp-arr-secrets
+                  key: SONARR_API_KEY
+            - name: RADARR_URL
+              value: http://radarr.media.svc.cluster.local:7878
+            - name: RADARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mcp-arr-secrets
+                  key: RADARR_API_KEY
+            - name: QBITTORRENT_URL
+              value: http://qbittorrent-ui.media.svc.cluster.local:8080
+            - name: QBITTORRENT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-credentials
+                  key: username
+            - name: QBITTORRENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-credentials
+                  key: password
           livenessProbe:
             httpGet:
               path: /healthz
