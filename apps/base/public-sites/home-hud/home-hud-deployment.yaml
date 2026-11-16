@@ -30,6 +30,8 @@ spec:
               value: http://video-api.home-hud.svc.cluster.local:4002
             - name: HOMELAB_API_URL
               value: http://homelab-api.home-hud.svc.cluster.local:4003
+            - name: GLUETUN_SYNC_URL
+              value: http://gluetun-sync.media.svc.cluster.local:4000
           resources:
             requests:
               cpu: 25m
