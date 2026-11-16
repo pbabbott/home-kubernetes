@@ -53,3 +53,13 @@ spec:
       ports:
         - port: 4003
           protocol: TCP
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+          podSelector:
+            matchLabels:
+              api: gluetun
+      ports:
+        - port: 4000
+          protocol: TCP
