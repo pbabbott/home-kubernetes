@@ -10,4 +10,5 @@ data:
     auth = "none"
     routes = [
       "GET /v1/portforward",
+      "GET /v1/publicip/ip",
     ]
