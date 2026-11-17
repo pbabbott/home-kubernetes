@@ -23,13 +23,13 @@ spec:
         runAsGroup: 1000
       containers:
         - name: backup-worker
-          image: harbor.local.abbottland.io/library/backup-worker:20261116-00105-00266-6b775cf # {"$imagepolicy": "flux-system:backup-worker"}
+          image: harbor.local.abbottland.io/library/backup-worker:20261117-00107-00268-1dadcff # {"$imagepolicy": "flux-system:backup-worker"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4004
           env:
             - name: IMAGE_TAG
-              value: 20261116-00105-00266-6b775cf # {"$imagepolicy": "flux-system:backup-worker:tag"}
+              value: 20261117-00107-00268-1dadcff # {"$imagepolicy": "flux-system:backup-worker:tag"}
             - name: PORT
               value: "4004"
             - name: POSTGRES_HOST
