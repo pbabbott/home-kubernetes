@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: fui-components
-          image: harbor.local.abbottland.io/library/fui-components:20261118-00110-00271-46acad5 # {"$imagepolicy": "flux-system:fui-components"}
+          image: harbor.local.abbottland.io/library/fui-components:20261119-00111-00272-4d5fa07 # {"$imagepolicy": "flux-system:fui-components"}
           imagePullPolicy: Always
           ports:
             - containerPort: 80

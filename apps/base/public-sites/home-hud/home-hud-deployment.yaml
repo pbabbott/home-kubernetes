@@ -19,13 +19,13 @@ spec:
         - name: regcred
       containers:
         - name: home-hud
-          image: harbor.local.abbottland.io/library/home-hud:20261118-00110-00271-46acad5 # {"$imagepolicy": "flux-system:home-hud"}
+          image: harbor.local.abbottland.io/library/home-hud:20261119-00111-00272-4d5fa07 # {"$imagepolicy": "flux-system:home-hud"}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
             - name: IMAGE_TAG
-              value: 20261118-00110-00271-46acad5 # {"$imagepolicy": "flux-system:home-hud:tag"}
+              value: 20261119-00111-00272-4d5fa07 # {"$imagepolicy": "flux-system:home-hud:tag"}
             - name: VIDEO_API_URL
               value: http://video-api.home-hud.svc.cluster.local:4002
             - name: HOMELAB_API_URL
