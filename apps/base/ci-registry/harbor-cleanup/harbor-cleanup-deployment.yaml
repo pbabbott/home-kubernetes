@@ -20,7 +20,7 @@ spec:
         - name: regcred
       containers:
         - name: harbor-cleanup
-          image: harbor.local.abbottland.io/library/harbor-cleanup:20261119-00111-00272-4d5fa07 # {"$imagepolicy": "flux-system:harbor-cleanup"}
+          image: harbor.local.abbottland.io/library/harbor-cleanup:20261120-00114-00275-53e1019 # {"$imagepolicy": "flux-system:harbor-cleanup"}
           imagePullPolicy: Always
           ports:
             - name: http
@@ -30,7 +30,7 @@ spec:
                 name: harbor-cleanup-config
           env:
             - name: IMAGE_TAG
-              value: 20261119-00111-00272-4d5fa07 # {"$imagepolicy": "flux-system:harbor-cleanup:tag"}
+              value: 20261120-00114-00275-53e1019 # {"$imagepolicy": "flux-system:harbor-cleanup:tag"}
             - name: HARBOR_USERNAME
               valueFrom:
                 secretKeyRef:
