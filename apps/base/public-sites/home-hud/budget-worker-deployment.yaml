@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budget-worker
+  namespace: home-hud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: budget-worker
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: budget-worker
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: budget-worker
+          # Bootstrap tag: replaced by image automation once home-web-apps publishes the first budget-worker production tag.
+          image: harbor.local.abbottland.io/library/budget-worker:00000000-00000-00000-0000000 # {"$imagepolicy": "flux-system:budget-worker"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4006
+          env:
+            - name: PORT
+              value: "4006"
+            - name: POSTGRES_HOST
+              value: nas.local.abbottland.io
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DATABASE
+              value: budget
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: POLL_INTERVAL_MS
+              value: "5000"
+            - name: YNAB_API_URL
+              value: https://api.ynab.com/v1
+            # The one YNAB plan (budget) to sync: the id from its app.ynab.com URL.
+            - name: YNAB_PLAN_ID
+              value: 8e6e759d-2422-478d-85d6-888fa5a7cda8
+            - name: YNAB_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ynab-pat
+                  key: ynab_pat
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 4006
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 4006
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              memory: 256Mi

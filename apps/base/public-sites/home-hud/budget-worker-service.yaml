@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: budget-worker
+  namespace: home-hud
+  labels:
+    app: budget-worker
+spec:
+  selector:
+    app: budget-worker
+  ports:
+    - name: http
+      port: 4006
+      targetPort: 4006
+  type: ClusterIP

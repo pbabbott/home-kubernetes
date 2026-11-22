@@ -9,6 +9,7 @@ resources:
   - mcp-arr-secrets-onepassworditem.yaml
   - qbittorrent-credentials-onepassworditem.yaml
   - exodus-credential-key-onepassworditem.yaml
+  - ynab-pat-onepassworditem.yaml
   - media-pv.yaml
   - media-pvc.yaml
   - backup-pv.yaml
@@ -16,6 +17,10 @@ resources:
   - video-api-image-repository.yaml
   - video-worker-image-repository.yaml
   - backup-worker-image-repository.yaml
+  - budget-api-imagerepository.yaml
+  - budget-api-imagepolicy.yaml
+  - budget-worker-imagerepository.yaml
+  - budget-worker-imagepolicy.yaml
   - home-hud-image-repository.yaml
   - homelab-api-image-repository.yaml
   - video-api-deployment.yaml
@@ -29,6 +34,15 @@ resources:
   - video-worker-netpol.yaml
   - video-worker-servicemonitor.yaml
   - backup-worker-deployment.yaml
+  - budget-api-deployment.yaml
+  - budget-api-service.yaml
+  - budget-api-httproute.yaml
+  - budget-api-netpol.yaml
+  - budget-api-servicemonitor.yaml
+  - budget-worker-deployment.yaml
+  - budget-worker-service.yaml
+  - budget-worker-netpol.yaml
+  - budget-worker-servicemonitor.yaml
   - homelab-api-serviceaccount.yaml
   - homelab-api-clusterrole.yaml
   - homelab-api-clusterrolebinding.yaml

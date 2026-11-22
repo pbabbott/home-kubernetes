@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budget-api
+  namespace: home-hud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: budget-api
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: budget-api
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: budget-api
+          # Bootstrap tag: replaced by image automation once home-web-apps publishes the first budget-api production tag.
+          image: harbor.local.abbottland.io/library/budget-api:00000000-00000-00000-0000000 # {"$imagepolicy": "flux-system:budget-api"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4005
+          env:
+            - name: PORT
+              value: "4005"
+            - name: POSTGRES_HOST
+              value: nas.local.abbottland.io
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DATABASE
+              value: budget
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 4005
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 4005
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              memory: 256Mi

@@ -1,0 +1,13 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: budget-worker
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: budget-worker
+  filterTags:
+    pattern: '^\d{8}-\d{5}-\d{5}-[a-f0-9]{7}$'
+  policy:
+    alphabetical:
+      order: asc
