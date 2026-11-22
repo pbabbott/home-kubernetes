@@ -116,7 +116,7 @@ Lives in `apps/<category>/<app>` under `apps/base` and the `apps/prod-gen3` over
 | Public sites | blog | Public blog (apex `abbottland.io`), image automation, NetworkPolicy. |
 | Public sites | diagram-maker | Public diagram-maker app with NetworkPolicy and image automation. |
 | Public sites | fui-components | Public component-library site with NetworkPolicy and image automation. |
-| Public sites | home-hud | home-hud dashboard with video-api/-worker, backup worker, and `homelab-api`, all with image automation and ServiceMonitors. |
+| Public sites | home-hud | home-hud dashboard with video-api/-worker, budget-api/-worker (YNAB raw ingestion), backup worker, and `homelab-api`, all with image automation and ServiceMonitors. |
 | Public sites | umami | Self-hosted analytics (public script, internal admin) on NAS Postgres. |
 
 > **Keep this section current.** Add, remove or rename a row here whenever a workload is added to, removed from or renamed in `apps/prod-gen3` or `infra/prod-gen3` (or the `crds/prod-gen3` list). Rows are sorted by Category, then name.
