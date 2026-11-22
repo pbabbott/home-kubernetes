@@ -20,7 +20,7 @@ spec:
       containers:
         - name: budget-worker
           # Bootstrap tag: replaced by image automation once home-web-apps publishes the first budget-worker production tag.
-          image: harbor.local.abbottland.io/library/budget-worker:20261122-00117-00278-5734daa # {"$imagepolicy": "flux-system:budget-worker"}
+          image: harbor.local.abbottland.io/library/budget-worker:20261122-00118-00279-0dd4a01 # {"$imagepolicy": "flux-system:budget-worker"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4006
