@@ -20,7 +20,7 @@ spec:
       containers:
         - name: budget-api
           # Bootstrap tag: replaced by image automation once home-web-apps publishes the first budget-api production tag.
-          image: harbor.local.abbottland.io/library/budget-api:20261123-00119-00280-fe8073e # {"$imagepolicy": "flux-system:budget-api"}
+          image: harbor.local.abbottland.io/library/budget-api:20261123-00120-00281-d019819 # {"$imagepolicy": "flux-system:budget-api"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4005
