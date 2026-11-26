@@ -17,6 +17,16 @@ spec:
               kubernetes.io/metadata.name: kube-prometheus-stack
       ports:
         - port: 4006
+    # home-hud's /budget dashboard probes /readyz for its status indicator
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-hud
+          podSelector:
+            matchLabels:
+              app: home-hud
+      ports:
+        - port: 4006
   egress:
     - to:
         - namespaceSelector:

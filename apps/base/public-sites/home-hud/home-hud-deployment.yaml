@@ -30,6 +30,8 @@ spec:
               value: http://video-api.home-hud.svc.cluster.local:4002
             - name: BUDGET_API_URL
               value: http://budget-api.home-hud.svc.cluster.local:4005
+            - name: BUDGET_WORKER_URL
+              value: http://budget-worker.home-hud.svc.cluster.local:4006
             - name: HOMELAB_API_URL
               value: http://homelab-api.home-hud.svc.cluster.local:4003
             - name: GLUETUN_SYNC_URL

@@ -59,6 +59,16 @@ spec:
               kubernetes.io/metadata.name: home-hud
           podSelector:
             matchLabels:
+              app: budget-worker
+      ports:
+        - port: 4006
+          protocol: TCP
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-hud
+          podSelector:
+            matchLabels:
               app: homelab-api
       ports:
         - port: 4003
