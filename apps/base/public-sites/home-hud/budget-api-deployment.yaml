@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: budget-api
-          image: harbor.local.abbottland.io/library/budget-api:20261123-00121-00282-e83c85f # {"$imagepolicy": "flux-system:budget-api"}
+          image: harbor.local.abbottland.io/library/budget-api:20261127-00122-00283-4505ada # {"$imagepolicy": "flux-system:budget-api"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4005
