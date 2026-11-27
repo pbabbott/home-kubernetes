@@ -19,7 +19,6 @@ spec:
         - name: regcred
       containers:
         - name: budget-api
-          # Bootstrap tag: replaced by image automation once home-web-apps publishes the first budget-api production tag.
           image: harbor.local.abbottland.io/library/budget-api:20261123-00121-00282-e83c85f # {"$imagepolicy": "flux-system:budget-api"}
           imagePullPolicy: Always
           ports:

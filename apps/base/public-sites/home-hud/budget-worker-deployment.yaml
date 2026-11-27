@@ -19,7 +19,6 @@ spec:
         - name: regcred
       containers:
         - name: budget-worker
-          # Bootstrap tag: replaced by image automation once home-web-apps publishes the first budget-worker production tag.
           image: harbor.local.abbottland.io/library/budget-worker:20261123-00121-00282-e83c85f # {"$imagepolicy": "flux-system:budget-worker"}
           imagePullPolicy: Always
           ports:
